@@ -1,0 +1,56 @@
+.category-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    
+}
+
+.individual-cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 350px;
+    height: 400px;
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #f1f5f9;
+    border-top: 4px solid #8b5cf6;
+    border-bottom: 4px solid #8b5cf6;
+    border-radius: 20px;
+    gap: 15px;
+}
+
+.individual-cards h1{
+    font-size: 30px;
+    text-align: center;
+}
+
+.progressbar-container {
+  width: 150px;
+  height: 150px;
+}
+
+.card-button{
+    padding: 10px 40px 10px 40px;
+    font-size: 20px;
+    background-color: #6a06ff;
+    color: white;
+    border-radius: 20px;
+}
+
+.individual-cards span{
+    font-size: 30px;
+}

@@ -1,0 +1,195 @@
+.mainCard {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+    padding: 0 10px;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.outline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+    min-height: 350px;
+    width: 100%;
+    max-width: 800px;
+    border: 2px solid #f1f5f9;
+    border-top: 4px solid #8b5cf6;
+    border-bottom: 4px solid #8b5cf6;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    padding: 30px 20px;
+    box-sizing: border-box;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+}
+
+.card-title {
+    font-size: 36px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.card-progress span {
+    font-size: 42px;
+}
+
+.header-text progress {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    max-width: 350px;
+    height: 16px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #8d8d8d73;
+    border-radius: 8px;
+}
+
+progress::-webkit-progress-value {
+    background: linear-gradient(to left, #d024fc, #6f11fc);
+    border-radius: 8px;
+}
+
+.card-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.individual-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Media queries for different mobile screen sizes */
+
+/* Large mobile devices (landscape phones, small tablets) */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    .outline {
+        gap: 35px;
+        min-height: 320px;
+        border-radius: 18px;
+        padding: 25px 15px;
+    }
+
+    .card-title {
+        font-size: 24px;
+    }
+
+    .card-progress span {
+        font-size: 32px;
+    }
+
+    .header-text progress {
+        max-width: 300px;
+        height: 14px;
+    }
+
+    .card-stats {
+        gap: 15px;
+    }
+}
+
+/* Standard mobile devices */
+@media screen and (max-width: 480px) {
+    .mainCard {
+        margin: 8px;
+        padding: 0 5px;
+    }
+
+    .outline {
+        gap: 30px;
+        min-height: 300px;
+        border-radius: 15px;
+        padding: 20px 15px;
+    }
+
+    .header-text {
+        gap: 20px;
+    }
+
+    .card-title {
+        font-size: 22px;
+    }
+
+    .card-progress span {
+        font-size: 28px;
+    }
+
+    .header-text progress {
+        max-width: 250px;
+        height: 12px;
+    }
+
+    progress::-webkit-progress-bar {
+        border-radius: 6px;
+    }
+
+    progress::-webkit-progress-value {
+        border-radius: 6px;
+    }
+
+    .card-stats {
+        gap: 12px;
+    }
+
+    .individual-stats {
+        min-width: 70px;
+    }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 360px) {
+    .outline {
+        gap: 25px;
+        min-height: 280px;
+        padding: 18px 12px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .card-progress span {
+        font-size: 24px;
+    }
+
+    .header-text progress {
+        max-width: 200px;
+        height: 10px;
+    }
+
+    .card-stats {
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .individual-stats {
+        min-width: 60px;
+        font-size: 14px;
+    }
+}

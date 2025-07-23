@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  font-family: 'Lato';
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: #340181;
+}
+
+body{
+  background: linear-gradient(to bottom,  white,rgb(186, 186, 186));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}

@@ -1,0 +1,1815 @@
+[
+  {
+    "name": "Technical Writing",
+    "code24": "SH1104",
+    "code19": "19EN104",
+    "credits": 3,
+    "category": "HS"
+  },
+  {
+    "name": "Public Speaking",
+    "code24": "SH1105",
+    "code19": "19EN105",
+    "credits": 3,
+    "category": "HS"
+  },
+  {
+    "name": "Communicative English",
+    "code24": "SH1101",
+    "code19": "19EN101",
+    "credits": 4,
+    "category": "HS"
+  },
+  {
+    "name": "Basic Financial Accounting",
+    "code24": "SH9154",
+    "code19": "19MS154",
+    "credits": 3,
+    "category": "HS"
+  },
+  {
+    "name": "Human Resource Management and Team Building",
+    "code24": "SH9156",
+    "code19": "19MS156",
+    "credits": 3,
+    "category": "HS"
+  },
+  {
+    "name": "Stock Market and Company Operations",
+    "code24": "SH9155",
+    "code19": "19MS155",
+    "credits": 3,
+    "category": "HS"
+  },
+  {
+    "name": "தமிழர் மரபு/ Heritage of Tamils",
+    "code24": "SH7101",
+    "code19": "22HS101",
+    "credits": 1,
+    "category": "HS"
+  },
+  {
+    "name": "தமிழரும் தொழில்நுட்பமும்/ Tamils and Technology",
+    "code24": "SH7102",
+    "code19": "22HS102",
+    "credits": 1,
+    "category": "HS"
+  },
+  {
+    "name": "Calculus and Matrix Algebra",
+    "code24": "SH2201",
+    "code19": "19MA201",
+    "credits": 4,
+    "category": "BS"
+  },
+  {
+    "name": "Logic and Combinatorics",
+    "code24": "SH2206",
+    "code19": "19MA206",
+    "credits": 4,
+    "category": "BS"
+  },
+  {
+    "name": "Algebra and Number Theory",
+    "code24": "SH2212",
+    "code19": "19MA212",
+    "credits": 4,
+    "category": "BS"
+  },
+  {
+    "name": "Probability and Queueing Models",
+    "code24": "SH2222",
+    "code19": "19MA222",
+    "credits": 4,
+    "category": "BS"
+  },
+  {
+    "name": "Physics for Quantum Computing",
+    "code24": "NA",
+    "code19": "19PH214",
+    "credits": 3,
+    "category": "BS"
+  },
+  {
+    "name": "Principles of Chemistry in Engineering",
+    "code24": "SH4205",
+    "code19": "19CY205",
+    "credits": 4,
+    "category": "BS"
+  },
+  {
+    "name": "Python Programming",
+    "code24": "CS3301",
+    "code19": "19AI301",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Engineering Design and Modelling",
+    "code24": "CS3302",
+    "code19": "19AI302",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Digital Electronics",
+    "code24": "EC2404",
+    "code19": "19EE404",
+    "credits": 4,
+    "category": "ES"
+  },
+  {
+    "name": "Basic Electrical, Electronics and Measurement Engineering",
+    "code24": "EC2305",
+    "code19": "19EE305",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Programming Microcontrollers",
+    "code24": "EC2309",
+    "code19": "19EE309",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Fundamentals of C Programming",
+    "code24": "CS3304",
+    "code19": "19AI304",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Advanced C Programming",
+    "code24": "CS3305",
+    "code19": "19AI305",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Computer Architecture",
+    "code24": "CS1305",
+    "code19": "19CS305",
+    "credits": 3,
+    "category": "ES"
+  },
+  {
+    "name": "Object Oriented Programming using Java",
+    "code24": "CS3307",
+    "code19": "19AI307",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Analysis of Algorithms",
+    "code24": "CS3404",
+    "code19": "19AI404",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Fundamentals of Artificial Intelligence",
+    "code24": "CS3405",
+    "code19": "19AI405",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Data Structures",
+    "code24": "CS3408",
+    "code19": "19AI408",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Introduction to Machine Learning",
+    "code24": "CS3410",
+    "code19": "19AI410",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Fundamentals of Web Application Development",
+    "code24": "CS3414",
+    "code19": "19AI414",
+    "credits": 5,
+    "category": "PC"
+  },
+  {
+    "name": "Cloud Computing",
+    "code24": "CS3541",
+    "code19": "19AI541",
+    "credits": 4,
+    "category": "PC"
+  },
+  {
+    "name": "Advanced Java Web Applications",
+    "code24": "CS3553",
+    "code19": "19AI553",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Cloud Native App Development",
+    "code24": "CS1567",
+    "code19": "19CS567",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Modern Web Application Development",
+    "code24": "CS3545",
+    "code19": "19AI545",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Web Server Programming",
+    "code24": "CS3546",
+    "code19": "19AI546",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Introduction to IoT",
+    "code24": "CS4508",
+    "code19": "19AM508",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Database Management System and its Applications",
+    "code24": "CS1404",
+    "code19": "19CS404",
+    "credits": 4,
+    "category": "PC"
+  },
+  {
+    "name": "Operating System",
+    "code24": "CS1405",
+    "code19": "19CS405",
+    "credits": 4,
+    "category": "PC"
+  },
+  {
+    "name": "Computer Networks",
+    "code24": "CS1406",
+    "code19": "19CS406",
+    "credits": 4,
+    "category": "PC"
+  },
+  {
+    "name": "Theory of Computation",
+    "code24": "CS1407",
+    "code19": "19CS407",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Software Engineering",
+    "code24": "CS1408",
+    "code19": "19CS408",
+    "credits": 4,
+    "category": "PC"
+  },
+  {
+    "name": "Compiler Design",
+    "code24": "CS1409",
+    "code19": "19CS409",
+    "credits": 4,
+    "category": "PC"
+  },
+  {
+    "name": "Cryptography",
+    "code24": "CS1415",
+    "code19": "19CS415",
+    "credits": 3,
+    "category": "PC"
+  },
+  {
+    "name": "Engineering Mechanics and Product Development",
+    "code24": "CS3303",
+    "code19": "19AI303",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Object Oriented Programming using C++",
+    "code24": "CS3306",
+    "code19": "19AI306",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Object Oriented Programming using C#",
+    "code24": "CS3308",
+    "code19": "19AI308",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Introduction to Data Science",
+    "code24": "CS3403",
+    "code19": "19AI403",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Digital Image Processing Techniques",
+    "code24": "CS3406",
+    "code19": "19AI406",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Parallel Computing Architecture",
+    "code24": "CS3407",
+    "code19": "19AI407",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Applied Artificial Intelligence",
+    "code24": "CS3409",
+    "code19": "19AI409",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Neural Networks",
+    "code24": "CS3411",
+    "code19": "19AI411",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Web Data Mining",
+    "code24": "CS3412",
+    "code19": "19AI412",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Deep Learning and its Applications",
+    "code24": "CS3413",
+    "code19": "19AI413",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Applications of Artificial Intelligence",
+    "code24": "CS3501",
+    "code19": "19AI501",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Applied Natural Language Processing",
+    "code24": "CS3502",
+    "code19": "19AI502",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Computer Vision",
+    "code24": "CS3503",
+    "code19": "19AI503",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mobile Robotics",
+    "code24": "CS3504",
+    "code19": "19AI504",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Reinforcement Learning",
+    "code24": "CS3505",
+    "code19": "19AI505",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Speech Analysis and Processing",
+    "code24": "CS3506",
+    "code19": "19AI506",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Special Topics in Artificial Intelligence",
+    "code24": "CS3507",
+    "code19": "19AI507",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Soft Computing Techniques",
+    "code24": "CS3508",
+    "code19": "19AI508",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Concepts of Virtual And Augmented Reality",
+    "code24": "CS3509",
+    "code19": "19AI509",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mobile VR And AI In Unity",
+    "code24": "CS3510",
+    "code19": "19AI510",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Scientific and Engineering Data Visualization",
+    "code24": "CS3511",
+    "code19": "19AI511",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "NoSQL Database Design",
+    "code24": "CS3512",
+    "code19": "19AI512",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Game Programming",
+    "code24": "CS3513",
+    "code19": "19AI513",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Self Driving Car",
+    "code24": "CS3514",
+    "code19": "19AI514",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Smart Manufacturing Technology",
+    "code24": "CS3515",
+    "code19": "19AI515",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Big Data Analytics",
+    "code24": "CS1520",
+    "code19": "19CS520",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Business Analytics",
+    "code24": "CS3517",
+    "code19": "19AI517",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cognitive Systems",
+    "code24": "CS3518",
+    "code19": "19AI518",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Distributed Database",
+    "code24": "CS3519",
+    "code19": "19AI519",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Data Warehousing and Data Mining",
+    "code24": "CS1521",
+    "code19": "19CS521",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Expert Systems",
+    "code24": "CS3521",
+    "code19": "19AI521",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Knowledge Engineering",
+    "code24": "CS3522",
+    "code19": "19AI522",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mobile Database",
+    "code24": "CS3523",
+    "code19": "19AI523",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Multimedia Database",
+    "code24": "CS3524",
+    "code19": "19AI524",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Video Processing",
+    "code24": "CS3525",
+    "code19": "19AI525",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Information Security and Access Control",
+    "code24": "CS3526",
+    "code19": "19AI526",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Security Assessment and Risk Analysis",
+    "code24": "CS3527",
+    "code19": "19AI527",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Advanced Graph Theory and Applications",
+    "code24": "CS3528",
+    "code19": "19AI528",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Advanced Data Structures",
+    "code24": "CS3529",
+    "code19": "19AI529",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Control of Robotic Systems",
+    "code24": "CS3530",
+    "code19": "19AI530",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cryptography and Security",
+    "code24": "CS3531",
+    "code19": "19AI531",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Information Theory for Cyber Security",
+    "code24": "CS3532",
+    "code19": "19AI532",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Introduction to Robotics",
+    "code24": "CS3533",
+    "code19": "19AI533",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Kinematics and Dynamics of Robots",
+    "code24": "CS3534",
+    "code19": "19AI534",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Robotic Sensors",
+    "code24": "CS3535",
+    "code19": "19AI535",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Steganography and Digital Watermarking",
+    "code24": "CS3536",
+    "code19": "19AI536",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Computer Graphics for Virtual Reality",
+    "code24": "CS3537",
+    "code19": "19AI537",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mathematical Modelling and Computer Aided Engineering",
+    "code24": "CS3538",
+    "code19": "19AI538",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mobile User Interface Development",
+    "code24": "CS3539",
+    "code19": "19AI539",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Programming Mobile Devices",
+    "code24": "CS3540",
+    "code19": "19AI540",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Agile Software Development",
+    "code24": "CS3542",
+    "code19": "19AI542",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Software Testing",
+    "code24": "CS3543",
+    "code19": "19AI543",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Virtualization and Containerization",
+    "code24": "CS3544",
+    "code19": "19AI544",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Blockchain for Business",
+    "code24": "CS3547",
+    "code19": "19AI547",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Robot Programming",
+    "code24": "CS3548",
+    "code19": "19AI548",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Drone Assembly and Applications",
+    "code24": "CS3549",
+    "code19": "19AI549",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Artificial Intelligence for Games",
+    "code24": "CS3550",
+    "code19": "19AI550",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Drone Design and Control",
+    "code24": "CS3551",
+    "code19": "19AI551",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Web Application User Interface Development",
+    "code24": "CS3552",
+    "code19": "19AI552",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Fundamentals of Large Language Models",
+    "code24": "CS3554",
+    "code19": "19AI554",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Exploratory Data Analysis",
+    "code24": "CS3555",
+    "code19": "19AI555",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Recommender Systems",
+    "code24": "CS3556",
+    "code19": "19AI556",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Neural Networks and Deep Learning",
+    "code24": "CS3557",
+    "code19": "19AI557",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Text and Speech Analysis",
+    "code24": "CS3558",
+    "code19": "19AI558",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Image and Video Analytics",
+    "code24": "CS3559",
+    "code19": "19AI559",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Augmented Reality and ARCore",
+    "code24": "CS3560",
+    "code19": "19AI560",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Extended Reality",
+    "code24": "CS3561",
+    "code19": "19AI561",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Time Series Analysis and Forecasting",
+    "code24": "CS4401",
+    "code19": "19AM401",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Blockchain and Cryptocurrency",
+    "code24": "CS4406",
+    "code19": "19AM406",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cyber Forensics",
+    "code24": "CS4407",
+    "code19": "19AM407",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Machine Learning for Bioinformatics",
+    "code24": "CS4501",
+    "code19": "19AM501",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Genetic Algorithms",
+    "code24": "CS4502",
+    "code19": "19AM502",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Data Modeling",
+    "code24": "CS4503",
+    "code19": "19AM503",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Brain Computer Interaction",
+    "code24": "CS4504",
+    "code19": "19AM504",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Statistical Learning Theory",
+    "code24": "CS4505",
+    "code19": "19AM505",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Sensors and Actuators for IoT",
+    "code24": "CS4506",
+    "code19": "19AM506",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Security and Trust in IoT",
+    "code24": "CS4507",
+    "code19": "19AM507",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Industrial Internet of Things",
+    "code24": "CS4509",
+    "code19": "19AM509",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software for Embedded Systems",
+    "code24": "CS4510",
+    "code19": "19AM510",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "IoT Architecture and Protocols",
+    "code24": "CS4511",
+    "code19": "19AM511",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Arduino for IoT",
+    "code24": "CS4512",
+    "code19": "19AM512",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Raspberry Pi for IoT",
+    "code24": "CS4513",
+    "code19": "19AM513",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Motion Planning Techniques",
+    "code24": "CS4514",
+    "code19": "19AM514",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Advanced Java Programming",
+    "code24": "CS4515",
+    "code19": "19AM515",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Python Programming for IoT",
+    "code24": "CS4516",
+    "code19": "19AM516",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Applications of IoT in Robotics",
+    "code24": "CS4517",
+    "code19": "19AM517",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Programming for IoT Boards",
+    "code24": "CS4518",
+    "code19": "19AM518",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Design of Smart Cities",
+    "code24": "CS4519",
+    "code19": "19AM519",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "IoT and Multimedia Technology",
+    "code24": "CS4520",
+    "code19": "19AM520",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mobile Application Development for IoT",
+    "code24": "CS4521",
+    "code19": "19AM521",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Open Source Programming for IoT",
+    "code24": "CS4522",
+    "code19": "19AM522",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cloud Security",
+    "code24": "CS1416",
+    "code19": "19CS416",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Ethical Hacking Techniques",
+    "code24": "CS1417",
+    "code19": "19CS417",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cyber Law and Compliance",
+    "code24": "CS1418",
+    "code19": "19CS418",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Digital Forensics and Digital Investigations",
+    "code24": "CS1419",
+    "code19": "19CS419",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Prototyping of IoT Systems",
+    "code24": "CS1420",
+    "code19": "19CS420",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Edge Computing",
+    "code24": "CS1421",
+    "code19": "19CS421",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Security for IoT Systems",
+    "code24": "CS1422",
+    "code19": "19CS422",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Computer Graphics and Multimedia",
+    "code24": "CS1502",
+    "code19": "19CS502",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Developing Web Application in .Net",
+    "code24": "CS1503",
+    "code19": "19CS503",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Project Management",
+    "code24": "CS1504",
+    "code19": "19CS504",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Service Oriented Architecture",
+    "code24": "CS1505",
+    "code19": "19CS505",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Multicore Architecture",
+    "code24": "CS1506",
+    "code19": "19CS506",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Human Computer Interaction",
+    "code24": "CS1507",
+    "code19": "19CS507",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Parallel and Distributed Systems",
+    "code24": "CS1508",
+    "code19": "19CS508",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Graph Theory and Applications",
+    "code24": "CS1509",
+    "code19": "19CS509",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Social Network Analysis",
+    "code24": "CS1510",
+    "code19": "19CS510",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Natural Language Processing",
+    "code24": "CS1511",
+    "code19": "19CS511",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Soft Computing",
+    "code24": "CS1512",
+    "code19": "19CS512",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Green Computing",
+    "code24": "CS1513",
+    "code19": "19CS513",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Network Management Systems",
+    "code24": "CS1514",
+    "code19": "19CS514",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Block Chain Architecture and its Use Cases",
+    "code24": "CS1515",
+    "code19": "19CS515",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Testing and Quality Assurance",
+    "code24": "CS1516",
+    "code19": "19CS516",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mobile Computing",
+    "code24": "CS1517",
+    "code19": "19CS517",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Game Design and Development",
+    "code24": "CS1518",
+    "code19": "19CS518",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Big Data Analytics",
+    "code24": "CS1520",
+    "code19": "19CS520",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Data Warehousing and Data Mining",
+    "code24": "CS1521",
+    "code19": "19CS521",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Advanced Database Management System",
+    "code24": "CS1522",
+    "code19": "19CS522",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Information Retrieval",
+    "code24": "CS1523",
+    "code19": "19CS523",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Deep Learning",
+    "code24": "CS1524",
+    "code19": "19CS524",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "R Programming",
+    "code24": "CS1526",
+    "code19": "19CS526",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Robotics and its Applications",
+    "code24": "CS1528",
+    "code19": "19CS528",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Quantum Computing",
+    "code24": "CS1529",
+    "code19": "19CS529",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cyber Security",
+    "code24": "CS1530",
+    "code19": "19CS530",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Virtual Reality",
+    "code24": "CS1531",
+    "code19": "19CS531",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Professional Readiness for Innovation, Employability and Entrepreneurship",
+    "code24": "CS1532",
+    "code19": "19CS532",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Information Security Intelligence and Analytics using Big Data",
+    "code24": "CS1533",
+    "code19": "19CS533",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Prevention Methodology for Cybersecurity",
+    "code24": "CS1534",
+    "code19": "19CS534",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Trusted Network Systems",
+    "code24": "CS1535",
+    "code19": "19CS535",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Firewalls and Intrusion Detection System",
+    "code24": "CS1536",
+    "code19": "19CS536",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Secure Software Engineering",
+    "code24": "CS1537",
+    "code19": "19CS537",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "System Security",
+    "code24": "CS1538",
+    "code19": "19CS538",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Hardware Security",
+    "code24": "CS1539",
+    "code19": "19CS539",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Fog Computing",
+    "code24": "CS1540",
+    "code19": "19CS540",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Sensors and Actuators for IoT",
+    "code24": "CS4506",
+    "code19": "19AM506",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Embedded Board Design",
+    "code24": "CS1542",
+    "code19": "19CS542",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Embedded Board Manufacturing",
+    "code24": "CS1543",
+    "code19": "19CS543",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Realtime Operating System",
+    "code24": "CS1544",
+    "code19": "19CS544",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Open Source Operating System",
+    "code24": "CS1545",
+    "code19": "19CS545",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Kernel Programming",
+    "code24": "CS1546",
+    "code19": "19CS546",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Fundamentals of Cryptocurrency",
+    "code24": "CS1547",
+    "code19": "19CS547",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cloud Services Management",
+    "code24": "CS1548",
+    "code19": "19CS548",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "UI and UX Design",
+    "code24": "CS1549",
+    "code19": "19CS549",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "AI and Ethics",
+    "code24": "CS1550",
+    "code19": "19CS550",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Testing and Automation",
+    "code24": "CS1551",
+    "code19": "19CS551",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "DevOps",
+    "code24": "CS1552",
+    "code19": "19CS552",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Web Application Security",
+    "code24": "CS1553",
+    "code19": "19CS553",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Stream Processing",
+    "code24": "CS1554",
+    "code19": "19CS554",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Defined Networks",
+    "code24": "CS1557",
+    "code19": "19CS557",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Core Computing Concepts",
+    "code24": "CS1556",
+    "code19": "19CS556",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Data Privacy and Protection",
+    "code24": "CS1558",
+    "code19": "19CS558",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Blockchain Platforms and Its Use Cases",
+    "code24": "CS1559",
+    "code19": "19CS559",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Smart Contract and Solidity",
+    "code24": "CS1560",
+    "code19": "19CS560",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Blockchain and Fintech",
+    "code24": "CS1561",
+    "code19": "19CS561",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Public Key Infrastructure and Trust Management",
+    "code24": "CS1562",
+    "code19": "19CS562",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Bitcoin Mining",
+    "code24": "CS1563",
+    "code19": "19CS563",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Robotic Process Automation",
+    "code24": "CS1565",
+    "code19": "19CS565",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Project Management and Version Control",
+    "code24": "CS1566",
+    "code19": "19CS566",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Generative AI Application Development",
+    "code24": "CS1579",
+    "code19": "19CS579",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Fine Tuning Large Language Models",
+    "code24": "CS1568",
+    "code19": "19CS568",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Applied Data Science",
+    "code24": "CS1569",
+    "code19": "19CS569",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Entrepreneurship and Small Business Development",
+    "code24": "CS1570",
+    "code19": "19CS570",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Development and Operations",
+    "code24": "CS1571",
+    "code19": "19CS571",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Serverless App Development",
+    "code24": "CS1572",
+    "code19": "19CS572",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Enterprise Cloud Architecture",
+    "code24": "CS1573",
+    "code19": "19CS573",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Advanced Class Design and Object-Oriented Techniques",
+    "code24": "CS1574",
+    "code19": "19CS574",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Low-Code App Development",
+    "code24": "CS1575",
+    "code19": "19CS575",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Cloud System Administration",
+    "code24": "CS1577",
+    "code19": "19CS577",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Machine Learning Operations",
+    "code24": "CS1578",
+    "code19": "19CS578",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Embedded Systems",
+    "code24": "NA",
+    "code19": "19EC414",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Principles of Digital Signal Processing",
+    "code24": "NA",
+    "code19": "19EC416",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Digital Image Processing",
+    "code24": "EC1503",
+    "code19": "19EC503",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Ad Hoc and Wireless Sensor Networks",
+    "code24": "NA",
+    "code19": "19EC508",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Information Technology Essentials",
+    "code24": "CS2401",
+    "code19": "19IT401",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Game Development Technologies",
+    "code24": "CS2402",
+    "code19": "19IT402",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Data Structures using Python",
+    "code24": "CS2405",
+    "code19": "19IT405",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Grid and Cloud Computing",
+    "code24": "CS2406",
+    "code19": "19IT406",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Distributed Computing",
+    "code24": "CS2408",
+    "code19": "19IT408",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Information Theory and Coding Techniques",
+    "code24": "CS2501",
+    "code19": "19IT501",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Enterprise Resource Planning",
+    "code24": "CS2502",
+    "code19": "19IT502",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "User Interface Design",
+    "code24": "CS2503",
+    "code19": "19IT503",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Information Storage Management",
+    "code24": "CS2504",
+    "code19": "19IT504",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Design Patterns",
+    "code24": "CS2505",
+    "code19": "19IT505",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "E-Learning Techniques",
+    "code24": "CS2506",
+    "code19": "19IT506",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "TCP/IP Design and Implementation",
+    "code24": "CS2508",
+    "code19": "19IT508",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Advanced Algorithms",
+    "code24": "CS2509",
+    "code19": "19IT509",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Ethical Hacking",
+    "code24": "CS2510",
+    "code19": "19IT510",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "DHTML and XML",
+    "code24": "CS2511",
+    "code19": "19IT511",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "E-Commerce",
+    "code24": "CS2512",
+    "code19": "19IT512",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Free Open Source Software",
+    "code24": "CS2513",
+    "code19": "19IT513",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Real Time Operating Systems",
+    "code24": "CS2514",
+    "code19": "19IT514",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Software Agents",
+    "code24": "CS2515",
+    "code19": "19IT515",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Business Intelligence and Analytics",
+    "code24": "CS2516",
+    "code19": "19IT516",
+    "credits": 3,
+    "category": "PE"
+  },
+  {
+    "name": "Mathematics for Artificial Intelligence",
+    "code24": "SH2220",
+    "code19": "19MA220",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Statistics and Numerical Methods",
+    "code24": "SH2211",
+    "code19": "19MA211",
+    "credits": 4,
+    "category": "PE"
+  },
+  {
+    "name": "Open Electives",
+    "code24": "XXXXXX",
+    "code19": "19XXXXX",
+    "credits": 0,
+    "category": "OE"
+  },
+  {
+    "name": "Online Courses",
+    "code24": "XXXXXX",
+    "code19": "19XXXXX",
+    "credits": 0,
+    "category": "OE"
+  },
+  {
+    "name": "Mini Project",
+    "code24": "CS1701",
+    "code19": "19CS701",
+    "credits": 2,
+    "category": "EEC"
+  },
+  {
+    "name": "Project Work Phase I",
+    "code24": "CS1702",
+    "code19": "19CS702",
+    "credits": 2,
+    "category": "EEC"
+  },
+  {
+    "name": "Project Work Phase II",
+    "code24": "CS1703",
+    "code19": "19CS703",
+    "credits": 6,
+    "category": "EEC"
+  },
+  {
+    "name": "Softskills",
+    "code24": "NA",
+    "code19": "19EY701",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Career Development Skills",
+    "code24": "SH6708",
+    "code19": "19EY708",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Creative Skills for Communication",
+    "code24": "NA",
+    "code19": "19EY702",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Reasoning Ability",
+    "code24": "SH6709",
+    "code19": "19EY709",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "System of Numerical and Logical Terminologies",
+    "code24": "NA",
+    "code19": "19EY703",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Advanced Quantitative and Logical Reasoning",
+    "code24": "NA",
+    "code19": "19EY704",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Quantitative Ability I",
+    "code24": "SH6710",
+    "code19": "19EY710",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Quantitative Ability II",
+    "code24": "SH6711",
+    "code19": "19EY711",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Employment Enhancement Skills",
+    "code24": "NA",
+    "code19": "19EY705",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Employment Enrichment Skills",
+    "code24": "SH6712",
+    "code19": "19EY712",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Company Specific Assessments For Employability",
+    "code24": "NA",
+    "code19": "19EY706",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Placement Readiness Assessment",
+    "code24": "SH6713",
+    "code19": "19EY713",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Paper Publication",
+    "code24": "SH6707",
+    "code19": "19EY707",
+    "credits": 1,
+    "category": "EEC"
+  },
+  {
+    "name": "Constitution of India",
+    "code24": "NA",
+    "code19": "19MC803",
+    "credits": 0,
+    "category": "MC"
+  },
+  {
+    "name": "Internship",
+    "code24": "SH8802",
+    "code19": "NA",
+    "credits": 2,
+    "category": "MC"
+  },
+  {
+    "name": "National Service Scheme",
+    "code24": "SH6803",
+    "code19": "19MC807",
+    "credits": 0,
+    "category": "MC"
+  },
+  {
+    "name": "National Sports Organization",
+    "code24": "SH8807",
+    "code19": "19MC808",
+    "credits": 0,
+    "category": "MC"
+  },
+  {
+    "name": "Youth Red Cross",
+    "code24": "SH8808",
+    "code19": "19MC809",
+    "credits": 0,
+    "category": "MC"
+  }
+]

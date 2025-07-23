@@ -1,0 +1,98 @@
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-card-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    gap: 5px;
+    min-width: 300px; /* Reduced minimum width */
+    width: 100%; /* Take full available width */
+    max-width: 500px; /* Reduced maximum width */
+    padding-bottom: 20px;
+}
+
+.login-header{
+    background: linear-gradient(to left, #d024fc, #6f11fc);
+    width: 100%;
+    padding: 30px 30px; /* Reduced horizontal padding */
+    display: flex;
+    align-items: center;
+    flex-direction:column;
+    color: white;
+    border-radius: 20px 20px 0 0;
+    gap: 5px;
+}
+
+.login-header h1{
+    font-size: 40px;
+}
+
+.login-body{
+    padding: 30px 35px; /* Reduced horizontal padding */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login-body-message{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.login-input{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the inputs */
+    width: 100%;
+}
+
+.login-input div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%; /* Make each input container full width */
+    max-width: 380px; /* Slightly reduced max width for inputs */
+}
+
+.login-input label{
+    margin-bottom: 8px;
+}
+
+.login-input input{
+    width: 100%; /* Make inputs take full container width */
+    height: 50px;
+    border: 1px solid rgb(173, 173, 173);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 30px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.login-button{
+    width: 100% !important; /* Ensure button container takes full width */
+}
+
+.login-button button{
+    width: 100%; /* Make button take full container width */
+    max-width: 380px; /* Match input max-width */
+    height: 50px;
+    background-color: #6a06ff;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
