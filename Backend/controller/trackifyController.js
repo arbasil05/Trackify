@@ -157,7 +157,7 @@ export async function uploadFile(req, res) {
         }
 
         // Process courses from req.subjects
-        console.log(req.subjects);
+        console.log('HELLO : ', req.subjects);
         const subs = req.subjects;
         if (!Array.isArray(subs) || subs.length === 0) {
             return res.status(400).json({ error: 'No valid subjects provided' });
@@ -166,18 +166,30 @@ export async function uploadFile(req, res) {
         // Find course ObjectIds
         await Promise.all(
             subs.map(async (course) => {
-                // console.log(course);
-                
+                console.log(course);
+
                 const queryConditions = [];
                 if (course.code19) queryConditions.push({ code19: course.code19 });
-                if (course.code24) queryConditions.push({ code24: course.code24 });
+                if (course.code24!="NA") queryConditions.push({ code24: course.code24 });
 
-                // console.log("Looking for:", queryConditions);
+                console.log("Looking for:", queryConditions);
+
+                if (queryConditions.length === 0) {
+                    console.warn(`Skipping course: No valid course codes in ${JSON.stringify(course)}`);
+                    return;
+                }
+
+                const cs = await Course.findOne({code19:"19EY702"});
+                console.log(cs);
+                
 
 
                 const oId = await Course.findOne({
-                    $or: queryConditions.length > 0 ? queryConditions : [{}]
+                    $or: queryConditions
                 });
+
+                console.log("OID", oId);
+
 
                 if (!oId) {
                     console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
@@ -247,7 +259,7 @@ export async function courseByUser(req, res) {
 
         const courseDetails = courses.map(course => {
             totalCredits += course.credits;
-            console.log(course.department[userDept]);            
+            console.log(course.department[userDept]);
 
             switch (course.department[userDept]) {
                 case 'HS': HS += course.credits; break;

@@ -17,14 +17,34 @@ export const pdfMiddleware = async (req, res, next) => {
     const pdf = pdfModule.default;
 
     const pdfData = await pdf(dataBuffer);
-    const text = pdfData.text;
+    let text = pdfData.text;
+    console.log(text);
+
+    // After extracting PDF text, add this preprocessing
+    // Catch any “ODD” + non-alnum(s) + “JUNIOR” (dash, space, the � placeholder, etc.)
+    text = text.replace(/ODD\W+JUNIOR/g, 'ODDJUNIOR');
+
+
+    // // Additional cleaning for better regex matching
+    // text = text
+    //   .replace(/\r\n/g, '\n')  // Normalize line endings
+    //   .replace(/\r/g, '\n')    // Handle different line ending types
+    //   .replace(/\n+/g, '\n')   // Collapse multiple newlines
+    //   .replace(/\s+/g, ' ')    // Normalize whitespace
+    //   .trim();
+
+    // // OR, more targeted approach:
+    // // Replace newlines within course names (between letters and numbers/letters)
+    // text = text.replace(/([a-zA-Z])\n([a-zA-Z])/g, '$1 $2');
+
 
     // Set the extracted text to req.body.text
     req.body.text = text;
 
     // Proceed with subject extraction
     const subjects = [];
-    const subjectRegex = /(EVEN|ODD|ODD-JUNIOR)(\d+[A-Z]+\d+)-([\s\S]*?)(\d{1,2}[A-Z]\+?\d?)Pass/g;
+    const subjectRegex = /(EVEN|ODD|ODDJUNIOR)\s*(\d+[A-Z]+\d+)-([\s\S]*?)(\d{1,2}[A-Z]\+?\d?)Pass/g;
+
     let match;
 
     while ((match = subjectRegex.exec(text)) !== null) {
@@ -34,8 +54,8 @@ export const pdfMiddleware = async (req, res, next) => {
 
       // Clean up the name: replace newlines with spaces and trim
       name = name.replace(/\n+/g, ' ').trim();
-      
-      
+
+
 
       // Remove any leaked subject patterns
       name = name.replace(/(EVEN|ODD|ODD-JUNIOR)\d+[A-Z]+\d+-.*$/, '').trim();
