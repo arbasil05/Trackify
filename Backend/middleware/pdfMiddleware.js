@@ -1,8 +1,8 @@
 import fs from 'fs';
 
-// Load the data from courses.json
-const dataRaw = fs.readFileSync('./courses.json', 'utf8');
-const data = JSON.parse(dataRaw); // courses.json is a flat array
+// Load the data from scoft_courses.json
+const dataRaw = fs.readFileSync('./scoft_courses.json', 'utf8');
+const data = JSON.parse(dataRaw); // scoft_courses.json is a flat array
 
 export const pdfMiddleware = async (req, res, next) => {
   if (!req.file || !req.file.buffer) {
@@ -24,20 +24,6 @@ export const pdfMiddleware = async (req, res, next) => {
     // Catch any “ODD” + non-alnum(s) + “JUNIOR” (dash, space, the � placeholder, etc.)
     text = text.replace(/ODD\W+JUNIOR/g, 'ODDJUNIOR');
 
-
-    // // Additional cleaning for better regex matching
-    // text = text
-    //   .replace(/\r\n/g, '\n')  // Normalize line endings
-    //   .replace(/\r/g, '\n')    // Handle different line ending types
-    //   .replace(/\n+/g, '\n')   // Collapse multiple newlines
-    //   .replace(/\s+/g, ' ')    // Normalize whitespace
-    //   .trim();
-
-    // // OR, more targeted approach:
-    // // Replace newlines within course names (between letters and numbers/letters)
-    // text = text.replace(/([a-zA-Z])\n([a-zA-Z])/g, '$1 $2');
-
-
     // Set the extracted text to req.body.text
     req.body.text = text;
 
@@ -55,8 +41,6 @@ export const pdfMiddleware = async (req, res, next) => {
       // Clean up the name: replace newlines with spaces and trim
       name = name.replace(/\n+/g, ' ').trim();
 
-
-
       // Remove any leaked subject patterns
       name = name.replace(/(EVEN|ODD|ODD-JUNIOR)\d+[A-Z]+\d+-.*$/, '').trim();
 
@@ -67,17 +51,20 @@ export const pdfMiddleware = async (req, res, next) => {
       const matchedEntry = data.find(entry => {
         const codeMatch = (entry.code24 === code) || (entry.code19 === code);
         const title = entry.name || '';
-        const nameMatch = title.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(title.toLowerCase());
+        const nameMatch = title.toLowerCase() === (name.toLowerCase()) || name.toLowerCase() === (title.toLowerCase());
         return codeMatch || nameMatch;
       });
 
       if (matchedEntry) {
-        // Enrich subject with all required fields from courses.json
+        // Enrich subject with all required fields from scoft_courses.json
         subject.code19 = matchedEntry.code19;
         subject.code24 = matchedEntry.code24;
         subject.credits = matchedEntry.credits;
         subject.category = matchedEntry.category;
-        subject.name = matchedEntry.name; // Use the exact name from courses.json
+        subject.name = matchedEntry.name; // Use the exact name from scoft_courses.json
+        if (matchedEntry.department) {
+          subject.department = matchedEntry.department;
+        }
       } else {
         // Handle no match
         console.warn(`No match found for code: ${code}, name: ${name}`);
@@ -85,6 +72,7 @@ export const pdfMiddleware = async (req, res, next) => {
         subject.code24 = null;
         subject.credits = 0;
         subject.category = 'Unknown';
+        subject.department = {};
       }
 
       subjects.push(subject);

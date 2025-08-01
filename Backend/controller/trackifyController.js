@@ -169,27 +169,31 @@ export async function uploadFile(req, res) {
                 console.log(course);
 
                 const queryConditions = [];
-                if (course.code19) queryConditions.push({ code19: course.code19 });
-                if (course.code24!="NA") queryConditions.push({ code24: course.code24 });
+                if (course.code19 && course.code19 !== 'NA') {
+                    queryConditions.push({ code19: course.code19 });
+                }
+                if (course.code24 && course.code24 !== 'NA') {
+                    queryConditions.push({ code24: course.code24 });
+                }
+                if (course.name) {
+                    queryConditions.push({ name: course.name });
+                }
 
                 console.log("Looking for:", queryConditions);
 
                 if (queryConditions.length === 0) {
-                    console.warn(`Skipping course: No valid course codes in ${JSON.stringify(course)}`);
+                    console.warn(`Skipping course: No valid query fields in ${JSON.stringify(course)}`);
                     return;
                 }
 
-                const cs = await Course.findOne({code19:"19EY702"});
-                console.log(cs);
-                
-
-
-                const oId = await Course.findOne({
-                    $or: queryConditions
-                });
+                let oId;
+                if (queryConditions.length > 1) {
+                    oId = await Course.findOne({ $or: queryConditions });
+                } else {
+                    oId = await Course.findOne(queryConditions[0]);
+                }
 
                 console.log("OID", oId);
-
 
                 if (!oId) {
                     console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
@@ -224,6 +228,7 @@ export async function uploadFile(req, res) {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 export async function userDetails(req, res) {
     try {
