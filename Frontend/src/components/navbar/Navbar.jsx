@@ -1,23 +1,17 @@
-import { useState } from "react"
-import {useNavigate} from "react-router-dom"
-import {handlelogout} from "../../utils/logout"
-import "./Navbar.css"
+import { Link } from 'react-router-dom'
+import './Navbar.css'
 
 
 const Navbar = () => {
-    const nav = useNavigate();
-    return (
+  return (
+    <div className='navbar-container'>
+      <h1 className='navbar-title'>Trackify</h1>
+      <Link to="/signup">
+        <button className='navbar-button'>Log out</button>
+      </Link>
 
-        <div className="navbar">
-            <h1 className="title">
-                Trackify
-            </h1>
-            <button onClick={()=>handlelogout(nav)} className="logout-button">
-                Logout
-            </button>
-        </div>
-
-    )
+    </div>
+  )
 }
 
 export default Navbar

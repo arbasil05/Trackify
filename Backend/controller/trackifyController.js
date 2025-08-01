@@ -166,9 +166,14 @@ export async function uploadFile(req, res) {
         // Find course ObjectIds
         await Promise.all(
             subs.map(async (course) => {
+                // console.log(course);
+                
                 const queryConditions = [];
                 if (course.code19) queryConditions.push({ code19: course.code19 });
                 if (course.code24) queryConditions.push({ code24: course.code24 });
+
+                // console.log("Looking for:", queryConditions);
+
 
                 const oId = await Course.findOne({
                     $or: queryConditions.length > 0 ? queryConditions : [{}]
@@ -191,7 +196,7 @@ export async function uploadFile(req, res) {
             id,
             { $addToSet: { courses: { $each: courseObjectId } } },
             { new: true, runValidators: true }
-        ).populate('courses'); // Optional: Populate course details
+        ).populate('courses');
 
         if (!updatedUser) {
             return res.status(404).json({ error: 'User not found' });
@@ -234,12 +239,17 @@ export async function courseByUser(req, res) {
             _id: { $in: user.courses }
         })
 
+        const userDept = user.dept;
+
+
         let totalCredits = 0, HS = 0, BS = 0, ES = 0, PC = 0, PE = 0, OE = 0, EEC = 0, MC = 0;
+
 
         const courseDetails = courses.map(course => {
             totalCredits += course.credits;
+            console.log(course.department[userDept]);            
 
-            switch (course.category) {
+            switch (course.department[userDept]) {
                 case 'HS': HS += course.credits; break;
                 case 'BS': BS += course.credits; break;
                 case 'ES': ES += course.credits; break;

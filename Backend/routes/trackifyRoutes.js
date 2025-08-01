@@ -15,6 +15,6 @@ router.post("/upload",upload.single('pdf'),pdfMiddleware,uploadFile);
 
 router.get("/protected",protectedRoute);
 router.get("/userDetails",authMiddleWare,userDetails);
-router.get("/coruseByUser",authMiddleWare,courseByUser);
+router.get("/courseByUser",authMiddleWare,courseByUser);
 
 export default router;

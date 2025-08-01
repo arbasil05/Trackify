@@ -30,9 +30,12 @@ export const pdfMiddleware = async (req, res, next) => {
     while ((match = subjectRegex.exec(text)) !== null) {
       const code = match[2]; // e.g., 19EN101
       let name = match[3];   // Description text
+      console.log(name);
 
       // Clean up the name: replace newlines with spaces and trim
       name = name.replace(/\n+/g, ' ').trim();
+      
+      
 
       // Remove any leaked subject patterns
       name = name.replace(/(EVEN|ODD|ODD-JUNIOR)\d+[A-Z]+\d+-.*$/, '').trim();

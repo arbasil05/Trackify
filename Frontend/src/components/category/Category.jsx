@@ -1,70 +1,77 @@
-import { useEffect, useState } from 'react';
-import './Category.css';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import axios from 'axios';
+import './Category.css'
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Category = () => {
-    const [credits, setCredits] = useState({});
-
-    useEffect(() => {
-        const url = "http://localhost:5001/api/coruseByUser";
-        axios.get(url, { withCredentials: true })
-            .then((res) => {
-                setCredits(res.data.runningTotal); 
-            })
-            .catch((error) => {
-                console.log("Error fetching category credits:", error);
-            });
-    }, []);
-
 
     const categoryConfig = [
-        { key: 'HS', label: 'Humanities and Science', required: 11 },
-        { key: 'BS', label: 'Basic Science', required: 23 },
-        { key: 'ES', label: 'Engineering Science', required: 25 },
-        { key: 'PC', label: 'Professional Core', required: 58 },
-        { key: 'PE', label: 'Professional Elective', required: 16 },
-        { key: 'OE', label: 'Open Elective', required: 12},
-        { key: 'EEC', label: 'Employment Enhancement Courses', required: 16 },
-        { key: 'MC', label: 'Mandatory Courses', required: 3 }
-    ];
+    { label: 'HS', required: 11, color: '#1e78d0' },  // Strong modern blue
+    { label: 'BS', required: 23, color: '#329f80' },  // Calm minty green
+    { label: 'ES', required: 25, color: '#d18d2b' },  // Warm amber
+    { label: 'PC', required: 58, color: '#9c5dc4' },  // Modern purple
+    { label: 'PE', required: 16, color: '#3b4956' },  // Steely navy/gray
+    { label: 'OE', required: 12, color: '#da5a64' },  // Desaturated coral
+    { label: 'EEC', required: 16, color: '#4fa2ca' }, // Sky teal
+    { label: 'MC', required: 3, color: '#808be0' }    // Calm indigo
+];
 
 
-    const progressStyles = buildStyles({
-        pathColor: '#c522fc',
-        trailColor: '#8d8d8d73',
-        textColor: '#333',
-        textSize: '20px'
-    });
+
+    const settings = {
+        accessibility: true,
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            }
+        ]
+    };
 
     return (
         <div className='category-container'>
-            <h1>Category Wise</h1>
-            <div className="card-container">
-                {categoryConfig.map((cat, index) => {
-                    const earned = credits[cat.key] || 0;
-                    const required = cat.required;
-                    const percentage = ((earned / required) * 100).toFixed(1);
+            <Slider  {...settings}>
+                {
+                    categoryConfig.map((item, index) => {
+                        return (
+                            <div key={index} className='individual-wrapper' >
+                                <div className='individual-container' style={{backgroundColor:item.color}}>
+                                    <h1 className='individual-container-title'>{item.label}</h1>
+                                    <h2 className='individual-container-number'>{item.required}</h2>
 
-                    return (
-                        <div key={index} className="individual-cards">
-                            <h1 className="individual-card-title">{cat.label}</h1>
-                            <div className='progressbar-container'>
-                                <CircularProgressbar 
-                                    value={percentage}
-                                    text={`${percentage}%`}
-                                    styles={progressStyles}
-                                />
+                                </div>
                             </div>
-                            <h2><span>{earned}</span> / {required}</h2>
-                            <button className='card-button'>Explore</button>
-                        </div>
-                    );
-                })}
-            </div>
+                        )
+                    })
+                }
+            </Slider>
         </div>
-    );
-};
+    )
+}
 
-export default Category;
+export default Category

@@ -1,0 +1,18 @@
+.barchart-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
+    margin-top: 60px;
+    
+}
+
+.recharts-surface{
+    pointer-events: none;
+}
+
+.barchart-wrapper {
+    width: 100%;
+    max-width: 500px;
+}

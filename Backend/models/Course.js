@@ -13,7 +13,6 @@ const courseSchema = mongoose.Schema({
     code24: {
         type: String,
         required: true,
-        unique: true
 
     },
     credits: {
@@ -24,6 +23,10 @@ const courseSchema = mongoose.Schema({
         type: String,
         enum: ['HS', 'BS', 'ES', 'PC', 'PE', 'OE', 'EEC', 'MC'],
         required: true
+    },
+    department:{
+        type:Object,
+        required:true
     }
 });
 

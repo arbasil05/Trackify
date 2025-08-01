@@ -1,22 +1,21 @@
-import './App.css'
-import {Routes,Route} from 'react-router-dom'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import NotFound from './pages/NotFound'
+import { Route, Routes } from "react-router-dom";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Error from "./pages/Error";
 
 function App() {
+
   return (
-    <>
-    
+    <div>
       <Routes>
-        <Route path='/home' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='*' element={<NotFound/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/" element={<Home/>}/>
+        <Route path="*" element={<Error/>}/>
       </Routes>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;

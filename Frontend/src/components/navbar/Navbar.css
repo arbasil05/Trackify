@@ -1,38 +1,19 @@
-.navbar {
+.navbar-container {
+    padding: 20px 15px 20px 15px;
+    margin-left: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 30px 20px 30px;
-    background: linear-gradient(to left, #d024fc, #6f11fc);
-    margin: 10px 20px 10px 20px;
-    border-radius: 20px;
-    margin-bottom: 30px;
+
+    border-bottom: 1px solid #2a2a2a;
 
 }
 
-.title {
-    font-size: 50px;
+.navbar-button {
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(190, 190, 190);
+    background: crimson;
     color: white;
-    user-select: none;
-}
 
-.logout-button {
-    cursor: pointer;
-    padding: 20px 30px 20px 30px;
-    border-radius: 20px;
-    font-size: 22px;
-    background-color: #6a06ff;
-    color: white;
-}
-
-@media (max-width:768px) {
-    .logout-button {
-        padding: 10px 20px 10px 20px;
-        font-size: 18px;
-        border-radius: 10px;
-    }
-
-    .title {
-        font-size: 25px;
-    }
 }

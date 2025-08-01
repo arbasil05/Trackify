@@ -1,10 +1,13 @@
-import LoginCard from "../components/logincard/LoginCard"
+import LoginForm from '../components/LoginForm/LoginForm'
+import LoginHeader from '../components/Loginheader/LoginHeader'
+import './css/login.css'
 
 
 const Login = () => {
   return (
-    <div>
-        <LoginCard/>      
+    <div className='login-container'>
+      <LoginHeader/>
+      <LoginForm/>
     </div>
   )
 }
