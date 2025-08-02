@@ -1,0 +1,17 @@
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 25px;
+    height: 450px;
+}
+
+.light-mode {
+  background-color: white;
+  color: #222;
+}
+
+.dark-mode {
+  background-color: #1B2431;
+  color: #fff;
+}

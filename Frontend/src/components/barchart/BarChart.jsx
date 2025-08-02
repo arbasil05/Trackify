@@ -1,35 +1,32 @@
-import './BarChart.css';
-import {
-    BarChart as ReBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
-} from 'recharts';
+import './Barchart.css'
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
-const BarChart = () => {
+const Barchart = ({ dark }) => {
     const data = [
-        { semester: 'Sem 1', credits: 22 },
-        { semester: 'Sem 2', credits: 24 },
-        { semester: 'Sem 3', credits: 21 },
-        { semester: 'Sem 4', credits: 48 },
-        { semester: 'Sem 5', credits: 26 },
-        { semester: 'Sem 6', credits: 26 },
-        { semester: 'Sem 7', credits: 26 },
+        { name: 'Sem 1', credits: 20 },
+        { name: 'Sem 2', credits: 22 },
+        { name: 'Sem 3', credits: 19 },
+        { name: 'Sem 4', credits: 19 },
+        { name: 'Sem 5', credits: 19 },
+        { name: 'Sem 6', credits: 19 },
+        { name: 'Sem 7', credits: 19 },
+        { name: 'Sem 8', credits: 19 },
     ];
 
     return (
-        <div className='barchart-container'>
-            <div className='barchart-wrapper'>
-                <ResponsiveContainer width="100%" height={300}>
-                    <ReBarChart data={data}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="semester" />
-                        <YAxis />
-                        <Tooltip />
-                        {/* <Legend verticalAlign="bottom"  align="center" /> */}
-                        <Bar dataKey="credits" fill="#3382cd" />
-                    </ReBarChart>
-                </ResponsiveContainer>
-            </div>
+        <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
+            <h3>Semester wise credits</h3>
+            <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={data}>
+                    <CartesianGrid vertical={false} strokeDasharray="3 3" stroke={dark ? '#44566e' : '#ccc'} />
+                    <XAxis dataKey="name" stroke={dark ? '#fff' : '#000'} />
+                    <YAxis stroke={dark ? '#fff' : '#000'} />
+                    <Tooltip contentStyle={{ backgroundColor: dark ? '#38485f' : '#fff', border: 'none', color: dark ? '#fff' : '#000' }} />
+                    <Bar dataKey="credits" fill="#4880FF" barSize={25} radius={[10, 10, 0, 0]} />
+                </BarChart>
+            </ResponsiveContainer>
         </div>
-    );
-};
+    )
+}
 
-export default BarChart;
+export default Barchart

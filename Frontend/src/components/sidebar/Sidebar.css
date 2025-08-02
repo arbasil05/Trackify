@@ -1,0 +1,148 @@
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 220px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding-right: 20px;
+}
+
+/* DARK MODE */
+.dark-mode.sidebar-container {
+    background-color: #273142;
+}
+
+/* Title */
+.sidebar-title {
+    padding-left: 25px;
+}
+
+.sidebar-title h1 {
+    font-size: 36px;
+    color: black;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin: 0;
+}
+
+.dark-mode .sidebar-title h1 {
+    color: white;
+}
+
+.siebar-title-span {
+    color: #4880FF;
+}
+
+/* Menu Wrapper */
+.sidebar-menu-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Menu Items */
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 10px;
+}
+
+/* Each item */
+.sidebar-menu div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: black;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.5s all ease;
+}
+
+.sidebarDash {
+    text-decoration: none;
+}
+
+.sidebarDash:hover {
+    border: 1px solid #2b6aff;
+}
+
+.sidebarprofile:hover {
+    border: 0.5px solid #2b6aff;
+}
+
+.dark-mode .sidebar-menu div {
+    color: white;
+}
+
+/* Logout Section */
+.logout-button-light {
+    width: 85%;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #ffffff;
+    color: #000000;
+    margin-left: 18px;
+    transition: 0.5s all ease-in-out;
+}
+
+.logout-button-light:hover{
+    background-color: #000000;
+    color: white;
+    gap: 20px;
+}
+
+
+.logout-button-dark {
+    width: 85%;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #273142;
+    color: #ffffff;
+    margin-left: 18px;
+    transition: 0.5s all ease-in-out;
+}
+
+.logout-button-dark:hover{
+    background-color: #ffffff;
+    color: black;
+    gap: 20px;
+}
+/* Highlight the active menu item */
+.sidebar-menu div.active {
+    background-color: #4880FF;
+    color: white;
+}
+
+/* Optional: smoother transition */
+.sidebar-menu div {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-menu div:hover {
+    transform: scale(1.05);
+}

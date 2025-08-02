@@ -1,18 +1,44 @@
 .barchart-container {
-    width: 100%;
+    margin-left: 250px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 20px;
-    margin-top: 60px;
-    
+    align-items: flex-start;
+    margin-top: 50px;
+    flex-direction: column;
+    padding: 10px;
+    gap: 20px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    margin-bottom: 20px;
+    width: 55%;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.recharts-surface{
-    pointer-events: none;
+.barchart-container h3 {
+    font-weight: 500;
+    font-size: 25px;
 }
 
-.barchart-wrapper {
-    width: 100%;
-    max-width: 500px;
+/* Remove focus outlines from SVG elements */
+.barchart-container svg:focus,
+.barchart-container g:focus,
+.barchart-container rect:focus {
+    outline: none;
+}
+
+/* 🌙 DARK MODE */
+.dark-mode.barchart-container {
+    background-color: #273142;
+    color: white;
+}
+
+.dark-mode .barchart-container h3 {
+    color: white;
+}
+
+/* Optional - Tooltip override (if default tooltip clashes in dark mode) */
+.dark-mode .recharts-default-tooltip {
+    background-color: #38485f !important;
+    border: none !important;
+    color: white !important;
 }
