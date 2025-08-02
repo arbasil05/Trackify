@@ -163,6 +163,8 @@ export async function uploadFile(req, res) {
             return res.status(400).json({ error: 'No valid subjects provided' });
         }
 
+        let total_sem_credits = 0;
+
         // Find course ObjectIds
         await Promise.all(
             subs.map(async (course) => {
@@ -193,24 +195,41 @@ export async function uploadFile(req, res) {
                     oId = await Course.findOne(queryConditions[0]);
                 }
 
+
+
+
                 console.log("OID", oId);
 
                 if (!oId) {
                     console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
                 } else {
+                    total_sem_credits += oId.credits;
                     courseObjectId.push(oId._id); // Push ObjectId
                 }
             })
         );
 
+        console.log(total_sem_credits);
+
+        const semName = req.body.sem;
+
+
+
+
         if (courseObjectId.length === 0) {
             return res.status(400).json({ error: 'No valid courses found to append' });
         }
 
+        const semTotalUpdate = {};
+        semTotalUpdate[`sem_total.${semName}`] = total_sem_credits;
+
         // Append courses to User document
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { $addToSet: { courses: { $each: courseObjectId } } },
+            {
+                $addToSet: { courses: { $each: courseObjectId } },
+                $set: semTotalUpdate
+            },
             { new: true, runValidators: true }
         ).populate('courses');
 
@@ -247,6 +266,8 @@ export async function courseByUser(req, res) {
     try {
         const id = req.id;
         const user = await User.findOne({ _id: id });
+
+        const user_sem_credits = user.sem_total;
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -303,6 +324,7 @@ export async function courseByUser(req, res) {
                 EEC,
                 MC
             },
+            user_sem_credits,
             totalCredits,
             courseDetails
         });

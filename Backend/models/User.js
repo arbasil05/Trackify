@@ -28,6 +28,9 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    sem_total: {
+        type: Object,
+    },
     courses:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:"Course"
