@@ -3,6 +3,8 @@ import './App.css'
 import Dashboard from './pages/Dashboard';
 import { Route, Routes } from 'react-router-dom';
 import User from './pages/User';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 
 function App() {
@@ -70,6 +72,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Dashboard isDark={isDark} setIsDark={setIsDark} />} />
         <Route path='/user' element={<User isDark={isDark} setIsDark={setIsDark} />} />
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/signup' element={<SignUp/>}/>
       </Routes>
 
     </>

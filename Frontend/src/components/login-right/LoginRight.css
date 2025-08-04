@@ -1,0 +1,104 @@
+.loginright-container {
+    background-color: #4880FF;
+    width: 50%;
+    height: 100vh;
+    padding: 40px 20px 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+}
+
+.login-card{
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 30px 40px 30px;
+    border-radius: 20px;
+}
+
+.login-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.login-header p{
+    color:rgb(80, 79, 79);
+    font-size: 14px;
+}
+
+.login-inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.login-inputs div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.login-inputs input{
+    width: 450px;
+    border-radius: 10px;
+    padding: 12px 10px 12px 10px;
+    border: 1px solid #cccaca; ;
+    color: rgb(80, 79, 79);
+    font-size: 16px;
+    background-color: #d8dbdd8a;
+    
+}
+
+.login-inputs input:focus{
+    outline: none;
+}
+
+.login-inputs label{
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(80, 79, 79);
+    
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 60px;
+    gap: 20px;
+}
+
+.login-button button{
+    padding: 14px 130px 14px 130px;
+    font-size: 16px;
+    background-color: #4880FF;
+    color: white;
+    border-radius: 20px;
+}
+.login-button button:hover{
+    background-color: #3254a4;
+}
+
+.footer p{
+    color: rgb(80, 79, 79);
+    
+}
+
+.link{
+    color: #4880FF;
+}
+
+.link:hover{
+    color: #3254a4;
+}

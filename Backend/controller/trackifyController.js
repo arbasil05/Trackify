@@ -36,6 +36,12 @@ export async function register(req, res) {
             sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000
         })
+        // res.cookie('jwt', token, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "none",
+        //     maxAge: 24 * 60 * 60 * 1000
+        // })
 
         console.log("Cookie set successfully!")
         res.status(201).json({ "user": user, "message": "Success" });
@@ -83,6 +89,12 @@ export async function login(req, res) {
             sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000
         })
+        // res.cookie('jwt', token, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "none",
+        //     maxAge: 24 * 60 * 60 * 1000
+        // })
 
         console.log(`Cookie created Succesfully`);
 
@@ -91,7 +103,7 @@ export async function login(req, res) {
 
     }
     catch (error) {
-        console.log(`Error in /logout ${error}`);
+        console.log(`Error in /login ${error}`);
         res.status(401).json({ message: "Error while logging in" });
 
     }
@@ -105,6 +117,12 @@ export async function logout(req, res) {
             sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000,
         })
+        // res.cookie('jwt', token, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "none",
+        //     maxAge: 24 * 60 * 60 * 1000
+        // })
 
         res.status(200).json({ message: "Log out successfull" });
     }

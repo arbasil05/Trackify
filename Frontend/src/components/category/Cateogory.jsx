@@ -1,19 +1,37 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Category.css';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-
-const courses = [
-  { name: 'HS', full: 'Humanities and Sciences' },
-  { name: 'BS', full: 'Basic Sciences' },
-  { name: 'ES', full: 'Engineering Sciences' },
-  { name: 'PC', full: 'Professional Core' },
-  { name: 'PE', full: 'Professional Electives' },
-  { name: 'OE', full: 'Open Electives' },
-  { name: 'EEC', full: 'Employment Enhancement Courses' },
-  { name: 'MC', full: 'Mandatory Courses' },
-];
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Category = ({ dark }) => {
+  const [courses, setCourses] = useState([
+    { name: 'HS', full: 'Humanities and Sciences' },
+    { name: 'BS', full: 'Basic Sciences' },
+    { name: 'ES', full: 'Engineering Sciences' },
+    { name: 'PC', full: 'Professional Core' },
+    { name: 'PE', full: 'Professional Electives' },
+    { name: 'OE', full: 'Open Electives' },
+    { name: 'EEC', full: 'Employment Enhancement Courses' },
+    { name: 'MC', full: 'Mandatory Courses' },
+  ]);
+
+  useEffect(() => {
+    const url = "http://localhost:5001/api/courseByUser";
+    axios.get(url, { withCredentials: true })
+      .then((res) => {
+        const runningTotal = res.data.runningTotal;
+
+        const updatedCourses = courses.map(course => ({
+          ...course,
+          credits: runningTotal[course.name] || 0
+        }));
+
+        setCourses(updatedCourses);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <div
       className='category-container'
@@ -47,7 +65,9 @@ const Category = ({ dark }) => {
             </div>
             <div className="individual-right">
               <FontAwesomeIcon icon={faChevronRight} color={dark ? 'white' : '#4b5563'} />
-              <h3 style={{ color: dark ? 'white' : '#1f2937' }}>12 credits</h3>
+              <h3 style={{ color: dark ? 'white' : '#1f2937' }}>
+                {course.credits !== undefined ? `${course.credits} credits` : '...'}
+              </h3>
             </div>
           </div>
         ))}

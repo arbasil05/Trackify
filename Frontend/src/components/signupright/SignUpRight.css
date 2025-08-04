@@ -1,0 +1,141 @@
+.signupright-container {
+    background-color: #4880FF;
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.signup-card {
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4vh 3vw;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px 0 rgba(96, 143, 255, 0.08);
+    width: 100%;
+    max-width: 520px;
+    height: 92vh;             /* consume full height */
+    overflow: hidden;         /* hide scroll */
+}
+
+.signup-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.signup-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.signup-inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;                  /* allow shrinking to fit screen */
+}
+
+.signup-inputs .reg-no,
+.signup-inputs .password {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.signup-inputs input,
+.signup-inputs select {
+    width: 100%;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #e0e6ed;
+    background: #f6f8fa;
+    font-size: 15px;
+    color: #3a3a3a;
+}
+
+.signup-inputs label {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #393e46;
+}
+
+.reg-wrapper {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.reg-wrapper .reg-no {
+    flex: 1;
+}
+
+.footer-signup {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.signup-button {
+    width: 100%;
+}
+
+.signup-button button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1rem;
+    background-color: #4880FF;
+    color: white;
+    border-radius: 22px;
+    border: none;
+    font-weight: 600;
+    transition: background .18s;
+}
+
+.signup-button button:hover {
+    background-color: #3254a4;
+}
+
+.footer-signup p {
+    margin: 0;
+    color: #797979;
+    font-size: 1rem;
+}
+
+.link {
+    color: #4880FF;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.link:hover {
+    color: #3254a4;
+}
+
+@media (max-width: 700px) {
+    .signupright-container {
+        width: 100vw;
+        min-width: 100vw;
+        padding: 0;
+    }
+
+    .signup-card {
+        width: 98vw;
+        border-radius: 0;   /* take full width on phone */
+        height: 100vh;
+        padding: 3vh 6vw;
+    }
+}

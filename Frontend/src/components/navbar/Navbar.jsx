@@ -2,12 +2,27 @@ import { faMoon, faSun, faSunPlantWilt, faUpload } from '@fortawesome/free-solid
 import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from "axios"
 
 Modal.setAppElement('#root');
 
 const Navbar = ({ dark, setIsDark }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [name,setUsername] = useState("");
+
+    useEffect(()=>{
+        const url1 = "http://localhost:5001/api/userDetails"
+        axios.get(url1,{withCredentials:true})
+             .then((res)=>{
+                setUsername(res.data.user.name)
+             })
+             .catch((error)=>{
+                console.log(`${error}`);
+                
+             })
+        
+    },[])
 
     return (
         <div className='navbar-container'>
@@ -54,7 +69,7 @@ const Navbar = ({ dark, setIsDark }) => {
                 <div className="navbar-message">
                     <h1 className='title' style={{
                         color: dark ? 'white' : 'black',
-                    }}> <span>Welcome back</span> Basil!</h1>
+                    }}> <span>Good Evening,</span> {name}</h1>
                     <p className='description'>Track your academic progress and achievments</p>
                 </div>
                 <div className="navbar-button-group">

@@ -1,0 +1,52 @@
+.loginleft-container {
+    width: 50%;
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px 40px 20px;
+    flex-direction: column;
+}
+
+.loginleft-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginleft-title h1 {
+    font-size: 34px;
+    font-weight: 600;
+    color: #4880FF;
+    margin-bottom: 10px;
+}
+
+.loginleft-title-span {
+    color: black;
+
+}
+
+.loginleft-title h3 {
+    font-size: 24px;
+}
+
+.loginleft-title p {
+    font-size: 14px;
+    color: rgb(80, 79, 79);
+}
+
+.loginleft-image img {
+    width: 100%;      /* roughly equals 650px of your parent width */
+    height: auto;    /* keeps the aspect ratio intact */
+    max-width: 650px; /* prevents it from exceeding original look on larger screens */
+    max-height: 350px;
+}
+
+.loginleft-footer {
+    text-align: center;
+}
+
+.loginleft-footer p {
+    font-size: 16px;
+    color: rgb(80, 79, 79);
+}

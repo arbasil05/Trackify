@@ -1,11 +1,30 @@
 import './Sidebar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faPowerOff, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Sidebar = ({ dark }) => {
 
+    
+    const nav = useNavigate();
     const location = useLocation();
+
+    const handlelogout = () =>{
+        const url = "http://localhost:5001/api/logout";
+        axios.post(url,{},{withCredentials:true})
+             .then(()=>{
+                toast.success("Logged out successfully");
+                nav("/login");
+             })
+             .catch((error)=>{
+                toast.error("Error while logging out");
+                console.log(`${error}`);
+                
+             })
+
+    }
 
     return (
         <div className={dark ? 'sidebar-container dark-mode' : 'sidebar-container'}>
@@ -31,7 +50,7 @@ const Sidebar = ({ dark }) => {
                 </div>
             </div>
             <div>
-                <button className={dark?'logout-button-dark':'logout-button-light'}>
+                <button onClick={handlelogout} className={dark?'logout-button-dark':'logout-button-light'}>
                     <FontAwesomeIcon icon={faPowerOff} />
                     <p>Logout</p>
                 </button>

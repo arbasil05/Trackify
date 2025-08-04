@@ -1,17 +1,31 @@
+import { useEffect, useState } from 'react';
 import './Barchart.css'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-
+import axios from 'axios';
 const Barchart = ({ dark }) => {
-    const data = [
-        { name: 'Sem 1', credits: 20 },
-        { name: 'Sem 2', credits: 22 },
-        { name: 'Sem 3', credits: 19 },
-        { name: 'Sem 4', credits: 19 },
-        { name: 'Sem 5', credits: 19 },
-        { name: 'Sem 6', credits: 19 },
-        { name: 'Sem 7', credits: 19 },
-        { name: 'Sem 8', credits: 19 },
-    ];
+    // const data = [
+    //     { name: 'Sem 1', credits: 20 },
+
+    // ];
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const url = "http://localhost:5001/api/courseByUser";
+        axios.get(url, { withCredentials: true })
+            .then((res) => {
+                const userSemCredits = res.data.user_sem_credits;
+
+                // Convert the object to an array of { name, credits }
+                const barData = Object.entries(userSemCredits).map(([key, value]) => ({
+                    name: key.replace("sem", "Sem "),
+                    credits: value
+                }));
+
+                setData(barData); // Set all data at once
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
 
     return (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
