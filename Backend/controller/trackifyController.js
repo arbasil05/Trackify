@@ -1,12 +1,10 @@
-import User from "../models/User.js"
+import User from "../models/User.js";
 import Course from "../models/Course.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
-
-
 
 export async function register(req, res) {
     try {
@@ -21,21 +19,25 @@ export async function register(req, res) {
         }
 
         const user = await User.create({
-            name, reg_no, grad_year, dept, password
-        })
+            name,
+            reg_no,
+            grad_year,
+            dept,
+            password,
+        });
 
         // create the token for the session
-        const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY)
+        const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY);
 
         console.log(`JWT Token generated successfully : ${token}`);
 
         // create cookie
-        res.cookie('jwt', token, {
+        res.cookie("jwt", token, {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000
-        })
+            maxAge: 24 * 60 * 60 * 1000,
+        });
         // res.cookie('jwt', token, {
         //     httpOnly: true,
         //     secure: true,
@@ -43,16 +45,14 @@ export async function register(req, res) {
         //     maxAge: 24 * 60 * 60 * 1000
         // })
 
-        console.log("Cookie set successfully!")
-        res.status(201).json({ "user": user, "message": "Success" });
-    }
-    catch (error) {
+        console.log("Cookie set successfully!");
+        res.status(201).json({ user: user, message: "Success" });
+    } catch (error) {
         if (error.code === 11000) {
             return res.status(409).json({ message: "User already exist" });
         }
         console.log(`Error in /signup ${error}`);
         res.status(500).json({ message: "Error", error: error });
-
     }
 }
 
@@ -65,7 +65,7 @@ export async function login(req, res) {
         const { reg_no, password } = req.body;
 
         if (!reg_no || !password) {
-            throw new Error("Missing Fields")
+            throw new Error("Missing Fields");
         }
 
         const user = await User.findOne({ reg_no });
@@ -83,12 +83,12 @@ export async function login(req, res) {
 
         console.log(`JWT token : ${token}`);
 
-        res.cookie('jwt', token, {
+        res.cookie("jwt", token, {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000
-        })
+            maxAge: 24 * 60 * 60 * 1000,
+        });
         // res.cookie('jwt', token, {
         //     httpOnly: true,
         //     secure: true,
@@ -98,25 +98,21 @@ export async function login(req, res) {
 
         console.log(`Cookie created Succesfully`);
 
-
-        res.status(200).json({ user: user, message: "Success" })
-
-    }
-    catch (error) {
+        res.status(200).json({ user: user, message: "Success" });
+    } catch (error) {
         console.log(`Error in /login ${error}`);
         res.status(401).json({ message: "Error while logging in" });
-
     }
 }
 
 export async function logout(req, res) {
     try {
-        res.clearCookie('jwt', {
+        res.clearCookie("jwt", {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000,
-        })
+        });
         // res.cookie('jwt', token, {
         //     httpOnly: true,
         //     secure: true,
@@ -125,60 +121,26 @@ export async function logout(req, res) {
         // })
 
         res.status(200).json({ message: "Log out successfull" });
-    }
-    catch (error) {
+    } catch (error) {
         console.log(`Error in logout ${error}`);
-
     }
-
-}
-
-export async function protectedRoute(req, res) {
-    try {
-        const token = req.cookies.jwt;
-        jwt.verify(token, SECRET_JWT_KEY, async (error, decoded) => {
-            if (error) {
-                res.status(401).json({ message: "Unauthorized User" });
-                return;
-            }
-
-            const id = decoded.id;
-            const user = await User.findOne({ _id: id });
-            res.status(200).json({ user });
-        })
-    }
-    catch (error) {
-        console.log(`Error in protected ${error}`);
-    }
-
 }
 
 export async function uploadFile(req, res) {
-    const courseObjectId = [];
+    const courseEntries = [];
     try {
-        // Verify JWT token
-        const token = req.cookies.jwt;
-        if (!token) {
-            return res.status(401).json({ message: 'No JWT token provided' });
-        }
-        // Use async/await for JWT verification
-        let decoded;
-        try {
-            decoded = await jwt.verify(token, SECRET_JWT_KEY);
-        } catch (error) {
-            return res.status(401).json({ message: 'Unauthorized User' });
-        }
-
-        const id = decoded.id;
+        const id = req.id;
         if (!id) {
-            return res.status(401).json({ message: 'Invalid token payload' });
+            return res.status(401).json({ message: "Invalid token payload" });
         }
 
         // Process courses from req.subjects
-        console.log('HELLO : ', req.subjects);
+        console.log("HELLO : ", req.subjects);
         const subs = req.subjects;
         if (!Array.isArray(subs) || subs.length === 0) {
-            return res.status(400).json({ error: 'No valid subjects provided' });
+            return res
+                .status(400)
+                .json({ error: "No valid subjects provided" });
         }
 
         let total_sem_credits = 0;
@@ -189,10 +151,10 @@ export async function uploadFile(req, res) {
                 console.log(course);
 
                 const queryConditions = [];
-                if (course.code19 && course.code19 !== 'NA') {
+                if (course.code19 && course.code19 !== "NA") {
                     queryConditions.push({ code19: course.code19 });
                 }
-                if (course.code24 && course.code24 !== 'NA') {
+                if (course.code24 && course.code24 !== "NA") {
                     queryConditions.push({ code24: course.code24 });
                 }
                 if (course.name) {
@@ -202,28 +164,36 @@ export async function uploadFile(req, res) {
                 console.log("Looking for:", queryConditions);
 
                 if (queryConditions.length === 0) {
-                    console.warn(`Skipping course: No valid query fields in ${JSON.stringify(course)}`);
+                    console.warn(
+                        `Skipping course: No valid query fields in ${JSON.stringify(
+                            course
+                        )}`
+                    );
                     return;
                 }
 
-                let oId;
-                if (queryConditions.length > 1) {
-                    oId = await Course.findOne({ $or: queryConditions });
-                } else {
-                    oId = await Course.findOne(queryConditions[0]);
+                const courseEntry =
+                    queryConditions.length > 1
+                        ? await Course.findOne({ $or: queryConditions })
+                        : await Course.findOne(queryConditions[0]);
+
+                if (!courseEntry) {
+                    console.log(
+                        `Course not found: ${
+                            course.name || course.code19 || course.code24
+                        }`
+                    );
+                    return;
                 }
 
+                total_sem_credits += courseEntry.credits;
 
-
-
-                console.log("OID", oId);
-
-                if (!oId) {
-                    console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
-                } else {
-                    total_sem_credits += oId.credits;
-                    courseObjectId.push(oId._id); // Push ObjectId
-                }
+                courseEntries.push({
+                    course: courseEntry._id,
+                    grade: course.grade,
+                    gradePoint: course.gradePoint,
+                    sem: Number(req.body.sem),
+                });
             })
         );
 
@@ -231,11 +201,10 @@ export async function uploadFile(req, res) {
 
         const semName = req.body.sem;
 
-
-
-
-        if (courseObjectId.length === 0) {
-            return res.status(400).json({ error: 'No valid courses found to append' });
+        if (courseEntries.length === 0) {
+            return res
+                .status(400)
+                .json({ error: "No valid courses found to append" });
         }
 
         const semTotalUpdate = {};
@@ -245,92 +214,123 @@ export async function uploadFile(req, res) {
         const updatedUser = await User.findByIdAndUpdate(
             id,
             {
-                $addToSet: { courses: { $each: courseObjectId } },
-                $set: semTotalUpdate
+                $addToSet: { courses: { $each: courseEntries } },
+                $set: semTotalUpdate,
             },
             { new: true, runValidators: true }
-        ).populate('courses');
+        ).populate("courses.course");
 
         if (!updatedUser) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: "User not found" });
         }
 
         return res.status(200).json({
-            message: 'Courses appended successfully',
-            courseObjectId,
-            userCourses: updatedUser.courses
+            message: "Courses appended successfully",
+            courseEntries,
+            userCourses: updatedUser.courses,
         });
     } catch (error) {
-        console.error('Error in uploadFile:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        console.error("Error in uploadFile:", error);
+        return res.status(500).json({ error: "Internal server error" });
     }
 }
-
 
 export async function userDetails(req, res) {
     try {
         const id = req.id;
         const user = await User.findOne({ _id: id });
         res.status(200).json({ user });
-    }
-    catch (error) {
+    } catch (error) {
         console.log(`Error in userDetails ${error}`);
         res.status(500).json({ message: "Internal server Error" });
-
     }
 }
 
 export async function courseByUser(req, res) {
     try {
         const id = req.id;
-        const user = await User.findOne({ _id: id });
-
-        const user_sem_credits = user.sem_total;
+        const user = await User.findById(id).populate("courses.course");
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const courses = await Course.find({
-            _id: { $in: user.courses }
-        })
-
+        const user_sem_credits = user.sem_total;
         const userDept = user.dept;
 
+        let totalCredits = 0,
+            totalWeightedPoints = 0,
+            HS = 0,
+            BS = 0,
+            ES = 0,
+            PC = 0,
+            PE = 0,
+            OE = 0,
+            EEC = 0,
+            MC = 0;
 
-        let totalCredits = 0, HS = 0, BS = 0, ES = 0, PC = 0, PE = 0, OE = 0, EEC = 0, MC = 0;
+        const courseDetails = user.courses
+            .map(({ course, grade, gradePoint, sem }) => {
+                if (!course) return null;
+                totalCredits += course.credits;
+                totalWeightedPoints +=
+                    course.credits != 0 && !isNaN(gradePoint)
+                        ? course.credits * gradePoint
+                        : 0;
+                console.log(course.department[userDept]);
 
+                switch (course.department[userDept]) {
+                    case "HS":
+                        HS += course.credits;
+                        break;
+                    case "BS":
+                        BS += course.credits;
+                        break;
+                    case "ES":
+                        ES += course.credits;
+                        break;
+                    case "PC":
+                        PC += course.credits;
+                        break;
+                    case "PE":
+                        PE += course.credits;
+                        break;
+                    case "OE":
+                        OE += course.credits;
+                        break;
+                    case "EEC":
+                        EEC += course.credits;
+                        break;
+                    case "MC":
+                        MC += course.credits;
+                        break;
+                    default:
+                        break;
+                }
 
-        const courseDetails = courses.map(course => {
-            totalCredits += course.credits;
-            console.log(course.department[userDept]);
+                return {
+                    name: course.name,
+                    code: course.code,
+                    category: course.category,
+                    credits: course.credits,
+                    grade,
+                    gradePoint,
+                    sem,
+                };
+            })
+            .filter(Boolean);
 
-            switch (course.department[userDept]) {
-                case 'HS': HS += course.credits; break;
-                case 'BS': BS += course.credits; break;
-                case 'ES': ES += course.credits; break;
-                case 'PC': PC += course.credits; break;
-                case 'PE': PE += course.credits; break;
-                case 'OE': OE += course.credits; break;
-                case 'EEC': EEC += course.credits; break;
-                case 'MC': MC += course.credits; break;
-                default: break;
-            }
-
-            return {
-                name: course.name,
-                code: course.code,
-                category: course.category,
-                credits: course.credits,
-            };
-        });
+        const CGPA =
+            totalCredits > 0
+                ? (totalWeightedPoints / totalCredits).toFixed(2)
+                : null;
 
         res.status(200).json({
             user: {
                 name: user.name,
                 reg_no: user.reg_no,
                 dept: user.dept,
-                grad_year: user.grad_year
+                grad_year: user.grad_year,
             },
             runningTotal: {
                 HS,
@@ -340,18 +340,15 @@ export async function courseByUser(req, res) {
                 PE,
                 OE,
                 EEC,
-                MC
+                MC,
             },
             user_sem_credits,
             totalCredits,
-            courseDetails
+            courseDetails,
+            CGPA,
         });
-
-
-
     } catch (error) {
         console.log(`Error in credits ${error}`);
         res.status(500).json({ message: "Internal server error" });
-
     }
 }
