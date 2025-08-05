@@ -10,6 +10,25 @@ Modal.setAppElement('#root');
 const Navbar = ({ dark, setIsDark }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [name,setUsername] = useState("");
+    const [pdf,setPdf] = useState(null); 
+
+    const handleDarkModeToggle = () => {
+        setIsDark(!dark);
+        localStorage.setItem('isDark', !dark);
+    }
+
+    const getGreeting = () => {
+        // Get current time in IST (UTC+5:30)
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const istTime = new Date(utc + (5.5 * 60 * 60 * 1000));
+        const hour = istTime.getHours();
+
+        if (hour < 12) return "Good Morning";
+        if (hour < 17) return "Good Afternoon";
+        if (hour < 21) return "Good Evening";
+        return "Hope your day went well";
+    };
 
     useEffect(()=>{
         const url1 = "http://localhost:5001/api/userDetails"
@@ -53,8 +72,8 @@ const Navbar = ({ dark, setIsDark }) => {
                     </div>
 
                     <div className="form-group">
-                        <input type="file" accept=".pdf" id="upload-pdf" required hidden />
-                        <label htmlFor="upload-pdf" className="upload-label">Upload PDF</label>
+                        <input type="file" accept=".pdf" id="upload-pdf" required hidden onChange={(e) => setPdf(e.target.files[0])}/>
+                        <label htmlFor="upload-pdf" className={`upload-label ${pdf ? 'has-pdf' : ''}`}>{pdf ? "PDF Selected : " + pdf.name : "Upload PDF"}</label>
                     </div>
 
                     <div className="form-actions">
@@ -69,7 +88,7 @@ const Navbar = ({ dark, setIsDark }) => {
                 <div className="navbar-message">
                     <h1 className='title' style={{
                         color: dark ? 'white' : 'black',
-                    }}> <span>Good Evening,</span> {name}</h1>
+                    }}> <span>{getGreeting()},</span> {name}</h1>
                     <p className='description'>Track your academic progress and achievments</p>
                 </div>
                 <div className="navbar-button-group">
@@ -78,7 +97,7 @@ const Navbar = ({ dark, setIsDark }) => {
                             <FontAwesomeIcon icon={faUpload} />
                             Upload Sem Result</button>
                     </div>
-                    <div className="navbar-toggle-button" onClick={() => setIsDark(!dark)}>
+                    <div className="navbar-toggle-button" onClick={handleDarkModeToggle}>
                         {
                             dark ?
                                 <FontAwesomeIcon icon={faMoon} className='toggle-icon' />

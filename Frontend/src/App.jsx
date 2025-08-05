@@ -12,6 +12,11 @@ function App() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+      const darkMode = localStorage.getItem('isDark') === 'true';
+      setIsDark(darkMode);
+    }, []);
+
+  useEffect(() => {
     const bodyClass = isDark ? 'dark-mode' : 'light-mode';
     document.body.className = bodyClass;
 

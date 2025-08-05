@@ -177,6 +177,10 @@
   background-color: #2563eb;
 }
 
+.upload-label.has-pdf {
+  background-color: #16a34a; /* check with ur cousin later */
+}
+
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -245,6 +249,10 @@
 
 .custom-modal.dark .upload-label:hover {
   background-color: #1e40af;
+}
+
+.custom-modal.dark .upload-label.has-pdf {
+  background-color: #16a34a; /* check with ur cousin later */
 }
 
 .custom-modal.dark .btn.cancel {
