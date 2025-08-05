@@ -1,46 +1,53 @@
 import { useEffect, useState } from 'react';
-import './Barchart.css'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import axios from 'axios';
-const Barchart = ({ dark }) => {
-    // const data = [
-    //     { name: 'Sem 1', credits: 20 },
+import './Barchart.css';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from 'recharts';
 
-    // ];
-    const [data, setData] = useState([]);
+const Barchart = ({ dark, userSemCredits }) => {
+  const [data, setData] = useState([]);
 
-    useEffect(() => {
-        const url = "http://localhost:5001/api/courseByUser";
-        axios.get(url, { withCredentials: true })
-            .then((res) => {
-                const userSemCredits = res.data.user_sem_credits;
+  useEffect(() => {
+    if (!userSemCredits) return;
 
-                // Convert the object to an array of { name, credits }
-                const barData = Object.entries(userSemCredits).map(([key, value]) => ({
-                    name: key.replace("sem", "Sem "),
-                    credits: value
-                }));
+    const barData = Object.entries(userSemCredits).map(([key, value]) => ({
+      name: key.replace('sem', 'Sem '),
+      credits: value,
+    }));
 
-                setData(barData); // Set all data at once
-            })
-            .catch((err) => console.log(err));
-    }, []);
+    setData(barData);
+  }, [userSemCredits]);
 
+  return (
+    <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
+      <h3>Semester wise credits</h3>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data}>
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            stroke={dark ? '#44566e' : '#ccc'}
+          />
+          <XAxis dataKey="name" stroke={dark ? '#fff' : '#000'} />
+          <YAxis stroke={dark ? '#fff' : '#000'} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: dark ? '#38485f' : '#fff',
+              border: 'none',
+              color: dark ? '#fff' : '#000',
+            }}
+          />
+          <Bar dataKey="credits" fill="#4880FF" barSize={25} radius={[10, 10, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
-    return (
-        <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
-            <h3>Semester wise credits</h3>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={data}>
-                    <CartesianGrid vertical={false} strokeDasharray="3 3" stroke={dark ? '#44566e' : '#ccc'} />
-                    <XAxis dataKey="name" stroke={dark ? '#fff' : '#000'} />
-                    <YAxis stroke={dark ? '#fff' : '#000'} />
-                    <Tooltip contentStyle={{ backgroundColor: dark ? '#38485f' : '#fff', border: 'none', color: dark ? '#fff' : '#000' }} />
-                    <Bar dataKey="credits" fill="#4880FF" barSize={25} radius={[10, 10, 0, 0]} />
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    )
-}
-
-export default Barchart
+export default Barchart;

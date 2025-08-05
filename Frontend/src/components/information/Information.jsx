@@ -4,58 +4,41 @@ import CurrentSemester from '../current_semester/CurrentSemester';
 import Total from '../total/Total';
 import TowardsGrad from '../towardsGrad/TowardsGrad';
 import './Information.css';
-import axios from 'axios';
 
-const Information = ({ dark }) => {
-  const [total_num, setTotalNum] = useState(0);
-  const [total_denom, setTotalDenom] = useState(0);
-  const [cgpa, setCGPA] = useState(0);
-  const [sem_num, setSemNum] = useState(0);
-  const [grad_percent, setGradPercent] = useState(0);
+const Information = ({ dark, user, totalCredits, userSemCredits }) => {
+  const [denom, setDenom] = useState(0);
+  const [gradPercent, setGradPercent] = useState(0);
 
   useEffect(() => {
-    const url = "http://localhost:5001/api/courseByUser";
+    if (!user || !user.grad_year || !user.dept) return;
 
-    axios.get(url, { withCredentials: true })
-      .then((res) => {
-        const { grad_year, dept } = res.data.user;
-        const totalCredits = Number(res.data.totalCredits);
-        // const cgpa = res.data.user.cgpa || 0; 
-        const currentSem = Object.keys(res.data.user_sem_credits).length || 0;
+    const gradYear = Number(user.grad_year);
+    const dept = user.dept;
 
+    let denominator = 0;
+    if (gradYear === 2027 && dept === "AIDS") denominator = 164;
+    else if (gradYear > 2027 && dept === "AIDS") denominator = 169;
+    else if (gradYear === 2027 && dept === "AIML") denominator = 168;
+    else if (gradYear > 2027 && dept === "AIML") denominator = 168;
+    else if (gradYear === 2027 && dept === "CSE") denominator = 164;
+    else if (gradYear > 2027 && dept === "CSE") denominator = 167;
+    else if (gradYear === 2027 && dept === "CYBER") denominator = 169;
+    else if (gradYear > 2027 && dept === "CYBER") denominator = 171;
+    else if (gradYear === 2027 && dept === "IOT") denominator = 170;
+    else if (gradYear > 2027 && dept === "IOT") denominator = 171;
+    else if (gradYear === 2027 && dept === "IT") denominator = 164;
+    else if (gradYear > 2027 && dept === "IT") denominator = 167;
 
-        setTotalNum(totalCredits);
-        // setCGPA(cgpa);
-        setSemNum(currentSem);
-
-        const gradYear = Number(grad_year);
-        let denom = 0;
-
-        if (gradYear === 2027 && dept === "AIDS") denom = 164;
-        else if (gradYear > 2027 && dept === "AIDS") denom = 169;
-        else if (gradYear === 2027 && dept === "AIML") denom = 168;
-        else if (gradYear > 2027 && dept === "AIML") denom = 168;
-        else if (gradYear === 2027 && dept === "CSE") denom = 164;
-        else if (gradYear > 2027 && dept === "CSE") denom = 167;
-        else if (gradYear === 2027 && dept === "CYBER") denom = 169;
-        else if (gradYear > 2027 && dept === "CYBER") denom = 171;
-        else if (gradYear === 2027 && dept === "IOT") denom = 170;
-        else if (gradYear > 2027 && dept === "IOT") denom = 171;
-        else if (gradYear === 2027 && dept === "IT") denom = 164;
-        else if (gradYear > 2027 && dept === "IT") denom = 167;
-
-        setTotalDenom(denom);
-        setGradPercent(Math.round((totalCredits / denom) * 100));
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    setDenom(denominator);
+    setGradPercent(Math.round((totalCredits / denominator) * 100));
+  }, [user, totalCredits]);
 
   return (
     <div className='information-container'>
-      <Total dark={dark} total_num={total_num} total_denom={total_denom} />
-      <CGPA dark={dark} cgpa={cgpa} />
-      <CurrentSemester dark={dark} sem_num={sem_num} />
-      <TowardsGrad dark={dark} percent={grad_percent} />
+      <Total dark={dark} total_num={totalCredits} total_denom={denom} />
+      <CGPA dark={dark} cgpa={user.cgpa || 0} />
+      <CurrentSemester dark={dark} sem_num={Object.keys(userSemCredits).length || 0} />
+      <TowardsGrad dark={dark} percent={gradPercent} />
     </div>
   );
 };

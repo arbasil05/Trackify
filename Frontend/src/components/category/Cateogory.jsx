@@ -2,9 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Category.css';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
-const Category = ({ dark }) => {
+const Category = ({ dark, runningTotal }) => {
   const [courses, setCourses] = useState([
     { name: 'HS', full: 'Humanities and Sciences' },
     { name: 'BS', full: 'Basic Sciences' },
@@ -17,31 +16,26 @@ const Category = ({ dark }) => {
   ]);
 
   useEffect(() => {
-    const url = "http://localhost:5001/api/courseByUser";
-    axios.get(url, { withCredentials: true })
-      .then((res) => {
-        const runningTotal = res.data.runningTotal;
+    if (!runningTotal) return;
 
-        const updatedCourses = courses.map(course => ({
-          ...course,
-          credits: runningTotal[course.name] || 0
-        }));
+    const updatedCourses = courses.map(course => ({
+      ...course,
+      credits: runningTotal[course.name] || 0,
+    }));
 
-        setCourses(updatedCourses);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    setCourses(updatedCourses);
+  }, [runningTotal]);
 
   return (
     <div
-      className='category-container'
+      className="category-container"
       style={{
         backgroundColor: dark ? '#273142' : '#ffffff',
         color: dark ? 'white' : 'black',
       }}
     >
       <h2
-        className='category-title'
+        className="category-title"
         style={{
           color: dark ? 'white' : '#1f2937',
         }}

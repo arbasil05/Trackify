@@ -2,15 +2,14 @@ import { faMoon, faSun, faSunPlantWilt, faUpload } from '@fortawesome/free-solid
 import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
-import { useEffect, useState } from 'react'
-import axios from "axios"
+import { useState } from 'react'
 
 Modal.setAppElement('#root');
 
-const Navbar = ({ dark, setIsDark }) => {
+const Navbar = ({ dark, setIsDark,name }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [name,setUsername] = useState("");
     const [pdf,setPdf] = useState(null); 
+    const [semValue,setSemValue] = useState("");
 
     const handleDarkModeToggle = () => {
         setIsDark(!dark);
@@ -30,19 +29,6 @@ const Navbar = ({ dark, setIsDark }) => {
         return "Hope your day went well";
     };
 
-    useEffect(()=>{
-        const url1 = "http://localhost:5001/api/userDetails"
-        axios.get(url1,{withCredentials:true})
-             .then((res)=>{
-                setUsername(res.data.user.name)
-             })
-             .catch((error)=>{
-                console.log(`${error}`);
-                
-             })
-        
-    },[])
-
     return (
         <div className='navbar-container'>
             <Modal
@@ -58,7 +44,7 @@ const Navbar = ({ dark, setIsDark }) => {
                 <form className="upload-form">
                     <div className="form-group">
                         <label>Semester</label>
-                        <select required>
+                        <select value={semValue} onChange={(e)=>setSemValue(e.target.value)} required>
                             <option value="">Select your semester here</option>
                             <option value="sem1">Semester 1</option>
                             <option value="sem2">Semester 2</option>
@@ -78,7 +64,7 @@ const Navbar = ({ dark, setIsDark }) => {
 
                     <div className="form-actions">
                         <button type="button" className="btn cancel" onClick={() => setModalIsOpen(false)}>Close</button>
-                        <button type="submit" className="btn submit">Submit</button>
+                        <button className="btn submit">Submit</button>
                     </div>
                 </form>
             </Modal>

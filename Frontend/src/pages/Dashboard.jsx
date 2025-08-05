@@ -9,37 +9,54 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = ({ isDark, setIsDark }) => {
-    const nav = useNavigate();
-    const [authChecked, setAuthChecked] = useState(false);
+  const nav = useNavigate();
+  const [authChecked, setAuthChecked] = useState(false);
 
-    useEffect(() => {
-        const url = "http://localhost:5001/api/protected";
-        axios.get(url, { withCredentials: true })
-            .then(() => {
-                setAuthChecked(true); // auth passed, allow rendering
-            })
-            .catch((error) => {
-                toast.error("Please login or signup to continue");
-                nav("/login");
-            });
-    }, []);
+  const [userDetails, setUserDetails] = useState({});
+  const [userSemCredits, setUserSemCredits] = useState({});
+  const [totalCredits, setTotalCredits] = useState(0);
+  const [runningTotal, setRunningTotal] = useState({});
 
-    if (!authChecked) {
-        return null; // nothing is rendered until auth is confirmed
-        // Optional: return <div>Loading...</div>
+  useEffect(() => {
+    axios.get("http://localhost:5001/api/protected", { withCredentials: true })
+      .then(() => setAuthChecked(true))
+      .catch(() => {
+        toast.error("Please login or signup to continue");
+        nav("/login");
+      });
+  }, []);
+
+  useEffect(() => {
+    if (authChecked) {
+      axios.get("http://localhost:5001/api/courseByUser", { withCredentials: true })
+        .then((res) => {
+          const { user, user_sem_credits, totalCredits, runningTotal } = res.data;
+          setUserDetails(user);
+          setUserSemCredits(user_sem_credits);
+          setTotalCredits(Number(totalCredits));
+          setRunningTotal(runningTotal);
+        })
+        .catch((err) => console.log(err));
+
+      axios.get("http://localhost:5001/api/userDetails", { withCredentials: true })
+        .then((res) => setUserDetails(prev => ({ ...prev, name: res.data.user.name })))
+        .catch((err) => console.log(err));
     }
+  }, [authChecked]);
 
-    return (
-        <div>
-            <Sidebar dark={isDark} />
-            <Navbar dark={isDark} setIsDark={setIsDark} />
-            <Information dark={isDark} />
-            <div className="wrapper">
-                <Barchart dark={isDark} />
-                <Cateogory dark={isDark} />
-            </div>
-        </div>
-    );
+  if (!authChecked) return null;
+
+  return (
+    <div>
+      <Sidebar dark={isDark} />
+      <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name || ''} />
+      <Information dark={isDark} user={userDetails} totalCredits={totalCredits} userSemCredits={userSemCredits} />
+      <div className="wrapper">
+        <Barchart dark={isDark} userSemCredits={userSemCredits} />
+        <Cateogory dark={isDark} runningTotal={runningTotal} />
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
