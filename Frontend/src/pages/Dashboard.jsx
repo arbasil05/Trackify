@@ -16,9 +16,10 @@ const Dashboard = ({ isDark, setIsDark }) => {
   const [userSemCredits, setUserSemCredits] = useState({});
   const [totalCredits, setTotalCredits] = useState(0);
   const [runningTotal, setRunningTotal] = useState({});
+  const [cgpa, setCgpa] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/protected", { withCredentials: true })
+    axios.get("http://localhost:5001/api/userDetails", { withCredentials: true })
       .then(() => setAuthChecked(true))
       .catch(() => {
         toast.error("Please login or signup to continue");
@@ -30,11 +31,12 @@ const Dashboard = ({ isDark, setIsDark }) => {
     if (authChecked) {
       axios.get("http://localhost:5001/api/courseByUser", { withCredentials: true })
         .then((res) => {
-          const { user, user_sem_credits, totalCredits, runningTotal } = res.data;
+          const { user, user_sem_credits, totalCredits, runningTotal,CGPA } = res.data;
           setUserDetails(user);
           setUserSemCredits(user_sem_credits);
           setTotalCredits(Number(totalCredits));
           setRunningTotal(runningTotal);
+          setCgpa(CGPA);
         })
         .catch((err) => console.log(err));
 
@@ -50,7 +52,7 @@ const Dashboard = ({ isDark, setIsDark }) => {
     <div>
       <Sidebar dark={isDark} />
       <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name || ''} />
-      <Information dark={isDark} user={userDetails} totalCredits={totalCredits} userSemCredits={userSemCredits} />
+      <Information dark={isDark} user={userDetails} cgpa={cgpa}  totalCredits={totalCredits} userSemCredits={userSemCredits} />
       <div className="wrapper">
         <Barchart dark={isDark} userSemCredits={userSemCredits} />
         <Cateogory dark={isDark} runningTotal={runningTotal} />

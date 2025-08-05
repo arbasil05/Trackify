@@ -47,7 +47,7 @@ const UserSchema = mongoose.Schema({
                     required: true,
                 },
                 sem: {
-                    type: Number,
+                    type: String,
                     required: true,
                 },
             },

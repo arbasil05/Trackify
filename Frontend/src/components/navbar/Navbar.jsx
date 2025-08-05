@@ -3,6 +3,8 @@ import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
 import { useState } from 'react'
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 Modal.setAppElement('#root');
 
@@ -29,6 +31,36 @@ const Navbar = ({ dark, setIsDark,name }) => {
         return "Hope your day went well";
     };
 
+    const handlePdfSubmit = (e) =>{
+        e.preventDefault();
+        if(!pdf || !semValue){
+            console.log("No values provided",pdf,semValue);            
+            return;
+        }
+        const formData = new FormData(e.target);
+        formData.append('pdf',pdf);
+        formData.append('sem',semValue);
+
+        for(const [key,value] of formData.entries()){
+            console.log(`${key} : ${value}`);
+            
+        }       
+        
+        const url = "http://localhost:5001/api/upload";
+        axios.post(url,formData,{withCredentials:true})
+             .then((res)=>{
+                toast.success("Upload Success");
+                console.log(res.data.courseEntries);
+                
+             })
+             .catch((error)=>{
+                console.log(`${error}`);
+                
+             })
+        
+        
+    }
+
     return (
         <div className='navbar-container'>
             <Modal
@@ -41,7 +73,7 @@ const Navbar = ({ dark, setIsDark,name }) => {
                 <h2>Upload Semester Results</h2>
                 <p>Drop your semester results and we’ll do the math</p>
 
-                <form className="upload-form">
+                <form className="upload-form" onSubmit={(e)=>handlePdfSubmit(e)}>
                     <div className="form-group">
                         <label>Semester</label>
                         <select value={semValue} onChange={(e)=>setSemValue(e.target.value)} required>

@@ -192,7 +192,7 @@ export async function uploadFile(req, res) {
                     course: courseEntry._id,
                     grade: course.grade,
                     gradePoint: course.gradePoint,
-                    sem: Number(req.body.sem),
+                    sem: req.body.sem,
                 });
             })
         );

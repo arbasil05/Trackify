@@ -5,9 +5,11 @@ import Total from '../total/Total';
 import TowardsGrad from '../towardsGrad/TowardsGrad';
 import './Information.css';
 
-const Information = ({ dark, user, totalCredits, userSemCredits }) => {
+const Information = ({ dark, user, totalCredits, userSemCredits,cgpa }) => {
   const [denom, setDenom] = useState(0);
   const [gradPercent, setGradPercent] = useState(0);
+  console.log(user);
+  
 
   useEffect(() => {
     if (!user || !user.grad_year || !user.dept) return;
@@ -36,8 +38,8 @@ const Information = ({ dark, user, totalCredits, userSemCredits }) => {
   return (
     <div className='information-container'>
       <Total dark={dark} total_num={totalCredits} total_denom={denom} />
-      <CGPA dark={dark} cgpa={user.cgpa || 0} />
-      <CurrentSemester dark={dark} sem_num={Object.keys(userSemCredits).length || 0} />
+      <CGPA dark={dark} cgpa={ cgpa || 0} />
+      <CurrentSemester dark={dark} sem_num={ userSemCredits!=null && Object.keys(userSemCredits).length || 0} />
       <TowardsGrad dark={dark} percent={gradPercent} />
     </div>
   );
