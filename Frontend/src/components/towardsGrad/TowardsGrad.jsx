@@ -1,6 +1,6 @@
-import './TowardsGrad.css'
+import './TowardsGrad.css';
 
-const TowardsGrad = ({ dark, percent }) => {
+const TowardsGrad = ({ dark, percent, Loading }) => {
   let message = "";
 
   if (percent >= 85) message = "You're nearly done!";
@@ -10,11 +10,25 @@ const TowardsGrad = ({ dark, percent }) => {
   else message = "Off to a good start!";
 
   return (
-    <div className={dark ? 'tgrad-container dark-mode' : 'tgrad-container'}>
-      <h1 className='tgrad-title'>Towards Graduation</h1>
-      <h1 className='tgrad-value'>{percent}%</h1>
-      <p style={{ color: "#4CAF50", fontSize: "15px" }}>{message}</p>
-    </div>
+    !Loading ? (
+      <div className={dark ? 'tgrad-container dark-mode' : 'tgrad-container'}>
+        <h1 className='tgrad-title'>Towards Graduation</h1>
+        <h1 className='tgrad-value'>{percent}%</h1>
+        <p style={{ color: "#4CAF50", fontSize: "15px" }}>{message}</p>
+      </div>
+    ) : (
+      <div className={dark ? 'tgrad-container dark-mode' : 'tgrad-container'}>
+        <div className={dark ? 'skeleton-dark' : 'skeleton-light'}>
+          <h1 style={{ visibility: "hidden" }} className='tgrad-title'>Towards Graduation</h1>
+        </div>
+        <div className={dark ? 'skeleton-dark' : 'skeleton-light'}>
+          <h1 style={{ visibility: "hidden" }} className='tgrad-value'>{percent}%</h1>
+        </div>
+        <div className={dark ? 'skeleton-dark' : 'skeleton-light'}>
+          <p style={{ visibility: "hidden", color: "#4CAF50", fontSize: "15px" }}>{message}</p>
+        </div>
+      </div>
+    )
   );
 };
 

@@ -49,3 +49,41 @@ button:hover {
   background-color: #b1b1b1;
   /* darker shade on hover */
 }
+
+.skeleton-light {
+    width: 100%;
+    border-radius: 8px; /* Slightly softer corners for a modern look */
+    background: linear-gradient(
+        90deg,
+        hsl(210, 15%, 85%) 0%,
+        hsl(210, 15%, 95%) 50%,
+        hsl(210, 15%, 85%) 100%
+    ); /* Subtle gradient for shimmer effect */
+    background-size: 200% 100%; /* Allows gradient to move for shimmer */
+    animation: skeleton-loading 1.2s ease-in-out infinite; /* Smoother, slower animation */
+    overflow: hidden;
+}
+
+
+.skeleton-dark {
+    width: 100%;
+    border-radius: 8px; /* Soft corners for modern look */
+    background: linear-gradient(
+        90deg,
+        hsl(210, 10%, 20%) 0%,
+        hsl(210, 10%, 30%) 50%,
+        hsl(210, 10%, 20%) 100%
+    ); /* Shimmer gradient for dark mode */
+    background-size: 200% 100%; /* Enables gradient movement */
+    animation: skeleton-loading 1.2s ease-in-out infinite; /* Smooth animation */
+    overflow: hidden;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 0; /* Gradient starts from right */
+    }
+    100% {
+        background-position: -100% 0; /* Gradient moves to left */
+    }
+}

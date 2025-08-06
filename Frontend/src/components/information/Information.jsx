@@ -5,7 +5,7 @@ import Total from '../total/Total';
 import TowardsGrad from '../towardsGrad/TowardsGrad';
 import './Information.css';
 
-const Information = ({ dark, user, totalCredits, userSemCredits,cgpa }) => {
+const Information = ({ dark, user, totalCredits, userSemCredits,cgpa,Loading }) => {
   const [denom, setDenom] = useState(0);
   const [gradPercent, setGradPercent] = useState(0);
   console.log(user);
@@ -37,10 +37,10 @@ const Information = ({ dark, user, totalCredits, userSemCredits,cgpa }) => {
 
   return (
     <div className='information-container'>
-      <Total dark={dark} total_num={totalCredits} total_denom={denom} />
-      <CGPA dark={dark} cgpa={ cgpa || 0} />
-      <CurrentSemester dark={dark} sem_num={ userSemCredits!=null && Object.keys(userSemCredits).length || 0} />
-      <TowardsGrad dark={dark} percent={gradPercent} />
+      <Total dark={dark} total_num={totalCredits} total_denom={denom} Loading={Loading} />
+      <CGPA dark={dark} cgpa={ cgpa || 0} Loading={Loading} />
+      <CurrentSemester dark={dark} sem_num={ userSemCredits!=null && Object.keys(userSemCredits).length || 0} Loading={Loading} />
+      <TowardsGrad dark={dark} percent={gradPercent} Loading={Loading} />
     </div>
   );
 };

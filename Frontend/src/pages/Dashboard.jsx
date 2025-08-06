@@ -18,6 +18,9 @@ const Dashboard = ({ isDark, setIsDark }) => {
   const [runningTotal, setRunningTotal] = useState({});
   const [cgpa, setCgpa] = useState("");
 
+  
+  const [Loading,setLoading] = useState(true);
+
   useEffect(() => {
     axios.get("http://localhost:5001/api/userDetails", { withCredentials: true })
       .then(() => setAuthChecked(true))
@@ -29,6 +32,7 @@ const Dashboard = ({ isDark, setIsDark }) => {
 
   useEffect(() => {
     if (authChecked) {
+      setLoading(true);
       axios.get("http://localhost:5001/api/courseByUser", { withCredentials: true })
         .then((res) => {
           const { user, user_sem_credits, totalCredits, runningTotal,CGPA } = res.data;
@@ -38,7 +42,10 @@ const Dashboard = ({ isDark, setIsDark }) => {
           setRunningTotal(runningTotal);
           setCgpa(CGPA);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(()=>{
+          setLoading(false)
+        });
 
       axios.get("http://localhost:5001/api/userDetails", { withCredentials: true })
         .then((res) => setUserDetails(prev => ({ ...prev, name: res.data.user.name })))
@@ -52,10 +59,10 @@ const Dashboard = ({ isDark, setIsDark }) => {
     <div>
       <Sidebar dark={isDark} />
       <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name || ''} />
-      <Information dark={isDark} user={userDetails} cgpa={cgpa}  totalCredits={totalCredits} userSemCredits={userSemCredits} />
+      <Information dark={isDark} user={userDetails} cgpa={cgpa}  totalCredits={totalCredits} userSemCredits={userSemCredits} Loading={Loading} />
       <div className="wrapper">
-        <Barchart dark={isDark} userSemCredits={userSemCredits} />
-        <Cateogory dark={isDark} runningTotal={runningTotal} />
+        <Barchart dark={isDark} userSemCredits={userSemCredits} Loading={Loading} />
+        <Cateogory dark={isDark} runningTotal={runningTotal} Loading={Loading} />
       </div>
     </div>
   );
