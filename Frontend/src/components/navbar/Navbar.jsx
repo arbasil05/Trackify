@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { useState } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -12,11 +13,13 @@ const Navbar = ({ dark, setIsDark,name }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [pdf,setPdf] = useState(null); 
     const [semValue,setSemValue] = useState("");
+    const nav=useNavigate();
 
     const handleDarkModeToggle = () => {
         setIsDark(!dark);
         localStorage.setItem('isDark', !dark);
     }
+    let flag=false;
 
     const getGreeting = () => {
         // Get current time in IST (UTC+5:30)
@@ -33,6 +36,8 @@ const Navbar = ({ dark, setIsDark,name }) => {
 
     const handlePdfSubmit = (e) =>{
         e.preventDefault();
+        if(flag) return;
+        flag=true; 
         if(!pdf || !semValue){
             console.log("No values provided",pdf,semValue);            
             return;
@@ -50,8 +55,10 @@ const Navbar = ({ dark, setIsDark,name }) => {
         axios.post(url,formData,{withCredentials:true})
              .then((res)=>{
                 toast.success("Upload Success");
-                console.log(res.data.courseEntries);
-                
+                // console.log(res.data.courseEntries);
+                setModalIsOpen(false)
+                nav('/user')
+                setTimeout(()=>nav('/'),1)
              })
              .catch((error)=>{
                 console.log(`${error}`);
