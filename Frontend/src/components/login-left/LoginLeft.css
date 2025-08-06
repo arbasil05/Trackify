@@ -6,6 +6,7 @@
     justify-content: center;
     padding: 40px 20px 40px 20px;
     flex-direction: column;
+    background-color: white;
 }
 
 .loginleft-title {
@@ -28,6 +29,7 @@
 
 .loginleft-title h3 {
     font-size: 24px;
+    color: black;
 }
 
 .loginleft-title p {
@@ -49,4 +51,9 @@
 .loginleft-footer p {
     font-size: 16px;
     color: rgb(80, 79, 79);
+    color: black;
+}
+
+.loginleft-footer h3{
+     color: black;
 }

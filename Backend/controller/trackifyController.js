@@ -179,8 +179,7 @@ export async function uploadFile(req, res) {
 
                 if (!courseEntry) {
                     console.log(
-                        `Course not found: ${
-                            course.name || course.code19 || course.code24
+                        `Course not found: ${course.name || course.code19 || course.code24
                         }`
                     );
                     return;
@@ -257,6 +256,8 @@ export async function courseByUser(req, res) {
 
         const user_sem_credits = user.sem_total;
         const userDept = user.dept;
+        console.log(`User department : ${userDept}`);
+        
 
         let totalCredits = 0,
             totalWeightedPoints = 0,
@@ -308,47 +309,50 @@ export async function courseByUser(req, res) {
                         break;
                 }
 
-                return {
-                    name: course.name,
-                    code: course.code,
-                    category: course.category,
-                    credits: course.credits,
-                    grade,
-                    gradePoint,
-                    sem,
-                };
-            })
+                console.log(HS, BS ,ES,PC,PE,OE,EEC,MC);
+
+
+        return {
+            name: course.name,
+            code: course.code,
+            category: course.category,
+            credits: course.credits,
+            grade,
+            gradePoint,
+            sem,
+        };
+    })
             .filter(Boolean);
 
-        const CGPA =
-            totalCredits > 0
-                ? (totalWeightedPoints / totalCredits).toFixed(2)
-                : null;
+    const CGPA =
+        totalCredits > 0
+            ? (totalWeightedPoints / totalCredits).toFixed(4)
+            : null;
 
-        res.status(200).json({
-            user: {
-                name: user.name,
-                reg_no: user.reg_no,
-                dept: user.dept,
-                grad_year: user.grad_year,
-            },
-            runningTotal: {
-                HS,
-                BS,
-                ES,
-                PC,
-                PE,
-                OE,
-                EEC,
-                MC,
-            },
-            user_sem_credits,
-            totalCredits,
-            courseDetails,
-            CGPA,
-        });
-    } catch (error) {
-        console.log(`Error in credits ${error}`);
-        res.status(500).json({ message: "Internal server error" });
-    }
+    res.status(200).json({
+        user: {
+            name: user.name,
+            reg_no: user.reg_no,
+            dept: user.dept,
+            grad_year: user.grad_year,
+        },
+        runningTotal: {
+            HS,
+            BS,
+            ES,
+            PC,
+            PE,
+            OE,
+            EEC,
+            MC,
+        },
+        user_sem_credits,
+        totalCredits,
+        courseDetails,
+        CGPA,
+    });
+} catch (error) {
+    console.log(`Error in credits ${error}`);
+    res.status(500).json({ message: "Internal server error" });
+}
 }

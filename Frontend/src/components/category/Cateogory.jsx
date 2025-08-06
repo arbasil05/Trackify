@@ -16,7 +16,10 @@ const Category = ({ dark, runningTotal }) => {
   ]);
 
   useEffect(() => {
+    console.log(runningTotal);
     if (!runningTotal) return;
+    console.log(runningTotal);
+    
 
     const updatedCourses = courses.map(course => ({
       ...course,

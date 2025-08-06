@@ -17,12 +17,17 @@ export const pdfMiddleware = async (req, res, next) => {
         const pdfData = await pdf(dataBuffer);
         let text = pdfData.text;
         console.log(text);
+      
 
         // Clean up text if necessary
         text = text.replace(/ODD\W+JUNIOR/g, "ODDJUNIOR");
 
         // Set the extracted text to req.body.text
         req.body.text = text;
+        console.log("Before regex");
+      
+        console.log(req.body.text);
+        
 
         const subjects = [];
         // Capture: semType, code, name, gradePoint, grade, credit
