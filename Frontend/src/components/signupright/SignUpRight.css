@@ -20,8 +20,8 @@
     box-shadow: 0 4px 24px 0 rgba(96, 143, 255, 0.08);
     width: 100%;
     max-width: 520px;
-    height: 92vh;             /* consume full height */
-    overflow: hidden;         /* hide scroll */
+    height: 92vh;
+    overflow: hidden;
 }
 
 .signup-header {
@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    flex: 1;                  /* allow shrinking to fit screen */
+    flex: 1;
 }
 
 .signup-inputs .reg-no,
@@ -57,11 +57,15 @@
 .signup-inputs select {
     width: 100%;
     border-radius: 12px;
-    padding: 12px;
+    padding: 12px 40px 12px 12px; /* Increased right padding for eye icon */
     border: 1px solid #e0e6ed;
     background: #f6f8fa;
     font-size: 15px;
     color: #3a3a3a;
+}
+
+.signup-inputs input:focus {
+    outline: none;
 }
 
 .signup-inputs label {
@@ -78,6 +82,27 @@
 
 .reg-wrapper .reg-no {
     flex: 1;
+}
+
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 18px;
+}
+
+.eye-icon:hover {
+    color: #333;
 }
 
 .footer-signup {
@@ -134,7 +159,7 @@
 
     .signup-card {
         width: 98vw;
-        border-radius: 0;   /* take full width on phone */
+        border-radius: 0;
         height: 100vh;
         padding: 3vh 6vw;
     }

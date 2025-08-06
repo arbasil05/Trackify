@@ -1,17 +1,20 @@
-import { useState } from 'react'
-import './SignUpRight.css'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from "react-hot-toast"
-import axios from "axios"
+import { useState } from 'react';
+import './SignUpRight.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignUpRight = () => {
-    // name, reg_no, grad_year, dept, password
     const [name, setName] = useState("");
     const [reg_no, setRegNo] = useState("");
     const [grad_year, setGradYear] = useState("");
     const [dept, setdept] = useState("");
     const [password, setPassword] = useState("");
     const [cpassword, setCpassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const nav = useNavigate();
 
@@ -52,33 +55,23 @@ const SignUpRight = () => {
             return;
         }
 
-        const url = "http://localhost:5001/api/register"
+        const url = "http://localhost:5001/api/register";
         axios.post(url, { name, reg_no, grad_year, dept, password }, { withCredentials: true })
             .then((res) => {
                 console.log(res.data.user);
                 toast.success("Account creation success");
-            })
-            .then(() => {
                 nav("/");
             })
             .catch((error) => {
                 console.log(`${error}`);
                 if (error.response && error.response.status === 409) {
-                    toast.error("User already Exist");
+                    toast.error("User already exists");
                     return;
                 }
                 console.log(`Error while posting ${error}`);
-                toast.error("Error while posting")
-
-
-            })
-
-
-
-        console.log("Ready to send user => ", newUser);
-        toast.success("Account created successfully!");
+                toast.error("Error while posting");
+            });
     };
-
 
     return (
         <div className='signupright-container'>
@@ -89,11 +82,21 @@ const SignUpRight = () => {
                 <div className="signup-inputs">
                     <div className="reg-no">
                         <label>Name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder='Enter your name' />
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder='Enter your name'
+                        />
                     </div>
                     <div className="reg-no">
                         <label>Registration number</label>
-                        <input type="text" value={reg_no} onChange={(e) => setRegNo(e.target.value)} placeholder='Enter your registration number' />
+                        <input
+                            type="text"
+                            value={reg_no}
+                            onChange={(e) => setRegNo(e.target.value)}
+                            placeholder='Enter your registration number'
+                        />
                     </div>
                     <div className="reg-wrapper">
                         <div className="reg-no">
@@ -118,25 +121,50 @@ const SignUpRight = () => {
                             </select>
                         </div>
                     </div>
-
                     <div className="password">
                         <label>Create password</label>
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Create new password' />
+                        <div className="password-wrapper">
+                            <input
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                type={showPassword ? "text" : "password"}
+                                placeholder='Create new password'
+                            />
+                            <FontAwesomeIcon
+                                icon={showPassword ? faEyeSlash : faEye}
+                                className="eye-icon"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            />
+                        </div>
                     </div>
                     <div className="password">
                         <label>Confirm password</label>
-                        <input value={cpassword} onChange={(e) => setCpassword(e.target.value)} type="password" placeholder='Confirm your password' />
+                        <div className="password-wrapper">
+                            <input
+                                value={cpassword}
+                                onChange={(e) => setCpassword(e.target.value)}
+                                type={showConfirmPassword ? "text" : "password"}
+                                placeholder='Confirm your password'
+                            />
+                            <FontAwesomeIcon
+                                icon={showConfirmPassword ? faEyeSlash : faEye}
+                                className="eye-icon"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className="footer-signup">
                     <div className="signup-button">
                         <button onClick={handleSignUp}>Sign Up</button>
                     </div>
-                    <p>have an account? <Link to="/login" className='link'>Sign In</Link></p>
+                    <p>Have an account? <Link to="/login" className='link'>Sign In</Link></p>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SignUpRight
+export default SignUpRight;

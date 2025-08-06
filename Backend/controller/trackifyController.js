@@ -257,7 +257,7 @@ export async function courseByUser(req, res) {
         const user_sem_credits = user.sem_total;
         const userDept = user.dept;
         console.log(`User department : ${userDept}`);
-        
+
 
         let totalCredits = 0,
             totalWeightedPoints = 0,
@@ -309,50 +309,76 @@ export async function courseByUser(req, res) {
                         break;
                 }
 
-                console.log(HS, BS ,ES,PC,PE,OE,EEC,MC);
+                console.log(HS, BS, ES, PC, PE, OE, EEC, MC);
 
 
-        return {
-            name: course.name,
-            code: course.code,
-            category: course.category,
-            credits: course.credits,
-            grade,
-            gradePoint,
-            sem,
-        };
-    })
+                return {
+                    name: course.name,
+                    code: course.code,
+                    category: course.category,
+                    credits: course.credits,
+                    grade,
+                    gradePoint,
+                    sem,
+                };
+            })
             .filter(Boolean);
 
-    const CGPA =
-        totalCredits > 0
-            ? (totalWeightedPoints / totalCredits).toFixed(4)
-            : null;
+        const CGPA =
+            totalCredits > 0
+                ? (totalWeightedPoints / totalCredits).toFixed(4)
+                : null;
 
-    res.status(200).json({
-        user: {
-            name: user.name,
-            reg_no: user.reg_no,
-            dept: user.dept,
-            grad_year: user.grad_year,
-        },
-        runningTotal: {
-            HS,
-            BS,
-            ES,
-            PC,
-            PE,
-            OE,
-            EEC,
-            MC,
-        },
-        user_sem_credits,
-        totalCredits,
-        courseDetails,
-        CGPA,
-    });
-} catch (error) {
-    console.log(`Error in credits ${error}`);
-    res.status(500).json({ message: "Internal server error" });
+        res.status(200).json({
+            user: {
+                name: user.name,
+                reg_no: user.reg_no,
+                dept: user.dept,
+                grad_year: user.grad_year,
+            },
+            runningTotal: {
+                HS,
+                BS,
+                ES,
+                PC,
+                PE,
+                OE,
+                EEC,
+                MC,
+            },
+            user_sem_credits,
+            totalCredits,
+            courseDetails,
+            CGPA,
+        });
+    } catch (error) {
+        console.log(`Error in credits ${error}`);
+        res.status(500).json({ message: "Internal server error" });
+    }
 }
+
+export async function editProfile(req, res) {
+    const id = req.id;
+
+    try {
+        const { name, reg_no, grad_year, dept } = req.body;
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            { name, reg_no, grad_year, dept },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({
+            message: "Profile updated successfully",
+            user,
+        });
+    } catch (error) {
+        console.error(`Error in /editProfile: ${error}`);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 }

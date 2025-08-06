@@ -7,10 +7,9 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-
 }
 
-.login-card{
+.login-card {
     background-color: white;
     color: black;
     display: flex;
@@ -21,7 +20,7 @@
     border-radius: 20px;
 }
 
-.login-header{
+.login-header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,48 +29,67 @@
     text-align: center;
 }
 
-.login-header p{
-    color:rgb(80, 79, 79);
+.login-header p {
+    color: rgb(80, 79, 79);
     font-size: 14px;
 }
 
-.login-inputs{
+.login-inputs {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 30px;
 }
 
-.login-inputs div{
+.login-inputs div {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
 }
 
-.login-inputs input{
+.login-inputs input {
     width: 450px;
     border-radius: 10px;
     padding: 12px 10px 12px 10px;
-    border: 1px solid #cccaca; ;
+    border: 1px solid #cccaca;
     color: rgb(80, 79, 79);
     font-size: 16px;
     background-color: #d8dbdd8a;
-    
 }
 
-.login-inputs input:focus{
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative; /* Add this to allow absolute positioning of the icon */
+    width: 100%; /* Ensure the wrapper takes the full width */
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px; /* Position the icon inside the input field on the right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    cursor: pointer;
+    color: #888;
+    font-size: 18px;
+}
+
+.eye-icon:hover {
+    color: #333;
+}
+
+.login-inputs input:focus {
     outline: none;
 }
 
-.login-inputs label{
+.login-inputs label {
     font-size: 16px;
     font-weight: 500;
     color: rgb(80, 79, 79);
-    
 }
 
-.footer{
+.footer {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -79,26 +97,26 @@
     gap: 20px;
 }
 
-.login-button button{
+.login-button button {
     padding: 14px 130px 14px 130px;
     font-size: 16px;
     background-color: #4880FF;
     color: white;
     border-radius: 20px;
 }
-.login-button button:hover{
+
+.login-button button:hover {
     background-color: #3254a4;
 }
 
-.footer p{
+.footer p {
     color: rgb(80, 79, 79);
-    
 }
 
-.link{
+.link {
     color: #4880FF;
 }
 
-.link:hover{
+.link:hover {
     color: #3254a4;
 }

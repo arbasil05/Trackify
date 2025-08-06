@@ -15,10 +15,8 @@ app.use(cors({
     origin:"http://localhost:5173",
     credentials:true
 }))
-// app.use(cors({
-//   origin: "https://d2gxqtxb-5173.inc1.devtunnels.ms",
-//   credentials: true
-// }));
+
+
 
 app.use(express.json());
 
