@@ -59,7 +59,7 @@ const Category = ({ dark, runningTotal, Loading }) => {
                 <p style={{ color: dark ? '#cbd5e1' : '#6b7280' }}>{course.full}</p>
               </div>
               <div className="individual-right">
-                <FontAwesomeIcon icon={faChevronRight} color={dark ? 'white' : '#4b5563'} />
+                <FontAwesomeIcon className='individual-right-icon' icon={faChevronRight} color={dark ? 'white' : '#4b5563'} />
                 <h3 style={{ color: dark ? 'white' : '#1f2937' }}>
                   {course.credits !== undefined ? `${course.credits} credits` : '...'}
                 </h3>

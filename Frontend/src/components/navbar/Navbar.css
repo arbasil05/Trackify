@@ -59,6 +59,11 @@
 
 .navbar-upload-button {
   padding-bottom: 4px;
+
+}
+
+.upload-button-icon{
+  margin-right: 5px;
 }
 
 .navbar-upload-button button {

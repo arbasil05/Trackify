@@ -45,6 +45,10 @@
   background-color: #3a4552;
 }
 
+.individual-title{
+  padding-left: 10px;
+}
+
 .individual-title h1 {
   font-size: 23px;
   font-weight: 500;
@@ -71,6 +75,14 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 15px;
+}
+
+.individual-right-icon{
+  margin-top: 8px;
+}
+
+.individual-right-icon:hover{
+  cursor: pointer;
 }
 
 .individual-right h3 {

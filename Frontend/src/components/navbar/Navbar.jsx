@@ -65,7 +65,7 @@ const Navbar = ({ dark, setIsDark, name }) => {
                 toast.success("Upload Success");
                 setModalIsOpen(false)
                 nav('/user')
-                setTimeout(() => nav('/'), 1)
+                // setTimeout(() => nav('/'), 1)
             })
             .catch((error) => {
                 if(error.response && error.response.status === 400)
@@ -184,7 +184,7 @@ const Navbar = ({ dark, setIsDark, name }) => {
                 <div className="navbar-button-group">
                     <div className="navbar-upload-button">
                         <button onClick={() => setModalIsOpen(true)}>
-                            <FontAwesomeIcon icon={faUpload} />
+                            <FontAwesomeIcon className='upload-button-icon' icon={faUpload} />
                             Upload Sem Result</button>
                     </div>
                     <div className="navbar-toggle-button" onClick={handleDarkModeToggle}>
