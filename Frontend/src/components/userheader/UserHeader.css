@@ -1,0 +1,13 @@
+.userheader-container {
+    margin-left: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 35px;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.back-icon:hover{
+    cursor: pointer;
+}

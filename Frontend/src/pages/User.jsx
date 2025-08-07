@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import Navbar from "../components/navbar/Navbar"
 import Sidebar from "../components/sidebar/Sidebar"
 import axios from "axios";
+import UserHeader from "../components/userheader/UserHeader";
+import UserDetails from "../components/userdetails/UserDetails";
+import SemDetails from "../components/semDetails/SemDetails";
 
 const User = ({ isDark, setIsDark }) => {
 
@@ -22,9 +25,9 @@ const User = ({ isDark, setIsDark }) => {
         <div>
             <Sidebar dark={isDark} />
             <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} />
-            <h1>
-                Coming Soon
-            </h1>
+            <UserHeader isDark={isDark}/>
+            <UserDetails isDark={isDark}/>
+            <SemDetails isDark={isDark}/>
         </div>
     )
 }

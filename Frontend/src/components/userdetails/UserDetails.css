@@ -1,0 +1,140 @@
+.userdetails-container {
+  margin: 40px 25%;
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 32px;
+  background: #fff;
+}
+
+.userdetails-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.userdetails-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.first-row,
+.second-row {
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.first-row>div,
+.second-row>div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.userdetails-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #E9EAEE;
+  color: black;
+  padding: 0 13px;
+  font-size: 15px;
+  border: none;
+}
+
+.userdetails-buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 16px;
+  margin-top: 35px;
+}
+
+.userdetails-buttons button {
+  padding: 10px 34px;
+  border-radius: 7px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.user-cancel {
+  background-color: #fff;
+  color: #4880FF;
+  border: 1px solid #4880FF;
+}
+
+.user-save {
+  background-color: #4880FF;
+  color: #fff;
+  border: none;
+}
+
+label {
+  color: #616161;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.pencil-icon:hover {
+  color: #4880FF;
+  cursor: pointer;
+
+
+}
+
+
+/* dark mode */
+.userdetails-container.dark {
+  background: #273142;
+  color: #f3f4f6;
+  /* box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5); */
+}
+
+.userdetails-container.dark label {
+  color: #d1d5db;
+}
+
+.userdetails-container.dark .userdetails-header {
+  color: #f9fafb;
+}
+
+.userdetails-container.dark .userdetails-input {
+  background-color: #323f4b;
+  color: #f9fafb;
+  border: none;
+}
+
+.userdetails-container.dark .userdetails-buttons button.user-cancel {
+  background-color: transparent;
+  color: #93c5fd;
+  border: 1px solid #3b82f6;
+}
+
+.userdetails-container.dark .userdetails-buttons button.user-cancel:hover {
+  background-color: #1e293b;
+}
+
+.userdetails-container.dark .userdetails-buttons button.user-save {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.userdetails-container.dark .userdetails-buttons button.user-save:hover {
+  background-color: #2563eb;
+}
+
+.userdetails-container.dark .pencil-icon {
+  color: #f3f4f6;
+}

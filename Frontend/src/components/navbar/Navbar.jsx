@@ -64,7 +64,7 @@ const Navbar = ({ dark, setIsDark, name }) => {
             .then((res) => {
                 toast.success("Upload Success");
                 setModalIsOpen(false)
-                nav('/user')
+                // nav('/user')
                 // setTimeout(() => nav('/'), 1)
             })
             .catch((error) => {
