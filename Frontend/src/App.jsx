@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import User from './pages/User';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-
+import SingleCategory from './pages/singleCategory';
 
 function App() {
 
@@ -79,6 +79,7 @@ function App() {
         <Route path='/user' element={<User isDark={isDark} setIsDark={setIsDark} />} />
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<SignUp/>}/>
+        <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
       </Routes>
 
     </>

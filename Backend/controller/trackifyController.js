@@ -134,6 +134,13 @@ export async function uploadFile(req, res) {
             return res.status(401).json({ message: "Invalid token payload" });
         }
 
+        // Get user information to access department
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const userDept = user.dept;
+
         // Process courses from req.subjects
         console.log("HELLO : ", req.subjects);
         const subs = req.subjects;
@@ -192,7 +199,15 @@ export async function uploadFile(req, res) {
                     grade: course.grade,
                     gradePoint: course.gradePoint,
                     sem: req.body.sem,
+                    category: courseEntry.department[userDept]
+                        ? courseEntry.department[userDept]
+                        : courseEntry.department[
+                        Object.keys(courseEntry.department)[0]
+                        ],
+                    code19:course.code19,
+                    code24:course.code24
                 });
+
             })
         );
 
@@ -271,7 +286,7 @@ export async function courseByUser(req, res) {
             MC = 0;
 
         const courseDetails = user.courses
-            .map(({ course, grade, gradePoint, sem }) => {
+            .map(({ course, grade, gradePoint, sem, category,code19,code24 }) => {
                 if (!course) return null;
                 totalCredits += course.credits;
                 totalWeightedPoints +=
@@ -314,15 +329,16 @@ export async function courseByUser(req, res) {
 
                 return {
                     name: course.name,
-                    code: course.code,
-                    category: course.category,
+                    code19: course.code19,
+                    code24: course.code24,
                     credits: course.credits,
+                    category,
                     grade,
                     gradePoint,
                     sem,
                 };
             })
-            .filter(Boolean);
+        .filter(Boolean);
 
         const CGPA =
             totalCredits > 0
