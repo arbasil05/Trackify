@@ -199,7 +199,11 @@ export async function uploadFile(req, res) {
                     grade: course.grade,
                     gradePoint: course.gradePoint,
                     sem: req.body.sem,
-                    category: courseEntry.department[userDept],
+                    category: courseEntry.department[userDept]
+                        ? courseEntry.department[userDept]
+                        : courseEntry.department[
+                        Object.keys(courseEntry.department)[0]
+                        ],
                     code19:course.code19,
                     code24:course.code24
                 });

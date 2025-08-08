@@ -17,7 +17,7 @@ export const pdfMiddleware = async (req, res, next) => {
         const pdfData = await pdf(dataBuffer);
         let text = pdfData.text;
         console.log(text);
-      
+
 
         // Clean up text if necessary
         text = text.replace(/ODD\W+JUNIOR/g, "ODDJUNIOR");
@@ -25,9 +25,9 @@ export const pdfMiddleware = async (req, res, next) => {
         // Set the extracted text to req.body.text
         req.body.text = text;
         console.log("Before regex");
-      
+
         console.log(req.body.text);
-        
+
 
         const subjects = [];
         // Capture: semType, code, name, gradePoint, grade, credit
@@ -65,7 +65,7 @@ export const pdfMiddleware = async (req, res, next) => {
                 return codeMatch || nameMatch;
             });
 
-            if (matchedEntry) {
+            if (matchedEntry && (matchedEntry.category !== "OE" || matchedEntry.category !== "Unknown")) {
                 subject.code19 = matchedEntry.code19;
                 subject.code24 = matchedEntry.code24;
                 subject.credits = matchedEntry.credits;
@@ -75,11 +75,7 @@ export const pdfMiddleware = async (req, res, next) => {
                     subject.department = matchedEntry.department;
                 }
             } else {
-                subject.code19 = null;
-                subject.code24 = null;
-                subject.credits = 0;
-                subject.category = "Unknown";
-                subject.department = {};
+                continue;
             }
 
             subjects.push(subject);
