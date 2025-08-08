@@ -9,12 +9,14 @@ import SemDetails from "../components/semDetails/SemDetails";
 const User = ({ isDark, setIsDark }) => {
 
     const [userDetails, setUserDetails] = useState({});
+    const [userSem,setUserSem] = useState({});
 
     useEffect(() => {
         axios.get("http://localhost:5001/api/courseByUser", { withCredentials: true })
             .then((res) => {
-                const { user } = res.data;
+                const { user,user_sem_credits } = res.data;
                 setUserDetails(user);
+                setUserSem(user_sem_credits);
             })
             .catch((error) => {
                 console.log(error);
@@ -26,8 +28,8 @@ const User = ({ isDark, setIsDark }) => {
             <Sidebar dark={isDark} />
             <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} />
             <UserHeader isDark={isDark}/>
-            <UserDetails isDark={isDark}/>
-            <SemDetails isDark={isDark}/>
+            <UserDetails isDark={isDark} userDetails={userDetails} />
+            <SemDetails isDark={isDark} userSem={userSem}/>
         </div>
     )
 }

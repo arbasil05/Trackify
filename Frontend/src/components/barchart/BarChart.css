@@ -19,6 +19,18 @@
     font-size: 25px;
 }
 
+.no-data-message {
+  padding: 1rem;
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin: auto auto auto auto;
+}
+.dark-mode .no-data-message {
+  color: #ccc;
+}
+
+
 /* Remove focus outlines from SVG elements */
 .barchart-container svg:focus,
 .barchart-container g:focus,

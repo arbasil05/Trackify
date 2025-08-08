@@ -6,6 +6,8 @@ import {
     uploadFile,
     userDetails,
     courseByUser,
+    deleteSem,
+    updateProfile,
 } from "../controller/trackifyController.js";
 import multer from "multer";
 import { pdfMiddleware } from "../middleware/pdfMiddleware.js";
@@ -28,6 +30,11 @@ router.post(
 
 router.get("/userDetails", authMiddleWare, userDetails);
 router.get("/courseByUser", authMiddleWare, courseByUser);
+
+router.put("/updateProfile",authMiddleWare,updateProfile)
+
+router.delete("/semester/:semester", authMiddleWare, deleteSem);
+
 
 
 export default router;

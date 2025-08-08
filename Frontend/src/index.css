@@ -79,6 +79,8 @@ button:hover {
     overflow: hidden;
 }
 
+
+
 @keyframes skeleton-loading {
     0% {
         background-position: 100% 0; /* Gradient starts from right */

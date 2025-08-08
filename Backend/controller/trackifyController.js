@@ -204,8 +204,8 @@ export async function uploadFile(req, res) {
                         : courseEntry.department[
                         Object.keys(courseEntry.department)[0]
                         ],
-                    code19:course.code19,
-                    code24:course.code24
+                    code19: course.code19,
+                    code24: course.code24
                 });
 
             })
@@ -286,7 +286,7 @@ export async function courseByUser(req, res) {
             MC = 0;
 
         const courseDetails = user.courses
-            .map(({ course, grade, gradePoint, sem, category,code19,code24 }) => {
+            .map(({ course, grade, gradePoint, sem, category, code19, code24 }) => {
                 if (!course) return null;
                 totalCredits += course.credits;
                 totalWeightedPoints +=
@@ -338,7 +338,7 @@ export async function courseByUser(req, res) {
                     sem,
                 };
             })
-        .filter(Boolean);
+            .filter(Boolean);
 
         const CGPA =
             totalCredits > 0
@@ -373,3 +373,52 @@ export async function courseByUser(req, res) {
     }
 }
 
+export async function updateProfile(req, res) {
+    try {
+        const id = req.id;
+        const { name, reg_no, grad_year, dept } = req.body;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { name, reg_no, grad_year, dept },
+            { new: true },
+        )
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ success: true, data: updatedUser });
+    }
+    catch (error) {
+        console.log(`Error in updateProfile ${error}`);
+
+    }
+}
+
+export async function deleteSem(req, res) {
+    try {
+        const id = req.id;
+        const { semester } = req.params
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            {
+                $pull: { courses: { sem: semester } },
+                $unset: { [`sem_total.${semester}`]: "" }
+            },
+            { new: true }
+        )
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: `Deleted ${semester}`, data: updatedUser });
+    }
+    catch (error) {
+        console.log(`Error in deleteSem ${error}`);
+        res.status(500).json({ message: "Internal server error" });
+
+    }
+
+}
