@@ -1,36 +1,36 @@
-.semdetails-list{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    background-color: #F9FAFB;
-    border: 1px solid rgb(189, 188, 188);
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+.semdetails-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #F9FAFB;
+  border: 1px solid rgb(189, 188, 188);
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.semester-list-title{
-    font-weight: 500;
+.semester-list-title {
+  font-weight: 500;
 }
 
-.semdetails-list-right{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.semdetails-list-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.semdetails-list-right p{
-    font-size: 12px;
+.semdetails-list-right p {
+  font-size: 12px;
 }
 
 
-.trash-icon{
-    color: rgb(247, 20, 20);
+.trash-icon {
+  color: rgb(247, 20, 20);
 }
 
-.trash-icon:hover{
-    cursor: pointer;
+.trash-icon:hover {
+  cursor: pointer;
 }
 
 /* dark mode */
@@ -49,10 +49,109 @@
 }
 
 .semdetails-list.dark .trash-icon {
-  color: #ff4444; 
+  color: #ff4444;
 }
 
 .semdetails-list.dark .trash-icon:hover {
-  color: #ef4444; 
+  color: #ef4444;
   cursor: pointer;
+}
+
+/* Confirmation Toast Styles */
+.confirm-toast {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-left: 4px solid #ef4444;
+  border-right: 4px solid #ef4444;
+  min-width: 450px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.confirm-toast-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.confirm-toast-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1f2937;
+  margin: 0;
+}
+
+.confirm-toast-message {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.confirm-toast-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+}
+
+.confirm-btn-delete {
+  background-color: #ef4444;
+  color: white;
+}
+
+.confirm-btn-delete:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.confirm-btn-cancel {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.confirm-btn-cancel:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+/* Dark mode for confirmation toast */
+.confirm-toast.dark {
+  background-color: #374151;
+  border-left-color: #ff4444;
+}
+
+.confirm-toast.dark .confirm-toast-title {
+  color: #f9fafb;
+}
+
+.confirm-toast.dark .confirm-toast-message {
+  color: #d1d5db;
+}
+
+.confirm-toast.dark .confirm-btn-cancel {
+  background-color: #4b5563;
+  color: #f9fafb;
+  border-color: #6b7280;
+}
+
+.confirm-toast.dark .confirm-btn-cancel:hover {
+  background-color: #6b7280;
 }

@@ -3,23 +3,60 @@ import './SemDetails.css'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
-const SemDetails = ({ isDark, userSem,loading }) => {
-    const nav = useNavigate();
+const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
 
     const deleteSem = (semester) => {
+
         const url = `http://localhost:5001/api/semester/${semester}`;
         axios.delete(url, { withCredentials: true })
             .then((res) => {
                 toast.success(`Data deleted successfully`);
                 console.log(res);
-                nav('/')
-                setTimeout(() => nav('/user'), 1)
+                onDataRefresh();
             })
             .catch((error) => {
                 console.log(error);
             });
+    };
+
+    const handleDelete = (semester) => {
+        const semesterName = semester.replace(/sem/, 'Semester ');
+
+        toast((t) => (
+            <div className={`confirm-toast ${isDark ? 'dark' : ''}`}>
+                <div className="confirm-toast-header">
+                    <h3 className="confirm-toast-title">Delete {semesterName}?</h3>
+                    <p className="confirm-toast-message">
+                        This action cannot be undone. All data for this semester will be permanently removed.
+                    </p>
+                </div>
+                <div className="confirm-toast-actions">
+                    <button
+                        className="confirm-btn confirm-btn-delete"
+                        onClick={() => {
+                            toast.dismiss(t.id);
+                            deleteSem(semester);
+                        }}
+                    >
+                        Delete
+                    </button>
+                    <button
+                        className="confirm-btn confirm-btn-cancel"
+                        onClick={() => toast.dismiss(t.id)}
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        ), {
+            duration: Infinity,
+            style: {
+                background: 'transparent',
+                boxShadow: 'none',
+                padding: 0,
+            }
+        });
     };
 
     const sortedSemesters = Object.entries(userSem).sort(([a], [b]) => {
@@ -49,7 +86,7 @@ const SemDetails = ({ isDark, userSem,loading }) => {
                             <p>Credits : {credit}</p>
                         </div>
                         <div className="semdetails-list-left">
-                            <FontAwesomeIcon onClick={() => deleteSem(semester)} className="trash-icon" icon={faTrash} />
+                            <FontAwesomeIcon onClick={() => handleDelete(semester)} className="trash-icon" icon={faTrash} />
                         </div>
                     </div>
                 ))

@@ -1,21 +1,20 @@
-import { faL, faMoon, faSun, faSunPlantWilt, faUpload, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faUpload, faWarning } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
-const Navbar = ({ dark, setIsDark, name }) => {
+const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [pdf, setPdf] = useState(null);
     const [semValue, setSemValue] = useState("");
     const [showWarning, setShowWarning] = useState(true);
     const [loading, setLoading] = useState(false);
-    const nav = useNavigate();
+    const isSubmitting = useRef(false);
 
     useEffect(() => {
         const skipWarning = localStorage.getItem('skipWarning');
@@ -28,7 +27,6 @@ const Navbar = ({ dark, setIsDark, name }) => {
         setIsDark(!dark);
         localStorage.setItem('isDark', !dark);
     }
-    let flag = false;
 
     const getGreeting = () => {
         // Get current time in IST (UTC+5:30)
@@ -45,8 +43,8 @@ const Navbar = ({ dark, setIsDark, name }) => {
 
     const handlePdfSubmit = async (e) => {
         e.preventDefault();
-        if (flag) return;
-        flag = true;
+        if (isSubmitting.current) return;
+        isSubmitting.current = true;
 
         if (!pdf || !semValue) {
             toast.error("Please select a semester and PDF");
@@ -65,8 +63,7 @@ const Navbar = ({ dark, setIsDark, name }) => {
             const res = await axios.post(url, formData, { withCredentials: true });
             toast.success("Upload Success", { id: toastId });
             setModalIsOpen(false);
-            nav('/user');
-            setTimeout(() => nav('/'), 1);
+            onDataRefresh();
         } catch (error) {
             if (error.response?.data?.error) {
                 toast.error(error.response.data.error, { id: toastId });
@@ -76,7 +73,7 @@ const Navbar = ({ dark, setIsDark, name }) => {
             console.error(error);
         } finally {
             setLoading(false);
-            flag = false;
+            isSubmitting.current = false; // Reset here
         }
     };
 
@@ -144,7 +141,12 @@ const Navbar = ({ dark, setIsDark, name }) => {
                             <h2>Upload Semester Results</h2>
                             <p>Drop your semester results and we’ll do the math</p>
 
-                            <form className="upload-form" onSubmit={(e) => handlePdfSubmit(e)}>
+                            <form className="upload-form" onSubmit={(e) => handlePdfSubmit(e)} onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault(); // Prevent default if needed
+                                    handlePdfSubmit(e); // Trigger form submission
+                                }
+                            }}>
                                 <div className="form-group">
                                     <label>Semester</label>
                                     <select value={semValue} onChange={(e) => setSemValue(e.target.value)} required>
@@ -161,7 +163,8 @@ const Navbar = ({ dark, setIsDark, name }) => {
                                         accept=".pdf"
                                         id="upload-pdf"
                                         required
-                                        hidden
+                                        className='upload-input'
+                                        // hidden
                                         onChange={(e) => setPdf(e.target.files[0])}
                                     />
                                     <label htmlFor="upload-pdf" className={`upload-label ${pdf ? 'has-pdf' : ''}`}>
@@ -170,8 +173,8 @@ const Navbar = ({ dark, setIsDark, name }) => {
                                 </div>
 
                                 <div className="form-actions">
-                                    <button type="button" className="btn cancel" onClick={handleModalClose}>Close</button>
                                     <button type="submit" className="btn submit">Submit</button>
+                                    <button type="button" className="btn cancel" onClick={handleModalClose}>Close</button>
                                 </div>
                             </form>
                         </div>

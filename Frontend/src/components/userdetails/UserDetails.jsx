@@ -4,12 +4,10 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
-const UserDetails = ({ isDark, userDetails, loading }) => {
+const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [editedDetails, setEditedDetails] = useState({ ...userDetails });
-  const nav = useNavigate();
 
   const handleChange = (field, value) => {
     setEditedDetails((prev) => ({
@@ -30,8 +28,7 @@ const UserDetails = ({ isDark, userDetails, loading }) => {
       .then((res) => {
         toast.success("Personal Details updated successfully");
         console.log(res);
-        nav('/');
-        setTimeout(() => nav('/user'), 1);
+        onDataRefresh();
       })
       .catch((error) => {
         toast.error("Error updating details");

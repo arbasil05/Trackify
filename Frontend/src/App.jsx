@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard';
 import { Route, Routes } from 'react-router-dom';
@@ -10,6 +10,11 @@ import SingleCategory from './pages/singleCategory';
 function App() {
 
   const [isDark, setIsDark] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleDataRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
 
   useEffect(() => {
       const darkMode = localStorage.getItem('isDark') === 'true';
@@ -73,16 +78,15 @@ function App() {
 
 
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<Dashboard isDark={isDark} setIsDark={setIsDark} />} />
-        <Route path='/user' element={<User isDark={isDark} setIsDark={setIsDark} />} />
+    <React.Fragment key={refreshKey}>
+      <Routes >
+        <Route path='/' element={<Dashboard  isDark={isDark} setIsDark={setIsDark} onDataRefresh={handleDataRefresh} />} />
+        <Route path='/user' element={<User isDark={isDark} setIsDark={setIsDark} onDataRefresh={handleDataRefresh} />} />
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<SignUp/>}/>
         <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
       </Routes>
-
-    </>
+    </React.Fragment>
   )
 }
 

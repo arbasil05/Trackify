@@ -8,7 +8,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const Dashboard = ({ isDark, setIsDark }) => {
+const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const nav = useNavigate();
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -58,7 +58,7 @@ const Dashboard = ({ isDark, setIsDark }) => {
   return (
     <div>
       <Sidebar dark={isDark} />
-      <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name || ''} />
+      <Navbar onDataRefresh={onDataRefresh} dark={isDark} setIsDark={setIsDark} name={userDetails.name || ''} />
       <Information dark={isDark} user={userDetails} cgpa={cgpa}  totalCredits={totalCredits} userSemCredits={userSemCredits} Loading={Loading} />
       <div className="wrapper">
         <Barchart dark={isDark} userSemCredits={userSemCredits} Loading={Loading} />

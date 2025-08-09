@@ -75,7 +75,7 @@ const SignUpRight = () => {
 
     return (
         <div className='signupright-container'>
-            <div className="signup-card">
+            <form className="signup-card" onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
                 <div className="signup-header">
                     <h2>Create an Account</h2>
                 </div>
@@ -158,11 +158,11 @@ const SignUpRight = () => {
                 </div>
                 <div className="footer-signup">
                     <div className="signup-button">
-                        <button onClick={handleSignUp}>Sign Up</button>
+                        <button type="submit">Sign Up</button>
                     </div>
                     <p>Have an account? <Link to="/login" className='link'>Sign In</Link></p>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
