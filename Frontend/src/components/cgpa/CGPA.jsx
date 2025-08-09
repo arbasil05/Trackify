@@ -5,7 +5,7 @@ const CGPA = ({ dark, cgpa, Loading }) => {
   return (
     !Loading ? (
       <div className={dark ? 'cgpa-container dark-mode' : 'cgpa-container'}>
-        <div style={{ display: "flex", alignItems: "center", gap: "110px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent:"space-between",width:"100%" }}>
           <h1 className='cgpa-title'>Current CGPA</h1>
           <svg xmlns="http://www.w3.org/2000/svg" x="0px"  y="0px"  width="20" height="20"  viewBox="0 0 32 32"  fill= "#4880ff" >
             <title>CGPA of Semester results uploaded so far</title>

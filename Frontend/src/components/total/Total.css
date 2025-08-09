@@ -1,7 +1,8 @@
 .total-container {
-    width: 280px;
+    min-width: 280px;
     min-height: 140px;
     display: flex;
+    /* flex: 1; */
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
