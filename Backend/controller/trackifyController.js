@@ -134,29 +134,28 @@ export async function uploadFile(req, res) {
             return res.status(401).json({ message: "Invalid token payload" });
         }
 
-        // Get user information to access department
-        const user = await User.findById(id);
+        // Get user info
+        const user = await User.findById(id).populate("courses.course");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
         const userDept = user.dept;
 
-        // Process courses from req.subjects
         console.log("HELLO : ", req.subjects);
         const subs = req.subjects;
         if (!Array.isArray(subs) || subs.length === 0) {
-            return res
-                .status(400)
-                .json({ error: "No valid subjects provided" });
+            return res.status(400).json({ error: "Check if the PDF is correct and has selectable text" });
         }
 
         let total_sem_credits = 0;
 
-        // Find course ObjectIds
+        // Existing courses for this semester
+        const existingSemCourses = user.courses.filter(
+            c => c.sem === req.body.sem
+        );
+
         await Promise.all(
             subs.map(async (course) => {
-                console.log(course);
-
                 const queryConditions = [];
                 if (course.code19 && course.code19 !== "NA") {
                     queryConditions.push({ code19: course.code19 });
@@ -168,14 +167,8 @@ export async function uploadFile(req, res) {
                     queryConditions.push({ name: course.name });
                 }
 
-                console.log("Looking for:", queryConditions);
-
                 if (queryConditions.length === 0) {
-                    console.warn(
-                        `Skipping course: No valid query fields in ${JSON.stringify(
-                            course
-                        )}`
-                    );
+                    console.warn(`Skipping course: No valid query fields in ${JSON.stringify(course)}`);
                     return;
                 }
 
@@ -185,11 +178,16 @@ export async function uploadFile(req, res) {
                         : await Course.findOne(queryConditions[0]);
 
                 if (!courseEntry) {
-                    console.log(
-                        `Course not found: ${course.name || course.code19 || course.code24
-                        }`
-                    );
+                    console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
                     return;
+                }
+
+                const alreadyExists = existingSemCourses.some(
+                    ec => ec.course._id.toString() === courseEntry._id.toString()
+                );
+                if (alreadyExists) {
+                    console.log(`Skipping duplicate: ${courseEntry.name}`);
+                    return res.status(400).json({ error: "No new valid courses found to append" });;
                 }
 
                 total_sem_credits += courseEntry.credits;
@@ -201,34 +199,25 @@ export async function uploadFile(req, res) {
                     sem: req.body.sem,
                     category: courseEntry.department[userDept]
                         ? courseEntry.department[userDept]
-                        : courseEntry.department[
-                        Object.keys(courseEntry.department)[0]
-                        ],
+                        : courseEntry.department[Object.keys(courseEntry.department)[0]],
                     code19: course.code19,
                     code24: course.code24
                 });
-
             })
         );
 
-        console.log(total_sem_credits);
-
-        const semName = req.body.sem;
-
         if (courseEntries.length === 0) {
-            return res
-                .status(400)
-                .json({ error: "No valid courses found to append" });
+            return res.status(400).json({ error: "No new valid courses found to append" });
         }
 
+        const semName = req.body.sem;
         const semTotalUpdate = {};
         semTotalUpdate[`sem_total.${semName}`] = total_sem_credits;
 
-        // Append courses to User document
         const updatedUser = await User.findByIdAndUpdate(
             id,
             {
-                $addToSet: { courses: { $each: courseEntries } },
+                $push: { courses: { $each: courseEntries } },
                 $set: semTotalUpdate,
             },
             { new: true, runValidators: true }
@@ -248,6 +237,7 @@ export async function uploadFile(req, res) {
         return res.status(500).json({ error: "Internal server error" });
     }
 }
+
 
 export async function userDetails(req, res) {
     try {

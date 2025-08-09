@@ -14,9 +14,9 @@ const Navbar = ({ dark, setIsDark, name }) => {
     const [pdf, setPdf] = useState(null);
     const [semValue, setSemValue] = useState("");
     const [showWarning, setShowWarning] = useState(true);
+    const [loading, setLoading] = useState(false);
     const nav = useNavigate();
 
-    // Check localStorage for warning preference on component mount
     useEffect(() => {
         const skipWarning = localStorage.getItem('skipWarning');
         if (skipWarning === 'true') {
@@ -43,38 +43,43 @@ const Navbar = ({ dark, setIsDark, name }) => {
         return "Hope your day went well";
     };
 
-    const handlePdfSubmit = (e) => {
+    const handlePdfSubmit = async (e) => {
         e.preventDefault();
         if (flag) return;
         flag = true;
+
         if (!pdf || !semValue) {
-            console.log("No values provided", pdf, semValue);
+            toast.error("Please select a semester and PDF");
             return;
         }
-        const formData = new FormData(e.target);
+
+        const formData = new FormData();
         formData.append('pdf', pdf);
         formData.append('sem', semValue);
 
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key} : ${value}`);
-        }
-
         const url = "http://localhost:5001/api/upload";
-        axios.post(url, formData, { withCredentials: true })
-            .then((res) => {
-                toast.success("Upload Success");
-                setModalIsOpen(false)
-                nav('/user')
-                setTimeout(() => nav('/'), 1)
-            })
-            .catch((error) => {
-                if(error.response && error.response.status === 400)
-                {
-                    toast.error("Please check if your pdf has selectable text");
-                }
-                console.log(`${error}`);
-            })
-    }
+
+        const toastId = toast.loading("Uploading...");
+
+        try {
+            const res = await axios.post(url, formData, { withCredentials: true });
+            toast.success("Upload Success", { id: toastId });
+            setModalIsOpen(false);
+            nav('/user');
+            setTimeout(() => nav('/'), 1);
+        } catch (error) {
+            if (error.response?.data?.error) {
+                toast.error(error.response.data.error, { id: toastId });
+            } else {
+                toast.error("Something went wrong!", { id: toastId });
+            }
+            console.error(error);
+        } finally {
+            setLoading(false);
+            flag = false;
+        }
+    };
+
 
     const handleModalClose = () => {
         setModalIsOpen(false);
@@ -120,11 +125,11 @@ const Navbar = ({ dark, setIsDark, name }) => {
                             </div>
 
                             <div className="checkbox-input">
-                                <input 
-                                    type="checkbox" 
-                                    id="skip-warning" 
-                                    checked={!showWarning} 
-                                    onChange={handleWarningCheckbox} 
+                                <input
+                                    type="checkbox"
+                                    id="skip-warning"
+                                    checked={!showWarning}
+                                    onChange={handleWarningCheckbox}
                                 />
                                 <label htmlFor="skip-warning">Do not show this warning again</label>
                             </div>
