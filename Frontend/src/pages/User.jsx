@@ -10,8 +10,10 @@ const User = ({ isDark, setIsDark }) => {
 
     const [userDetails, setUserDetails] = useState({});
     const [userSem,setUserSem] = useState({});
+    const [loading,setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         axios.get("http://localhost:5001/api/courseByUser", { withCredentials: true })
             .then((res) => {
                 const { user,user_sem_credits } = res.data;
@@ -21,6 +23,9 @@ const User = ({ isDark, setIsDark }) => {
             .catch((error) => {
                 console.log(error);
             })
+            .finally(()=>{
+                setLoading(false)
+            })
 
     }, [])
     return (
@@ -28,8 +33,8 @@ const User = ({ isDark, setIsDark }) => {
             <Sidebar dark={isDark} />
             <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} />
             <UserHeader isDark={isDark}/>
-            <UserDetails isDark={isDark} userDetails={userDetails} />
-            <SemDetails isDark={isDark} userSem={userSem}/>
+            <UserDetails isDark={isDark} userDetails={userDetails} loading={loading} />
+            <SemDetails isDark={isDark} userSem={userSem} loading={loading} />
         </div>
     )
 }

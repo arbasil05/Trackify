@@ -6,7 +6,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const UserDetails = ({ isDark, userDetails }) => {
+const UserDetails = ({ isDark, userDetails, loading }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [editedDetails, setEditedDetails] = useState({ ...userDetails });
   const nav = useNavigate();
@@ -14,7 +14,7 @@ const UserDetails = ({ isDark, userDetails }) => {
   const handleChange = (field, value) => {
     setEditedDetails((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -25,37 +25,38 @@ const UserDetails = ({ isDark, userDetails }) => {
 
   const handleSave = () => {
     const url = "http://localhost:5001/api/updateProfile";
-    axios.put(url, editedDetails, { withCredentials: true })
+    axios
+      .put(url, editedDetails, { withCredentials: true })
       .then((res) => {
         toast.success("Personal Details updated successfully");
         console.log(res);
-        nav('/')
-        setTimeout(() => nav('/user'), 1)
-
-
+        nav('/');
+        setTimeout(() => nav('/user'), 1);
       })
       .catch((error) => {
-        toast.error("Error updating details")
+        toast.error("Error updating details");
         console.log(error);
-
-      })
-    // console.log("Saving details:", editedDetails);
+      });
     setIsEditable(false);
   };
 
   return (
-    <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
-      <div className="userdetails-header">
-        <h2>Personal Details</h2>
-        <FontAwesomeIcon onClick={() => setIsEditable(!isEditable)} className="pencil-icon" icon={faPencil} />
-      </div>
+    !loading ? (
+      <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
+        <div className="userdetails-header">
+          <h2>Personal Details</h2>
+          <FontAwesomeIcon
+            onClick={() => setIsEditable(!isEditable)}
+            className="pencil-icon"
+            icon={faPencil}
+          />
+        </div>
 
-      <div className="userdetails-body">
-        <div className="first-row">
-          <div className="name-input">
-            <label>Name</label>
-            {
-              isEditable ? (
+        <div className="userdetails-body">
+          <div className="first-row">
+            <div className="name-input">
+              <label>Name</label>
+              {isEditable ? (
                 <input
                   className="userdetails-input"
                   type="text"
@@ -69,14 +70,12 @@ const UserDetails = ({ isDark, userDetails }) => {
                   disabled
                   value={userDetails.name}
                 />
-              )
-            }
-          </div>
+              )}
+            </div>
 
-          <div className="dept-input">
-            <label>Department</label>
-            {
-              isEditable ? (
+            <div className="dept-input">
+              <label>Department</label>
+              {isEditable ? (
                 <select
                   value={editedDetails.dept}
                   className="userdetails-input"
@@ -97,48 +96,29 @@ const UserDetails = ({ isDark, userDetails }) => {
                   disabled
                   value={userDetails.dept}
                 />
-              )
-            }
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="second-row">
-          <div className="reg-no">
-            {
-              isEditable ? (
+          <div className="second-row">
+            <div className="reg-no">
+              {isEditable ? (
                 <label>Register Number (Not Editable)</label>
               ) : (
                 <label>Register Number</label>
-              )
-            }
+              )}
+              <input
+                className="userdetails-input"
+                type="text"
+                disabled
+                style={isEditable ? { backgroundColor: "crimson" } : {}}
+                value={userDetails.reg_no}
+              />
+            </div>
 
-            {
-              isEditable ? (
-                <input
-                  className="userdetails-input"
-                  type="text"
-                  disabled
-                  style={{ backgroundColor: "crimson" }}
-                  value={userDetails.reg_no}
-                />
-
-              ) : (
-                <input
-                  className="userdetails-input"
-                  type="text"
-                  disabled
-                  value={userDetails.reg_no}
-                />
-
-              )
-            }
-
-          </div>
-
-          <div className="grad-year">
-            <label>Graduation Year</label>
-            {
-              isEditable ? (
+            <div className="grad-year">
+              <label>Graduation Year</label>
+              {isEditable ? (
                 <select
                   value={editedDetails.grad_year}
                   className="userdetails-input"
@@ -156,21 +136,119 @@ const UserDetails = ({ isDark, userDetails }) => {
                   disabled
                   value={userDetails.grad_year}
                 />
-              )
-            }
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {
-        isEditable && (
+        {isEditable && (
           <div className="userdetails-buttons">
-            <button className="user-cancel" onClick={handleCancel}>Cancel</button>
-            <button className="user-save" onClick={handleSave}>Save Changes</button>
+            <button className="user-cancel" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button className="user-save" onClick={handleSave}>
+              Save Changes
+            </button>
           </div>
-        )
-      }
-    </div>
+        )}
+      </div>
+    ) : (
+      <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
+        <div className="userdetails-header">
+          <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+            <h2 style={{ visibility: 'hidden' }}>Personal Details</h2>
+          </div>
+          {/* <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+            <FontAwesomeIcon
+              style={{ visibility: 'hidden' }}
+              className="pencil-icon"
+              icon={faPencil}
+            />
+          </div> */}
+        </div>
+
+        <div className="userdetails-body">
+          <div className="first-row">
+            <div className="name-input">
+              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+                <label style={{ visibility: 'hidden' }}>Name</label>
+                <input
+                  className="userdetails-input"
+                  type="text"
+                  disabled
+                  style={{ visibility: 'hidden' }}
+                  value={userDetails.name}
+                />
+              </div>
+            </div>
+
+            <div className="dept-input">
+              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+                <label style={{ visibility: 'hidden' }}>Department</label>
+                <input
+                  className="userdetails-input"
+                  type="text"
+                  disabled
+                  style={{ visibility: 'hidden' }}
+                  value={userDetails.dept}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="second-row">
+            <div className="reg-no">
+              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+                <label style={{ visibility: 'hidden' }}>Register Number</label>
+                <input
+                  className="userdetails-input"
+                  type="text"
+                  disabled
+                  style={{ visibility: 'hidden' }}
+                  value={userDetails.reg_no}
+                />
+              </div>
+            </div>
+
+            <div className="grad-year">
+              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+                <label style={{ visibility: 'hidden' }}>Graduation Year</label>
+                <input
+                  className="userdetails-input"
+                  type="text"
+                  disabled
+                  style={{ visibility: 'hidden' }}
+                  value={userDetails.grad_year}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {isEditable && (
+          <div className="userdetails-buttons">
+            <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+              <button
+                className="user-cancel"
+                style={{ visibility: 'hidden' }}
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+            <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+              <button
+                className="user-save"
+                style={{ visibility: 'hidden' }}
+                onClick={handleSave}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    )
   );
 };
 

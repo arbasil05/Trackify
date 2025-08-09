@@ -5,7 +5,7 @@ import axios from "axios"
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const SemDetails = ({ isDark, userSem }) => {
+const SemDetails = ({ isDark, userSem,loading }) => {
     const nav = useNavigate();
 
     const deleteSem = (semester) => {

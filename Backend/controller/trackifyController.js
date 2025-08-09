@@ -283,9 +283,16 @@ export async function courseByUser(req, res) {
                     course.credits != 0 && !isNaN(gradePoint)
                         ? course.credits * gradePoint
                         : 0;
-                console.log(course.department[userDept]);
+                console.log(course.name);
 
-                switch (course.department[userDept]) {
+                let deptToAdd=course.department[userDept];
+
+                if (!deptToAdd){
+                    deptToAdd=course.department[Object.keys(course.department)[0]];
+                    console.log("moew",deptToAdd)
+                }
+
+                switch (deptToAdd) {
                     case "HS":
                         HS += course.credits;
                         break;
@@ -334,6 +341,8 @@ export async function courseByUser(req, res) {
             totalCredits > 0
                 ? (totalWeightedPoints / totalCredits).toFixed(4)
                 : null;
+        
+        console.log("MC : ",MC);
 
         res.status(200).json({
             user: {

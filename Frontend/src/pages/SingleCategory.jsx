@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -13,7 +13,6 @@ const categoryNames = {
     'ES': 'Engineering Sciences',
     'PC': 'Professional Core',
     'PE': 'Professional Electives',
-    'OE': 'Open Electives',
     'EEC': 'Employment Enhancement Courses',
     'MC': 'Mandatory Courses'
 };
@@ -23,10 +22,9 @@ function SingleCategory({ isDark, setIsDark }) {
     const [courses, setCourses] = useState([]);
     const [totalCredits, setTotalCredits] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [requiredCredits] = useState(10); // This should come from your requirements data
     const [isOldCode, setIsOldCode] = useState(true);
-
 
     useEffect(() => {
         const fetchCategoryData = async () => {
@@ -41,7 +39,6 @@ function SingleCategory({ isDark, setIsDark }) {
                 const filteredCourses = response.data.courseDetails.filter(course => course.category === category);
                 setCourses(filteredCourses);
                 console.log(filteredCourses);
-
 
                 // Calculate total credits for this category
                 const credits = filteredCourses.reduce((sum, course) => sum + course.credits, 0);
@@ -63,7 +60,59 @@ function SingleCategory({ isDark, setIsDark }) {
                 <div className="single-category-main">
                     <Sidebar dark={isDark} />
                     <div className={`single-category-content ${isDark ? 'dark' : ''}`}>
-                        <div className="loading-spinner">Loading...</div>
+                        {/* Skeleton for Header */}
+                        <div className="category-header">
+                            <div>
+                                <Link style={{ visibility: 'hidden' }} to="/" className="back-link">
+                                    <FontAwesomeIcon icon={faChevronLeft} />
+                                </Link>
+                            </div>
+                            <div>
+                                <h1 style={{ visibility: 'hidden' }} className="category-title">
+                                    {categoryNames[category] || category}
+                                </h1>
+                            </div>
+                        </div>
+
+                        {/* Skeleton for Stats Cards */}
+                        <div className={isDark ? 'skeleton-dark stats-container' : 'skeleton-light stats-container'}>
+                            {[...Array(3)].map((_, index) => (
+                                <div key={index} className="stat-card" style={{ visibility: 'hidden' }}>
+                                    <div>
+                                        <h3 style={{ visibility: 'hidden' }}>Total credits</h3>
+                                        <div style={{ visibility: 'hidden' }} className="stat-number">0</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Skeleton for Courses Table */}
+                        <div className="table-container">
+                            <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+                                <table className="courses-table" style={{ visibility: 'hidden' }}>
+                                    <thead>
+                                        <tr>
+                                            <th>SUBJECT CODE</th>
+                                            <th>SUBJECT NAME</th>
+                                            <th>SUBJECT CREDITS</th>
+                                            <th>GRADE</th>
+                                            <th>SEMESTER</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[...Array(3)].map((_, index) => (
+                                            <tr key={index}>
+                                                <td style={{ visibility: 'hidden' }}>CODE</td>
+                                                <td style={{ visibility: 'hidden' }}>Name</td>
+                                                <td style={{ visibility: 'hidden' }}>0</td>
+                                                <td style={{ visibility: 'hidden' }}>A</td>
+                                                <td style={{ visibility: 'hidden' }}>1</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,8 +127,8 @@ function SingleCategory({ isDark, setIsDark }) {
                 <div className={`single-category-content ${isDark ? 'dark' : ''}`}>
                     {/* Header with back button and title */}
                     <div className="category-header">
-                        <Link to="/" className="back-link">
-                            <FontAwesomeIcon icon={faArrowLeft} />
+                        <Link to="/" className={isDark?"back-link":"back-link-light"}>
+                            <FontAwesomeIcon icon={faChevronLeft} />
                         </Link>
                         <h1 className="category-title">{categoryNames[category] || category}</h1>
                     </div>

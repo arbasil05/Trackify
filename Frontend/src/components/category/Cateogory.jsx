@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Category.css';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Category = ({ dark, runningTotal, Loading }) => {
@@ -11,7 +12,7 @@ const Category = ({ dark, runningTotal, Loading }) => {
     { name: 'ES', full: 'Engineering Sciences' },
     { name: 'PC', full: 'Professional Core' },
     { name: 'PE', full: 'Professional Electives' },
-    { name: 'OE', full: 'Open Electives' },
+    // { name: 'OE', full: 'Open Electives' },
     { name: 'EEC', full: 'Employment Enhancement Courses' },
     { name: 'MC', full: 'Mandatory Courses' },
   ]);
@@ -21,9 +22,9 @@ const Category = ({ dark, runningTotal, Loading }) => {
 
     const updatedCourses = courses.map(course => ({
       ...course,
-      credits: runningTotal[course.name] || 0,
+      credits: runningTotal[course.name],
     }));
-
+    console.log(updatedCourses,"updated courses")
     setCourses(updatedCourses);
   }, [runningTotal]);
 
@@ -47,9 +48,10 @@ const Category = ({ dark, runningTotal, Loading }) => {
 
         <div className="category-grid">
           {courses.map((course, index) => (
+            <React.Fragment key={index}>
+            <Link to={`/category/${course.name}`}>
             <div
               className="individual-category"
-              key={index}
               style={{
                 backgroundColor: dark ? '#323f4b' : '#f9fafb',
                 color: dark ? '#e2e8f0' : 'black',
@@ -60,14 +62,14 @@ const Category = ({ dark, runningTotal, Loading }) => {
                 <p style={{ color: dark ? '#cbd5e1' : '#6b7280' }}>{course.full}</p>
               </div>
               <div className="individual-right">
-                <Link to={`/category/${course.name}`}>
                 <FontAwesomeIcon className='individual-right-icon' icon={faChevronRight} color={dark ? 'white' : '#4b5563'} />
-                </Link>
                 <h3 style={{ color: dark ? 'white' : '#1f2937' }}>
                   {course.credits !== undefined ? `${course.credits} credits` : '...'}
                 </h3>
               </div>
             </div>
+          </Link>
+          </React.Fragment>
           ))}
         </div>
       </div>
