@@ -14,7 +14,7 @@ const LoginRight = () => {
 
   const nav = useNavigate();
 
-  const handleloginsubmit = (e) => {
+  const handleloginsubmit = () => {
     if (reg_no.trim() === "") {
       toast.error("Please enter your register number");
       return;
@@ -54,7 +54,7 @@ const LoginRight = () => {
 
   return (
     <div className='loginright-container'>
-      <div className="login-card">
+      <form className="login-card" onSubmit={(e) => { e.preventDefault(); handleloginsubmit(); }}>
         <div className="login-header">
           <h2>Login to Account</h2>
           <p>Please enter your Registration number <br /> and Password to continue</p>
@@ -88,11 +88,11 @@ const LoginRight = () => {
         </div>
         <div className="footer">
           <div className="login-button">
-            <button onClick={handleloginsubmit}>Sign In</button>
+            <button type="submit">Sign In</button>
           </div>
           <p>Don't have an account? <Link to="/signup" className='link'>Create Account</Link></p>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
