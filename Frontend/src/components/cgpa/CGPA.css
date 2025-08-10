@@ -39,3 +39,62 @@
 .dark-mode.cgpa-container .cgpa-value {
     color: #ffffff;
 }
+
+/* Custom Tooltip Styles */
+.info-tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.info-icon {
+    cursor: pointer;
+    transition: fill 0.3s ease;
+}
+
+.info-icon:hover {
+    fill: #2563eb;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #1f2937;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-weight: 400;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1f2937 transparent transparent transparent;
+}
+
+.info-tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Dark mode tooltip */
+.dark-mode .tooltip-text {
+    background-color: #374151;
+}
+
+.dark-mode .tooltip-text::after {
+    border-color: #374151 transparent transparent transparent;
+}

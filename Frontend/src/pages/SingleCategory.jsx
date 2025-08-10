@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -25,6 +25,12 @@ function SingleCategory({ isDark, setIsDark }) {
     const [user, setUser] = useState({});
     const [requiredCredits] = useState(10); // This should come from your requirements data
     const [isOldCode, setIsOldCode] = useState(true);
+
+    // Function to convert number to Roman numerals
+    const toRoman = (num) => {
+        const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+        return romanNumerals[num - 1] || num;
+    };
 
     useEffect(() => {
         const fetchCategoryData = async () => {
@@ -127,7 +133,7 @@ function SingleCategory({ isDark, setIsDark }) {
                 <div className={`single-category-content ${isDark ? 'dark' : ''}`}>
                     {/* Header with back button and title */}
                     <div className="category-header">
-                        <Link to="/" className={isDark?"back-link":"back-link-light"}>
+                        <Link to="/" className={isDark ? "back-link" : "back-link-light"}>
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </Link>
                         <h1 className="category-title">{categoryNames[category] || category}</h1>
@@ -136,16 +142,25 @@ function SingleCategory({ isDark, setIsDark }) {
                     {/* Stats Cards */}
                     <div className="stats-container">
                         <div className="stat-card">
-                            <h3>Total credits</h3>
-                            <div className="stat-number">{totalCredits}</div>
+                            <div className="stat-content">
+                                <h3>Credits Completed</h3>
+                                <div className="stat-number">{totalCredits}</div>
+                            </div>
+                            <img src="/Courses.png" alt="Courses" className="stat-icon" />
                         </div>
                         <div className="stat-card">
-                            <h3>Total credits required</h3>
-                            <div className="stat-number">{requiredCredits}</div>
+                            <div className="stat-content">
+                                <h3>Total credits required</h3>
+                                <div className="stat-number">{requiredCredits}</div>
+                            </div>
+                            <img src="/graduation.png" alt="Graduation" className="stat-icon" />
                         </div>
                         <div className="stat-card">
-                            <h3>Courses completed</h3>
-                            <div className="stat-number">{courses.length}</div>
+                            <div className="stat-content">
+                                <h3>Courses completed</h3>
+                                <div className="stat-number">{courses.length}</div>
+                            </div>
+                            <img src="/cup.png" alt="Achievement" className="stat-icon" />
                         </div>
                     </div>
 
@@ -173,7 +188,7 @@ function SingleCategory({ isDark, setIsDark }) {
                                             <td>{course.name}</td>
                                             <td>{course.credits}</td>
                                             <td>{course.grade}</td>
-                                            <td>{course.sem}</td>
+                                            <td className='sem-number'>{toRoman(parseInt(course.sem.slice(3, 5)))}</td>
                                         </tr>
                                     ))}
                                 </tbody>

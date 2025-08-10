@@ -6,7 +6,7 @@ import UserHeader from "../components/userheader/UserHeader";
 import UserDetails from "../components/userdetails/UserDetails";
 import SemDetails from "../components/semDetails/SemDetails";
 
-const User = ({ isDark, setIsDark }) => {
+const User = ({ isDark, setIsDark, onDataRefresh }) => {
 
     const [userDetails, setUserDetails] = useState({});
     const [userSem,setUserSem] = useState({});
@@ -33,8 +33,8 @@ const User = ({ isDark, setIsDark }) => {
             <Sidebar dark={isDark} />
             <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} />
             <UserHeader isDark={isDark}/>
-            <UserDetails isDark={isDark} userDetails={userDetails} loading={loading} />
-            <SemDetails isDark={isDark} userSem={userSem} loading={loading} />
+            <UserDetails isDark={isDark} userDetails={userDetails} loading={loading} onDataRefresh={onDataRefresh} />
+            <SemDetails isDark={isDark} userSem={userSem} loading={loading} onDataRefresh={onDataRefresh} />
         </div>
     )
 }
