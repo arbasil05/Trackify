@@ -1,0 +1,14 @@
+.back-button{
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.back-button:hover{
+    color: rgb(122, 121, 121);
+}
+
+.back-button p{
+    font-size: 18px;
+    margin-left: 8px;
+}
