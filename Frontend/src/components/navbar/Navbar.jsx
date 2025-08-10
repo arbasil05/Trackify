@@ -29,7 +29,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
     }
 
     const getGreeting = () => {
-        // Get current time in IST (UTC+5:30)
+   
         const now = new Date();
         const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
         const istTime = new Date(utc + (5.5 * 60 * 60 * 1000));
@@ -73,7 +73,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
             console.error(error);
         } finally {
             setLoading(false);
-            isSubmitting.current = false; // Reset here
+            isSubmitting.current = false; 
         }
     };
 
@@ -83,14 +83,13 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         setShowWarning(localStorage.getItem('skipWarning') !== 'true');
     }
 
-    // Handle checkbox change and store preference in localStorage
+
     const handleWarningCheckbox = () => {
         const newShowWarning = !showWarning;
         setShowWarning(newShowWarning);
         localStorage.setItem('skipWarning', !newShowWarning);
     }
 
-    // Handle Proceed button to show the upload form
     const handleProceed = () => {
         setShowWarning(false);
     }

@@ -17,13 +17,47 @@ const categoryNames = {
     'MC': 'Mandatory Courses'
 };
 
+const creditRequirements = {
+    // done
+    CSE: {
+        2027: { HS: 11, BS: 23, ES: 25, PC: 58, PE: 16, EEC: 16, MC: 3 },
+        2028: { HS: 13, BS: 25, ES: 25, PC: 56, PE: 16, EEC: 16, MC: 4 }
+    },
+    // done
+    IT: {
+        2027: { HS: 11, BS: 23, ES: 25, PC: 58, PE: 16, EEC: 16, MC: 3 },
+        2028: { HS: 13, BS: 25, ES: 25, PC: 56, PE: 16, EEC: 16, MC: 4 }
+    },
+    // done
+    AIDS: {
+        2027: { HS: 14, BS: 21, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
+        2028: { HS: 14, BS: 23, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 }
+    },
+    // done
+    AIML: {
+        2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
+        2028: { HS: 14, BS: 27, ES: 28, PC: 51, PE: 16, EEC: 16, MC: 4 }
+    },
+    // done
+    CYBER: {
+        2027: { HS: 14, BS: 25, ES: 28, PC: 54, PE: 17, EEC: 16, MC: 3 },
+        2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 }
+    },
+    IOT: {
+        2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
+        2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 }
+    }
+};
+
+
+
 function SingleCategory({ isDark, setIsDark }) {
     const { category } = useParams();
     const [courses, setCourses] = useState([]);
     const [totalCredits, setTotalCredits] = useState(0);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({});
-    const [requiredCredits] = useState(10); // This should come from your requirements data
+    const [requiredCredits, setRequiredCredits] = useState(0);
     const [isOldCode, setIsOldCode] = useState(true);
 
     // Function to convert number to Roman numerals
@@ -31,6 +65,10 @@ function SingleCategory({ isDark, setIsDark }) {
         const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
         return romanNumerals[num - 1] || num;
     };
+
+    const fetchRequirdCredits = (category, dept, year) => {
+        setRequiredCredits(creditRequirements[dept][year][category]);
+    }
 
     useEffect(() => {
         const fetchCategoryData = async () => {
@@ -49,6 +87,13 @@ function SingleCategory({ isDark, setIsDark }) {
                 // Calculate total credits for this category
                 const credits = filteredCourses.reduce((sum, course) => sum + course.credits, 0);
                 setTotalCredits(credits);
+
+                // calculate required credits based on user department and graduation year;
+                const dept = response.data.user.dept;
+                const grad_year = response.data.user.grad_year;
+                fetchRequirdCredits(category,dept,grad_year);
+          
+
             } catch (error) {
                 console.error('Error fetching category data:', error);
             } finally {
@@ -56,7 +101,12 @@ function SingleCategory({ isDark, setIsDark }) {
             }
         };
 
+
+
+
+
         fetchCategoryData();
+        // fetchRequirdCredits();
     }, [category]);
 
     if (loading) {

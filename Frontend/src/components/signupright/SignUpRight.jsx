@@ -56,20 +56,22 @@ const SignUpRight = () => {
         }
 
         const url = "http://localhost:5001/api/register";
+        const toastId = toast.loading("Creating your account...");
+
         axios.post(url, { name, reg_no, grad_year, dept, password }, { withCredentials: true })
             .then((res) => {
                 console.log(res.data.user);
-                toast.success("Account creation success");
+                toast.success("Account creation success", { id: toastId });
                 nav("/");
             })
             .catch((error) => {
                 console.log(`${error}`);
                 if (error.response && error.response.status === 409) {
-                    toast.error("User already exists");
+                    toast.error("User already exists", { id: toastId });
                     return;
                 }
                 console.log(`Error while posting ${error}`);
-                toast.error("Error while posting");
+                toast.error("Error while posting", { id: toastId });
             });
     };
 

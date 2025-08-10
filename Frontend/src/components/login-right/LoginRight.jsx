@@ -36,18 +36,20 @@ const LoginRight = () => {
     }
 
     const url = "http://localhost:5001/api/login";
+    const toastId = toast.loading("Logging you in...");
+
     axios.post(url, { reg_no, password }, { withCredentials: true })
       .then((res) => {
         console.log(res.data.user);
-        toast.success("Logged in successfully");
+        toast.success("Logged in successfully", { id: toastId });
         nav("/");
       })
       .catch((error) => {
         console.log(`Error while logging in: ${error}`);
         if (error.response && error.response.status === 401) {
-          toast.error("User does not exist");
+          toast.error("User does not exist", { id: toastId });
         } else {
-          toast.error("Error while logging in");
+          toast.error("Error while logging in", { id: toastId });
         }
       });
   };
