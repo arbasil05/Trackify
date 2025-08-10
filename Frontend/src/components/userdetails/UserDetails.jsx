@@ -22,6 +22,10 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
   };
 
   const handleSave = () => {
+    if(editedDetails.name.trim()===""){
+      toast.error("Name cannot be empty");
+      return;
+    }
     const url = "http://localhost:5001/api/updateProfile";
     axios
       .put(url, editedDetails, { withCredentials: true })

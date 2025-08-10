@@ -19,8 +19,8 @@
     border-radius: 22px;
     box-shadow: 0 4px 24px 0 rgba(96, 143, 255, 0.08);
     width: 100%;
-    max-width: 520px;
-    height: 92vh;
+    max-width: 570px;
+    height: auto; /* Changed from 92vh to auto for natural height */
     overflow: hidden;
 }
 
@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    flex: 1;
+    /* Removed flex: 1; to prevent expanding and creating extra space */
 }
 
 .signup-inputs .reg-no,
