@@ -5,9 +5,6 @@
   align-items: center;
   height: 60px;
   margin-right: 80px;
-  /* border: 1px solid black; */
-
-
 }
 
 .navbar-wrapper {
@@ -21,7 +18,6 @@
   margin-top: 10px;
   font-weight: 400;
   color: black;
-
 }
 
 .navbar-message h1 {
@@ -32,16 +28,12 @@
   font-weight: 400px;
   color: #4880FF;
   font-size: 30px;
-
-
 }
 
 .navbar-message p {
   color: rgb(143, 143, 143);
   font-size: 12px;
 }
-
-
 
 .title {
   font-size: 26px;
@@ -59,10 +51,9 @@
 
 .navbar-upload-button {
   padding-bottom: 4px;
-
 }
 
-.upload-button-icon{
+.upload-button-icon {
   margin-right: 5px;
 }
 
@@ -82,17 +73,14 @@
 .navbar-toggle-button {
   width: 100%;
   height: 100%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* border: 1px solid black; */
-  border-radius: 50%;
-  padding: 10px;
   background-color: #4880FF;
   color: white;
   margin-bottom: 5px;
-
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar-toggle-button:hover {
@@ -109,138 +97,71 @@
   color: white;
 }
 
-
-.custom-overlay {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
+/* Modal Sizing: Separate classes for warning and upload */
 .custom-modal {
   position: absolute;
   top: 50%;
   left: 50%;
-  right: auto;
-  bottom: auto;
   transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 16px;
   padding: 32px;
-  width: 480px;
   outline: none;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.custom-modal h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 6px;
+/* Wide modal for warning */
+.custom-modal.wide-modal {
+  width: 900px;
+  max-width: 98vw;
 }
 
-.custom-modal p {
-  color: #6b7280;
-  margin-bottom: 24px;
+/* Narrow modal for upload form */
+.custom-modal.narrow-modal {
+  width: 500px;
+  max-width: 98vw;
 }
 
-.upload-form .form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  position: relative;
+/* Responsive fallback */
+@media (max-width: 600px) {
+
+  .custom-modal.wide-modal,
+  .custom-modal.narrow-modal,
+  .custom-modal {
+    width: 98vw !important;
+    padding: 10px;
+  }
 }
 
-.upload-form label {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  /* color: #111827; */
-}
-
-.upload-input{
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.upload-form select {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #374151;
-  background-color: #f9fafb;
-  /* appearance: none; */
-  outline: none;
-  cursor: pointer;
-}
-
-.upload-label {
-  display: block;
-  text-align: center;
-  padding: 12px;
-  background-color: #3b82f6;
-  color: white;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.upload-label:hover {
-  background-color: #2563eb;
-}
-
-.upload-label.has-pdf {
-  background-color: #16a34a;
-  /* check with ur cousin later */
-}
-
-.form-actions {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.btn {
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  transition: 0.2s;
-}
-
-.btn.cancel {
-  background: white;
-  border: 1px solid #d1d5db;
-  color: #374151;
-}
-
-.btn.cancel:hover {
-  background: #f3f4f6;
-}
-
-.btn.submit {
-  background: #3b82f6;
-  color: white;
-}
-
-.btn.submit:hover {
-  background: #2563eb;
-}
-
+/* WARNING Layout: only stretch .important-info when in wide mode */
 .important-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  border-radius: 16px;
+  width: 100%;
+}
+
+.important-info>div:first-child {
+  flex: 1;
+}
+
+.video {
+  flex: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  max-width: 500px;
+}
+
+.video video {
   width: 100%;
-  position: relative;
+  height: auto;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: contain;
 }
 
 .font-warning {
@@ -294,10 +215,9 @@
   font-size: 15px;
   line-height: 1.6;
   margin: 0;
-  /* padding-left: 16px; */
   font-weight: 500;
   text-align: justify;
-  text-align-last:center ;
+  text-align-last: center;
 }
 
 .checkbox-input {
@@ -376,6 +296,97 @@
   transform: translateY(0);
 }
 
+/* UPLOAD FORM Layout (centered and narrow) */
+.upload-form-wrapper {
+  /* narrow modal already handles width; center content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.upload-form-wrapper h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.upload-form-wrapper p {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.upload-form {
+  width: 100%;
+}
+
+.upload-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.upload-form label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.upload-input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.upload-form select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  background-color: #f9fafb;
+  outline: none;
+  cursor: pointer;
+}
+
+.upload-label {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upload-label:hover {
+  background-color: #2563eb;
+}
+
+.upload-label.has-pdf {
+  background-color: #16a34a;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn.submit {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn.submit:hover {
+  background: #2563eb;
+}
 
 /* Dark mode modal */
 .custom-modal.dark {
@@ -387,10 +398,6 @@
 .custom-modal.dark h2 {
   color: #ffffff;
 }
-
-/* .custom-modal.dark p {
-  color: #cbd5e1;
-} */
 
 .custom-modal.dark .upload-form label {
   color: #ffffff;
@@ -414,7 +421,6 @@
 
 .custom-modal.dark .upload-label.has-pdf {
   background-color: #16a34a;
-  /* check with ur cousin later */
 }
 
 .custom-modal.dark .btn.cancel {
@@ -433,4 +439,18 @@
 
 .custom-modal.dark .btn.submit:hover {
   background-color: #1e40af;
+}
+
+@media (max-width: 768px) {
+  .important-info {
+    flex-direction: column;
+  }
+
+  .custom-modal.wide-modal {
+    width: 98vw;
+  }
+
+  .custom-modal.narrow-modal {
+    width: 98vw;
+  }
 }

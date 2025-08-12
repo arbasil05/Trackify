@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp';
 import SingleCategory from './pages/singleCategory';
 import NotFound from './components/404/NotFound';
 import UseLaptop from './components/uselaptop/UseLaptop';
+import Feedback from './feedback/Feedback';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -101,6 +102,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
+        <Route path='/feedback' element={<Feedback/>}/>
         <Route path='*' element={<NotFound />} />
       </Routes>
     </React.Fragment>

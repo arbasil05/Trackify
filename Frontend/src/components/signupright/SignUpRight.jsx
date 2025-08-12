@@ -162,7 +162,10 @@ const SignUpRight = () => {
                     <div className="signup-button">
                         <button type="submit">Sign Up</button>
                     </div>
-                    <p>Have an account? <Link to="/login" className='link'>Sign In</Link></p>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:"center",width:"100%"}}  >
+                        <Link to="/login" className='link'>Sign In</Link>
+                        <Link className='link' to="/feedback">Need help?</Link>
+                    </div>
                 </div>
             </form>
         </div>

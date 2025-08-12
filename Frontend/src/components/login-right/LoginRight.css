@@ -48,7 +48,7 @@
     gap: 10px;
 }
 
-.login-inputs input {
+.login-inputs input,textarea {
     width: 450px;
     border-radius: 10px;
     padding: 12px 10px 12px 10px;
