@@ -77,9 +77,9 @@ function SingleCategory({ isDark, setIsDark }) {
                 const response = await axios.get(`http://localhost:5001/api/courseByUser`, { withCredentials: true });
                 console.log(response.data);
                 setUser(response.data.user);
-                const oldCode = response.data.user.reg_no.slice(4, 6);
+                const oldCode = response.data.user.grad_year;
                 console.log(oldCode);
-                setIsOldCode(oldCode === '21' || oldCode === '22' || oldCode === '23');
+                setIsOldCode(oldCode === '2027');
                 const filteredCourses = response.data.courseDetails.filter(course => course.category === category);
                 setCourses(filteredCourses);
                 console.log(filteredCourses);

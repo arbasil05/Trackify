@@ -8,6 +8,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignUpRight = () => {
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [reg_no, setRegNo] = useState("");
     const [grad_year, setGradYear] = useState("");
     const [dept, setdept] = useState("");
@@ -20,6 +21,7 @@ const SignUpRight = () => {
 
     const handleSignUp = () => {
         const trimmedName = name.trim();
+        const trimmedEmail = email.trim();
         const trimmedRegNo = reg_no.trim();
         const trimmedDept = dept.trim();
         const trimmedGrad = grad_year.trim();
@@ -28,6 +30,10 @@ const SignUpRight = () => {
 
         if (trimmedName === "") {
             toast.error("Name cannot be empty");
+            return;
+        }
+        if (trimmedEmail === "") {
+            toast.error("Email cannot be empty");
             return;
         }
         if (trimmedRegNo === "") {
@@ -58,7 +64,7 @@ const SignUpRight = () => {
         const url = "http://localhost:5001/api/register";
         const toastId = toast.loading("Creating your account...");
 
-        axios.post(url, { name, reg_no, grad_year, dept, password }, { withCredentials: true })
+        axios.post(url, { name, email, reg_no, grad_year, dept, password }, { withCredentials: true })
             .then((res) => {
                 console.log(res.data.user);
                 toast.success("Account creation success", { id: toastId });
@@ -89,6 +95,15 @@ const SignUpRight = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder='Enter your name'
+                        />
+                    </div>
+                    <div className="reg-no">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder='Enter your email'
                         />
                     </div>
                     <div className="reg-no">
@@ -123,38 +138,40 @@ const SignUpRight = () => {
                             </select>
                         </div>
                     </div>
-                    <div className="password">
-                        <label>Create password</label>
-                        <div className="password-wrapper">
-                            <input
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                type={showPassword ? "text" : "password"}
-                                placeholder='Create new password'
-                            />
-                            <FontAwesomeIcon
-                                icon={showPassword ? faEyeSlash : faEye}
-                                className="eye-icon"
-                                onClick={() => setShowPassword(!showPassword)}
-                                aria-label={showPassword ? "Hide password" : "Show password"}
-                            />
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between", gap:"15px"}}>
+                        <div className="password">
+                            <label>Create password</label>
+                            <div className="password-wrapper">
+                                <input
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder='Create new password'
+                                />
+                                <FontAwesomeIcon
+                                    icon={showPassword ? faEyeSlash : faEye}
+                                    className="eye-icon"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className="password">
-                        <label>Confirm password</label>
-                        <div className="password-wrapper">
-                            <input
-                                value={cpassword}
-                                onChange={(e) => setCpassword(e.target.value)}
-                                type={showConfirmPassword ? "text" : "password"}
-                                placeholder='Confirm your password'
-                            />
-                            <FontAwesomeIcon
-                                icon={showConfirmPassword ? faEyeSlash : faEye}
-                                className="eye-icon"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
-                            />
+                        <div className="password">
+                            <label>Confirm password</label>
+                            <div className="password-wrapper">
+                                <input
+                                    value={cpassword}
+                                    onChange={(e) => setCpassword(e.target.value)}
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    placeholder='Confirm your password'
+                                />
+                                <FontAwesomeIcon
+                                    icon={showConfirmPassword ? faEyeSlash : faEye}
+                                    className="eye-icon"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,7 +179,7 @@ const SignUpRight = () => {
                     <div className="signup-button">
                         <button type="submit">Sign Up</button>
                     </div>
-                    <div style={{display:'flex',justifyContent:'space-between',alignItems:"center",width:"100%"}}  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: "center", width: "100%" }}  >
                         <Link to="/login" className='link'>Sign In</Link>
                         <Link className='link' to="/feedback">Need help?</Link>
                     </div>

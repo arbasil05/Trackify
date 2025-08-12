@@ -26,7 +26,8 @@
 }
 
 .first-row,
-.second-row {
+.second-row,
+.third-row {
   display: flex;
   flex-direction: row;
   gap: 80px;
@@ -35,8 +36,17 @@
 }
 
 .first-row>div,
-.second-row>div {
+.second-row>div{
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.third-row div{
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -52,7 +62,6 @@
   font-size: 15px;
   border: none;
 }
-
 
 .userdetails-buttons {
   display: flex;
@@ -91,10 +100,7 @@ label {
 .pencil-icon:hover {
   color: #4880FF;
   cursor: pointer;
-
-
 }
-
 
 /* dark mode */
 .userdetails-container.dark {

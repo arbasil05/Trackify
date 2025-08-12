@@ -1,0 +1,20 @@
+.footer-container {
+    margin-left: 250px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-right: 8%;
+}
+
+.contact-us {
+    cursor: pointer;
+    color: #4880FF;
+    text-decoration: none;
+    transition: text-decoration-color 0.3s ease;
+    text-decoration-color: transparent;
+}
+
+.contact-us:hover {
+    text-decoration: underline;
+    text-decoration-color: #4880FF;
+}

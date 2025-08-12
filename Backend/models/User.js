@@ -7,10 +7,15 @@ const UserSchema = mongoose.Schema({
         required: true,
     },
 
+    email: {
+        type: String,
+        required: true,
+        unique:true
+    },
+
     reg_no: {
         type: String,
         required: true,
-        unique: true,
     },
 
     grad_year: {
@@ -50,7 +55,7 @@ const UserSchema = mongoose.Schema({
                     type: String,
                     required: true,
                 },
-                category:{
+                category: {
                     type: String,
                     required: true,
                 }
