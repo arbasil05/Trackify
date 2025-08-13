@@ -1,20 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "server.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "server.js"
-        }
-    ],
-    "functions": {
-        "server.js": {
-            "includeFiles": "test/data/05-versions-space.pdf"
-        }
+  "version": 2,
+  "functions": {
+    "server.js": {
+      "runtime": "nodejs18.x",
+      "includeFiles": "test/data/05-versions-space.pdf"
     }
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "server.js" }
+  ]
 }
