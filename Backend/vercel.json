@@ -2,7 +2,6 @@
   "version": 2,
   "functions": {
     "server.js": {
-      "runtime": "@vercel/node",
       "includeFiles": "test/data/05-versions-space.pdf"
     }
   },
