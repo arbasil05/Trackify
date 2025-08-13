@@ -30,7 +30,7 @@ const LoginRight = () => {
       return;
     }
 
-    const url = "http://localhost:5001/api/login";
+    const url = `${import.meta.env.VITE_BACKEND_API}/api/login`;
     const toastId = toast.loading("Logging you in...");
 
     axios.post(url, { email, password }, { withCredentials: true })

@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import User from './pages/User';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import SingleCategory from './pages/singleCategory';
+import SingleCategory from './pages/SingleCategory';
 import NotFound from './components/404/NotFound';
 import UseLaptop from './components/uselaptop/UseLaptop';
 import Feedback from './feedback/Feedback';

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Barchart from '../components/barchart/Barchart';
+import Barchart from '../components/barchart/BarChart';
 import Cateogory from '../components/category/Cateogory';
 import Information from '../components/information/Information';
 import Navbar from '../components/navbar/Navbar';
@@ -23,7 +23,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const [Loading,setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5001/api/userDetails", { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_BACKEND_API}/api/userDetails`, { withCredentials: true })
       .then(() => setAuthChecked(true))
       .catch(() => {
         toast.error("Please login or signup to continue");
@@ -34,7 +34,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   useEffect(() => {
     if (authChecked) {
       setLoading(true);
-      axios.get("http://localhost:5001/api/courseByUser", { withCredentials: true })
+      axios.get(`${import.meta.env.VITE_BACKEND_API}/api/courseByUser`, { withCredentials: true })
         .then((res) => {
           const { user, user_sem_credits, totalCredits, runningTotal,CGPA } = res.data;
           setUserDetails(user);
@@ -48,7 +48,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
           setLoading(false)
         });
 
-      axios.get("http://localhost:5001/api/userDetails", { withCredentials: true })
+      axios.get(`${import.meta.env.VITE_BACKEND_API}/api/userDetails`, { withCredentials: true })
         .then((res) => setUserDetails(prev => ({ ...prev, name: res.data.user.name })))
         .catch((err) => console.log(err));
     }

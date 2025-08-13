@@ -74,7 +74,7 @@ function SingleCategory({ isDark, setIsDark }) {
         const fetchCategoryData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:5001/api/courseByUser`, { withCredentials: true });
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/api/courseByUser`, { withCredentials: true });
                 console.log(response.data);
                 setUser(response.data.user);
                 const oldCode = response.data.user.grad_year;

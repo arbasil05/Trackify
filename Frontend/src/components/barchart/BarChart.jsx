@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './Barchart.css';
+import './BarChart.css';
 import {
   ResponsiveContainer,
   BarChart,

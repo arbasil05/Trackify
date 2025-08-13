@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
 
     const deleteSem = (semester) => {
-        const url = `http://localhost:5001/api/semester/${semester}`;
+        const url = `${import.meta.env.VITE_BACKEND_API}/api/semester/${semester}`;
         axios.delete(url, { withCredentials: true })
             .then((res) => {
                 toast.success(`Data deleted successfully`);

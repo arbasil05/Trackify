@@ -12,7 +12,7 @@ const Sidebar = ({ dark }) => {
     const location = useLocation();
 
     const handlelogout = () =>{
-        const url = "http://localhost:5001/api/logout";
+        const url = `${import.meta.env.VITE_BACKEND_API}/api/logout`;
         axios.post(url,{},{withCredentials:true})
              .then(()=>{
                 toast.success("Logged out successfully");

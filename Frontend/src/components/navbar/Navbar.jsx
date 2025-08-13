@@ -54,7 +54,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         formData.append('pdf', pdf);
         formData.append('sem', semValue);
 
-        const url = "http://localhost:5001/api/upload";
+        const url = `${import.meta.env.VITE_BACKEND_API}/api/upload`;
         const toastId = toast.loading("Uploading...");
 
         try {

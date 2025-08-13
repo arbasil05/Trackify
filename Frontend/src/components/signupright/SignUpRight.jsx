@@ -61,7 +61,7 @@ const SignUpRight = () => {
             return;
         }
 
-        const url = "http://localhost:5001/api/register";
+        const url = `${import.meta.env.VITE_BACKEND_API}/api/register`;
         const toastId = toast.loading("Creating your account...");
 
         axios.post(url, { name, email, reg_no, grad_year, dept, password }, { withCredentials: true })

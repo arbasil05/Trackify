@@ -33,18 +33,18 @@ export async function register(req, res) {
         console.log(`JWT Token generated successfully : ${token}`);
 
         // create cookie
-        res.cookie("jwt", token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-        // res.cookie('jwt', token, {
+        // res.cookie("jwt", token, {
         //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: "none",
-        //     maxAge: 24 * 60 * 60 * 1000
-        // })
+        //     secure: false,
+        //     sameSite: "lax",
+        //     maxAge: 24 * 60 * 60 * 1000,
+        // });
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000
+        })
 
         console.log("Cookie set successfully!");
         res.status(201).json({ user: user, message: "Success" });
@@ -84,18 +84,18 @@ export async function login(req, res) {
 
         console.log(`JWT token : ${token}`);
 
-        res.cookie("jwt", token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-        // res.cookie('jwt', token, {
+        // res.cookie("jwt", token, {
         //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: "none",
-        //     maxAge: 24 * 60 * 60 * 1000
-        // })
+        //     secure: false,
+        //     sameSite: "lax",
+        //     maxAge: 24 * 60 * 60 * 1000,
+        // });
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000
+        })
 
         console.log(`Cookie created Succesfully`);
 
@@ -108,18 +108,18 @@ export async function login(req, res) {
 
 export async function logout(req, res) {
     try {
-        res.clearCookie("jwt", {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-        // res.cookie('jwt', token, {
+        // res.clearCookie("jwt", {
         //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: "none",
-        //     maxAge: 24 * 60 * 60 * 1000
-        // })
+        //     secure: false,
+        //     sameSite: "lax",
+        //     maxAge: 24 * 60 * 60 * 1000,
+        // });
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000
+        })
 
         res.status(200).json({ message: "Log out successfull" });
     } catch (error) {
