@@ -1,8 +1,8 @@
 import express from "express"
 import dotenv from "dotenv"
-import { connectDB } from "./config/db.js";
+import { connectDB } from "../config/db.js";
 import cors from "cors";
-import trackifyRoutes from "./routes/trackifyRoutes.js"
+import trackifyRoutes from "../routes/trackifyRoutes.js"
 import cookieParser from "cookie-parser";
 dotenv.config();
 const PORT = process.env.PORT || 5001;
