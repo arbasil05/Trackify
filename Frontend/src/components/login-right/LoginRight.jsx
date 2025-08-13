@@ -8,20 +8,15 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './LoginRight.css';
 
 const LoginRight = () => {
-  const [reg_no, setRegNo] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const nav = useNavigate();
 
   const handleloginsubmit = () => {
-    if (reg_no.trim() === "") {
-      toast.error("Please enter your register number");
-      return;
-    }
-
-    if (reg_no.length !== 12) {
-      toast.error("Register number should be 12 characters");
+    if (email.trim() === "") {
+      toast.error("Please enter your email");
       return;
     }
 
@@ -38,7 +33,7 @@ const LoginRight = () => {
     const url = "http://localhost:5001/api/login";
     const toastId = toast.loading("Logging you in...");
 
-    axios.post(url, { reg_no, password }, { withCredentials: true })
+    axios.post(url, { email, password }, { withCredentials: true })
       .then((res) => {
         console.log(res.data.user);
         toast.success("Logged in successfully", { id: toastId });
@@ -59,16 +54,16 @@ const LoginRight = () => {
       <form className="login-card" onSubmit={(e) => { e.preventDefault(); handleloginsubmit(); }}>
         <div className="login-header">
           <h2>Login to Account</h2>
-          <p>Please enter your Registration number <br /> and Password to continue</p>
+          <p>Please enter your email <br /> and Password to continue</p>
         </div>
         <div className="login-inputs">
           <div className="reg-no">
-            <label>Registration Number</label>
+            <label>Email</label>
             <input
-              value={reg_no}
-              onChange={(e) => setRegNo(e.target.value)}
-              type="text"
-              placeholder='Enter your Registration number'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder='Enter your email'
             />
           </div>
           <div className="password">

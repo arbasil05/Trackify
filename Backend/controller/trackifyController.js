@@ -12,14 +12,15 @@ export async function register(req, res) {
             throw new Error("No data recieved");
         }
 
-        const { name, reg_no, grad_year, dept, password } = req.body;
+        const { name, email, reg_no, grad_year, dept, password } = req.body;
 
-        if (!name || !reg_no || !grad_year || !dept || !password) {
+        if (!name || !email || !reg_no || !grad_year || !dept || !password) {
             throw new Error("Missing fields!");
         }
 
         const user = await User.create({
             name,
+            email,
             reg_no,
             grad_year,
             dept,
@@ -62,13 +63,13 @@ export async function login(req, res) {
             throw new Error("No data recieved");
         }
 
-        const { reg_no, password } = req.body;
+        const { email, password } = req.body;
 
-        if (!reg_no || !password) {
+        if (!email || !password) {
             throw new Error("Missing Fields");
         }
 
-        const user = await User.findOne({ reg_no });
+        const user = await User.findOne({ email });
         if (!user) {
             throw new Error("User not found");
         }
@@ -147,72 +148,78 @@ export async function uploadFile(req, res) {
             return res.status(400).json({ error: "Check if the PDF is correct and has selectable text" });
         }
 
-        let total_sem_credits = 0;
-
-        // Existing courses for this semester
         const existingSemCourses = user.courses.filter(
             c => c.sem === req.body.sem
         );
 
-        await Promise.all(
-            subs.map(async (course) => {
-                const queryConditions = [];
-                if (course.code19 && course.code19 !== "NA") {
-                    queryConditions.push({ code19: course.code19 });
-                }
-                if (course.code24 && course.code24 !== "NA") {
-                    queryConditions.push({ code24: course.code24 });
-                }
-                if (course.name) {
-                    queryConditions.push({ name: course.name });
-                }
+        let total_sem_credits = 0;
 
-                if (queryConditions.length === 0) {
-                    console.warn(`Skipping course: No valid query fields in ${JSON.stringify(course)}`);
-                    return;
-                }
+        // Changed to a sequential for...of loop for predictable behavior (original Promise.all was parallel and buggy for early returns)
+        for (const course of subs) {
+            const queryConditions = [];
+            if (course.code19 && course.code19 !== "NA") {
+                queryConditions.push({ code19: course.code19 });
+            }
+            if (course.code24 && course.code24 !== "NA") {
+                queryConditions.push({ code24: course.code24 });
+            }
+            if (course.name) {
+                queryConditions.push({ name: course.name });
+            }
 
-                const courseEntry =
-                    queryConditions.length > 1
-                        ? await Course.findOne({ $or: queryConditions })
-                        : await Course.findOne(queryConditions[0]);
+            if (queryConditions.length === 0) {
+                console.warn(`Skipping course: No valid query fields in ${JSON.stringify(course)}`);
+                continue;
+            }
 
-                if (!courseEntry) {
-                    console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
-                    return;
-                }
+            const courseEntry =
+                queryConditions.length > 1
+                    ? await Course.findOne({ $or: queryConditions })
+                    : await Course.findOne(queryConditions[0]);
 
-                const alreadyExists = existingSemCourses.some(
-                    ec => ec.course._id.toString() === courseEntry._id.toString()
-                );
-                if (alreadyExists) {
-                    console.log(`Skipping duplicate: ${courseEntry.name}`);
-                    return res.status(400).json({ error: "No new valid courses found to append" });;
-                }
+            if (!courseEntry) {
+                console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
+                continue;
+            }
 
-                total_sem_credits += courseEntry.credits;
+            // Updated: Check for duplicates globally across ALL user courses (any semester), not just the current sem
+            const alreadyExists = user.courses.some(
+                ec => ec.course._id.toString() === courseEntry._id.toString()
+            );
+            if (alreadyExists) {
+                console.log(`Duplicate found: ${courseEntry.name}`);
+                return res.status(400).json({ error: "No new valid courses found to append" });
+            }
 
-                courseEntries.push({
-                    course: courseEntry._id,
-                    grade: course.grade,
-                    gradePoint: course.gradePoint,
-                    sem: req.body.sem,
-                    category: courseEntry.department[userDept]
-                        ? courseEntry.department[userDept]
-                        : courseEntry.department[Object.keys(courseEntry.department)[0]],
-                    code19: course.code19,
-                    code24: course.code24
-                });
-            })
-        );
+            total_sem_credits += courseEntry.credits;
+
+            courseEntries.push({
+                course: courseEntry._id,
+                grade: course.grade,
+                gradePoint: course.gradePoint,
+                sem: req.body.sem,
+                category: courseEntry.department[userDept]
+                    ? courseEntry.department[userDept]
+                    : courseEntry.department[Object.keys(courseEntry.department)[0]],
+                code19: course.code19,
+                code24: course.code24
+            });
+        }
 
         if (courseEntries.length === 0) {
             return res.status(400).json({ error: "No new valid courses found to append" });
         }
 
+        // New: Correctly calculate the updated semester total credits (existing + new)
+        const existing_sem_credits = existingSemCourses.reduce(
+            (acc, ec) => acc + ec.course.credits,
+            0
+        );
+        const new_total = existing_sem_credits + total_sem_credits;
+
         const semName = req.body.sem;
         const semTotalUpdate = {};
-        semTotalUpdate[`sem_total.${semName}`] = total_sem_credits;
+        semTotalUpdate[`sem_total.${semName}`] = new_total;
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
@@ -237,6 +244,7 @@ export async function uploadFile(req, res) {
         return res.status(500).json({ error: "Internal server error" });
     }
 }
+
 
 
 export async function userDetails(req, res) {
@@ -285,11 +293,11 @@ export async function courseByUser(req, res) {
                         : 0;
                 console.log(course.name);
 
-                let deptToAdd=course.department[userDept];
+                let deptToAdd = course.department[userDept];
 
-                if (!deptToAdd){
-                    deptToAdd=course.department[Object.keys(course.department)[0]];
-                    console.log("moew",deptToAdd)
+                if (!deptToAdd) {
+                    deptToAdd = course.department[Object.keys(course.department)[0]];
+                    console.log("moew", deptToAdd)
                 }
 
                 switch (deptToAdd) {
@@ -341,12 +349,13 @@ export async function courseByUser(req, res) {
             totalCredits > 0
                 ? (totalWeightedPoints / totalCredits).toFixed(4)
                 : null;
-        
-        console.log("MC : ",MC);
+
+        console.log("MC : ", MC);
 
         res.status(200).json({
             user: {
                 name: user.name,
+                email: user.email,
                 reg_no: user.reg_no,
                 dept: user.dept,
                 grad_year: user.grad_year,
@@ -375,11 +384,11 @@ export async function courseByUser(req, res) {
 export async function updateProfile(req, res) {
     try {
         const id = req.id;
-        const { name, reg_no, grad_year, dept } = req.body;
+        const { name, reg_no, grad_year, dept, email } = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name, reg_no, grad_year, dept },
+            { name, email, reg_no, grad_year, dept },
             { new: true },
         )
 

@@ -7,6 +7,7 @@ import Sidebar from '../components/sidebar/Sidebar';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/footer/Footer';
 
 const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const nav = useNavigate();
@@ -64,6 +65,8 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         <Barchart dark={isDark} userSemCredits={userSemCredits} Loading={Loading} />
         <Cateogory dark={isDark} runningTotal={runningTotal} Loading={Loading} />
       </div>
+      <hr />
+      <Footer/>
     </div>
   );
 };

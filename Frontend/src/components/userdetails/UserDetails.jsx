@@ -1,13 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './UserDetails.css';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [editedDetails, setEditedDetails] = useState({ ...userDetails });
+
+  useEffect(() => {
+    if (!isEditable) {
+      setEditedDetails({ ...userDetails });
+    }
+  }, [userDetails, isEditable]);
 
   const handleChange = (field, value) => {
     setEditedDetails((prev) => ({
@@ -22,10 +28,17 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
   };
 
   const handleSave = () => {
-    if(editedDetails.name.trim()===""){
+    // if (editedDetails.name.trim() === "") {
+    //   toast.error("Name cannot be empty");
+    //   return;
+    // }
+
+    if (editedDetails.name.trim() === "") {
       toast.error("Name cannot be empty");
       return;
     }
+
+
     const url = "http://localhost:5001/api/updateProfile";
     axios
       .put(url, editedDetails, { withCredentials: true })
@@ -54,6 +67,7 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
         </div>
 
         <div className="userdetails-body">
+          {/* First Row */}
           <div className="first-row">
             <div className="name-input">
               <label>Name</label>
@@ -101,20 +115,25 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
             </div>
           </div>
 
+          {/* Second Row */}
           <div className="second-row">
             <div className="reg-no">
+              <label>Register Number</label>
               {isEditable ? (
-                <label>Register Number (Not Editable)</label>
+                <input
+                  className="userdetails-input"
+                  type="text"
+                  value={editedDetails.reg_no}
+                  onChange={(e) => handleChange("reg_no", e.target.value)}
+                />
               ) : (
-                <label>Register Number</label>
+                <input
+                  className="userdetails-input"
+                  type="text"
+                  disabled
+                  value={userDetails.reg_no}
+                />
               )}
-              <input
-                className="userdetails-input"
-                type="text"
-                disabled
-                style={isEditable ? { backgroundColor: "crimson" } : {}}
-                value={userDetails.reg_no}
-              />
             </div>
 
             <div className="grad-year">
@@ -140,6 +159,24 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
               )}
             </div>
           </div>
+
+          {/* Third Row - Email */}
+          <div className="third-row">
+            <div className="email-input">
+              {isEditable ? (
+                <label>Email (Not Editable)</label>
+              ) : (
+                <label>Email</label>
+              )}
+              <input
+                className="userdetails-input"
+                type="email"
+                disabled
+                style={isEditable ? { backgroundColor: "gray", cursor: "not-allowed" } : {}}
+                value={userDetails.email}
+              />
+            </div>
+          </div>
         </div>
 
         {isEditable && (
@@ -154,100 +191,13 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
         )}
       </div>
     ) : (
+      // Skeleton loading view
       <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
         <div className="userdetails-header">
           <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
             <h2 style={{ visibility: 'hidden' }}>Personal Details</h2>
           </div>
-          {/* <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-            <FontAwesomeIcon
-              style={{ visibility: 'hidden' }}
-              className="pencil-icon"
-              icon={faPencil}
-            />
-          </div> */}
         </div>
-
-        <div className="userdetails-body">
-          <div className="first-row">
-            <div className="name-input">
-              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-                <label style={{ visibility: 'hidden' }}>Name</label>
-                <input
-                  className="userdetails-input"
-                  type="text"
-                  disabled
-                  style={{ visibility: 'hidden' }}
-                  value={userDetails.name}
-                />
-              </div>
-            </div>
-
-            <div className="dept-input">
-              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-                <label style={{ visibility: 'hidden' }}>Department</label>
-                <input
-                  className="userdetails-input"
-                  type="text"
-                  disabled
-                  style={{ visibility: 'hidden' }}
-                  value={userDetails.dept}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="second-row">
-            <div className="reg-no">
-              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-                <label style={{ visibility: 'hidden' }}>Register Number</label>
-                <input
-                  className="userdetails-input"
-                  type="text"
-                  disabled
-                  style={{ visibility: 'hidden' }}
-                  value={userDetails.reg_no}
-                />
-              </div>
-            </div>
-
-            <div className="grad-year">
-              <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-                <label style={{ visibility: 'hidden' }}>Graduation Year</label>
-                <input
-                  className="userdetails-input"
-                  type="text"
-                  disabled
-                  style={{ visibility: 'hidden' }}
-                  value={userDetails.grad_year}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {isEditable && (
-          <div className="userdetails-buttons">
-            <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-              <button
-                className="user-cancel"
-                style={{ visibility: 'hidden' }}
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </div>
-            <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
-              <button
-                className="user-save"
-                style={{ visibility: 'hidden' }}
-                onClick={handleSave}
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     )
   );

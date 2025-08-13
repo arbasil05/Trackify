@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
 
     const deleteSem = (semester) => {
-
         const url = `http://localhost:5001/api/semester/${semester}`;
         axios.delete(url, { withCredentials: true })
             .then((res) => {
@@ -59,11 +58,20 @@ const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
         });
     };
 
-    const sortedSemesters = Object.entries(userSem).sort(([a], [b]) => {
+   
+    const sortedSemesters = Object.entries(userSem || {}).sort(([a], [b]) => {
         const numA = parseInt(a.replace('sem', ''), 10);
         const numB = parseInt(b.replace('sem', ''), 10);
         return numA - numB;
     });
+
+    if (loading) {
+        return (
+            <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
+                <p>Loading semester details...</p>
+            </div>
+        );
+    }
 
     return (
         <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
@@ -86,7 +94,11 @@ const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
                             <p>Credits : {credit}</p>
                         </div>
                         <div className="semdetails-list-left">
-                            <FontAwesomeIcon onClick={() => handleDelete(semester)} className="trash-icon" icon={faTrash} />
+                            <FontAwesomeIcon
+                                onClick={() => handleDelete(semester)}
+                                className="trash-icon"
+                                icon={faTrash}
+                            />
                         </div>
                     </div>
                 ))

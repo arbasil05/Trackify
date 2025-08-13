@@ -3,10 +3,13 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import LoginLeft from "../components/login-left/LoginLeft";
 import "./Feedback.css"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 const Feedback = () => {
     const [name, setName] = useState("");
     const [issue, setIssue] = useState("");
+    const nav = useNavigate();
 
     const handleFeedbackSubmit = (e) => {
         e.preventDefault();
@@ -23,12 +26,13 @@ const Feedback = () => {
         // console.log(formdata)
 
         const webhookUrl = "https://discord.com/api/webhooks/1404704111739408446/7bFJ0sJ9hHLRPIF6Bde3FAm4kJlX_CXgjKT9YDayc60hjSOKhDw3qSG-co95HAHANe3S";
+        const toastId = toast.loading("Submitting...");
         axios.post(webhookUrl, payload)
             .then(() => {
-                toast.success("Feedback submitted successfully");
+                toast.success("Feedback submitted successfully",{id:toastId});
             })
             .catch((error) => {
-                toast.error("There was a problem, try again later.")
+                toast.error("There was a problem, try again later.",{id:toastId})
                 console.log(error);
             })
     }
@@ -65,8 +69,9 @@ const Feedback = () => {
                                 </div>
                             </div>
                             <div className="footer">
-                                <div className="login-button">
+                                <div className="login-button" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center" ,gap:"20px",cursor:"pointer"}}>
                                     <button type="submit">Submit</button>
+                                    <p className="link-back" onClick={()=>nav(-1)}><FontAwesomeIcon icon={faChevronLeft}/> Back</p>
                                 </div>
 
                             </div>
