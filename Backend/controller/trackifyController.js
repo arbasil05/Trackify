@@ -114,7 +114,7 @@ export async function logout(req, res) {
         //     sameSite: "lax",
         //     maxAge: 24 * 60 * 60 * 1000,
         // });
-        res.cookie('jwt', token, {
+        res.clearCookie('jwt',{
             httpOnly: true,
             secure: true,
             sameSite: "none",
