@@ -43,7 +43,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
           setRunningTotal(runningTotal);
           setCgpa(CGPA);
         })
-        .catch((err) => console.log(err))
+        // .catch((err) => (err))
         .finally(()=>{
           setLoading(false)
         });

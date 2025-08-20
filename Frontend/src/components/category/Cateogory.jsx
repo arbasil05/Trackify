@@ -24,7 +24,7 @@ const Category = ({ dark, runningTotal, Loading }) => {
       ...course,
       credits: runningTotal[course.name],
     }));
-    console.log(updatedCourses,"updated courses")
+    // console.log(updatedCourses,"updated courses")
     setCourses(updatedCourses);
   }, [runningTotal]);
 

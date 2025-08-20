@@ -66,12 +66,12 @@ const SignUpRight = () => {
 
         axios.post(url, { name, email, reg_no, grad_year, dept, password }, { withCredentials: true })
             .then((res) => {
-                console.log(res.data.user);
+                // console.log(res.data.user);
                 toast.success("Account creation success", { id: toastId });
                 nav("/");
             })
             .catch((error) => {
-                console.log(`${error}`);
+                // console.log(`${error}`);
                 if (error.response && error.response.status === 409) {
                     toast.error("User already exists", { id: toastId });
                     return;

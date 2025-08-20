@@ -20,7 +20,7 @@ const Sidebar = ({ dark }) => {
              })
              .catch((error)=>{
                 toast.error("Error while logging out");
-                console.log(`${error}`);
+                // console.log(`${error}`);
                 
              })
 

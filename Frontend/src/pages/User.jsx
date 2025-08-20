@@ -21,7 +21,7 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
                 setUserSem(user_sem_credits);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
             .finally(()=>{
                 setLoading(false)

@@ -35,12 +35,12 @@ const LoginRight = () => {
 
     axios.post(url, { email, password }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.user);
+        // console.log(res.data.user);
         toast.success("Logged in successfully", { id: toastId });
         nav("/");
       })
       .catch((error) => {
-        console.log(`Error while logging in: ${error}`);
+        // console.log(`Error while logging in: ${error}`);
         if (error.response && error.response.status === 401) {
           toast.error("User does not exist", { id: toastId });
         } else {

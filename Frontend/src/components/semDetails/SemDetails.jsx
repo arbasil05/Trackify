@@ -11,11 +11,11 @@ const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
         axios.delete(url, { withCredentials: true })
             .then((res) => {
                 toast.success(`Data deleted successfully`);
-                console.log(res);
+                // console.log(res);
                 onDataRefresh();
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             });
     };
 

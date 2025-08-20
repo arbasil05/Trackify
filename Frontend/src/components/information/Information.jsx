@@ -8,7 +8,7 @@ import './Information.css';
 const Information = ({ dark, user, totalCredits, userSemCredits,cgpa,Loading }) => {
   const [denom, setDenom] = useState(0);
   const [gradPercent, setGradPercent] = useState(0);
-  console.log(user);
+  // console.log(user);
   
 
   useEffect(() => {

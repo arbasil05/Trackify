@@ -44,12 +44,12 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
       .put(url, editedDetails, { withCredentials: true })
       .then((res) => {
         toast.success("Personal Details updated successfully");
-        console.log(res);
+        // console.log(res);
         onDataRefresh();
       })
       .catch((error) => {
         toast.error("Error updating details");
-        console.log(error);
+        // console.log(error);
       });
     setIsEditable(false);
   };

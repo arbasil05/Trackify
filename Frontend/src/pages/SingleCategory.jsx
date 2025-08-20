@@ -75,14 +75,14 @@ function SingleCategory({ isDark, setIsDark }) {
             try {
                 setLoading(true);
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/api/courseByUser`, { withCredentials: true });
-                console.log(response.data);
+                // console.log(response.data);
                 setUser(response.data.user);
                 const oldCode = response.data.user.grad_year;
-                console.log(oldCode);
+                // console.log(oldCode);
                 setIsOldCode(oldCode === '2027');
                 const filteredCourses = response.data.courseDetails.filter(course => course.category === category);
                 setCourses(filteredCourses);
-                console.log(filteredCourses);
+                // console.log(filteredCourses);
 
                 // Calculate total credits for this category
                 const credits = filteredCourses.reduce((sum, course) => sum + course.credits, 0);
