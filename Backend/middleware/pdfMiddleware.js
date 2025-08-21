@@ -1,5 +1,5 @@
 import Course from "../models/Course.js";
-import pdfParse from "pdf-parse";
+import pdfParse from "pdf-parse/lib/pdf-parse.js";
 
 export const pdfMiddleware = async (req, res, next) => {
     if (!req.file || !req.file.buffer) {
