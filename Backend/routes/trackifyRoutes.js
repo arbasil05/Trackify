@@ -8,6 +8,7 @@ import {
     courseByUser,
     deleteSem,
     updateProfile,
+    recommendation,
 } from "../controller/trackifyController.js";
 import multer from "multer";
 import { pdfMiddleware } from "../middleware/pdfMiddleware.js";
@@ -30,6 +31,7 @@ router.post(
 
 router.get("/userDetails", authMiddleWare, userDetails);
 router.get("/courseByUser", authMiddleWare, courseByUser);
+router.get("/recommendation",authMiddleWare,recommendation);
 
 router.put("/updateProfile",authMiddleWare,updateProfile)
 

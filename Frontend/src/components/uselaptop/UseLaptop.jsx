@@ -32,7 +32,8 @@ const UseLaptop = () => {
                 gap: "30px"
             }}
         >
-            <h1 align="center" style={{fontSize:"16px"}}>{chosenMessage}</h1>
+            <h1  style={{color:"#4880FF"}}>Trac<span style={{color:"white"}}>kify</span></h1>
+            <h3 align="center" style={{fontSize:"14px"}}>{chosenMessage}</h3>
 
             <lottie-player
                 src="/laptop.json"

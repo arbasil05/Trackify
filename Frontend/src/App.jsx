@@ -9,6 +9,7 @@ import SingleCategory from './pages/SingleCategory';
 import NotFound from './components/404/NotFound';
 import UseLaptop from './components/uselaptop/UseLaptop';
 import Feedback from './feedback/Feedback';
+import Explore from './pages/Explore';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -102,6 +103,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
+        <Route path='/explore' element={<Explore isDark={isDark} setIsDark={setIsDark}/>}/>
         <Route path='/feedback' element={<Feedback/>}/>
         <Route path='*' element={<NotFound />} />
       </Routes>

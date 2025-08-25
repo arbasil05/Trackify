@@ -1,6 +1,14 @@
 import Course from "../models/Course.js";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
 
+// Helper function to safely escape any regex special characters and remove null bytes
+function sanitizeForRegex(str) {
+    // Remove null bytes and other control characters
+    str = str.replace(/[\0-\x1F\x7F]/g, "");
+    // Escape regex special characters
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export const pdfMiddleware = async (req, res, next) => {
     if (!req.file || !req.file.buffer) {
         return next(new Error("No PDF file buffer found in req.file.buffer"));
@@ -16,22 +24,25 @@ export const pdfMiddleware = async (req, res, next) => {
         req.body.text = text;
 
         const subjects = [];
-        const subjectRegex =
-            /(ODDJUNIOR|EVEN|ODD)\s*(\d*[A-Z]+\d+)-([\s\S]*?)(\d{1,2})\s*([A-Z]\+?)\s*(\d+)\s*Pass/gu;
+        // Regex to parse subject details in PDF text
+        const subjectRegex = /(ODDJUNIOR|EVEN|ODD)\s*(\d*[A-Z]+\d+)-([\s\S]*?)(\d{1,2})\s*([A-Z]\+?)\s*(\d+)\s*Pass/gu;
 
         let match;
         while ((match = subjectRegex.exec(text)) !== null) {
             let code = match[2].trim();
-            let name = match[3].replace(/\n+/g, " ").trim();
+            let rawName = match[3].replace(/\n+/g, " ").trim();
             const gradePoint = Number(match[4]);
             const grade = match[5];
             const credit = Number(match[6]);
+
+            // Sanitize course name for regex query
+            const safeName = sanitizeForRegex(rawName);
 
             const matchedEntry = await Course.findOne({
                 $or: [
                     { code24: code.toUpperCase() },
                     { code19: code.toUpperCase() },
-                    { name: new RegExp(`^${name}$`, "i") }
+                    { name: new RegExp(`^${safeName}$`, "i") }
                 ]
             }).lean();
 
@@ -53,7 +64,7 @@ export const pdfMiddleware = async (req, res, next) => {
                     department: matchedEntry.department
                 });
             } else {
-                console.log(`No MongoDB match found for code: '${code}' or name: '${name}'`);
+                console.log(`No MongoDB match found for code: '${code}' or name: '${rawName}'`);
             }
         }
 

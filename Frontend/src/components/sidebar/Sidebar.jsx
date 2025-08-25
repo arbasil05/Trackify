@@ -1,28 +1,28 @@
 import './Sidebar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartPie, faPowerOff, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faCompass, faPowerOff, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const Sidebar = ({ dark }) => {
 
-    
+
     const nav = useNavigate();
     const location = useLocation();
 
-    const handlelogout = () =>{
+    const handlelogout = () => {
         const url = `${import.meta.env.VITE_BACKEND_API}/api/logout`;
-        axios.post(url,{},{withCredentials:true})
-             .then(()=>{
+        axios.post(url, {}, { withCredentials: true })
+            .then(() => {
                 toast.success("Logged out successfully");
                 nav("/login");
-             })
-             .catch((error)=>{
+            })
+            .catch((error) => {
                 toast.error("Error while logging out");
                 // console.log(`${error}`);
-                
-             })
+
+            })
 
     }
 
@@ -41,6 +41,12 @@ const Sidebar = ({ dark }) => {
                             <p>Dashboard</p>
                         </div>
                     </Link>
+                    <Link to="/explore">
+                        <div className={`sidebarDash ${location.pathname === "/explore" ? "active" : ""}`}>
+                            <FontAwesomeIcon icon={faCompass} />
+                            <p>Explore</p>
+                        </div>
+                    </Link>
                     <Link to="/user">
                         <div className={`sidebarprofile ${location.pathname === "/user" ? "active" : ""}`}>
                             <FontAwesomeIcon icon={faUserCircle} />
@@ -50,7 +56,7 @@ const Sidebar = ({ dark }) => {
                 </div>
             </div>
             <div>
-                <button onClick={handlelogout} className={dark?'logout-button-dark':'logout-button-light'}>
+                <button onClick={handlelogout} className={dark ? 'logout-button-dark' : 'logout-button-light'}>
                     <FontAwesomeIcon icon={faPowerOff} />
                     <p>Logout</p>
                 </button>
