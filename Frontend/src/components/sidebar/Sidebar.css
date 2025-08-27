@@ -72,11 +72,16 @@
 }
 
 .sidebarDash:hover {
-    border: 1px solid #2b6aff;
+    background-color: #374151;
+    color: white;
 }
 
+
+
 .sidebarprofile:hover {
-    border: 0.5px solid #2b6aff;
+    background-color: #374151;
+    color: white;
+
 }
 
 .dark-mode .sidebar-menu div {
@@ -102,7 +107,7 @@
     transition: 0.5s all ease-in-out;
 }
 
-.logout-button-light:hover{
+.logout-button-light:hover {
     background-color: #000000;
     color: white;
     gap: 20px;
@@ -127,11 +132,12 @@
     transition: 0.5s all ease-in-out;
 }
 
-.logout-button-dark:hover{
+.logout-button-dark:hover {
     background-color: #ffffff;
     color: black;
     gap: 20px;
 }
+
 /* Highlight the active menu item */
 .sidebar-menu div.active {
     background-color: #4880FF;
@@ -143,6 +149,3 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.sidebar-menu div:hover {
-    transform: scale(1.05);
-}

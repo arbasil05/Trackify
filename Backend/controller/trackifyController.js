@@ -114,7 +114,7 @@ export async function logout(req, res) {
         //     sameSite: "lax",
         //     maxAge: 24 * 60 * 60 * 1000,
         // });
-        res.clearCookie('jwt',{
+        res.clearCookie('jwt', {
             httpOnly: true,
             secure: true,
             sameSite: "none",
@@ -429,4 +429,72 @@ export async function deleteSem(req, res) {
 
     }
 
+}
+
+export async function recommendation(req, res) {
+    try {
+        const id = req.id;
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const userName = user.name;
+        const grad_year = user.grad_year;
+        const userDept = user.dept;
+        const user_courses = user.courses;
+        const userCourseIds = user_courses.map(c => c.course.toString());
+
+        let recommendedCourses = await Course.find({
+            [`department.${userDept}`]: { $exists: true },
+            _id: { $nin: userCourseIds }
+        });
+
+  
+        recommendedCourses = recommendedCourses.filter(course => {
+            if (grad_year === "2027" && course.code19 === "NA") {
+                return false;
+            }
+            if (grad_year !== "2027" && course.code24 === "NA") {
+                return false;
+            }
+            return true;
+        });
+
+      
+        const grouped = {};
+        for (const course of recommendedCourses) {
+            const category = course.department[userDept];
+            if (!grouped[category]) grouped[category] = [];
+            grouped[category].push(course);
+        }
+
+    
+        const result = {};
+        for (const [category, courses] of Object.entries(grouped)) {
+            result[category] = courses.slice(0, 5);
+        }
+
+        
+        const categoryOrder = ["HS", "BS", "ES", "PC", "PE", "EEC", "MC"];
+
+      
+        const orderedResult = {};
+        for (const cat of categoryOrder) {
+            if (result[cat]) {
+                orderedResult[cat] = result[cat];
+            }
+        }
+
+        res.status(200).json({
+            recommendedCourses: orderedResult,
+            userName: userName,
+            grad_year: grad_year
+        });
+
+    } catch (error) {
+        console.log(`Error in recommendation ${error}`);
+        res.status(500).json({ message: "Internal server error" });
+    }
 }
