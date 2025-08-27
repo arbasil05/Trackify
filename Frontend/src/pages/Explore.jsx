@@ -12,7 +12,7 @@ const Explore = ({ isDark, setIsDark }) => {
   const [loading, setLoading] = useState(true)   // ✅ NEW: loading state
 
   useEffect(() => {
-    const url = "http://localhost:5001/api/recommendation"
+    const url = `${import.meta.env.VITE_BACKEND_API}/api/recommendation`
 
     setLoading(true) // start loading when making request
     axios
