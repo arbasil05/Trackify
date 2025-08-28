@@ -5,6 +5,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
+export async function getExistingSemesters(req, res) {
+    try {
+        const userId = req.id;
+        const user = await User.findById(userId);
+        const semesters = [...new Set(user.courses.map(course => course.sem))];
+        res.status(200).json({ semesters });
+    } catch (error) {
+        // console.log(`Error in /existingSemesters ${error}`);
+        res.status(500).json({ message: "Error", error: error });
+    }
+}
 
 export async function register(req, res) {
     try {
