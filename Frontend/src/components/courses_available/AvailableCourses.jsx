@@ -1,26 +1,44 @@
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
+import { faChevronRight,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './AvailableCourses.css'
 
 const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
+    const [showButtons, setShowButtons] = useState({});
+
     const categories = Object.keys(recommendedCourses || {})
     const courseDetailsRefs = useRef([]);
 
+    // check overflow after dom has rendered
+    useEffect(() => {
+        const checkOverflow = (index) => {
+            const element = courseDetailsRefs.current[index];
+            if (element) {
+                setShowButtons(prev => ({ ...prev, [index]: element.scrollWidth > element.clientWidth }));
+            }
+        };
+
+        Object.keys(recommendedCourses).forEach((_, index) => {
+            checkOverflow(index);
+        });
+    }, [recommendedCourses]);
+
     const handleLeft = (index) => {
-        if(courseDetailsRefs.current[index]) {
+        if (courseDetailsRefs.current[index]) {
             courseDetailsRefs.current[index].scrollBy({
-                left: -300,
+                left: -350,
                 behavior: 'smooth'
             })
         }
     }
 
     const handleRight = (index) => {
-         if(courseDetailsRefs.current[index]) {
-        courseDetailsRefs.current[index].scrollBy({
-            left: 300,
-            behavior: 'smooth'
-        })
-    }
+        if (courseDetailsRefs.current[index]) {
+            courseDetailsRefs.current[index].scrollBy({
+                left: 350,
+                behavior: 'smooth'
+            })
+        }
     }
 
 
@@ -33,8 +51,13 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
                             <h3>{getCategoryFullName(cat)} ({cat})</h3>
                         </div>
                         <div className='course-details-wrapper'>
-                                <button className='carousel left' onClick={()=>handleLeft(index)}>&lt;</button>
-                                <button className='carousel right' onClick={()=>handleRight(index)}>&gt;</button>
+                            {showButtons[index] && (
+                                <>
+                                    <button className='carousel left' onClick={() => handleLeft(index)}><FontAwesomeIcon icon={faChevronLeft} /></button>
+                                    <button className='carousel right' onClick={() => handleRight(index)}><FontAwesomeIcon icon={faChevronRight} /></button>
+                                </>
+                            )}
+
                             <div className="course-details" ref={(el) => courseDetailsRefs.current[index] = el}>
                                 {recommendedCourses[cat]?.map(course => (
                                     <div className="one-course" key={course._id}>
@@ -59,9 +82,9 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
                             </div>
                             <div className="course-details">
                                 {[1, 2, 3].map((f) => (
-                                    <div 
-                                      className={dark ? 'skeleton-dark skeleton-card' : 'skeleton-light skeleton-card'} 
-                                      key={f}
+                                    <div
+                                        className={dark ? 'skeleton-dark skeleton-card' : 'skeleton-light skeleton-card'}
+                                        key={f}
                                     >
                                         <p style={{ visibility: "hidden" }}>Name</p>
                                         <p style={{ visibility: "hidden" }}>Code</p>

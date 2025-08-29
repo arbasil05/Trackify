@@ -12,7 +12,7 @@ export async function getExistingSemesters(req, res) {
         const semesters = [...new Set(user.courses.map(course => course.sem))];
         res.status(200).json({ semesters });
     } catch (error) {
-        // console.log(`Error in /existingSemesters ${error}`);
+        console.log(`Error in /existingSemesters ${error}`);
         res.status(500).json({ message: "Error", error: error });
     }
 }
@@ -41,7 +41,7 @@ export async function register(req, res) {
         // create the token for the session
         const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY);
 
-        console.log(`JWT Token generated successfully : ${token}`);
+        // console.log(`JWT Token generated successfully : ${token}`);
 
         // create cookie
         // res.cookie("jwt", token, {
@@ -57,7 +57,7 @@ export async function register(req, res) {
             maxAge: 24 * 60 * 60 * 1000
         })
 
-        console.log("Cookie set successfully!");
+        // console.log("Cookie set successfully!");
         res.status(201).json({ user: user, message: "Success" });
     } catch (error) {
         if (error.code === 11000) {
@@ -86,14 +86,14 @@ export async function login(req, res) {
         }
 
         const validUser = await user.compare(password);
-        console.log(validUser);
+        // console.log(validUser);
         if (!validUser) {
             throw new Error("Password is incorrect");
         }
 
         const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY);
 
-        console.log(`JWT token : ${token}`);
+        // console.log(`JWT token : ${token}`);
 
         // res.cookie("jwt", token, {
         //     httpOnly: true,
@@ -108,7 +108,7 @@ export async function login(req, res) {
             maxAge: 24 * 60 * 60 * 1000
         })
 
-        console.log(`Cookie created Succesfully`);
+        // console.log(`Cookie created Succesfully`);
 
         res.status(200).json({ user: user, message: "Success" });
     } catch (error) {
@@ -153,7 +153,7 @@ export async function uploadFile(req, res) {
         }
         const userDept = user.dept;
 
-        console.log("HELLO : ", req.subjects);
+        // console.log("HELLO : ", req.subjects);
         const subs = req.subjects;
         if (!Array.isArray(subs) || subs.length === 0) {
             return res.status(400).json({ error: "Check if the PDF is correct and has selectable text" });
@@ -280,7 +280,7 @@ export async function courseByUser(req, res) {
 
         const user_sem_credits = user.sem_total;
         const userDept = user.dept;
-        console.log(`User department : ${userDept}`);
+        // console.log(`User department : ${userDept}`);
 
 
         let totalCredits = 0,
@@ -302,13 +302,13 @@ export async function courseByUser(req, res) {
                     course.credits != 0 && !isNaN(gradePoint)
                         ? course.credits * gradePoint
                         : 0;
-                console.log(course.name);
+                // console.log(course.name);
 
                 let deptToAdd = course.department[userDept];
 
                 if (!deptToAdd) {
                     deptToAdd = course.department[Object.keys(course.department)[0]];
-                    console.log("moew", deptToAdd)
+                    // console.log("moew", deptToAdd)
                 }
 
                 switch (deptToAdd) {
@@ -340,7 +340,7 @@ export async function courseByUser(req, res) {
                         break;
                 }
 
-                console.log(HS, BS, ES, PC, PE, OE, EEC, MC);
+                // console.log(HS, BS, ES, PC, PE, OE, EEC, MC);
 
 
                 return {
@@ -361,7 +361,7 @@ export async function courseByUser(req, res) {
                 ? (totalWeightedPoints / totalCredits).toFixed(4)
                 : null;
 
-        console.log("MC : ", MC);
+        // console.log("MC : ", MC);
 
         res.status(200).json({
             user: {
