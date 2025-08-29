@@ -1,27 +1,51 @@
+import { useRef } from 'react'
 import './AvailableCourses.css'
 
 const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
-    // categories are just the keys of the response object
     const categories = Object.keys(recommendedCourses || {})
+    const courseDetailsRefs = useRef([]);
+
+    const handleLeft = (index) => {
+        if(courseDetailsRefs.current[index]) {
+            courseDetailsRefs.current[index].scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            })
+        }
+    }
+
+    const handleRight = (index) => {
+         if(courseDetailsRefs.current[index]) {
+        courseDetailsRefs.current[index].scrollBy({
+            left: 300,
+            behavior: 'smooth'
+        })
+    }
+    }
+
 
     return (
         <div className={dark ? 'available-courses-container dark-mode-courses' : 'available-courses-container'}>
             {!Loading ? (
-                categories.map((cat) => (
+                categories.map((cat, index) => (
                     <div className="course-category" key={cat}>
                         <div className="course-category-title">
                             <h3>{getCategoryFullName(cat)} ({cat})</h3>
                         </div>
-                        <div className="course-details">
-                            {recommendedCourses[cat]?.map(course => (
-                                <div className="one-course" key={course._id}>
-                                    <p>{course.name}</p>
-                                    <p>
-                                        {grad_year === "2027" ? course.code19 : course.code24}
-                                    </p>
-                                    <p>{course.credits} credits</p>
-                                </div>
-                            ))}
+                        <div className='course-details-wrapper'>
+                                <button className='carousel left' onClick={()=>handleLeft(index)}>&lt;</button>
+                                <button className='carousel right' onClick={()=>handleRight(index)}>&gt;</button>
+                            <div className="course-details" ref={(el) => courseDetailsRefs.current[index] = el}>
+                                {recommendedCourses[cat]?.map(course => (
+                                    <div className="one-course" key={course._id}>
+                                        <p>{course.name}</p>
+                                        <p>
+                                            {grad_year === "2027" ? course.code19 : course.code24}
+                                        </p>
+                                        <p>{course.credits} credits</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ))

@@ -5,7 +5,6 @@
     flex-direction: column;
     gap: 40px;
     margin-bottom: 40px;
-    margin-right: 80px;
 }
 
 /* title */
@@ -22,6 +21,15 @@
     gap: 30px;
     padding-bottom: 10px; /* space for scrollbar */
     justify-content: flex-start;
+    flex-wrap: nowrap;
+    /* border: 2px solid red; */
+    overflow-x:scroll;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.course-details-wrapper {
+    position: relative;
 }
 
 /* card design */
@@ -31,8 +39,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    width: 220px;
+    width: 300px;
     height: 180px;
     padding: 20px;
     gap: 13px;
@@ -63,14 +70,6 @@
     font-size: 14px;
     font-weight: 500;
     color: #4880FF;
-}
-
-/* Responsive */
-@media (max-width: 1400px) {
-    .course-details {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
 }
 
 /* 🌙 DARK MODE STYLES */
@@ -128,4 +127,24 @@
 @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
+}
+
+.carousel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    width: 42px;
+    height: 42px;
+    border-radius: 100%;
+    background-color: #82b1ff;
+    color: #1B2431;
+}
+
+.carousel.left {
+    left: -20px;
+}
+
+.carousel.right {
+    right: 1%;
 }
