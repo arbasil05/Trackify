@@ -9,6 +9,7 @@ import {
     deleteSem,
     updateProfile,
     recommendation,
+    getExistingSemesters
 } from "../controller/trackifyController.js";
 import multer from "multer";
 import { pdfMiddleware } from "../middleware/pdfMiddleware.js";
@@ -36,7 +37,7 @@ router.get("/recommendation",authMiddleWare,recommendation);
 router.put("/updateProfile",authMiddleWare,updateProfile)
 
 router.delete("/semester/:semester", authMiddleWare, deleteSem);
-
+router.get("/existingSemesters", authMiddleWare, getExistingSemesters);
 
 
 export default router;
