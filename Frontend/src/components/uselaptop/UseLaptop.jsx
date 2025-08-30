@@ -32,7 +32,7 @@ const UseLaptop = () => {
                 gap: "30px"
             }}
         >
-            <h1  style={{color:"#4880FF"}}>Trac<span style={{color:"white"}}>kify</span></h1>
+
             <h3 align="center" style={{fontSize:"14px"}}>{chosenMessage}</h3>
 
             <lottie-player
