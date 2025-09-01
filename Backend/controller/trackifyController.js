@@ -199,7 +199,7 @@ export async function uploadFile(req, res) {
             );
             if (alreadyExists) {
                 console.log(`Duplicate found: ${courseEntry.name}`);
-                return res.status(400).json({ error: "No new valid courses found to append" });
+                continue;
             }
 
             total_sem_credits += courseEntry.credits;
