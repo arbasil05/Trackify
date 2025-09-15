@@ -164,7 +164,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                                     <select value={semValue} onChange={(e) => setSemValue(e.target.value)} required>
                                         <option value="">Select your semester here</option>
                                         {[...Array(8)].map((_, i) => {
-                                            console.log(existingSemesters);
                                             if (!existingSemesters.includes(`sem${i + 1}`)) {
                                                 return (
                                                     <option key={i} value={`sem${i + 1}`}>Semester {i + 1}</option>
@@ -201,7 +200,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                     <h1 className='title' style={{
                         color: dark ? 'white' : 'black',
                     }}> <span>{getGreeting()},</span> {name}</h1>
-                    <p className='description'>Track your academic progress and achievements</p>
+                    <p className='description'>Track your academic progress and know what else to enroll in</p>
                 </div>
                 <div className="navbar-button-group">
                     <div className="navbar-upload-button">

@@ -33,7 +33,7 @@ const Feedback = () => {
             })
             .catch((error) => {
                 toast.error("There was a problem, try again later.",{id:toastId})
-                console.log(error);
+                // console.log(error);
             })
     }
     return (

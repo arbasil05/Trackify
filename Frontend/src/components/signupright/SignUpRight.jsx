@@ -76,7 +76,7 @@ const SignUpRight = () => {
                     toast.error("User already exists", { id: toastId });
                     return;
                 }
-                console.log(`Error while posting ${error}`);
+                // console.log(`Error while posting ${error}`);
                 toast.error("Error while posting", { id: toastId });
             });
     };
