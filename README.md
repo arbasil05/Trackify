@@ -6,7 +6,7 @@ A web-based platform designed to help students, faculty, and administrators effi
 ## About
 Trackify is a centralized academic credit tracking system that simplifies how students and institutions monitor academic credit progress. Manual tracking of credits across semesters can be cumbersome and prone to errors, especially when handling diverse course structures and elective systems.  
 
-This project addresses these challenges by offering an intuitive web interface built using the MERN stack (MongoDB, Express, React, Node.js). Students can view credit distributions across subjects and semesters, while administrators can input, update, and validate credit records. The system ensures transparency, accuracy, and easy data accessibility for all stakeholders.
+This project addresses these challenges by offering an intuitive web interface built using the MERN stack (MongoDB, Express, React, Node.js). Students can view credit distributions across subjects and semesters,  The system ensures transparency, accuracy, and easy data accessibility for all stakeholders.
 
 ## Features
 - Implements a responsive MERN-based web application.  
