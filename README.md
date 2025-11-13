@@ -9,11 +9,9 @@ Trackify is a centralized academic credit tracking system that simplifies how st
 This project addresses these challenges by offering an intuitive web interface built using the MERN stack (MongoDB, Express, React, Node.js). Students can view credit distributions across subjects and semesters,  The system ensures transparency, accuracy, and easy data accessibility for all stakeholders.
 
 ## Features
-- Implements a responsive MERN-based web application.  
-- Secure authentication and role-based access (student and admin).  
+- Implements a MERN-based web application.  
+- Secure authentication.  
 - Real-time credit calculation and visualization.  
-- Simplified data entry using Excel-like tabular input.  
-- Auto-synchronization with MongoDB for record management.  
 - Scalable backend with optimized RESTful APIs.  
 - Analytics dashboard showing credit progress and completion status.  
 
@@ -21,24 +19,25 @@ This project addresses these challenges by offering an intuitive web interface b
 * **Operating System:** 64-bit Windows 10, macOS, or Ubuntu for proper package compatibility.  
 * **Development Environment:** Node.js v16+ and npm for building the application.  
 * **Frameworks and Libraries:**  
-  - Frontend: React.js with Material UI or Bootstrap for UI design.  
+  - Frontend: React.js  
   - Backend: Express.js and MongoDB for API and database handling.  
 * **Version Control:** Git and GitHub for version management and collaboration.  
 * **IDE:** Visual Studio Code for environment setup, debugging, and Git integration.  
 * **Additional Dependencies:** Axios, Mongoose, JWT, dotenv, and CORS for full-stack functionality.  
 
 ## System Architecture
-![System Architecture Diagram](https://github.com/<<yourusername>>/Trackify/assets/75235455/a60c11f3-0a11-47fb-ac89-755d5f45c995)
+
 
 ## Output
 
 #### Output1 - Dashboard View (Student)
-![Dashboard Screenshot](https://github.com/<<yourusername>>/Trackify/assets/75235455/abcdef12-3456-7890-bcde-f1234567890a)
+<img width="1905" height="864" alt="image" src="https://github.com/user-attachments/assets/0e291bee-0017-403e-b2e9-e6aafea1b1aa" />
 
-#### Output2 - Admin Panel View
-![Admin Panel Screenshot](https://github.com/<<yourusername>>/Trackify/assets/75235455/bcde7890-1234-5678-af12-34567890abcd)
+#### Output2 - Upload Page 
+<img width="1879" height="852" alt="image" src="https://github.com/user-attachments/assets/76c189d7-f545-4d55-ae4c-e8f23c8ce47e" />
+<img width="1876" height="847" alt="image" src="https://github.com/user-attachments/assets/e531d1f1-23f6-4e8a-9d04-a5f10e393058" />
 
-Credit Tracking Accuracy: 99.3%  
+
 Note: These sample metrics can be updated with actual performance data after testing and deployment.
 
 ## Results and Impact
@@ -47,8 +46,4 @@ Trackify significantly reduces administrative effort in academic credit manageme
 The system also aids institutes in generating quick reports and insights into overall academic performance, contributing to transparency, efficiency, and improved decision-making.
 
 ## Articles published / References
-1. D. S. Kumar, R. R. Kalangi, and K. R. Meenakshi, “Digital Transformation in Academic Management Using MERN Stack Applications,” *International Journal of Computer Applications*, vol. 12, Apr. 2024.  
-2. A. Patel and J. Verma, “Optimizing Education Workflows with Node.js and React.js Frameworks,” *Modern Computing and Education Systems*, vol. 5, no. 2, Feb. 2024.
-```
 
-Would you like a “Setup and Installation” section added at the end with commands for running the backend and frontend?
