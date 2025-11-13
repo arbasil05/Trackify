@@ -1,5 +1,5 @@
 ## Title of the Project
-Academic Credit Tracking System for Students – Trackify  
+Trackify: A Web-Based Student Credit and CGPA Tracker
 
 A web-based platform designed to help students, faculty, and administrators efficiently manage, track, and analyze academic credits in real time, ensuring alignment with institutional credit requirements and reducing manual workload.
 
