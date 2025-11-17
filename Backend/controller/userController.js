@@ -40,14 +40,21 @@ export async function courseByUser(req, res) {
             EEC = 0,
             MC = 0;
 
+        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707"];
+
         const courseDetails = user.courses
             .map(({ course, grade, gradePoint, sem, category, code19, code24 }) => {
                 if (!course) return null;
-                totalCredits += course.credits;
-                totalWeightedPoints +=
-                    course.credits != 0 && !isNaN(gradePoint)
-                        ? course.credits * gradePoint
-                        : 0;
+                if (nonCGPACourses.includes(course.code19) || nonCGPACourses.includes(course.code24)) {
+                    totalCredits += 0;
+                    totalWeightedPoints += 0;
+                } else {
+                    totalCredits += course.credits;
+                    totalWeightedPoints +=
+                        course.credits != 0 && !isNaN(gradePoint)
+                            ? course.credits * gradePoint
+                            : 0;
+                }
                 // console.log(course.name);
 
                 let deptToAdd = course.department[userDept];
@@ -80,6 +87,7 @@ export async function courseByUser(req, res) {
                         EEC += course.credits;
                         break;
                     case "MC":
+                        // if (course.code19 === "19MC805" || course.code19 === "19MC804" || course.code24==="SH6707" || course.code19==="19EY707") break;
                         MC += course.credits;
                         break;
                     default:
@@ -181,7 +189,7 @@ export async function recommendation(req, res) {
             _id: { $nin: userCourseIds }
         });
 
-  
+
         recommendedCourses = recommendedCourses.filter(course => {
             if (grad_year === "2027" && course.code19 === "NA") {
                 return false;
@@ -192,7 +200,7 @@ export async function recommendation(req, res) {
             return true;
         });
 
-      
+
         const grouped = {};
         for (const course of recommendedCourses) {
             const category = course.department[userDept];
@@ -200,15 +208,15 @@ export async function recommendation(req, res) {
             grouped[category].push(course);
         }
 
-    
+
         const result = {};
         for (const [category, courses] of Object.entries(grouped)) {
             result[category] = courses;
         }
-        
+
         const categoryOrder = ["HS", "BS", "ES", "PC", "PE", "EEC", "MC"];
 
-      
+
         const orderedResult = {};
         for (const cat of categoryOrder) {
             if (result[cat]) {
