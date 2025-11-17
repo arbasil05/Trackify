@@ -484,9 +484,8 @@ export async function recommendation(req, res) {
     
         const result = {};
         for (const [category, courses] of Object.entries(grouped)) {
-            result[category] = courses.slice(0, 5);
+            result[category] = courses;
         }
-
         
         const categoryOrder = ["HS", "BS", "ES", "PC", "PE", "EEC", "MC"];
 
