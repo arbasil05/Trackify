@@ -4,7 +4,7 @@ const Exploretitle = () => {
         <div className='explore-title-container'>
             <div className='explore-title-title'>
                 <h1>Explore <span>Courses</span></h1>
-                <p>Courses that are available for you to take</p>
+                <p>Courses that you didn't take yet</p>
             </div>
         </div>
     )
