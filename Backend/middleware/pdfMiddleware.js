@@ -9,7 +9,7 @@ function sanitizeForRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-export const pdfMiddleware = async (req, res, next) => {
+export default async (req, res, next) => {
     if (!req.file || !req.file.buffer) {
         return next(new Error("No PDF file buffer found in req.file.buffer"));
     }
@@ -75,3 +75,4 @@ export const pdfMiddleware = async (req, res, next) => {
         next(err);
     }
 };
+

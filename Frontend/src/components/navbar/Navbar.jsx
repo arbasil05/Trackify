@@ -28,7 +28,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
 
     const getExistingSemesters = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/api/existingSemesters`, { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/api/semester/existingSemesters`, { withCredentials: true });
             if (response.data && response.data.semesters) {
                 setExistingSemesters(response.data.semesters);
             }
@@ -68,7 +68,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         formData.append('pdf', pdf);
         formData.append('sem', semValue);
 
-        const url = `${import.meta.env.VITE_BACKEND_API}/api/upload`;
+        const url = `${import.meta.env.VITE_BACKEND_API}/api/semester/upload`;
         const toastId = toast.loading("Uploading...");
 
         try {

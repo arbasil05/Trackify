@@ -14,7 +14,7 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`${import.meta.env.VITE_BACKEND_API}/api/courseByUser`, { withCredentials: true })
+        axios.get(`${import.meta.env.VITE_BACKEND_API}/api/user/courseByUser`, { withCredentials: true })
             .then((res) => {
                 const { user,user_sem_credits } = res.data;
                 setUserDetails(user);

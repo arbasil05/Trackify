@@ -57,102 +57,125 @@
   cursor: pointer;
 }
 
-/* Confirmation Toast Styles */
-.confirm-toast {
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border-left: 4px solid #ef4444;
-  border-right: 4px solid #ef4444;
-  min-width: 450px;
-  max-width: 600px;
-  width: 100%;
-  margin-left: 50px;
+  padding: 24px;
+  min-width: 400px;
+  max-width: 500px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: slideUp 0.3s ease;
 }
 
-.confirm-toast-header {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.confirm-toast-title {
+.modal-header h3 {
+  font-size: 18px;
   font-weight: 600;
-  font-size: 16px;
   color: #1f2937;
-  margin: 0;
+  margin: 0 0 12px 0;
 }
 
-.confirm-toast-message {
+.modal-body p {
   font-size: 14px;
   color: #6b7280;
-  margin: 0;
-  line-height: 1.4;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
 }
 
-.confirm-toast-actions {
+.modal-actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  margin-top: 5px;
 }
 
-.confirm-btn {
-  padding: 8px 16px;
+.modal-btn {
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 70px;
+  min-width: 80px;
 }
 
-.confirm-btn-delete {
+.modal-btn-delete {
   background-color: #ef4444;
   color: white;
 }
 
-.confirm-btn-delete:hover {
+.modal-btn-delete:hover {
   background-color: #dc2626;
   transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
 }
 
-.confirm-btn-cancel {
+.modal-btn-cancel {
   background-color: #f3f4f6;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
-.confirm-btn-cancel:hover {
+.modal-btn-cancel:hover {
   background-color: #e5e7eb;
   transform: translateY(-1px);
 }
 
-/* Dark mode for confirmation toast */
-.confirm-toast.dark {
-  background-color: #374151;
-  border-left-color: #ff4444;
+/* Dark mode for modal */
+.modal-content.dark {
+  background-color: #1f2937;
 }
 
-.confirm-toast.dark .confirm-toast-title {
+.modal-content.dark .modal-header h3 {
   color: #f9fafb;
 }
 
-.confirm-toast.dark .confirm-toast-message {
+.modal-content.dark .modal-body p {
   color: #d1d5db;
 }
 
-.confirm-toast.dark .confirm-btn-cancel {
-  background-color: #4b5563;
+.modal-content.dark .modal-btn-cancel {
+  background-color: #374151;
   color: #f9fafb;
-  border-color: #6b7280;
+  border-color: #4b5563;
 }
 
-.confirm-toast.dark .confirm-btn-cancel:hover {
-  background-color: #6b7280;
+.modal-content.dark .modal-btn-cancel:hover {
+  background-color: #4b5563;
 }

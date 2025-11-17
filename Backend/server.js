@@ -2,11 +2,12 @@ import express from "express"
 import dotenv from "dotenv"
 import { connectDB } from "./config/db.js";
 import cors from "cors";
-import trackifyRoutes from "./routes/trackifyRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import cookieParser from "cookie-parser";
+import authRoutes from "./routes/authRoutes.js"
+import semesterRoutes from  "./routes/semesterRoutes.js"
 dotenv.config();
 const PORT = process.env.PORT || 5001;
-
 
 const app = express();
 
@@ -16,12 +17,11 @@ app.use(cors({
     credentials:true
 }))
 
-
-
 app.use(express.json());
 
-app.use("/api/",trackifyRoutes)
-
+app.use("/api/auth", authRoutes);
+app.use("/api/semester",semesterRoutes);
+app.use("/api/user",userRoutes);
 
 connectDB().then(()=>{
     app.listen(PORT,()=>{
