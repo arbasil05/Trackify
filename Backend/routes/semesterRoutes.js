@@ -2,10 +2,9 @@ import { Router } from "express";
 import authMiddleWare from "../middleware/authMiddleware.js";
 import pdfMiddleware  from "../middleware/pdfMiddleware.js";
 import { deleteSem, getExistingSemesters, uploadFile } from "../controller/semesterController.js";
+import multer from "multer";
 
 const router = Router();
-
-import multer from "multer";
 
 const upload = multer();
 

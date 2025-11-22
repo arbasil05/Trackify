@@ -106,7 +106,7 @@ const UserDetails = ({ isDark, userDetails, loading, onDataRefresh }) => {
                 </select>
               ) : (
                 <input
-                  className="userdetails-input"
+                  className="userd  etails-input"
                   type="text"
                   disabled
                   value={userDetails.dept}

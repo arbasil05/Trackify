@@ -28,7 +28,6 @@ export async function courseByUser(req, res) {
         const userDept = user.dept;
         // console.log(`User department : ${userDept}`);
 
-
         let totalCredits = 0,
             totalWeightedPoints = 0,
             HS = 0,
@@ -55,13 +54,11 @@ export async function courseByUser(req, res) {
                             ? course.credits * gradePoint
                             : 0;
                 }
-                // console.log(course.name);
 
                 let deptToAdd = course.department[userDept];
 
                 if (!deptToAdd) {
                     deptToAdd = course.department[Object.keys(course.department)[0]];
-                    // console.log("moew", deptToAdd)
                 }
 
                 switch (deptToAdd) {
@@ -136,7 +133,7 @@ export async function courseByUser(req, res) {
                 MC,
             },
             user_sem_credits,
-            totalCredits,
+            totalCredits:HS+BS+ES+PC+PE+OE+EEC+MC,
             courseDetails,
             CGPA,
         });
