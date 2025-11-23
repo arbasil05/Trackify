@@ -25,7 +25,7 @@ const Feedback = () => {
         // formdata.append('issue', issue)
         // console.log(formdata)
 
-        const webhookUrl = "https://discord.com/api/webhooks/1404704111739408446/7bFJ0sJ9hHLRPIF6Bde3FAm4kJlX_CXgjKT9YDayc60hjSOKhDw3qSG-co95HAHANe3S";
+        const webhookUrl = import.meta.env.VITE_DISCORD_WEBHOOK_URL;
         const toastId = toast.loading("Submitting...");
         axios.post(webhookUrl, payload)
             .then(() => {

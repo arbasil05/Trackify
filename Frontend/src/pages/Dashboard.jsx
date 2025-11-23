@@ -23,7 +23,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const [Loading,setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_API}/api/userDetails`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_BACKEND_API}/api/user/userDetails`, { withCredentials: true })
       .then(() => setAuthChecked(true))
       .catch(() => {
         toast.error("Please login or signup to continue");
@@ -34,7 +34,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   useEffect(() => {
     if (authChecked) {
       setLoading(true);
-      axios.get(`${import.meta.env.VITE_BACKEND_API}/api/courseByUser`, { withCredentials: true })
+      axios.get(`${import.meta.env.VITE_BACKEND_API}/api/user/courseByUser`, { withCredentials: true })
         .then((res) => {
           const { user, user_sem_credits, totalCredits, runningTotal,CGPA } = res.data;
           setUserDetails(user);
@@ -48,7 +48,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
           setLoading(false)
         });
 
-      axios.get(`${import.meta.env.VITE_BACKEND_API}/api/userDetails`, { withCredentials: true })
+      axios.get(`${import.meta.env.VITE_BACKEND_API}/api/user/userDetails`, { withCredentials: true })
         .then((res) => setUserDetails(prev => ({ ...prev, name: res.data.user.name })))
         .catch((err) => console.log(err));
     }
