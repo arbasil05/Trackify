@@ -1,0 +1,134 @@
+/* Fullscreen Spinner */
+.spinner-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    z-index: 9999;
+    gap: 24px;
+}
+
+.spinner-wrapper.dark {
+    background-color: #1B2431;
+}
+
+/* Spinner Animation */
+.spinner-animation {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.spinner-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top-color: #4880FF;
+    animation: spin 1s linear infinite;
+}
+
+.spinner-circle-2 {
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    border-top-color: transparent;
+    border-right-color: #4880FF;
+    animation: spin 1.5s linear infinite reverse;
+    opacity: 0.7;
+}
+
+.spinner-circle-3 {
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-top-color: transparent;
+    border-bottom-color: #4880FF;
+    animation: spin 2s linear infinite;
+    opacity: 0.4;
+}
+
+/* Brand Logo */
+.spinner-brand {
+    margin-bottom: 10px;
+}
+
+.spinner-brand h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #1f2937;
+    letter-spacing: -1px;
+    margin: 0;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.spinner-brand h1 span {
+    color: #4880FF;
+}
+
+.spinner-wrapper.dark .spinner-brand h1 {
+    color: #ffffff;
+}
+
+/* Spinner Message */
+.spinner-message {
+    font-size: 18px;
+    color: #6b7280;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    margin-top: 8px;
+    min-height: 28px;
+    font-family: "Poppins", sans-serif;
+    animation: fadeInOut 3s ease-in-out infinite;
+}
+
+.spinner-wrapper.dark .spinner-message {
+    color: #9ca3af;
+}
+
+/* Animations */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.02);
+        opacity: 0.9;
+    }
+}
+
+@keyframes fadeInOut {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
