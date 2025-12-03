@@ -5,7 +5,7 @@ import axios from "axios"
 import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 
-const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
+const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
     const [showModal, setShowModal] = useState(false);
     const [semesterToDelete, setSemesterToDelete] = useState(null);
 
@@ -60,14 +60,6 @@ const SemDetails = ({ isDark, userSem, loading, onDataRefresh }) => {
         const numB = parseInt(b.replace('sem', ''), 10);
         return numA - numB;
     });
-
-    if (loading) {
-        return (
-            <div className={`userdetails-container ${isDark ? 'dark' : ''}`}>
-                <p>Loading semester details...</p>
-            </div>
-        );
-    }
 
     return (
         <>

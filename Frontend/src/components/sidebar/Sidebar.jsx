@@ -4,6 +4,7 @@ import { faChartPie, faCompass, faPowerOff, faUserCircle } from '@fortawesome/fr
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { memo } from 'react';
 
 const Sidebar = ({ dark }) => {
 
@@ -65,4 +66,4 @@ const Sidebar = ({ dark }) => {
     )
 }
 
-export default Sidebar
+export default memo (Sidebar)

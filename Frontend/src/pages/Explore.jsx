@@ -4,17 +4,18 @@ import Navbar from '../components/navbar/Navbar'
 import Exploretitle from '../components/explore-title/Exploretitle'
 import AvailableCourses from '../components/courses_available/AvailableCourses'
 import axios from 'axios'
+import Spinner from '../components/spinner/Spinner'
 
 const Explore = ({ isDark, setIsDark }) => {
   const [recCourses, setRecCourses] = useState({})
   const [username, setUsername] = useState("")
   const [gradYear, setGradYear] = useState("")
-  const [loading, setLoading] = useState(true)   // ✅ NEW: loading state
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const url = `${import.meta.env.VITE_BACKEND_API}/api/user/recommendation`
 
-    setLoading(true) // start loading when making request
+    setLoading(true)
     axios
       .get(url, { withCredentials: true })
       .then((res) => {
@@ -32,6 +33,10 @@ const Explore = ({ isDark, setIsDark }) => {
       })
   }, [])
 
+  if (loading) {
+    return <Spinner isDark={isDark} message="Loading recommendations..." />;
+  }
+
   return (
     <div>
       <Sidebar dark={isDark} />
@@ -42,7 +47,7 @@ const Explore = ({ isDark, setIsDark }) => {
         recommendedCourses={recCourses}
         username={username}
         grad_year={gradYear}
-        Loading={loading} 
+        Loading={loading}
       />
     </div>
   )

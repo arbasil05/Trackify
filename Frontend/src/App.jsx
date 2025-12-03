@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard';
 import { Route, Routes } from 'react-router-dom';
@@ -16,9 +16,9 @@ function App() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1200);
 
-  const handleDataRefresh = () => {
+  const handleDataRefresh = useCallback(() => {
     setRefreshKey(prev => prev + 1);
-  };
+  }, []);
 
   useEffect(() => {
     const darkMode = localStorage.getItem('isDark') === 'true';
