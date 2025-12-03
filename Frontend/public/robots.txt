@@ -1,0 +1,14 @@
+# Allow all crawlers to access everything
+User-agent: *
+Allow: /
+
+# Link to sitemap for better indexing
+Sitemap: https://trackify-lxxl.vercel.app/sitemap.xml
+
+# Optional: block crawling of sensitive pages
+Disallow: /login
+Disallow: /signup
+
+# You can add other private paths if needed
+# Disallow: /admin
+# Disallow: /settings
