@@ -6,11 +6,15 @@ import userRoutes from "./routes/userRoutes.js"
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js"
 import semesterRoutes from  "./routes/semesterRoutes.js"
+import feedbackRoutes from "./routes/feedbackRoutes.js";
+import helmet from "helmet";
+
 dotenv.config();
 const PORT = process.env.PORT || 5001;
 
 const app = express();
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(cors({
     origin:process.env.FRONTEND_URL,
@@ -22,6 +26,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/semester",semesterRoutes);
 app.use("/api/user",userRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 connectDB().then(()=>{
     app.listen(PORT,()=>{

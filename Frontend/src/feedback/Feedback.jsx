@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 const Feedback = () => {
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [issue, setIssue] = useState("");
     const nav = useNavigate();
 
@@ -15,25 +16,32 @@ const Feedback = () => {
         e.preventDefault();
         const displayName = name.trim() || "Anon";
         const payload = {
-            content: `**Name:** ${displayName}\n**Issue:** ${issue}`
+            name: displayName,
+            email: email.trim(),
+            issue: issue.trim(),
+        };
+        if (!issue) {
+            toast.error("Issue cannot be empty");
+            return;
         }
-        if (!issue) toast.error("Issue cannot be empty");
-
 
         // const formdata = new FormData();
         // formdata.append('name', name)
         // formdata.append('issue', issue)
         // console.log(formdata)
 
-        const webhookUrl = import.meta.env.VITE_DISCORD_WEBHOOK_URL;
         const toastId = toast.loading("Submitting...");
-        axios.post(webhookUrl, payload)
+        axios.post(`${import.meta.env.VITE_BACKEND_API}/api/feedback`, payload)
             .then(() => {
-                toast.success("Feedback submitted successfully",{id:toastId});
+                toast.success("Feedback submitted successfully", { id: toastId });
             })
             .catch((error) => {
-                toast.error("There was a problem, try again later.",{id:toastId})
-                // console.log(error);
+                if (error.response?.status === 429) {
+                    toast.error("You've submitted too many feedbacks. Please try again in 15 minutes.", { id: toastId });
+                } else {
+                    toast.error("There was a problem, try again later.", { id: toastId });
+                }
+                console.log(error);
             })
     }
     return (
@@ -56,6 +64,16 @@ const Feedback = () => {
                                         placeholder='Enter your Name'
                                     />
                                 </div>
+                                <div className="email">
+                                    <label>Email</label>
+                                    <input
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        type="email"
+                                        placeholder='Enter your Email'
+                                    />
+                                </div>
+
                                 <div className="password">
                                     <label>Issue</label>
                                     <div className="password-wrapper">
@@ -69,9 +87,9 @@ const Feedback = () => {
                                 </div>
                             </div>
                             <div className="footer">
-                                <div className="login-button" style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center" ,gap:"20px",cursor:"pointer"}}>
+                                <div className="login-button" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px", cursor: "pointer" }}>
                                     <button type="submit">Submit</button>
-                                    <p className="link-back" onClick={()=>nav(-1)}><FontAwesomeIcon icon={faChevronLeft}/> Back</p>
+                                    <p className="link-back" onClick={() => nav(-1)}><FontAwesomeIcon icon={faChevronLeft} /> Back</p>
                                 </div>
 
                             </div>
