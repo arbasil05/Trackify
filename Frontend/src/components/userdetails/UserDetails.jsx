@@ -39,7 +39,7 @@ const UserDetails = ({ isDark, userDetails, onDataRefresh }) => {
     }
 
 
-    const url = `${import.meta.env.VITE_BACKEND_API}/api/updateProfile`;
+    const url = `${import.meta.env.VITE_BACKEND_API}/api/user/updateProfile`;
     axios
       .put(url, editedDetails, { withCredentials: true })
       .then((res) => {
