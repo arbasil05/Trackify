@@ -133,8 +133,8 @@ Non-Scoft-Trackify/
 graph TD;
     A[User uploads PDF] --> B[Express route /upload]
     B --> C[authMiddleware]
-    C --> D[multer (file upload)]
-    D --> E[pdfMiddleware (parse PDF)]
+    C --> D[multer file upload]
+    D --> E[pdfMiddleware parse PDF]
     E --> F[Query NonScoftCourse]
     F --> G[Controller: uploadFile]
     G --> H[Update User.courses & sem_total]
