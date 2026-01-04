@@ -40,7 +40,7 @@ const UserSchema = mongoose.Schema({
             {
                 course: {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: "Course",
+                    ref: "NonScoftCourse",
                     required: true,
                 },
                 gradePoint: {

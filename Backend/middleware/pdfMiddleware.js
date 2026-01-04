@@ -1,4 +1,4 @@
-import Course from "../models/Course.js";
+import NonScoftCourse from "../models/NonScoftCourse.js";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
 
 // Helper function to safely escape any regex special characters and remove null bytes
@@ -38,7 +38,7 @@ export default async (req, res, next) => {
             // Sanitize course name for regex query
             const safeName = sanitizeForRegex(rawName);
 
-            const matchedEntry = await Course.findOne({
+            const matchedEntry = await NonScoftCourse.findOne({
                 $or: [
                     { code24: code.toUpperCase() },
                     { code19: code.toUpperCase() },

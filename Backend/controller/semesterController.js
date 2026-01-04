@@ -1,4 +1,4 @@
-import Course from "../models/Course.js";
+import NonScoftCourse from "../models/NonScoftCourse.js";
 import User from "../models/User.js";
 
 export async function uploadFile(req, res) {
@@ -48,8 +48,8 @@ export async function uploadFile(req, res) {
 
             const courseEntry =
                 queryConditions.length > 1
-                    ? await Course.findOne({ $or: queryConditions })
-                    : await Course.findOne(queryConditions[0]);
+                    ? await NonScoftCourse.findOne({ $or: queryConditions })
+                    : await NonScoftCourse.findOne(queryConditions[0]);
 
             if (!courseEntry) {
                 console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
