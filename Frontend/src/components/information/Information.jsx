@@ -5,11 +5,11 @@ import Total from '../total/Total';
 import TowardsGrad from '../towardsGrad/TowardsGrad';
 import './Information.css';
 
-const Information = ({ dark, user, totalCredits, userSemCredits,cgpa,Loading }) => {
+const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }) => {
   const [denom, setDenom] = useState(0);
   const [gradPercent, setGradPercent] = useState(0);
   // console.log(user);
-  
+
 
   useEffect(() => {
     if (!user || !user.grad_year || !user.dept) return;
@@ -30,6 +30,23 @@ const Information = ({ dark, user, totalCredits, userSemCredits,cgpa,Loading }) 
     else if (gradYear > 2027 && dept === "IOT") denominator = 171;
     else if (gradYear === 2027 && dept === "IT") denominator = 164;
     else if (gradYear > 2027 && dept === "IT") denominator = 167;
+    else if (gradYear === 2027 && dept === "ECE") denominator = 169;
+    else if (gradYear > 2027 && dept === "ECE") denominator = 164;
+    else if (gradYear === 2027 && dept === "EEE") denominator = 167;
+    else if (gradYear > 2027 && dept === "EEE") denominator = 165;
+    else if (gradYear === 2027 && dept === "MECH") denominator = 169;
+    else if (gradYear > 2027 && dept === "MECH") denominator = 168;
+    else if (gradYear === 2027 && dept === "CIVIL") denominator = 167;
+    else if (gradYear > 2027 && dept === "CIVIL") denominator = 165;
+    else if (gradYear === 2027 && dept === "BME") denominator = 169;
+    else if (gradYear > 2027 && dept === "BME") denominator = 168;
+    else if (gradYear === 2027 && dept === "ME") denominator = 169;
+    else if (gradYear > 2027 && dept === "ME") denominator = 169;
+    else if (gradYear === 2027 && dept === "EIE") denominator = 165;
+    else if (gradYear > 2027 && dept === "EIE") denominator = 165;
+    else if (gradYear === 2027 && dept === "CHEM") denominator = 166;
+    else if (gradYear > 2027 && dept === "CHEM") denominator = 163;
+
 
     setDenom(denominator);
     setGradPercent(Math.round((totalCredits / denominator) * 100));
@@ -38,8 +55,8 @@ const Information = ({ dark, user, totalCredits, userSemCredits,cgpa,Loading }) 
   return (
     <div className='information-container'>
       <Total dark={dark} total_num={totalCredits} total_denom={denom} Loading={Loading} />
-      <CGPA dark={dark} cgpa={ cgpa || 0} Loading={Loading} />
-      <CurrentSemester dark={dark} sem_num={ userSemCredits!=null && Object.keys(userSemCredits).length || 0} Loading={Loading} />
+      <CGPA dark={dark} cgpa={cgpa || 0} Loading={Loading} />
+      <CurrentSemester dark={dark} sem_num={userSemCredits != null && Object.keys(userSemCredits).length || 0} Loading={Loading} />
       <TowardsGrad dark={dark} percent={gradPercent} Loading={Loading} />
     </div>
   );

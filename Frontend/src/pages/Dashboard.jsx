@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Barchart from '../components/barchart/BarChart';
-import Cateogory from '../components/category/Cateogory';
+import Category from '../components/category/Category';
 import Information from '../components/information/Information';
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -42,7 +42,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         .then((res) => {
           const { user, user_sem_credits, totalCredits, runningTotal, CGPA } = res.data;
           setUserDetails(user);
-          setUserSemCredits(user_sem_credits);
+          setUserSemCredits(user_sem_credits);  
           setTotalCredits(Number(totalCredits));
           setRunningTotal(runningTotal);
           setCgpa(CGPA);
@@ -72,7 +72,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
       <Information dark={isDark} user={userDetails} cgpa={cgpa} totalCredits={totalCredits} userSemCredits={userSemCredits} Loading={Loading} />
       <div className="wrapper">
         <Barchart dark={isDark} userSemCredits={userSemCredits} Loading={Loading} />
-        <Cateogory dark={isDark} runningTotal={runningTotal} Loading={Loading} />
+        <Category dark={isDark} runningTotal={runningTotal} Loading={Loading} />
       </div>
       <hr />
       <Footer />

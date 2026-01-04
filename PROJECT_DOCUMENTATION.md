@@ -45,24 +45,27 @@ Non-Scoft-Trackify/
    - **`subjectRegex`**: Regex pattern to extract course details (code, name, grade, credits, etc.).
    - **`subjects` (array):** Each element is an object with parsed course info (code, name, grade, credits, etc.).
    - **`req.subjects`**: The array of parsed course objects, passed to the next middleware/controller.
+   - **Model Selection**: Middleware determines whether to use Course or NonScoftCourse model based on user department.
 4. **Database Update (uploadFile in semesterController.js):**
    - **`id`**: User ID from `req.id`.
    - **`user`**: The user document fetched from the database.
    - **`subs`**: Alias for `req.subjects`, the array of parsed courses.
-   - **`courseEntries` (array):** Prepared array of course records to be added to the user (each with course ID, grade, gradePoint, sem, category, etc.).
+   - **`courseEntries` (array):** Prepared array of course records to be added to the user (each with course ID, grade, gradePoint, sem, category, modelType, etc.).
    - **`existingSemCourses` (array):** User's courses for the current semester.
    - **`total_sem_credits` (number):** Sum of credits for the new courses being added this upload.
    - **`semTotalUpdate` (object):** Key-value pair to update the user's semester total credits (e.g., `{ 'sem_total.Sem1': 24 }`).
-   - **`User.courses` (array):** Stores all course records for the user, each referencing a NonScoftCourse document.
+   - **`User.courses` (array):** Stores all course records for the user, each with modelType field to reference correct collection.
    - **`User.sem_total` (object):** Maps semester names to total credits earned in that semester.
+   - **Model-aware processing**: Controller selects the appropriate model based on user department.
 5. **Frontend Data Refresh:**
    - The frontend calls `/api/user/courseByUser` to fetch updated user stats.
    - **Backend controller (`userController.js`):**
-     - **`user.courses`**: Populated with NonScoftCourse documents for each course.
+     - **`user.courses`**: Populated with Course or NonScoftCourse documents based on modelType field.
      - **`courseDetails` (array):** Each element contains course name, codes, credits, category, grade, gradePoint, and semester.
      - **`totalCredits` (number):** Sum of all credits (excluding non-CGPA courses).
      - **`CGPA` (number):** Weighted average of grade points, calculated as `totalWeightedPoints / totalCredits`.
      - **`user_sem_credits` (object):** Maps semester names to total credits (from `user.sem_total`).
+     - **Dynamic population**: Uses refPath in User model to populate courses from correct collection based on modelType.
 
 
 ---
@@ -74,18 +77,27 @@ Non-Scoft-Trackify/
 - **name, email, reg_no, grad_year, dept, password**: User profile fields.
 - **sem_total (object):** Maps semester names (e.g., 'Sem1') to total credits earned in that semester.
 - **courses (array):** Each element is an object:
-   - `course`: ObjectId reference to a NonScoftCourse document.
+   - `course`: ObjectId reference to a course document (Course or NonScoftCourse based on department).
+   - `modelType`: String indicating the referenced model type ('Course' for SCOFT, 'NonScoftCourse' for non-SCOFT).
    - `gradePoint`: Numeric grade point for the course.
    - `grade`: Letter grade for the course.
    - `sem`: Semester name (e.g., 'Sem1').
    - `category`: Course category (e.g., 'HS', 'PC', etc.).
    - `code19`, `code24`: Course codes for different schemes.
 
-### NonScoftCourse
+### Course (SCOFT Departments)
 - **name**: Course name.
 - **code19, code24**: Course codes for different academic schemes.
 - **credits**: Number of credits for the course.
-- **department (object):** Maps department names to course categories (e.g., `{ CSE: 'PC', ECE: 'ES' }`).
+- **department (object):** Maps department names to course categories.
+- **Supported departments**: CSE, AIML, AIDS, IOT, IT, CYBER.
+
+### NonScoftCourse (Non-SCOFT Departments)
+- **name**: Course name.
+- **code19, code24**: Course codes for different academic schemes.
+- **credits**: Number of credits for the course.
+- **department (object):** Maps department names to course categories.
+- **Supported departments**: ECE, EEE, MECH, CIVIL, BME, ME, EIE, CHEM.
 
 
 ---
@@ -110,12 +122,24 @@ Non-Scoft-Trackify/
 - `POST /api/semester/upload` — Upload semester PDF (expects a PDF file in the `pdf` field)
 - `GET /api/user/courseByUser` — Get user stats and course breakdown (returns user profile, CGPA, total credits, semester credits, and course details)
 
+---
+
+## Department Classification
+
+**SCOFT Departments** (use Course model):
+- CSE, AIML, AIDS, IOT, IT, CYBER
+
+**Non-SCOFT Departments** (use NonScoftCourse model):
+- ECE, EEE, MECH, CIVIL, BME, ME, EIE, CHEM
+
+The system automatically selects the appropriate model based on user department in PDF parsing, course lookup, and data population.
 
 ---
 
 ## Common Issues & Fixes
-- **Switching to NonScoftCourse:** Ensure the User model references `NonScoftCourse` and all population logic is updated accordingly.
-- **Stats not updating:** Check backend controller logic and ensure correct population and calculation.
+- **Model mismatch errors**: Ensure modelType field is correctly set when adding courses to User.courses array.
+- **Population errors**: Check that refPath is correctly configured in User schema to handle dual model references.
+- **Stats not updating:** Check backend controller logic and ensure correct model selection and population.
 
 ---
 
