@@ -1,5 +1,8 @@
 import NonScoftCourse from "../models/NonScoftCourse.js";
+import Course from "../models/Course.js";
 import User from "../models/User.js";
+
+const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
 
 export async function uploadFile(req, res) {
     const courseEntries = [];
@@ -45,11 +48,12 @@ export async function uploadFile(req, res) {
                 console.warn(`Skipping course: No valid query fields in ${JSON.stringify(course)}`);
                 continue;
             }
-
-            const courseEntry =
-                queryConditions.length > 1
-                    ? await NonScoftCourse.findOne({ $or: queryConditions })
-                    : await NonScoftCourse.findOne(queryConditions[0]);
+            // if department is scoft, search in Course collection else NonScoftCourse collection
+            const isUserScoft = SCOFT_DEPARTMENTS.includes(userDept);
+            const targetModel = isUserScoft ? Course : NonScoftCourse;
+            let courseEntry = queryConditions.length > 1
+                ? await targetModel.findOne({ $or: queryConditions })
+                : await targetModel.findOne(queryConditions[0]);
 
             if (!courseEntry) {
                 console.log(`Course not found: ${course.name || course.code19 || course.code24}`);
@@ -70,6 +74,7 @@ export async function uploadFile(req, res) {
             courseEntries.push({
                 course: courseEntry._id,
                 grade: course.grade,
+                modelType: isUserScoft ? 'Course' : 'NonScoftCourse',
                 gradePoint: course.gradePoint,
                 sem: req.body.sem,
                 category: courseEntry.department[userDept]

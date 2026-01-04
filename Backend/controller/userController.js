@@ -1,7 +1,10 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import dotenv from "dotenv";
+import NonScoftCourse from "../models/NonScoftCourse.js";
 dotenv.config();
+
+const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
 
 
 export async function userDetails(req, res) {
@@ -181,7 +184,10 @@ export async function recommendation(req, res) {
         const user_courses = user.courses;
         const userCourseIds = user_courses.map(c => c.course.toString());
 
-        let recommendedCourses = await Course.find({
+        const isUserScoft = SCOFT_DEPARTMENTS.includes(userDept);
+        const targetModel = isUserScoft ? Course : NonScoftCourse;
+
+        let recommendedCourses = await targetModel.find({
             [`department.${userDept}`]: { $exists: true },
             _id: { $nin: userCourseIds }
         });

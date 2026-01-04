@@ -40,8 +40,13 @@ const UserSchema = mongoose.Schema({
             {
                 course: {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: "NonScoftCourse",
+                    refPath: 'courses.modelType',
                     required: true,
+                },
+                modelType: {
+                    type: String,
+                    required: true,
+                    enum: ['NonScoftCourse', 'Course'] 
                 },
                 gradePoint: {
                     type: Number,
@@ -65,6 +70,7 @@ const UserSchema = mongoose.Schema({
 });
 
 UserSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10);
     next();
 });

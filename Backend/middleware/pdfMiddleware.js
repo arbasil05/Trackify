@@ -1,5 +1,9 @@
 import NonScoftCourse from "../models/NonScoftCourse.js";
+import Course from "../models/Course.js";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
+import User from "../models/User.js";
+
+const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
 
 // Helper function to safely escape any regex special characters and remove null bytes
 function sanitizeForRegex(str) {
@@ -17,6 +21,18 @@ export default async (req, res, next) => {
     const dataBuffer = req.file.buffer;
 
     try {
+
+        const userId = req.id; //from auth middleware
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isUserScoft = SCOFT_DEPARTMENTS.includes(user.dept);
+
+        const TargetModel = isUserScoft ? Course : NonScoftCourse; // Choose model based on user department
+
         const pdfData = await pdfParse(dataBuffer);
         let text = pdfData.text;
         text = text.replace(/ODD\W+JUNIOR/g, "ODDJUNIOR");
@@ -38,7 +54,7 @@ export default async (req, res, next) => {
             // Sanitize course name for regex query
             const safeName = sanitizeForRegex(rawName);
 
-            const matchedEntry = await NonScoftCourse.findOne({
+            const matchedEntry = await TargetModel.findOne({
                 $or: [
                     { code24: code.toUpperCase() },
                     { code19: code.toUpperCase() },
