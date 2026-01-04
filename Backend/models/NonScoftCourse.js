@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const courseSchema = mongoose.Schema({
+const NonScoftCourseSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -13,18 +13,17 @@ const courseSchema = mongoose.Schema({
     code24: {
         type: String,
         required: true,
-
     },
     credits: {
         type: Number,
         required: true
     },
-    department:{
-        type:Object,
-        required:true
+    department: {
+        type: Object,
+        required: true
     }
 });
 
-const Course = mongoose.model('Course', courseSchema);
+const NonScoftCourse = mongoose.model('NonScoftCourse', NonScoftCourseSchema);
 
-export default Course;
+export default NonScoftCourse;

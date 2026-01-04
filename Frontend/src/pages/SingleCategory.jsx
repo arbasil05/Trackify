@@ -46,6 +46,38 @@ const creditRequirements = {
     IOT: {
         2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
         2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 }
+    },
+    ECE :{
+        2027: { HS: 13, BS: 24, ES: 28, PC: 58, PE: 15, EEC: 16, MC: 3 },
+        2028: { HS: 13, BS: 21, ES: 23, PC: 61, PE: 15, EEC: 16, MC: 3}
+    },
+    MECH:{
+        2027: {HS: 13, BS: 24, ES: 26, PC: 54, PE: 21, EEC: 16, MC: 3 },
+        2028: {HS: 10, BS: 25, ES: 29, PC: 55, PE: 18, EEC: 16, MC: 3 }
+    },
+    CIVIL:{
+        2027: {HS: 13, BS: 25, ES: 26, PC: 57, PE: 15, EEC: 16, MC: 3 },
+        2028: {HS: 10, BS: 22, ES: 25, PC: 62, PE: 15, EEC: 16, MC: 3 }
+    },
+    EEE:{
+        2027: {HS: 13, BS: 25, ES: 26, PC: 57, PE: 15, EEC: 16, MC: 3 },
+        2028: {HS: 11, BS: 25, ES: 26, PC: 57, PE: 15, EEC: 16, MC: 3 }
+    },
+    CHEM:{
+        2027: {HS: 13, BS: 28, ES: 24, PC: 55, PE: 15, EEC: 16, MC: 3 },
+        2028: {HS: 13, BS: 26, ES: 17, PC: 58, PE: 18, EEC: 16, MC: 3 }
+    },
+    MED:{
+        2027: {HS: 13, BS: 27, ES: 30, PC: 56, PE: 12, EEC: 16, MC: 3 },
+        2028: {HS: NaN, BS: NaN, ES:NaN, PC: NaN, PE: NaN, EEC: NaN, MC: NaN }
+    },
+    BME:{
+        2027: {HS: 13, BS: 27, ES: 29, PC: 57, PE: 12, EEC: 16, MC: 3 },
+        2028: {HS: 10, BS: 23, ES: 30, PC: 60, PE: 18, EEC: 18, MC: 2 }
+    },
+    EIE:{
+        2027: {HS: 11, BS: 25, ES: 25, PC: 58, PE: 15, EEC: 16, MC: 3 },
+        2028: {HS: NaN, BS: NaN, ES: NaN, PC: NaN, PE: NaN, EEC: NaN, MC: NaN }
     }
 };
 
