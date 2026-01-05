@@ -40,7 +40,7 @@ export async function courseByUser(req, res) {
             EEC = 0,
             MC = 0;
 
-        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707","19MC801","19MC807","19MC808","19MC809"];
+        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707", "19MC801", "19MC807", "19MC808", "19MC809"];
 
         const courseDetails = user.courses
             .map(({ course, grade, gradePoint, sem, category, code19, code24 }) => {
@@ -119,7 +119,6 @@ export async function courseByUser(req, res) {
             user: {
                 name: user.name,
                 email: user.email,
-                reg_no: user.reg_no,
                 dept: user.dept,
                 grad_year: user.grad_year,
             },
@@ -134,7 +133,7 @@ export async function courseByUser(req, res) {
                 MC,
             },
             user_sem_credits,
-            totalCredits:HS+BS+ES+PC+PE+OE+EEC+MC,
+            totalCredits: HS + BS + ES + PC + PE + OE + EEC + MC,
             courseDetails,
             CGPA,
         });
@@ -147,11 +146,11 @@ export async function courseByUser(req, res) {
 export async function updateProfile(req, res) {
     try {
         const id = req.id;
-        const { name, reg_no, grad_year, dept, email } = req.body;
+        const { name, grad_year, dept, email } = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name, email, reg_no, grad_year, dept },
+            { name, email, grad_year, dept },
             { new: true },
         )
 

@@ -114,27 +114,8 @@ const UserDetails = ({ isDark, userDetails, onDataRefresh }) => {
           </div>
         </div>
 
-        {/* Second Row */}
+        {/* Second Row - Graduation Year & Email */}
         <div className="second-row">
-          <div className="reg-no">
-            <label>Register Number</label>
-            {isEditable ? (
-              <input
-                className="userdetails-input"
-                type="text"
-                value={editedDetails.reg_no}
-                onChange={(e) => handleChange("reg_no", e.target.value)}
-              />
-            ) : (
-              <input
-                className="userdetails-input"
-                type="text"
-                disabled
-                value={userDetails.reg_no}
-              />
-            )}
-          </div>
-
           <div className="grad-year">
             <label>Graduation Year</label>
             {isEditable ? (
@@ -157,10 +138,7 @@ const UserDetails = ({ isDark, userDetails, onDataRefresh }) => {
               />
             )}
           </div>
-        </div>
 
-        {/* Third Row - Email */}
-        <div className="third-row">
           <div className="email-input">
             {isEditable ? (
               <label>Email (Not Editable)</label>

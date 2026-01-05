@@ -25,8 +25,8 @@ const LoginRight = () => {
       return;
     }
 
-    if (password.length < 8) {
-      toast.error("Password should be at least 8 characters");
+    if (password.length < 6) {
+      toast.error("Password should be at least 6 characters");
       return;
     }
 
@@ -88,6 +88,7 @@ const LoginRight = () => {
             <button type="submit">Sign In</button>
           </div>
           <p>Don't have an account? <Link to="/signup" className='link'>Create Account</Link></p>
+          <p><Link to="/forgot-password" className='link'>Forgot Password?</Link></p>
         </div>
       </form>
     </div>

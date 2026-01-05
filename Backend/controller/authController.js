@@ -12,17 +12,16 @@ export async function register(req, res) {
             throw new Error("No data recieved");
         }
 
-        const { name, reg_no, grad_year, dept, password } = req.body;
+        const { name, grad_year, dept, password } = req.body;
         const email = req.verifiedEmail;
 
-        if (!name || !email || !reg_no || !grad_year || !dept || !password) {
+        if (!name || !email || !grad_year || !dept || !password) {
             throw new Error("Missing fields!");
         }
 
         const user = await User.create({
             name,
             email,
-            reg_no,
             grad_year,
             dept,
             password,
