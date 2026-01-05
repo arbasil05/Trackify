@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
 
     reg_no: {
@@ -25,7 +25,22 @@ const UserSchema = mongoose.Schema({
 
     dept: {
         type: String,
-        enum: ["CSE", "AIDS", "AIML", "CYBER", "IOT", "IT", "ECE", "EEE", "EIE", "MECH", "CIVIL", "CHEM", "BME", "MED"],
+        enum: [
+            "CSE",
+            "AIDS",
+            "AIML",
+            "CYBER",
+            "IOT",
+            "IT",
+            "ECE",
+            "EEE",
+            "EIE",
+            "MECH",
+            "CIVIL",
+            "CHEM",
+            "BME",
+            "MED",
+        ],
         required: true,
     },
 
@@ -41,13 +56,13 @@ const UserSchema = mongoose.Schema({
             {
                 course: {
                     type: mongoose.Schema.Types.ObjectId,
-                    refPath: 'courses.modelType',
+                    refPath: "courses.modelType",
                     required: true,
                 },
                 modelType: {
                     type: String,
                     required: true,
-                    enum: ['NonScoftCourse', 'Course']
+                    enum: ["NonScoftCourse", "Course"],
                 },
                 gradePoint: {
                     type: Number,
@@ -63,8 +78,49 @@ const UserSchema = mongoose.Schema({
                 },
                 category: {
                     type: String,
+                    enum: ["HS", "BS", "ES", "PC", "PE", "OE", "EEC", "MC"],
                     required: true,
-                }
+                },
+            },
+        ],
+    },
+    user_added_courses: {
+        type: [
+            {
+                course_name: {
+                    type: String,
+                    required: true,
+                },
+                code: {
+                    type: String,
+                    required: true,
+                    unique: true,
+                },
+                credits: {
+                    type: Number,
+                    required: true,
+                },
+                dept: {
+                    type: Object,
+                    required: true,
+                },
+                gradePoint: {
+                    type: Number,
+                    required: true,
+                },
+                grade: {
+                    type: String,
+                    required: true,
+                },
+                sem: {
+                    type: String,
+                    required: true,
+                },
+                category: {
+                    type: String,
+                    enum: ["HS", "BS", "ES", "PC", "PE", "OE", "EEC", "MC"],
+                    required: true,
+                },
             },
         ],
     },
