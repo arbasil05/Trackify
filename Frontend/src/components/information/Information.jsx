@@ -40,8 +40,8 @@ const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }
     else if (gradYear > 2027 && dept === "CIVIL") denominator = 165;
     else if (gradYear === 2027 && dept === "BME") denominator = 169;
     else if (gradYear > 2027 && dept === "BME") denominator = 168;
-    else if (gradYear === 2027 && dept === "ME") denominator = 169;
-    else if (gradYear > 2027 && dept === "ME") denominator = 169;
+    else if (gradYear === 2027 && dept === "MED") denominator = 169;
+    else if (gradYear > 2027 && dept === "MED") denominator = 169;
     else if (gradYear === 2027 && dept === "EIE") denominator = 165;
     else if (gradYear > 2027 && dept === "EIE") denominator = 165;
     else if (gradYear === 2027 && dept === "CHEM") denominator = 166;

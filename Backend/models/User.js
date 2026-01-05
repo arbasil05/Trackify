@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique:true
+        unique: true
     },
 
     reg_no: {
@@ -25,6 +25,7 @@ const UserSchema = mongoose.Schema({
 
     dept: {
         type: String,
+        enum: ["CSE", "AIDS", "AIML", "CYBER", "IOT", "IT", "ECE", "EEE", "EIE", "MECH", "CIVIL", "CHEM", "BME", "MED"],
         required: true,
     },
 
@@ -46,7 +47,7 @@ const UserSchema = mongoose.Schema({
                 modelType: {
                     type: String,
                     required: true,
-                    enum: ['NonScoftCourse', 'Course'] 
+                    enum: ['NonScoftCourse', 'Course']
                 },
                 gradePoint: {
                     type: Number,

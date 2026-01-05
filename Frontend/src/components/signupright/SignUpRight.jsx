@@ -126,6 +126,14 @@ const SignUpRight = () => {
                                 <option value="AIML">AIML</option>
                                 <option value="CYBER">CSE (CYBERSECURITY)</option>
                                 <option value="IOT">CSE (IOT)</option>
+                                <option value="ECE">ECE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="EIE">EIE</option>
+                                <option value="MECH">MECH</option>
+                                <option value="CIVIL">CIVIL</option>
+                                <option value="CHEM">CHEMICAL</option>
+                                <option value="BME">BME</option>
+                                <option value="MED">MEDICAL</option>
                             </select>
                         </div>
                         <div className="reg-no">

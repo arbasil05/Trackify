@@ -1,8 +1,6 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
-import dotenv from "dotenv";
 import NonScoftCourse from "../models/NonScoftCourse.js";
-dotenv.config();
 
 const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
 
@@ -42,7 +40,7 @@ export async function courseByUser(req, res) {
             EEC = 0,
             MC = 0;
 
-        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707"];
+        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707","19MC801","19MC807","19MC808","19MC809"];
 
         const courseDetails = user.courses
             .map(({ course, grade, gradePoint, sem, category, code19, code24 }) => {
