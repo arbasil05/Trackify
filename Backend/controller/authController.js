@@ -1,5 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import { generateOTP, storeOTP, sendOTP } from "../services/otpService.js";
+
 
 
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
@@ -10,7 +12,8 @@ export async function register(req, res) {
             throw new Error("No data recieved");
         }
 
-        const { name, email, reg_no, grad_year, dept, password } = req.body;
+        const { name, reg_no, grad_year, dept, password } = req.body;
+        const email = req.verifiedEmail;
 
         if (!name || !email || !reg_no || !grad_year || !dept || !password) {
             throw new Error("Missing fields!");
@@ -123,4 +126,35 @@ export async function logout(req, res) {
     } catch (error) {
         console.log(`Error in logout ${error}`);
     }
+}
+
+export async function sendOtp(req, res) {
+    try {
+        const { email, purpose } = req.body;
+
+        if (!email || !purpose) {
+            return res.status(400).json({ error: 'Email and purpose required' });
+        }
+
+        const existingUser = await User.findOne({ email });
+
+        if (purpose === 'registration' && existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
+        else if (purpose === 'password_reset' && !existingUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const code = generateOTP();
+        await storeOTP(email, code, purpose);
+
+        await sendOTP(email, code, purpose);
+
+        return res.json({ message: 'OTP sent to email' });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error while sending OTP" });
+    }
+
 }
