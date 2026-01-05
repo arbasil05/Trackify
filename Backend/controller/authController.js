@@ -158,3 +158,32 @@ export async function sendOtp(req, res) {
     }
 
 }
+
+export async function forgotPassword(req, res) {
+    try {
+        const { password, confirmPassword } = req.body;
+        const email = req.verifiedEmail;
+
+        if (!password || !confirmPassword) {
+            return res.status(400).json({ error: 'Password and confirm password required' });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ error: 'Passwords do not match' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        user.password = password;
+        await user.save();
+
+        res.status(200).json({ message: "Password reset successful" });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error while resetting password" });
+    }
+}
