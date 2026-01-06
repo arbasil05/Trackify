@@ -126,7 +126,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         const toastId = toast.loading("Adding courses...");
 
         try {
-            // frontend safety check
             for (const course of addCourses) {
                 const { course_name, code, credits, gradePoint, sem, category } = course;
 
@@ -139,6 +138,31 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                     !category
                 ) {
                     toast.error("Please fill all fields", { id: toastId });
+                    return;
+                }
+
+                const creditsNum = Number(credits);
+                const gradeNum = Number(gradePoint);
+
+                if (
+                    !Number.isInteger(creditsNum) ||
+                    creditsNum < 0 ||
+                    creditsNum > 5
+                ) {
+                    toast.error("Credits must be a whole number between 0 and 5", {
+                        id: toastId,
+                    });
+                    return;
+                }
+
+                if (
+                    !Number.isInteger(gradeNum) ||
+                    gradeNum < 1 ||
+                    gradeNum > 10
+                ) {
+                    toast.error("Grade Point must be a whole number between 1 and 10", {
+                        id: toastId,
+                    });
                     return;
                 }
             }
@@ -441,6 +465,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                                                     <option value="OE">OE</option>
                                                     <option value="EEC">EEC</option>
                                                     <option value="MC">MC</option>
+                                                    <option value="OC">Online Course</option>
                                                 </select>
                                             </td>
                                         </tr>
