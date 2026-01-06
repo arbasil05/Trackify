@@ -126,17 +126,10 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         const toastId = toast.loading("Adding courses...");
 
         try {
+            // frontend safety check
             for (const course of addCourses) {
-                const {
-                    course_name,
-                    code,
-                    credits,
-                    gradePoint,
-                    sem,
-                    category
-                } = course;
+                const { course_name, code, credits, gradePoint, sem, category } = course;
 
-                // frontend safety check
                 if (
                     !course_name ||
                     !code ||
@@ -148,20 +141,15 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                     toast.error("Please fill all fields", { id: toastId });
                     return;
                 }
-
-                await axios.post(
-                    `${import.meta.env.VITE_BACKEND_API}/api/course/addCourse`,
-                    {
-                        course_name,
-                        code,
-                        credits,
-                        gradePoint,
-                        sem,
-                        category
-                    },
-                    { withCredentials: true }
-                );
             }
+
+            await axios.post(
+                `${import.meta.env.VITE_BACKEND_API}/api/semester/addMultipleCourse`,
+                {
+                    courses: addCourses,
+                },
+                { withCredentials: true }
+            );
 
             toast.success("Courses added successfully", { id: toastId });
             closeCompletely();
@@ -173,6 +161,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
             console.error(err);
         }
     };
+
 
 
     return (
@@ -344,7 +333,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                                             course_name: c.name || '',
                                             code: c.code || '',
                                             credits: '',
-                                            dept: '',
                                             gradePoint: '',
                                             sem: semValue,
                                             category: ''

@@ -245,6 +245,99 @@ export async function handleAddCourses(req, res) {
     }
 }
 
+export async function handleAddMultipleCourses(req, res) {
+
+    try {
+        const id = req.id;
+        const { courses } = req.body;
+
+        if (!Array.isArray(courses) || courses.length === 0) {
+
+            return res.status(400).json({
+                message: "Courses array is required"
+            })
+        }
+
+        for (const course of courses) {
+            const { course_name, code, credits, gradePoint, sem, category } = course;
+
+            if (
+                !course_name ||
+                !code ||
+                !credits ||
+                !gradePoint ||
+                !sem ||
+                !category
+            ) {
+                return res.status(400).json({
+                    message: "One or more courses have missing fields"
+                });
+            }
+        }
+
+        const codes = courses.map((c) => c.code);
+
+        const existingCourse = await User.findOne({
+            _id: id,
+            "user_added_courses.code": { $in: codes },
+        });
+
+        if (existingCourse) {
+            return res.status(409).json({
+                message: "One or more course codes already exist",
+            });
+        }
+
+
+        const formattedCourses = courses.map((c) => {
+            const semNumber =
+                typeof c.sem === "string" && c.sem.startsWith("sem")
+                    ? Number(c.sem.replace("sem", ""))
+                    : Number(c.sem);
+
+            return {
+                course_name: c.course_name,
+                code: c.code,
+                credits: Number(c.credits),
+                gradePoint: Number(c.gradePoint),
+                sem: semNumber,
+                category: c.category,
+                grade: gradeMap[Number(c.gradePoint)] || "NA",
+            };
+        });
+
+
+    const user = await User.findByIdAndUpdate(
+        id,
+        {
+            $push: {
+                user_added_courses: {
+                    $each: formattedCourses,
+                },
+            },
+        },
+        { new: true }
+    );
+
+    if (!user) {
+        return res.status(401).json({
+            message: "Error while adding courses",
+        });
+    }
+
+    return res.status(200).json({
+        message: "Courses added successfully",
+        data: user,
+    });
+} catch (e) {
+    console.error(`Error while adding courses ${e}`);
+    return res.status(500).json({
+        message: "Internal server error",
+    });
+}
+
+}
+
 export async function handleDeleteCourses(req, res) {
     try {
         const id = req.id;

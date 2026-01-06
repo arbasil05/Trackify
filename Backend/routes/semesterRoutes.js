@@ -5,6 +5,7 @@ import {
     deleteSem,
     getExistingSemesters,
     handleAddCourses,
+    handleAddMultipleCourses,
     handleCourseUpdate,
     handleDeleteCourses,
     handleGetUserAddedCourses,
@@ -29,6 +30,7 @@ router.delete("/deleteCourse", authMiddleWare, handleDeleteCourses);
 router.get("/existingSemesters", authMiddleWare, getExistingSemesters);
 router.get("/getCourses", authMiddleWare, handleGetUserAddedCourses);
 router.post("/addCourse", authMiddleWare, handleAddCourses);
+router.post("/addMultipleCourse", authMiddleWare, handleAddMultipleCourses);
 router.put("/updateCourse", authMiddleWare, handleCourseUpdate);
 router.delete("/:semester", authMiddleWare, deleteSem);
 
