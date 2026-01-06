@@ -66,7 +66,8 @@ export async function uploadFile(req, res) {
 
             if (!courseEntry) {
                 console.log(
-                    `Course not found: ${course.name || course.code19 || course.code24
+                    `Course not found: ${
+                        course.name || course.code19 || course.code24
                     }`
                 );
                 continue;
@@ -92,8 +93,8 @@ export async function uploadFile(req, res) {
                 category: courseEntry.department[userDept]
                     ? courseEntry.department[userDept]
                     : courseEntry.department[
-                    Object.keys(courseEntry.department)[0]
-                    ],
+                          Object.keys(courseEntry.department)[0]
+                      ],
                 code19: course.code19,
                 code24: course.code24,
             });
@@ -186,80 +187,25 @@ export async function deleteSem(req, res) {
 export async function handleAddCourses(req, res) {
     try {
         const id = req.id;
-        const { course_name, code, credits, gradePoint, sem, category } =
-            req.body;
+        let courses = req.body;
 
         if (
-            !course_name ||
-            !code ||
-            !credits ||
-            !gradePoint ||
-            !sem ||
-            !category
+            !courses ||
+            (Array.isArray(courses) && courses.length === 0) ||
+            (typeof courses === "object" && Object.keys(courses).length === 0)
         ) {
             return res.status(400).json({
-                message: "Invalid fields",
+                message: "No courses provided",
             });
         }
 
-        const existingCourse = await User.findOne({
-            _id: id,
-            "user_added_courses.code": code,
-        });
-        if (existingCourse) {
-            return res
-                .status(409)
-                .json({ message: "The Course code already exists" });
-        }
-
-        const user = await User.findByIdAndUpdate(
-            id,
-            {
-                $push: {
-                    user_added_courses: {
-                        course_name,
-                        code,
-                        credits,
-                        gradePoint,
-                        sem,
-                        category,
-                        grade: gradeMap[gradePoint] || "NA",
-                    },
-                },
-            },
-            { new: true }
-        );
-
-        if (!user) {
-            return res.status(401).json({
-                message: "Error while adding course",
-            });
-        }
-        return res.status(200).json({
-            message: "Course added successfully",
-            data: user,
-        });
-    } catch (e) {
-        console.log(`Error while adding courses ${e}`);
-        res.status(500).json({ message: "Internal server error" });
-    }
-}
-
-export async function handleAddMultipleCourses(req, res) {
-
-    try {
-        const id = req.id;
-        const { courses } = req.body;
-
-        if (!Array.isArray(courses) || courses.length === 0) {
-
-            return res.status(400).json({
-                message: "Courses array is required"
-            })
+        if (!Array.isArray(courses)) {
+            courses = [courses];
         }
 
         for (const course of courses) {
-            const { course_name, code, credits, gradePoint, sem, category } = course;
+            const { course_name, code, credits, gradePoint, sem, category } =
+                course;
 
             if (
                 !course_name ||
@@ -270,24 +216,38 @@ export async function handleAddMultipleCourses(req, res) {
                 !category
             ) {
                 return res.status(400).json({
-                    message: "One or more courses have missing fields"
+                    message: "One or more courses have missing fields",
                 });
             }
         }
 
         const codes = courses.map((c) => c.code);
 
-        const existingCourse = await User.findOne({
-            _id: id,
-            "user_added_courses.code": { $in: codes },
-        });
+        const user = await User.findById(id).populate("courses.course");
 
-        if (existingCourse) {
-            return res.status(409).json({
-                message: "One or more course codes already exist",
+        if (!user) {
+            return res.status(404).json({
+                message: "User Not Found",
             });
         }
 
+        const existsInUserAdded = user.user_added_courses.some((course) =>
+            codes.includes(course.code)
+        );
+
+        const existsInCourses = user.courses.some((courseEntry) => {
+            const course = courseEntry.course;
+            return (
+                codes.includes(course.code19) || codes.includes(course.code24)
+            );
+        });
+
+        if (existsInUserAdded || existsInCourses) {
+            return res.status(409).json({
+                message:
+                    "One or more course codes already exist in your courses",
+            });
+        }
 
         const formattedCourses = courses.map((c) => {
             const semNumber =
@@ -306,36 +266,34 @@ export async function handleAddMultipleCourses(req, res) {
             };
         });
 
-
-    const user = await User.findByIdAndUpdate(
-        id,
-        {
-            $push: {
-                user_added_courses: {
-                    $each: formattedCourses,
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            {
+                $push: {
+                    user_added_courses: {
+                        $each: formattedCourses,
+                    },
                 },
             },
-        },
-        { new: true }
-    );
+            { new: true }
+        );
 
-    if (!user) {
-        return res.status(401).json({
-            message: "Error while adding courses",
+        if (!updatedUser) {
+            return res.status(401).json({
+                message: "Error while adding courses",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Courses added successfully",
+            data: updatedUser,
+        });
+    } catch (e) {
+        console.error(`Error while adding courses ${e}`);
+        return res.status(500).json({
+            message: "Internal server error",
         });
     }
-
-    return res.status(200).json({
-        message: "Courses added successfully",
-        data: user,
-    });
-} catch (e) {
-    console.error(`Error while adding courses ${e}`);
-    return res.status(500).json({
-        message: "Internal server error",
-    });
-}
-
 }
 
 export async function handleDeleteCourses(req, res) {
@@ -437,6 +395,29 @@ export async function handleGetUserAddedCourses(req, res) {
         });
     } catch (e) {
         console.log(`Error while retrieving courses ${e}`);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+export async function handlGetAllCourses(req, res) {
+    try {
+        const id = req.id;
+        const user = await User.findById(id)
+            .populate("courses.course")
+            .select("courses user_added_courses");
+        if (!user) {
+            return res.status(404).json({
+                message: "User Not Found",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Courses Retrieved Successfully",
+            courses: user.courses,
+            user_added_courses: user.user_added_courses,
+        });
+    } catch (e) {
+        console.log(`Error while fetching courses ${e}`);
         res.status(500).json({ message: "Internal server error" });
     }
 }
