@@ -1,4 +1,5 @@
-import { faMoon, faUpload, faWarning, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+
+import { faMoon, faUpload } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
@@ -6,11 +7,20 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+import AddSingleCourseModal from './AddSingleCourseModal';
+import WarningModalStep from './WarningModalStep';
+import UploadModalStep from './UploadModalStep';
+import MissingModalStep from './MissingModalStep';
+import AddCourseFormModalStep from './AddCourseFormModalStep';
+import { useLocation } from "react-router-dom";
+
+
 Modal.setAppElement('#root');
 
 const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [modalStep, setModalStep] = useState('warning'); // warning | upload | missing
+    const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
+    const [modalStep, setModalStep] = useState('warning');
     const [pdf, setPdf] = useState(null);
     const [semValue, setSemValue] = useState('');
     const [existingSemesters, setExistingSemesters] = useState([]);
@@ -18,6 +28,9 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
     const isSubmitting = useRef(false);
     const [addCourses, setAddCourses] = useState([]);
 
+
+    const location = useLocation();
+    const isUserRoute = location.pathname === "/user";
 
     useEffect(() => {
         const skipWarning = localStorage.getItem('skipWarning');
@@ -56,6 +69,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         return 'Hope your day went well';
     };
 
+    // --- Modal Step Handlers ---
     const handlePdfSubmit = async (e) => {
         e.preventDefault();
         if (isSubmitting.current) return;
@@ -186,315 +200,99 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         }
     };
 
+    // --- Modal Step Components ---
+    const renderModalStep = () => {
+        switch (modalStep) {
+            case 'warning':
+                return (
+                    <WarningModalStep
+                        dark={dark}
+                        onClose={handleModalClose}
+                        onProceed={() => setModalStep('upload')}
+                        onCheckbox={handleWarningCheckbox}
+                    />
+                );
+            case 'upload':
+                return (
+                    <UploadModalStep
+                        dark={dark}
+                        semValue={semValue}
+                        setSemValue={setSemValue}
+                        existingSemesters={existingSemesters}
+                        pdf={pdf}
+                        setPdf={setPdf}
+                        onSubmit={handlePdfSubmit}
+                        onClose={handleModalClose}
+                    />
+                );
+            case 'missing':
+                return (
+                    <MissingModalStep
+                        dark={dark}
+                        missingCourses={missingCourses}
+                        onContinue={() => {
+                            setAddCourses(
+                                missingCourses.map(c => ({
+                                    course_name: c.name || '',
+                                    code: c.code || '',
+                                    credits: '',
+                                    gradePoint: '',
+                                    sem: semValue,
+                                    category: ''
+                                }))
+                            );
+                            setModalStep('AddCourseForm');
+                        }}
+                        onLater={closeCompletely}
+                    />
+                );
+            case 'AddCourseForm':
+                return (
+                    <AddCourseFormModalStep
+                        dark={dark}
+                        addCourses={addCourses}
+                        setAddCourses={setAddCourses}
+                        onSave={handleAddCoursesSubmit}
+                        onCancel={closeCompletely}
+                    />
+                );
+            default:
+                return null;
+        }
+    };
 
+
+    // for adding individual courses
+    const handleAddCourseClick = () => {
+        setAddCourseModalOpen(true);
+    }
 
     return (
         <div className="navbar-container">
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={handleModalClose}
-                className={`custom-modal ${dark ? 'dark' : ''} ${modalStep === 'warning' || modalStep === 'AddCourseForm' ? 'wide-modal' : 'narrow-modal'
-                    }`}
+                className={`custom-modal ${dark ? 'dark' : ''} ${modalStep === 'warning' || modalStep === 'AddCourseForm' ? 'wide-modal' : 'narrow-modal'}`}
             >
-                {/* ================= WARNING ================= */}
-                {modalStep === 'warning' && (
-                    <div className="important-info">
-                        <div>
-                            <FontAwesomeIcon className="font-warning" size="2x" icon={faWarning} />
-                            <h2 className="important-header">Important Information</h2>
-                            <div className="important-caption">
-                                <p>Read the following carefully before proceeding.</p>
-                            </div>
-
-                            <div className="important-message">
-                                <p>
-                                    Please ensure your PDF contains selectable text (not just images) for proper reading and processing.
-                                    If you cannot select or copy text from the PDF, please re-download it using your browser’s
-                                    “Save as PDF” option before uploading.
-                                </p>
-                            </div>
-
-                            <div className="checkbox-input">
-                                <input
-                                    type="checkbox"
-                                    id="skip-warning"
-                                    onChange={handleWarningCheckbox}
-                                />
-                                <label htmlFor="skip-warning">Do not show this warning again</label>
-                            </div>
-
-                            <div className="proceed-buttons">
-                                <button className="btn cancel" onClick={handleModalClose}>
-                                    Close
-                                </button>
-                                <button
-                                    className="btn proceed"
-                                    onClick={() => setModalStep('upload')}
-                                >
-                                    Proceed
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="video">
-                            <video autoPlay loop muted playsInline>
-                                <source src="/warning2.mp4" type="video/mp4" />
-                            </video>
-                        </div>
-                    </div>
-                )}
-
-                {/* ================= UPLOAD ================= */}
-                {modalStep === 'upload' && (
-                    <div className="upload-form-wrapper">
-                        <h2>Upload Semester Results</h2>
-                        <p>Drop your semester results and we’ll do the math</p>
-
-                        <p style={{ textAlign: 'center', color: '#4880FF' }}>
-                            <FontAwesomeIcon icon={faInfoCircle} /> Online courses and Open Electives
-                            will not be extracted
-                        </p>
-
-                        <form className="upload-form" onSubmit={handlePdfSubmit}>
-                            <div className="form-group">
-                                <label>Semester</label>
-                                <select
-                                    value={semValue}
-                                    onChange={(e) => setSemValue(e.target.value)}
-                                    required
-                                >
-                                    <option value="">Select your semester here</option>
-                                    {[...Array(8)].map((_, i) => {
-                                        const sem = `sem${i + 1}`;
-                                        if (!existingSemesters.includes(sem)) {
-                                            return (
-                                                <option key={sem} value={sem}>
-                                                    Semester {i + 1}
-                                                </option>
-                                            );
-                                        }
-                                        return null;
-                                    })}
-                                </select>
-                            </div>
-
-                            <div className="form-group">
-                                <input
-                                    type="file"
-                                    accept=".pdf"
-                                    id="upload-pdf"
-                                    className="upload-input"
-                                    onChange={(e) => setPdf(e.target.files[0])}
-                                    required
-                                />
-                                <label
-                                    htmlFor="upload-pdf"
-                                    className={`upload-label ${pdf ? 'has-pdf' : ''}`}
-                                >
-                                    {pdf ? `PDF Selected: ${pdf.name}` : 'Upload PDF'}
-                                </label>
-                            </div>
-
-                            <div className="form-actions">
-                                <button type="submit" className="btn submit">
-                                    Submit
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn cancel"
-                                    onClick={handleModalClose}
-                                >
-                                    Close
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                )}
-
-                {/* ================= MISSING COURSES ================= */}
-                {modalStep === 'missing' && (
-                    <div className="missing-courses-wrapper">
-                        <FontAwesomeIcon
-                            className="font-warning"
-                            size="2x"
-                            icon={faWarning}
-                        />
-
-                        <h2 className="important-header">Missing Courses</h2>
-
-                        <div className="important-caption">
-                            <p>These aren’t in our database yet.</p>
-                        </div>
-
-                        <div className="missing-courses-table-wrapper">
-                            <table className="missing-courses-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Course Name</th>
-                                        <th>Course Code</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {missingCourses.map((c, i) => (
-                                        <tr key={i}>
-                                            <td>{i + 1}</td>
-                                            <td>{c.name || '—'}</td>
-                                            <td>{c.code || '—'}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="form-actions">
-
-                            <button
-                                className="btn proceed"
-                                onClick={() => {
-                                    setAddCourses(
-                                        missingCourses.map(c => ({
-                                            course_name: c.name || '',
-                                            code: c.code || '',
-                                            credits: '',
-                                            gradePoint: '',
-                                            sem: semValue,
-                                            category: ''
-                                        }))
-                                    );
-                                    setModalStep('AddCourseForm');
-                                }}
-                            >
-                                Continue
-                            </button>
-
-                            <button className='btn' onClick={closeCompletely}>
-                                Later
-                            </button>
-                        </div>
-                    </div>
-
-                )}
-
-                {/* ================= ADD COURSE FORM ================= */}
-                {modalStep === 'AddCourseForm' && (
-                    <div className="add-course-wrapper">
-                        <h2 className="important-header">Add Missing Courses</h2>
-
-                        <div className="important-caption">
-                            <p>Fill the details to add these courses.</p>
-                        </div>
-
-                        <div className="add-course-table-wrapper">
-                            <table className="add-course-table">
-                                <thead>
-                                    <tr>
-                                        <th>Course Name</th>
-                                        <th>Code</th>
-                                        <th>Credits</th>
-                                        <th>Grade Point</th>
-                                        <th>Semester</th>
-                                        <th>Category</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {addCourses.map((course, i) => (
-                                        <tr key={i}>
-                                            <td>
-                                                <input
-                                                    value={course.course_name}
-                                                    disabled
-                                                />
-                                            </td>
-
-                                            <td>
-                                                <input
-                                                    value={course.code}
-                                                    disabled
-                                                />
-                                            </td>
-
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    value={course.credits}
-                                                    onChange={(e) => {
-                                                        const updated = [...addCourses];
-                                                        updated[i].credits = e.target.value;
-                                                        setAddCourses(updated);
-                                                    }}
-                                                />
-                                            </td>
-
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    step="0.1"
-                                                    value={course.gradePoint}
-                                                    onChange={(e) => {
-                                                        const updated = [...addCourses];
-                                                        updated[i].gradePoint = e.target.value;
-                                                        setAddCourses(updated);
-                                                    }}
-                                                />
-                                            </td>
-
-                                            <td>
-                                                <input
-                                                    value={course.sem}
-                                                    disabled
-                                                />
-                                            </td>
-
-                                            <td>
-                                                <select
-                                                    value={course.category}
-                                                    onChange={(e) => {
-                                                        const updated = [...addCourses];
-                                                        updated[i].category = e.target.value;
-                                                        setAddCourses(updated);
-                                                    }}
-                                                >
-                                                    <option value="">Select</option>
-                                                    <option value="HS">HS</option>
-                                                    <option value="BS">BS</option>
-                                                    <option value="ES">ES</option>
-                                                    <option value="PC">PC</option>
-                                                    <option value="PE">PE</option>
-                                                    <option value="OE">OE</option>
-                                                    <option value="EEC">EEC</option>
-                                                    <option value="MC">MC</option>
-                                                    <option value="OC">Online Course</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="form-actions">
-                            <button
-                                className="btn proceed"
-                                onClick={handleAddCoursesSubmit}
-                            >
-                                Save Courses
-                            </button>
-
-                            <button
-                                className="btn cancel"
-                                onClick={closeCompletely}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-
-
+                {renderModalStep()}
             </Modal>
+
+            {/* Add course Modal */}
+            <Modal
+                isOpen={addCourseModalOpen}
+                onRequestClose={() => setAddCourseModalOpen(false)}
+                className={`custom-modal ${dark ? 'dark' : ''} narrow-modal`}
+            >
+                <AddSingleCourseModal
+                    dark={dark}
+                    onClose={() => setAddCourseModalOpen(false)}
+                    onSuccess={() => {
+                        setAddCourseModalOpen(false);
+                        // onDataRefresh();
+                    }}
+                />
+            </Modal>
+
 
             {/* ================= NAVBAR ================= */}
             <div className="navbar-wrapper">
@@ -509,12 +307,20 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
 
                 <div className="navbar-button-group">
                     <div className="navbar-upload-button">
-                        <button onClick={() => setModalIsOpen(true)}>
-                            <FontAwesomeIcon className="upload-button-icon" icon={faUpload} />
-                            Upload Sem Result
-                        </button>
-                    </div>
+                        {(!isUserRoute && location.pathname !== '/explore') && (
+                            <button onClick={() => setModalIsOpen(true)}>
+                                <FontAwesomeIcon className="upload-button-icon" icon={faUpload} />
+                                Upload Sem Result
+                            </button>
+                        )}
 
+                        {isUserRoute && (
+                            <button onClick={handleAddCourseClick}>
+                                <FontAwesomeIcon className="upload-button-icon" icon={faUpload} />
+                                Add Course
+                            </button>
+                        )}
+                    </div>
                     <div className="navbar-toggle-button" onClick={handleDarkModeToggle}>
                         {dark ? (
                             <FontAwesomeIcon icon={faMoon} className="toggle-icon" />

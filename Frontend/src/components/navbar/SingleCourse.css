@@ -1,0 +1,122 @@
+/* Description/important-caption style for modal description */
+.important-caption {
+	text-align: center;
+	color: #6b7280;
+	font-size: 16px;
+	margin-bottom: 12px;
+	/* line-height: 1.5; */
+}
+.add-course-wrapper.dark .important-caption {
+	color: #bfc6d1;
+}
+/* Flex row for credits and grade point */
+.row-flex {
+	display: flex;
+	gap: 14px;
+}
+.row-flex input {
+	flex: 1 1 0;
+	margin-bottom: 2px;
+}
+/* Single course add modal styling, consistent with add-course-wrapper */
+.add-course-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  /* Remove padding, background, border-radius, box-shadow, max-width, margin */
+}
+
+.add-course-wrapper h2 {
+	font-size: 22px;
+	font-weight: 700;
+	color: #111827;
+	text-align: center;
+}
+
+.add-course-wrapper input,
+.add-course-wrapper select {
+	width: 100%;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	color: #111827;
+	padding: 10px 12px;
+	border-radius: 8px;
+	font-size: 15px;
+	margin-bottom: 2px;
+	transition: border 0.2s;
+}
+
+.add-course-wrapper input:focus,
+.add-course-wrapper select:focus {
+	border: 1.5px solid #4880FF;
+	outline: none;
+}
+
+/* DARK MODE SUPPORT */
+.add-course-wrapper.dark {
+	/* Remove background, keep color for text */
+	color: #e5e7eb;
+}
+.add-course-wrapper.dark h2 {
+	color: #e5e7eb;
+}
+.add-course-wrapper.dark input,
+.add-course-wrapper.dark select {
+	background: #111827;
+	border-color: #374151;
+	color: #e5e7eb;
+}
+.add-course-wrapper.dark input::placeholder {
+	color: #9ca3af;
+}
+.add-course-wrapper.dark input:disabled {
+	background: #0f172a;
+	color: #9ca3af;
+}
+
+.add-course-wrapper input::placeholder {
+	color: #9ca3af;
+}
+
+.form-actions {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	margin-top: 18px;
+	gap: 10px;
+}
+
+.btn.proceed {
+	background: #4880FF;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 22px;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+.btn.proceed:hover {
+	background: #2563eb;
+}
+.btn.cancel {
+	background: #f3f4f6;
+	color: #374151;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 22px;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+.btn.cancel:hover {
+	background: #e5e7eb;
+}
+
+@media (max-width: 600px) {
+  .add-course-wrapper {
+    /* No max-width or padding for mobile either */
+  }
+}

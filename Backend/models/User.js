@@ -118,7 +118,7 @@ const UserSchema = mongoose.Schema({
                 },
                 category: {
                     type: String,
-                    enum: ["HS", "BS", "ES", "PC", "PE", "OE", "EEC", "MC","OC"],
+                    enum: ["HS", "BS", "ES", "PC", "PE", "OE", "EEC", "MC"],
                     required: true,
                 },
             },
