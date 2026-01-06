@@ -22,6 +22,7 @@ export async function uploadFile(req, res) {
 
         // console.log("HELLO : ", req.subjects);
         const subs = req.subjects;
+        const missing_subs = req.missing_subjects;
         if (!Array.isArray(subs) || subs.length === 0) {
             return res.status(400).json({
                 error: "Check if the PDF is correct and has selectable text",
@@ -65,8 +66,7 @@ export async function uploadFile(req, res) {
 
             if (!courseEntry) {
                 console.log(
-                    `Course not found: ${
-                        course.name || course.code19 || course.code24
+                    `Course not found: ${course.name || course.code19 || course.code24
                     }`
                 );
                 continue;
@@ -92,8 +92,8 @@ export async function uploadFile(req, res) {
                 category: courseEntry.department[userDept]
                     ? courseEntry.department[userDept]
                     : courseEntry.department[
-                          Object.keys(courseEntry.department)[0]
-                      ],
+                    Object.keys(courseEntry.department)[0]
+                    ],
                 code19: course.code19,
                 code24: course.code24,
             });
@@ -132,6 +132,7 @@ export async function uploadFile(req, res) {
         return res.status(200).json({
             message: "Courses appended successfully",
             courseEntries,
+            missing_subs,
             userCourses: updatedUser.courses,
         });
     } catch (error) {
@@ -185,14 +186,13 @@ export async function deleteSem(req, res) {
 export async function handleAddCourses(req, res) {
     try {
         const id = req.id;
-        const { course_name, code, credits, dept, gradePoint, sem, category } =
+        const { course_name, code, credits, gradePoint, sem, category } =
             req.body;
 
         if (
             !course_name ||
             !code ||
             !credits ||
-            !dept ||
             !gradePoint ||
             !sem ||
             !category
@@ -220,7 +220,6 @@ export async function handleAddCourses(req, res) {
                         course_name,
                         code,
                         credits,
-                        dept,
                         gradePoint,
                         sem,
                         category,

@@ -40,6 +40,7 @@ export default async (req, res, next) => {
         req.body.text = text;
 
         const subjects = [];
+        const missing_subjects = [];
         // Regex to parse subject details in PDF text
         const subjectRegex = /(ODDJUNIOR|EVEN|ODD)\s*(\d*[A-Z]+\d+)-([\s\S]*?)(\d{1,2})\s*([A-Z]\+?)\s*(\d+)\s*Pass/gu;
 
@@ -80,11 +81,16 @@ export default async (req, res, next) => {
                     department: matchedEntry.department
                 });
             } else {
+                missing_subjects.push({
+                    code: code,
+                    name: rawName
+                })
                 console.log(`No MongoDB match found for code: '${code}' or name: '${rawName}'`);
             }
         }
 
         req.subjects = subjects;
+        req.missing_subjects = missing_subjects;
         next();
     } catch (err) {
         console.error("Error parsing PDF:", err);

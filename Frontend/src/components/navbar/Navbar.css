@@ -138,7 +138,7 @@
 .important-info {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: space-between;
   gap: 20px;
   border-radius: 16px;
@@ -198,6 +198,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
+  /* border: 4px solid rgb(222, 15, 15); */
 }
 
 .important-message::before {
@@ -440,6 +441,213 @@
 .custom-modal.dark .btn.submit:hover {
   background-color: #1e40af;
 }
+
+/* ===== Missing Courses Table ===== */
+
+.missing-courses-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.missing-courses-table thead {
+  background-color: #f5f7fa;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.missing-courses-table th,
+.missing-courses-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.missing-courses-table th {
+  font-weight: 600;
+  color: #374151;
+}
+
+.missing-courses-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* index column */
+.missing-courses-table th:first-child,
+.missing-courses-table td:first-child {
+  width: 40px;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* ===== Dark mode support ===== */
+
+
+.custom-modal.dark .missing-courses-table thead {
+  background-color: #374151;
+}
+
+.custom-modal.dark .missing-courses-table th,
+.custom-modal.dark .missing-courses-table td {
+  border-color: #2d2d2d;
+  color: #e5e7eb;
+}
+
+.custom-modal.dark .missing-courses-table tbody tr:hover {
+  background-color: #374151;
+}
+
+/* ===== Add Course Form ===== */
+
+.add-course-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===== Table Card Wrapper ===== */
+
+.add-course-table-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+  border-radius: 14px;
+  background: #f9fafb;
+  /* light mode card */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Table Base ===== */
+
+.add-course-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #111827;
+}
+
+/* ===== Table Header ===== */
+
+.add-course-table thead {
+  background: #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.add-course-table th {
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #374151;
+}
+
+/* ===== Table Cells ===== */
+
+.add-course-table td {
+  padding: 16px 18px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* ===== Hover ===== */
+
+.add-course-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* ===== Inputs inside table ===== */
+
+.add-course-table input,
+.add-course-table select {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.add-course-table input::placeholder {
+  color: #9ca3af;
+}
+
+.add-course-table input:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* ===== Scrollbar (Light) ===== */
+
+.add-course-table-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.add-course-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c7cbd1;
+  border-radius: 10px;
+}
+
+/* ===================================================== */
+/* ===================== DARK MODE ===================== */
+/* ===================================================== */
+
+.custom-modal.dark .add-course-table-wrapper {
+  background: #1f2937;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.custom-modal.dark .add-course-table {
+  color: #e5e7eb;
+}
+
+.custom-modal.dark .add-course-table thead {
+  background: #374151;
+}
+
+.custom-modal.dark .add-course-table th {
+  color: #d1d5db;
+}
+
+.custom-modal.dark .add-course-table td {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.custom-modal.dark .add-course-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ===== Dark Inputs ===== */
+
+.custom-modal.dark .add-course-table input,
+.custom-modal.dark .add-course-table select {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.custom-modal.dark .add-course-table input::placeholder {
+  color: #9ca3af;
+}
+
+.custom-modal.dark .add-course-table input:disabled {
+  background: #0f172a;
+  color: #9ca3af;
+}
+
+/* ===== Scrollbar (Dark) ===== */
+
+.custom-modal.dark .add-course-table-wrapper::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+
 
 @media (max-width: 768px) {
   .important-info {
