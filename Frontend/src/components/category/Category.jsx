@@ -12,7 +12,7 @@ const Category = ({ dark, runningTotal, Loading }) => {
     { name: 'ES', full: 'Engineering Sciences' },
     { name: 'PC', full: 'Professional Core' },
     { name: 'PE', full: 'Professional Electives' },
-    // { name: 'OE', full: 'Open Electives' },
+    { name: 'OE', full: 'Open Electives' },
     { name: 'EEC', full: 'Employment Enhancement Courses' },
     { name: 'MC', full: 'Mandatory Courses' },
   ]);

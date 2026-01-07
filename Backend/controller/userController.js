@@ -40,7 +40,7 @@ export async function courseByUser(req, res) {
             EEC = 0,
             MC = 0;
 
-        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707","19MC801","19MC807","19MC808","19MC809"];
+        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707", "19MC801", "19MC807", "19MC808", "19MC809"];
 
         const courseDetails = user.courses
             .map(({ course, grade, gradePoint, sem, category, code19, code24 }) => {
@@ -134,7 +134,7 @@ export async function courseByUser(req, res) {
                 MC,
             },
             user_sem_credits,
-            totalCredits:HS+BS+ES+PC+PE+OE+EEC+MC,
+            totalCredits: HS + BS + ES + PC + PE + OE + EEC + MC,
             courseDetails,
             CGPA,
         });
@@ -236,3 +236,236 @@ export async function recommendation(req, res) {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+export async function courseByUserWithUserAdded(req, res) {
+    try {
+        const id = req.id;
+
+        const user = await User.findById(id)
+            .populate("courses.course")
+            .select(
+                "name email reg_no dept grad_year courses user_added_courses"
+            );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const userDept = user.dept;
+
+        /* ================= GLOBAL ACCUMULATORS ================= */
+        let totalCredits = 0;
+        let totalWeightedPoints = 0;
+
+        let HS = 0,
+            BS = 0,
+            ES = 0,
+            PC = 0,
+            PE = 0,
+            OE = 0,
+            EEC = 0,
+            MC = 0;
+
+        const semCredits = {
+            sem1: 0,
+            sem2: 0,
+            sem3: 0,
+            sem4: 0,
+            sem5: 0,
+            sem6: 0,
+            sem7: 0,
+            sem8: 0,
+        };
+
+        const nonCGPACourses = [
+            "19MC805",
+            "19MC804",
+            "SH6707",
+            "19EY707",
+            "19MC801",
+            "19MC807",
+            "19MC808",
+            "19MC809",
+        ];
+
+        /* ================= NORMAL COURSES ================= */
+        const courseDetails = user.courses
+            .map(({ course, grade, gradePoint, sem, category }) => {
+                if (!course) return null;
+
+                const isNonCGPA =
+                    nonCGPACourses.includes(course.code19) ||
+                    nonCGPACourses.includes(course.code24);
+
+                if (!isNonCGPA) {
+                    totalCredits += course.credits;
+                    totalWeightedPoints +=
+                        !isNaN(gradePoint) && course.credits !== 0
+                            ? course.credits * gradePoint
+                            : 0;
+                }
+
+                // ✅ FIXED semester aggregation
+                if (course.credits > 0 && sem in semCredits) {
+                    semCredits[sem] += course.credits;
+                }
+
+                let deptToAdd = course.department[userDept];
+                if (!deptToAdd) {
+                    deptToAdd =
+                        course.department[
+                        Object.keys(course.department)[0]
+                        ];
+                }
+
+                switch (deptToAdd) {
+                    case "HS":
+                        HS += course.credits;
+                        break;
+                    case "BS":
+                        BS += course.credits;
+                        break;
+                    case "ES":
+                        ES += course.credits;
+                        break;
+                    case "PC":
+                        PC += course.credits;
+                        break;
+                    case "PE":
+                        PE += course.credits;
+                        break;
+                    case "OE":
+                        OE += course.credits;
+                        break;
+                    case "EEC":
+                        EEC += course.credits;
+                        break;
+                    case "MC":
+                        MC += course.credits;
+                        break;
+                    default:
+                        break;
+                }
+
+                return {
+                    name: course.name,
+                    code19: course.code19,
+                    code24: course.code24,
+                    credits: course.credits,
+                    category,
+                    grade,
+                    gradePoint,
+                    sem,
+                };
+            })
+            .filter(Boolean);
+
+        /* ================= USER ADDED COURSES ================= */
+        const userAddedCourseDetails = user.user_added_courses.map(
+            ({
+                course_name,
+                code,
+                credits,
+                grade,
+                gradePoint,
+                sem,
+                category,
+            }) => {
+                const isNonCGPA = nonCGPACourses.includes(code);
+
+                if (!isNonCGPA) {
+                    totalCredits += credits;
+                    totalWeightedPoints +=
+                        !isNaN(gradePoint) && credits !== 0
+                            ? credits * gradePoint
+                            : 0;
+                }
+
+                const normalizedSem =
+                    sem.startsWith("sem") ? sem : `sem${sem}`;
+
+                // ✅ FIXED semester aggregation
+                if (credits > 0 && normalizedSem in semCredits) {
+                    semCredits[normalizedSem] += credits;
+                }
+
+                switch (category) {
+                    case "HS":
+                        HS += credits;
+                        break;
+                    case "BS":
+                        BS += credits;
+                        break;
+                    case "ES":
+                        ES += credits;
+                        break;
+                    case "PC":
+                        PC += credits;
+                        break;
+                    case "PE":
+                        PE += credits;
+                        break;
+                    case "OE":
+                        OE += credits;
+                        break;
+                    case "EEC":
+                        EEC += credits;
+                        break;
+                    case "MC":
+                        MC += credits;
+                        break;
+                    default:
+                        break;
+                }
+
+                return {
+                    name: course_name,
+                    code,
+                    credits,
+                    category,
+                    grade,
+                    gradePoint,
+                    sem: normalizedSem,
+                };
+            }
+        );
+
+        const CGPA =
+            totalCredits > 0
+                ? (totalWeightedPoints / totalCredits).toFixed(4)
+                : null;
+
+        return res.status(200).json({
+            user: {
+                name: user.name,
+                email: user.email,
+                reg_no: user.reg_no,
+                dept: user.dept,
+                grad_year: user.grad_year,
+            },
+            runningTotal: {
+                HS,
+                BS,
+                ES,
+                PC,
+                PE,
+                OE,
+                EEC,
+                MC,
+            },
+            user_sem_credits: semCredits,
+            totalCredits: HS + BS + ES + PC + PE + OE + EEC + MC,
+            courseDetails,
+            userAddedCourseDetails,
+            courses: user.courses,
+            user_added_courses: user.user_added_courses,
+            CGPA,
+        });
+    } catch (error) {
+        console.log(`Error in combined credits ${error}`);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+

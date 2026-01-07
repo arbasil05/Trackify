@@ -452,3 +452,7 @@ export async function handlGetAllCourses(req, res) {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+
+
+
