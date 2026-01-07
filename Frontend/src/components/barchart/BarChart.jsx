@@ -18,6 +18,7 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
 
     // Sort the semesters based on the number in "semX"
     const sortedBarData = Object.entries(userSemCredits)
+      .filter(([_, value]) => value > 0)
       .sort(([a], [b]) => {
         const numA = parseInt(a.replace('sem', ''), 10);
         const numB = parseInt(b.replace('sem', ''), 10);
@@ -33,7 +34,7 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
 
   return (
     !Loading ? (
-      Object.keys(userSemCredits || {}).length === 0 ? (
+      data.length===0? (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
           <p className="no-data-message">Please upload result to view semester wise credits</p>
         </div>

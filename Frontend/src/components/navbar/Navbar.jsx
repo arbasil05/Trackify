@@ -303,7 +303,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                     onClose={() => setAddCourseModalOpen(false)}
                     onSuccess={() => {
                         setAddCourseModalOpen(false);
-                        // onDataRefresh();
+                        if (onDataRefresh) onDataRefresh();
                     }}
                 />
             </Modal>

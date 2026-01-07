@@ -13,6 +13,12 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
     const [userDetails, setUserDetails] = useState({});
     const [userSem, setUserSem] = useState({});
     const [loading, setLoading] = useState(true);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const handleRefresh = () => {
+        setRefreshTrigger(prev => prev + 1);
+        if (onDataRefresh) onDataRefresh();
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -27,7 +33,7 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
                 setLoading(false)
             })
 
-    }, [])
+    }, [refreshTrigger])
 
     if (loading) {
         return <Spinner isDark={isDark} message="Loading profile..." />;
@@ -36,11 +42,11 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
     return (
         <div>
             <Sidebar dark={isDark} />
-            <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} />
+            <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} onDataRefresh={handleRefresh} />
             <UserHeader isDark={isDark} />
-            <UserDetails isDark={isDark} userDetails={userDetails} onDataRefresh={onDataRefresh} />
-            <SemDetails isDark={isDark} userSem={userSem} onDataRefresh={onDataRefresh} />
-            <UserAddedCourses isDark={isDark} />
+            <UserDetails isDark={isDark} userDetails={userDetails} onDataRefresh={handleRefresh} />
+            <SemDetails isDark={isDark} userSem={userSem} onDataRefresh={handleRefresh} />
+            <UserAddedCourses isDark={isDark} refreshTrigger={refreshTrigger} />
         </div>
     )
 }

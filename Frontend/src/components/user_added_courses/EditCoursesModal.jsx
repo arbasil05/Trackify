@@ -34,6 +34,12 @@ const EditCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
             return;
         }
 
+        const codeRegex = /^\d{2}[A-Za-z]{2}\d{3}$/;
+        if (!codeRegex.test(code)) {
+            toast.error("Invalid Course Code Format (e.g., 19CS401)");
+            return;
+        }
+
         try {
             await axios.put(
                 `${import.meta.env.VITE_BACKEND_API}/api/semester/updateCourse`,
@@ -94,11 +100,17 @@ const EditCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
                 />
             </div>
 
-            <input
-                placeholder="Semester"
+            <select
                 value={course.sem}
                 onChange={(e) => handleChange("sem", e.target.value)}
-            />
+            >
+                <option value="">Select Semester</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                    <option key={sem} value={sem}>
+                        {sem}
+                    </option>
+                ))}
+            </select>
 
             <select
                 value={course.category}

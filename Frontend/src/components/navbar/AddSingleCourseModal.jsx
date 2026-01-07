@@ -47,6 +47,12 @@ const AddSingleCourseModal = ({ dark, onClose, onSuccess }) => {
             return;
         }
 
+        const codeRegex = /^\d{2}[A-Za-z]{2}\d{3}$/;
+        if (!codeRegex.test(code)) {
+            toast.error("Invalid Course Code Format (e.g., 19CS401)");
+            return;
+        }
+
         try {
             await axios.post(
                 `${import.meta.env.VITE_BACKEND_API}/api/semester/addCourses`,
@@ -88,10 +94,14 @@ const AddSingleCourseModal = ({ dark, onClose, onSuccess }) => {
                     onChange={(e) => handleChange("gradePoint", e.target.value)}
                 />
             </div>
-            <input
-                placeholder="Semester"
-                onChange={(e) => handleChange("sem", e.target.value)}
-            />
+            <select onChange={(e) => handleChange("sem", e.target.value)}>
+                <option value="">Select Semester</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                    <option key={sem} value={sem}>
+                        {sem}
+                    </option>
+                ))}
+            </select>
 
             <select onChange={(e) => handleChange("category", e.target.value)}>
                 <option value="">Select Category</option>

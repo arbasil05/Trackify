@@ -147,11 +147,65 @@ function SingleCategory({ isDark, setIsDark }) {
     if (loading) {
         return (
             <div className={`single-category-container ${isDark ? "dark" : ""}`}>
-                <Navbar
-                    dark={isDark}
-                    setIsDark={setIsDark}
-                    name={user.name || "User"}
-                />
+                <Navbar dark={isDark} setIsDark={setIsDark} name={user.name || "User"} />
+                <div className="single-category-main">
+                    <Sidebar dark={isDark} />
+                    <div className={`single-category-content ${isDark ? 'dark' : ''}`}>
+                        {/* Skeleton for Header */}
+                        <div className="category-header">
+                            <div>
+                                <Link style={{ visibility: 'hidden' }} to="/" className="back-link">
+                                    <FontAwesomeIcon icon={faChevronLeft} />
+                                </Link>
+                            </div>
+                            <div>
+                                <h1 style={{ visibility: 'hidden' }} className="category-title">
+                                    {categoryNames[category] || category}
+                                </h1>
+                            </div>
+                        </div>
+
+                        {/* Skeleton for Stats Cards */}
+                        <div className={isDark ? 'skeleton-dark stats-container' : 'skeleton-light stats-container'}>
+                            {[...Array(3)].map((_, index) => (
+                                <div key={index} className="stat-card" style={{ visibility: 'hidden' }}>
+                                    <div>
+                                        <h3 style={{ visibility: 'hidden' }}>Total credits</h3>
+                                        <div style={{ visibility: 'hidden' }} className="stat-number">0</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Skeleton for Courses Table */}
+                        <div className="table-container">
+                            <div className={isDark ? 'skeleton-dark' : 'skeleton-light'}>
+                                <table className="courses-table" style={{ visibility: 'hidden' }}>
+                                    <thead>
+                                        <tr>
+                                            <th>SUBJECT CODE</th>
+                                            <th>SUBJECT NAME</th>
+                                            <th>SUBJECT CREDITS</th>
+                                            <th>GRADE</th>
+                                            <th>SEMESTER</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[...Array(3)].map((_, index) => (
+                                            <tr key={index}>
+                                                <td style={{ visibility: 'hidden' }}>CODE</td>
+                                                <td style={{ visibility: 'hidden' }}>Name</td>
+                                                <td style={{ visibility: 'hidden' }}>0</td>
+                                                <td style={{ visibility: 'hidden' }}>A</td>
+                                                <td style={{ visibility: 'hidden' }}>1</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -182,20 +236,25 @@ function SingleCategory({ isDark, setIsDark }) {
 
                     <div className="stats-container">
                         <div className="stat-card">
-                            <h3>Credits Completed</h3>
-                            <div className="stat-number">{totalCredits}</div>
-                        </div>
-
-                        <div className="stat-card">
-                            <h3>Total credits required</h3>
-                            <div className="stat-number">
-                                {requiredCredits}
+                            <div className="stat-content">
+                                <h3>Credits Completed</h3>
+                                <div className="stat-number">{totalCredits}</div>
                             </div>
+                            <img src="/Courses.png" alt="Courses" className="stat-icon" />
                         </div>
-
                         <div className="stat-card">
-                            <h3>Courses completed</h3>
-                            <div className="stat-number">{courses.length}</div>
+                            <div className="stat-content">
+                                <h3>Total credits required</h3>
+                                <div className="stat-number">{requiredCredits}</div>
+                            </div>
+                            <img src="/graduation.png" alt="Graduation" className="stat-icon" />
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-content">
+                                <h3>Courses completed</h3>
+                                <div className="stat-number">{courses.length}</div>
+                            </div>
+                            <img src="/cup.png" alt="Achievement" className="stat-icon" />
                         </div>
                     </div>
 

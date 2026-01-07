@@ -17,36 +17,27 @@ const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }
     const gradYear = Number(user.grad_year);
     const dept = user.dept;
 
-    let denominator = 0;
-    if (gradYear === 2027 && dept === "AIDS") denominator = 164;
-    else if (gradYear > 2027 && dept === "AIDS") denominator = 169;
-    else if (gradYear === 2027 && dept === "AIML") denominator = 168;
-    else if (gradYear > 2027 && dept === "AIML") denominator = 168;
-    else if (gradYear === 2027 && dept === "CSE") denominator = 164;
-    else if (gradYear > 2027 && dept === "CSE") denominator = 167;
-    else if (gradYear === 2027 && dept === "CYBER") denominator = 169;
-    else if (gradYear > 2027 && dept === "CYBER") denominator = 171;
-    else if (gradYear === 2027 && dept === "IOT") denominator = 170;
-    else if (gradYear > 2027 && dept === "IOT") denominator = 171;
-    else if (gradYear === 2027 && dept === "IT") denominator = 164;
-    else if (gradYear > 2027 && dept === "IT") denominator = 167;
-    else if (gradYear === 2027 && dept === "ECE") denominator = 169;
-    else if (gradYear > 2027 && dept === "ECE") denominator = 164;
-    else if (gradYear === 2027 && dept === "EEE") denominator = 167;
-    else if (gradYear > 2027 && dept === "EEE") denominator = 165;
-    else if (gradYear === 2027 && dept === "MECH") denominator = 169;
-    else if (gradYear > 2027 && dept === "MECH") denominator = 168;
-    else if (gradYear === 2027 && dept === "CIVIL") denominator = 167;
-    else if (gradYear > 2027 && dept === "CIVIL") denominator = 165;
-    else if (gradYear === 2027 && dept === "BME") denominator = 169;
-    else if (gradYear > 2027 && dept === "BME") denominator = 168;
-    else if (gradYear === 2027 && dept === "MED") denominator = 169;
-    else if (gradYear > 2027 && dept === "MED") denominator = 169;
-    else if (gradYear === 2027 && dept === "EIE") denominator = 165;
-    else if (gradYear > 2027 && dept === "EIE") denominator = 165;
-    else if (gradYear === 2027 && dept === "CHEM") denominator = 166;
-    else if (gradYear > 2027 && dept === "CHEM") denominator = 163;
+    const creditMap = {
+      "AIDS": { 2027: 164, default: 169 },
+      "AIML": { 2027: 168, default: 168 },
+      "CSE": { 2027: 164, default: 167 },
+      "CYBER": { 2027: 169, default: 171 },
+      "IOT": { 2027: 170, default: 171 },
+      "IT": { 2027: 164, default: 167 },
+      "ECE": { 2027: 169, default: 164 },
+      "EEE": { 2027: 167, default: 165 },
+      "MECH": { 2027: 169, default: 168 },
+      "CIVIL": { 2027: 167, default: 165 },
+      "BME": { 2027: 169, default: 168 },
+      "MED": { 2027: 169, default: 169 },
+      "EIE": { 2027: 165, default: 165 },
+      "CHEM": { 2027: 166, default: 163 },
+    };
 
+    let denominator = 0;
+    if (creditMap[dept]) {
+      denominator = gradYear === 2027 ? creditMap[dept][2027] : creditMap[dept].default;
+    }
 
     setDenom(denominator);
     setGradPercent(Math.round((totalCredits / denominator) * 100));
@@ -56,7 +47,20 @@ const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }
     <div className='information-container'>
       <Total dark={dark} total_num={totalCredits} total_denom={denom} Loading={Loading} />
       <CGPA dark={dark} cgpa={cgpa || 0} Loading={Loading} />
-      <CurrentSemester dark={dark} sem_num={userSemCredits != null && Object.keys(userSemCredits).length || 0} Loading={Loading} />
+      <CurrentSemester
+        dark={dark}
+        sem_num={
+          userSemCredits
+            ? Math.max(
+              0,
+              ...Object.entries(userSemCredits)
+                .filter(([_, credits]) => credits > 0)
+                .map(([sem]) => Number(sem.replace("sem", "")))
+            )
+            : 0
+        }
+        Loading={Loading}
+      />
       <TowardsGrad dark={dark} percent={gradPercent} Loading={Loading} />
     </div>
   );
