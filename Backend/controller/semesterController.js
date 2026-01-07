@@ -66,8 +66,7 @@ export async function uploadFile(req, res) {
 
             if (!courseEntry) {
                 console.log(
-                    `Course not found: ${
-                        course.name || course.code19 || course.code24
+                    `Course not found: ${course.name || course.code19 || course.code24
                     }`
                 );
                 continue;
@@ -93,8 +92,8 @@ export async function uploadFile(req, res) {
                 category: courseEntry.department[userDept]
                     ? courseEntry.department[userDept]
                     : courseEntry.department[
-                          Object.keys(courseEntry.department)[0]
-                      ],
+                    Object.keys(courseEntry.department)[0]
+                    ],
                 code19: course.code19,
                 code24: course.code24,
             });
@@ -332,7 +331,6 @@ export async function handleCourseUpdate(req, res) {
             course_name,
             code,
             credits,
-            dept,
             gradePoint,
             sem,
             category,
@@ -341,6 +339,37 @@ export async function handleCourseUpdate(req, res) {
         if (!courseId) {
             return res.status(400).json({ message: "Course ID is required" });
         }
+
+        const user = await User.findById(id).populate("courses.course");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        /* -------------------- DUPLICATE CHECKS -------------------- */
+
+
+        const existsInUserAdded = user.user_added_courses.some(
+            (course) =>
+                course.code === code &&
+                course._id.toString() !== courseId
+        );
+
+
+        const existsInCourses = user.courses.some((courseEntry) => {
+            const course = courseEntry.course;
+            return (
+                course.code19 === code ||
+                course.code24 === code
+            );
+        });
+
+        if (existsInUserAdded || existsInCourses) {
+            return res.status(409).json({
+                message: "Course code already exists in your courses",
+            });
+        }
+
+
 
         const updatedUser = await User.findOneAndUpdate(
             {
@@ -351,11 +380,10 @@ export async function handleCourseUpdate(req, res) {
                 $set: {
                     "user_added_courses.$.course_name": course_name,
                     "user_added_courses.$.code": code,
-                    "user_added_courses.$.credits": credits,
-                    "user_added_courses.$.dept": dept,
-                    "user_added_courses.$.gradePoint": gradePoint,
-                    "user_added_courses.$.grade": gradeMap[gradePoint],
-                    "user_added_courses.$.sem": sem,
+                    "user_added_courses.$.credits": Number(credits),
+                    "user_added_courses.$.gradePoint": Number(gradePoint),
+                    "user_added_courses.$.grade": gradeMap[Number(gradePoint)] || "NA",
+                    "user_added_courses.$.sem": Number(sem),
                     "user_added_courses.$.category": category,
                 },
             },
@@ -370,13 +398,16 @@ export async function handleCourseUpdate(req, res) {
 
         return res.status(200).json({
             message: "Course updated successfully",
-            user_added_courses: updatedUser,
+            user_added_courses: updatedUser.user_added_courses,
         });
     } catch (e) {
         console.log(`Error while updating course ${e}`);
-        res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({
+            message: "Internal server error",
+        });
     }
 }
+
 
 export async function handleGetUserAddedCourses(req, res) {
     try {

@@ -36,17 +36,30 @@ const EditCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
 
         try {
             await axios.put(
-                `${import.meta.env.VITE_BACKEND_API}/api/semester/updateCourse/${courseData._id}`,
-                course,
+                `${import.meta.env.VITE_BACKEND_API}/api/semester/updateCourse`,
+                {
+                    courseId: courseData._id,
+                    course_name,
+                    code,
+                    credits,
+                    gradePoint,
+                    sem,
+                    category,
+                },
                 { withCredentials: true }
             );
 
             toast.success("Course updated");
             onSuccess();
         } catch (err) {
-            toast.error("Failed to update course");
+            const msg =
+                err?.response?.data?.message ||
+                "Failed to update course";
+
+            toast.error(msg);
         }
     };
+
 
     return (
         <div className={`add-course-wrapper${dark ? " dark" : ""}`}>
@@ -63,6 +76,7 @@ const EditCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
             <input
                 placeholder="Course Code"
                 value={course.code}
+                onChange={(e) => handleChange("code", e.target.value)}
             />
 
             <div className="row-flex">
