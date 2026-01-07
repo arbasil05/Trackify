@@ -1,5 +1,5 @@
 import Course from "../models/Course.js";
-import pdfParse from "pdf-parse/lib/pdf-parse.js";
+
 
 // Helper function to safely escape any regex special characters and remove null bytes
 function sanitizeForRegex(str) {
@@ -17,6 +17,7 @@ export default async (req, res, next) => {
     const dataBuffer = req.file.buffer;
 
     try {
+        const pdfParse = (await import("pdf-parse")).default;
         const pdfData = await pdfParse(dataBuffer);
         let text = pdfData.text;
         text = text.replace(/ODD\W+JUNIOR/g, "ODDJUNIOR");
