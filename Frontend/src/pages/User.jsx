@@ -6,6 +6,7 @@ import UserHeader from "../components/userheader/UserHeader";
 import UserDetails from "../components/userdetails/UserDetails";
 import SemDetails from "../components/semDetails/SemDetails";
 import Spinner from "../components/spinner/Spinner";
+import UserAddedCourses from "../components/user_added_courses/UserAddedCourses";
 
 const User = ({ isDark, setIsDark, onDataRefresh }) => {
 
@@ -39,6 +40,7 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
             <UserHeader isDark={isDark} />
             <UserDetails isDark={isDark} userDetails={userDetails} onDataRefresh={onDataRefresh} />
             <SemDetails isDark={isDark} userSem={userSem} onDataRefresh={onDataRefresh} />
+            <UserAddedCourses isDark={isDark} />
         </div>
     )
 }

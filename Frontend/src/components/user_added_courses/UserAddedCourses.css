@@ -1,0 +1,143 @@
+/* Custom modal dark mode background */
+.custom-modal.dark {
+    background: #273142 !important;
+    color: #fff;
+}
+/* ===== Wrapper ===== */
+
+/* ===== Wrapper ===== */
+.useradded-table-wrapper {
+    margin-top: 1.2rem;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: background 0.3s;
+}
+.useradded-table-wrapper.dark {
+    background: #2b3543;
+}
+
+/* ===== Empty message ===== */
+.empty-message {
+    padding: 2rem;
+    text-align: center;
+    opacity: 0.7;
+}
+
+/* ===== Table ===== */
+.useradded-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background: #fff;
+    transition: background 0.3s;
+}
+.useradded-table.dark {
+    background: #2b3543;
+}
+
+/* ===== Header ===== */
+.useradded-table thead {
+    background: #f3f4f6;
+}
+.useradded-table.dark thead {
+    background: #3a4453;
+}
+
+.useradded-table th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #222;
+    font-weight: 600;
+}
+.useradded-table.dark th {
+    color: #cfd6e4;
+}
+
+/* ===== Body rows ===== */
+.useradded-table td {
+    padding: 1.1rem 1rem;
+    border-top: 1px solid #e5e7eb;
+    color: #222;
+}
+.useradded-table.dark td {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    color: #f1f4f9;
+}
+
+/* ===== Hover ===== */
+.useradded-table tbody tr:hover {
+    background: rgba(0,0,0,0.03);
+}
+.useradded-table.dark tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* ===== Alignment helpers ===== */
+.center {
+    text-align: center;
+}
+
+.mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ===== Grade colors ===== */
+.grade.O {
+    color: #2dd4bf;
+    font-weight: 600;
+}
+
+.grade.A {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.grade.A\+ {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.grade.B\+ {
+    color: #facc15;
+    font-weight: 600;
+}
+
+.grade.B {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.grade.C {
+    color: #fb7185;
+    font-weight: 600;
+}
+
+.edit-btn {
+    background: rgba(239, 68, 68, 0.15);
+    /* soft red base */
+    color: #ef4444;
+    /* red-500 */
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    padding: 0.35rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+/* Hover */
+.edit-btn:hover {
+    background: #ef4444;
+    color: #ffffff;
+    /* box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35); */
+    transform: translateY(-1px);
+}
