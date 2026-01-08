@@ -132,8 +132,8 @@ const SignUpRight = () => {
                                 <option value="MECH">MECH</option>
                                 <option value="CIVIL">CIVIL</option>
                                 <option value="CHEM">CHEMICAL</option>
-                                <option value="BME">BME</option>
-                                <option value="MED">MEDICAL</option>
+                                <option value="BME">BIO MED</option>
+                                <option value="MED">MED ELECTRONICS</option>
                             </select>
                         </div>
                         <div className="reg-no">

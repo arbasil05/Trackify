@@ -16,134 +16,6 @@ export async function userDetails(req, res) {
     }
 }
 
-export async function courseByUser(req, res) {
-    try {
-        const id = req.id;
-        const user = await User.findById(id).populate("courses.course");
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        const user_sem_credits = user.sem_total;
-        const userDept = user.dept;
-        // console.log(`User department : ${userDept}`);
-
-        let totalCredits = 0,
-            totalWeightedPoints = 0,
-            HS = 0,
-            BS = 0,
-            ES = 0,
-            PC = 0,
-            PE = 0,
-            OE = 0,
-            EEC = 0,
-            MC = 0;
-
-        const nonCGPACourses = ["19MC805", "19MC804", "SH6707", "19EY707", "19MC801", "19MC807", "19MC808", "19MC809"];
-
-        const courseDetails = user.courses
-            .map(({ course, grade, gradePoint, sem, category, code19, code24 }) => {
-                if (!course) return null;
-                if (nonCGPACourses.includes(course.code19) || nonCGPACourses.includes(course.code24)) {
-                    totalCredits += 0;
-                    totalWeightedPoints += 0;
-                } else {
-                    totalCredits += course.credits;
-                    totalWeightedPoints +=
-                        course.credits != 0 && !isNaN(gradePoint)
-                            ? course.credits * gradePoint
-                            : 0;
-                }
-
-                let deptToAdd = course.department[userDept];
-
-                if (!deptToAdd) {
-                    deptToAdd = course.department[Object.keys(course.department)[0]];
-                }
-
-                switch (deptToAdd) {
-                    case "HS":
-                        HS += course.credits;
-                        break;
-                    case "BS":
-                        BS += course.credits;
-                        break;
-                    case "ES":
-                        ES += course.credits;
-                        break;
-                    case "PC":
-                        PC += course.credits;
-                        break;
-                    case "PE":
-                        PE += course.credits;
-                        break;
-                    case "OE":
-                        OE += course.credits;
-                        break;
-                    case "EEC":
-                        EEC += course.credits;
-                        break;
-                    case "MC":
-                        // if (course.code19 === "19MC805" || course.code19 === "19MC804" || course.code24==="SH6707" || course.code19==="19EY707") break;
-                        MC += course.credits;
-                        break;
-                    default:
-                        break;
-                }
-
-                // console.log(HS, BS, ES, PC, PE, OE, EEC, MC);
-
-
-                return {
-                    name: course.name,
-                    code19: course.code19,
-                    code24: course.code24,
-                    credits: course.credits,
-                    category,
-                    grade,
-                    gradePoint,
-                    sem,
-                };
-            })
-            .filter(Boolean);
-
-        const CGPA =
-            totalCredits > 0
-                ? (totalWeightedPoints / totalCredits).toFixed(4)
-                : null;
-
-        // console.log("MC : ", MC);
-
-        res.status(200).json({
-            user: {
-                name: user.name,
-                email: user.email,
-                reg_no: user.reg_no,
-                dept: user.dept,
-                grad_year: user.grad_year,
-            },
-            runningTotal: {
-                HS,
-                BS,
-                ES,
-                PC,
-                PE,
-                OE,
-                EEC,
-                MC,
-            },
-            user_sem_credits,
-            totalCredits: HS + BS + ES + PC + PE + OE + EEC + MC,
-            courseDetails,
-            CGPA,
-        });
-    } catch (error) {
-        console.log(`Error in credits ${error}`);
-        res.status(500).json({ message: "Internal server error" });
-    }
-}
-
 export async function updateProfile(req, res) {
     try {
         const id = req.id;
@@ -184,6 +56,7 @@ export async function recommendation(req, res) {
 
         const isUserScoft = SCOFT_DEPARTMENTS.includes(userDept);
         const targetModel = isUserScoft ? Course : NonScoftCourse;
+        const userAddedCodes = user.user_added_courses.map(c => c.code);
 
         let recommendedCourses = await targetModel.find({
             [`department.${userDept}`]: { $exists: true },
@@ -192,10 +65,13 @@ export async function recommendation(req, res) {
 
 
         recommendedCourses = recommendedCourses.filter(course => {
-            if (grad_year === "2027" && course.code19 === "NA") {
+            if (userAddedCodes.includes(course.code19) || userAddedCodes.includes(course.code24)) {
                 return false;
             }
-            if (grad_year !== "2027" && course.code24 === "NA") {
+            if (grad_year === "2027" && (course.code19 === "NA" || !course.code19)) {
+                return false;
+            }
+            if (grad_year !== "2027" && (course.code24 === "NA" || !course.code24)) {
                 return false;
             }
             return true;

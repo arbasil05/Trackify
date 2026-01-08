@@ -55,11 +55,13 @@ const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
     };
 
 
-    const sortedSemesters = Object.entries(userSem || {}).sort(([a], [b]) => {
-        const numA = parseInt(a.replace('sem', ''), 10);
-        const numB = parseInt(b.replace('sem', ''), 10);
-        return numA - numB;
-    });
+    const sortedSemesters = Object.entries(userSem || {})
+        .filter(([_, credit]) => credit > 0)
+        .sort(([a], [b]) => {
+            const numA = parseInt(a.replace('sem', ''), 10);
+            const numB = parseInt(b.replace('sem', ''), 10);
+            return numA - numB;
+        });
 
     return (
         <>

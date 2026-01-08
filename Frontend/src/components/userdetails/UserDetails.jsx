@@ -102,6 +102,14 @@ const UserDetails = ({ isDark, userDetails, onDataRefresh }) => {
                 <option value="AIML">AIML</option>
                 <option value="CYBER">CSE (CYBERSECURITY)</option>
                 <option value="IOT">CSE (IOT)</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="EIE">EIE</option>
+                <option value="MECH">MECH</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="CHEM">CHEMICAL</option>
+                <option value="BME">BIO MED</option>
+                <option value="MED">MED ELECTRONICS</option>
               </select>
             ) : (
               <input

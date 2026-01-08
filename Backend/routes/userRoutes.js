@@ -1,7 +1,6 @@
 import express from "express";
 import {
     userDetails,
-    courseByUser,
     updateProfile,
     recommendation,
     courseByUserWithUserAdded,
@@ -11,8 +10,7 @@ import authMiddleWare from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.get("/userDetails", authMiddleWare, userDetails);
-router.get("/courseByUser", authMiddleWare, courseByUser);
-router.get("/courseByUserAdded",authMiddleWare,courseByUserWithUserAdded);
+router.get("/courseByUser", authMiddleWare, courseByUserWithUserAdded);
 router.get("/recommendation",authMiddleWare,recommendation);
 router.put("/updateProfile",authMiddleWare,updateProfile);
 

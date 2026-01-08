@@ -49,7 +49,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_API}/api/user/courseByUserAdded`,
+        `${import.meta.env.VITE_BACKEND_API}/api/user/courseByUser`,
         { withCredentials: true }
       )
       .then((res) => {

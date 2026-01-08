@@ -15,32 +15,65 @@ const categoryNames = {
     PE: "Professional Electives",
     EEC: "Employment Enhancement Courses",
     MC: "Mandatory Courses",
+    OE: "Open Electives"
 };
 
 const creditRequirements = {
     CSE: {
-        2027: { HS: 11, BS: 23, ES: 25, PC: 58, PE: 16, EEC: 16, MC: 3 },
-        2028: { HS: 13, BS: 25, ES: 25, PC: 56, PE: 16, EEC: 16, MC: 4 },
+        2027: { HS: 11, BS: 23, ES: 25, PC: 58, PE: 16, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 13, BS: 25, ES: 25, PC: 56, PE: 16, EEC: 16, MC: 4, OE: 12 },
     },
     IT: {
-        2027: { HS: 11, BS: 23, ES: 25, PC: 58, PE: 16, EEC: 16, MC: 3 },
-        2028: { HS: 13, BS: 25, ES: 25, PC: 56, PE: 16, EEC: 16, MC: 4 },
+        2027: { HS: 11, BS: 23, ES: 25, PC: 58, PE: 16, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 13, BS: 25, ES: 25, PC: 56, PE: 16, EEC: 16, MC: 4, OE: 12 },
     },
     AIDS: {
-        2027: { HS: 14, BS: 21, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
-        2028: { HS: 14, BS: 23, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 },
+        2027: { HS: 14, BS: 21, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 14, BS: 23, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4, OE: 12 },
     },
     AIML: {
-        2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
-        2028: { HS: 14, BS: 27, ES: 28, PC: 51, PE: 16, EEC: 16, MC: 4 },
+        2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 14, BS: 27, ES: 28, PC: 51, PE: 16, EEC: 16, MC: 4, OE: 12 },
     },
     CYBER: {
-        2027: { HS: 14, BS: 25, ES: 28, PC: 54, PE: 17, EEC: 16, MC: 3 },
-        2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 },
+        2027: { HS: 14, BS: 25, ES: 28, PC: 54, PE: 17, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4, OE: 12 },
     },
     IOT: {
-        2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3 },
-        2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4 },
+        2027: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 14, BS: 25, ES: 28, PC: 56, PE: 16, EEC: 16, MC: 4, OE: 12 },
+    },
+    ECE: {
+        2027: { HS: 13, BS: 24, ES: 28, PC: 58, PE: 15, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 13, BS: 21, ES: 23, PC: 61, PE: 15, EEC: 16, MC: 3, OE: 12 },
+    },
+    EEE: {
+        2027: { HS: 13, BS: 25, ES: 26, PC: 57, PE: 15, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 11, BS: 25, ES: 26, PC: 57, PE: 15, EEC: 16, MC: 3, OE: 12 },
+    },
+    EIE: {
+        2027: { HS: 11, BS: 25, ES: 25, PC: 58, PE: 15, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: NaN, BS: NaN, ES: NaN, PC: NaN, PE: NaN, EEC: NaN, MC: NaN, OE: NaN },
+    },
+    MECH: {
+        2027: { HS: 13, BS: 24, ES: 26, PC: 54, PE: 21, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 10, BS: 25, ES: 29, PC: 55, PE: 18, EEC: 16, MC: 3, OE: 12 },
+    },
+    CIVIL: {
+        2027: { HS: 13, BS: 25, ES: 26, PC: 57, PE: 15, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 10, BS: 22, ES: 25, PC: 62, PE: 15, EEC: 16, MC: 3, OE: 12 },
+    },
+    CHEM: {
+        2027: { HS: 13, BS: 28, ES: 24, PC: 55, PE: 15, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 13, BS: 26, ES: 17, PC: 58, PE: 18, EEC: 16, MC: 3, OE: 12 },
+    },
+    BME: {
+        2027: { HS: 13, BS: 27, ES: 29, PC: 57, PE: 12, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: 10, BS: 23, ES: 30, PC: 60, PE: 18, EEC: 18, MC: 2, OE: 7 },
+    },
+    MED: {
+        2027: { HS: 13, BS: 27, ES: 30, PC: 56, PE: 12, EEC: 16, MC: 3, OE: 12 },
+        2028: { HS: NaN, BS: NaN, ES: NaN, PC: NaN, PE: NaN, EEC: NaN, MC: NaN, OE: NaN },
     },
 };
 
@@ -218,9 +251,8 @@ function SingleCategory({ isDark, setIsDark }) {
                 <Sidebar dark={isDark} />
 
                 <div
-                    className={`single-category-content ${
-                        isDark ? "dark" : ""
-                    }`}
+                    className={`single-category-content ${isDark ? "dark" : ""
+                        }`}
                 >
                     <div className="category-header">
                         <Link
@@ -240,21 +272,33 @@ function SingleCategory({ isDark, setIsDark }) {
                                 <h3>Credits Completed</h3>
                                 <div className="stat-number">{totalCredits}</div>
                             </div>
-                            <img src="/Courses.png" alt="Courses" className="stat-icon" />
+                            <img src="/cup.png" alt="Courses" className="stat-icon" />
                         </div>
                         <div className="stat-card">
                             <div className="stat-content">
-                                <h3>Total credits required</h3>
+                                <h3>Credits Remaining</h3>
+                                <div
+                                    className="stat-number"
+                                >
+                                    {Math.max(0, requiredCredits - totalCredits)}
+                                </div>
+                            </div>
+                            <img
+                                src="/Courses.png"
+                                alt="Remaining"
+                                className="stat-icon"
+                            />
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-content">
+                                <h3>Total Credits Required</h3>
                                 <div className="stat-number">{requiredCredits}</div>
                             </div>
-                            <img src="/graduation.png" alt="Graduation" className="stat-icon" />
-                        </div>
-                        <div className="stat-card">
-                            <div className="stat-content">
-                                <h3>Courses completed</h3>
-                                <div className="stat-number">{courses.length}</div>
-                            </div>
-                            <img src="/cup.png" alt="Achievement" className="stat-icon" />
+                            <img
+                                src="/graduation.png"
+                                alt="Graduation"
+                                className="stat-icon"
+                            />
                         </div>
                     </div>
 
