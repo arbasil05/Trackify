@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 5001;
 
 const app = express();
 
+app.set('trust proxy', 1); // rate limit setup behind proxy (vercel)
+
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.FRONTEND_URL,

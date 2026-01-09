@@ -25,8 +25,8 @@ const LoginRight = () => {
       return;
     }
 
-    if (password.length < 8) {
-      toast.error("Password should be at least 8 characters");
+    if (password.length < 6) {
+      toast.error("Password should be at least 6 characters");
       return;
     }
 
@@ -36,13 +36,18 @@ const LoginRight = () => {
     axios.post(url, { email, password }, { withCredentials: true })
       .then((res) => {
         // console.log(res.data.user);
-        toast.success("Logged in successfully", { id: toastId });
+        toast.success(`Logged in successfully as ${res.data.user.email}`, { id: toastId });
         nav("/");
       })
       .catch((error) => {
         // console.log(`Error while logging in: ${error}`);
+        if (error.response && error.response.status === 429) {
+          toast.error(error.response.data.error, { id: toastId });
+          return;
+        }
+
         if (error.response && error.response.status === 401) {
-          toast.error("User does not exist", { id: toastId });
+          toast.error("Invalid email or password", { id: toastId });
         } else {
           toast.error("Error while logging in", { id: toastId });
         }
@@ -87,7 +92,10 @@ const LoginRight = () => {
           <div className="login-button">
             <button type="submit">Sign In</button>
           </div>
-          <p>Don't have an account? <Link to="/signup" className='link'>Create Account</Link></p>
+          <div className="login-links">
+            <Link to="/signup" className='link'>Create Account</Link>
+            <Link to="/forgot-password" className='link'>Forgot Password?</Link>
+          </div>
         </div>
       </form>
     </div>

@@ -10,6 +10,7 @@ import NotFound from './components/404/NotFound';
 import UseLaptop from './components/uselaptop/UseLaptop';
 import Feedback from './feedback/Feedback';
 import Explore from './pages/Explore';
+import ForgotPasswordPage from './pages/ForgotPassword';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -90,8 +91,8 @@ function App() {
 
   if (isMobile) {
     return (
-      <UseLaptop/>
-   
+      <UseLaptop />
+
     );
   }
 
@@ -103,8 +104,9 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
-        <Route path='/explore' element={<Explore isDark={isDark} setIsDark={setIsDark}/>}/>
-        <Route path='/feedback' element={<Feedback/>}/>
+        <Route path='/explore' element={<Explore isDark={isDark} setIsDark={setIsDark} />} />
+        <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+        <Route path='/feedback' element={<Feedback />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </React.Fragment>

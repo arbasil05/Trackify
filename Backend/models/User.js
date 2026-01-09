@@ -13,11 +13,6 @@ const UserSchema = mongoose.Schema({
         unique: true,
     },
 
-    reg_no: {
-        type: String,
-        required: true,
-    },
-
     grad_year: {
         type: String,
         required: true,

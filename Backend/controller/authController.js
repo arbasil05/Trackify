@@ -1,5 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import { generateOTP, storeOTP, sendOTP } from "../services/otpService.js";
+
 
 
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
@@ -10,16 +12,16 @@ export async function register(req, res) {
             throw new Error("No data recieved");
         }
 
-        const { name, email, reg_no, grad_year, dept, password } = req.body;
+        const { name, grad_year, dept, password } = req.body;
+        const email = req.verifiedEmail;
 
-        if (!name || !email || !reg_no || !grad_year || !dept || !password) {
+        if (!name || !email || !grad_year || !dept || !password) {
             throw new Error("Missing fields!");
         }
 
         const user = await User.create({
             name,
             email,
-            reg_no,
             grad_year,
             dept,
             password,
@@ -50,7 +52,7 @@ export async function register(req, res) {
         if (error.code === 11000) {
             return res.status(409).json({ message: "User already exist" });
         }
-        console.log(`Error in /signup ${error}`);
+        // console.log(`Error in /signup ${error}`);
         res.status(500).json({ message: "Error", error: error });
     }
 }
@@ -99,7 +101,7 @@ export async function login(req, res) {
 
         res.status(200).json({ user: user, message: "Success" });
     } catch (error) {
-        console.log(`Error in /login ${error}`);
+        // console.log(`Error in /login ${error}`);
         res.status(401).json({ message: "Error while logging in" });
     }
 }
@@ -121,6 +123,66 @@ export async function logout(req, res) {
 
         res.status(200).json({ message: "Log out successfull" });
     } catch (error) {
-        console.log(`Error in logout ${error}`);
+        // console.log(`Error in logout ${error}`);
+    }
+}
+
+export async function sendOtp(req, res) {
+    try {
+        const { email, purpose } = req.body;
+
+        if (!email || !purpose) {
+            return res.status(400).json({ error: 'Email and purpose required' });
+        }
+
+        const existingUser = await User.findOne({ email });
+
+        if (purpose === 'registration' && existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
+        else if (purpose === 'password_reset' && !existingUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const code = generateOTP();
+        await storeOTP(email, code, purpose);
+
+        await sendOTP(email, code, purpose);
+
+        return res.json({ message: 'OTP sent to email' });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error while sending OTP" });
+    }
+
+}
+
+export async function forgotPassword(req, res) {
+    try {
+        const { password, confirmPassword } = req.body;
+        const email = req.verifiedEmail;
+
+        if (!password || !confirmPassword) {
+            return res.status(400).json({ error: 'Password and confirm password required' });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ error: 'Passwords do not match' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        user.password = password;
+        await user.save();
+
+        res.status(200).json({ message: "Password reset successful" });
+
+    } catch (error) {
+        // console.log(error);
+        res.status(500).json({ message: "Error while resetting password" });
     }
 }

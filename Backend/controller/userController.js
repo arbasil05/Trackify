@@ -19,11 +19,11 @@ export async function userDetails(req, res) {
 export async function updateProfile(req, res) {
     try {
         const id = req.id;
-        const { name, reg_no, grad_year, dept, email } = req.body;
+        const { name, grad_year, dept, email } = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name, email, reg_no, grad_year, dept },
+            { name, email, grad_year, dept },
             { new: true },
         )
 

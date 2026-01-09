@@ -150,7 +150,7 @@ export async function getExistingSemesters(req, res) {
         ];
         res.status(200).json({ semesters });
     } catch (error) {
-        console.log(`Error in /existingSemesters ${error}`);
+        // console.log(`Error in /existingSemesters ${error}`);
         res.status(500).json({ message: "Error", error: error });
     }
 }

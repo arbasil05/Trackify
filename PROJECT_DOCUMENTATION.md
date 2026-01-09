@@ -66,7 +66,7 @@ Non-Scoft-Trackify/
      - **`CGPA` (number):** Weighted average of grade points, calculated as `totalWeightedPoints / totalCredits`.
      - **`user_sem_credits` (object):** Maps semester names to total credits (from `user.sem_total`).
      - **Dynamic population**: Uses refPath in User model to populate courses from correct collection based on modelType.
-
+6. **User Authentication with Email Verification using OTP has been implemented.**
 
 ---
 
@@ -98,6 +98,13 @@ Non-Scoft-Trackify/
 - **credits**: Number of credits for the course.
 - **department (object):** Maps department names to course categories.
 - **Supported departments**: ECE, EEE, MECH, CIVIL, BME, ME, EIE, CHEM.
+
+### OTP
+- **email**: User's email address (indexed).
+- **code**: Hashed OTP code.
+- **purpose**: Either 'registration' or 'password_reset'.
+- **expiresAt**: Expiration timestamp (auto-deletes via TTL index).
+- **createdAt**: Creation timestamp.
 
 
 ---
