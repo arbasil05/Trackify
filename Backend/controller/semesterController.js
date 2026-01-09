@@ -132,7 +132,7 @@ export async function getExistingSemesters(req, res) {
         const semesters = [...new Set(user.courses.map(course => course.sem))];
         res.status(200).json({ semesters });
     } catch (error) {
-        console.log(`Error in /existingSemesters ${error}`);
+        // console.log(`Error in /existingSemesters ${error}`);
         res.status(500).json({ message: "Error", error: error });
     }
 }
@@ -158,7 +158,7 @@ export async function deleteSem(req, res) {
         res.status(200).json({ message: `Deleted ${semester}`, data: updatedUser });
     }
     catch (error) {
-        console.log(`Error in deleteSem ${error}`);
+        // console.log(`Error in deleteSem ${error}`);
         res.status(500).json({ message: "Internal server error" });
 
     }

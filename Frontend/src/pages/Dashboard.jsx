@@ -54,7 +54,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
       axios.get(`${import.meta.env.VITE_BACKEND_API}/api/user/userDetails`, { withCredentials: true })
         .then((res) => setUserDetails(prev => ({ ...prev, name: res.data.user.name })))
-        .catch((err) => console.log(err));
+        .catch((err) => toast.error("Something went wrong"));
     }
   }, [authChecked]);
 

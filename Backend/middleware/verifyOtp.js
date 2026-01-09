@@ -18,7 +18,7 @@ export default function createOtpMiddleware(purpose) {
             req.verifiedEmail = email;
             next();
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             res.status(500).json({ error: 'Verification failed' });
         }
     };

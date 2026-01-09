@@ -52,7 +52,7 @@ export async function register(req, res) {
         if (error.code === 11000) {
             return res.status(409).json({ message: "User already exist" });
         }
-        console.log(`Error in /signup ${error}`);
+        // console.log(`Error in /signup ${error}`);
         res.status(500).json({ message: "Error", error: error });
     }
 }
@@ -101,7 +101,7 @@ export async function login(req, res) {
 
         res.status(200).json({ user: user, message: "Success" });
     } catch (error) {
-        console.log(`Error in /login ${error}`);
+        // console.log(`Error in /login ${error}`);
         res.status(401).json({ message: "Error while logging in" });
     }
 }
@@ -123,7 +123,7 @@ export async function logout(req, res) {
 
         res.status(200).json({ message: "Log out successfull" });
     } catch (error) {
-        console.log(`Error in logout ${error}`);
+        // console.log(`Error in logout ${error}`);
     }
 }
 
@@ -182,7 +182,7 @@ export async function forgotPassword(req, res) {
         res.status(200).json({ message: "Password reset successful" });
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.status(500).json({ message: "Error while resetting password" });
     }
 }

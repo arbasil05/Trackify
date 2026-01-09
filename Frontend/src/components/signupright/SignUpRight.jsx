@@ -174,6 +174,12 @@ const SignUpRight = () => {
                                         setOtpCode("");
                                     }
                                 }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !isOtpSent) {
+                                        e.preventDefault();
+                                        handleSendOtp();
+                                    }
+                                }}
                                 placeholder='Enter your email'
                                 style={{ flex: 1 }}
                             />

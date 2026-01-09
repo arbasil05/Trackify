@@ -92,8 +92,10 @@ const LoginRight = () => {
           <div className="login-button">
             <button type="submit">Sign In</button>
           </div>
-          <p>Don't have an account? <Link to="/signup" className='link'>Create Account</Link></p>
-          <p><Link to="/forgot-password" className='link'>Forgot Password?</Link></p>
+          <div className="login-links">
+            <Link to="/signup" className='link'>Create Account</Link>
+            <Link to="/forgot-password" className='link'>Forgot Password?</Link>
+          </div>
         </div>
       </form>
     </div>

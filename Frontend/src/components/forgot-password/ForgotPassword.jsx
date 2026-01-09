@@ -86,6 +86,10 @@ const ForgotPassword = () => {
             toast.error("Please verify your email first");
             return;
         }
+        if (trimmedCode.length !== 6 || !/^\d{6}$/.test(trimmedCode)) {
+            toast.error("Verification code must be exactly 6 digits");
+            return;
+        }
         if (trimmedPass.length < 6) {
             toast.error("Password must be at least 6 characters long");
             return;
@@ -152,6 +156,12 @@ const ForgotPassword = () => {
                                         setOtpCode("");
                                     }
                                 }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !isOtpSent) {
+                                        e.preventDefault();
+                                        handleSendOtp();
+                                    }
+                                }}
                                 placeholder='Enter your email'
                             />
                             <button
@@ -176,8 +186,16 @@ const ForgotPassword = () => {
                             <input
                                 ref={otpInputRef}
                                 type="text"
+                                inputMode="numeric"
+                                pattern="\d*"
                                 value={otpCode}
-                                onChange={(e) => setOtpCode(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Only allow digits
+                                    if (value === '' || /^\d+$/.test(value)) {
+                                        setOtpCode(value);
+                                    }
+                                }}
                                 placeholder='Enter the code sent to your email'
                                 maxLength={6}
                             />
