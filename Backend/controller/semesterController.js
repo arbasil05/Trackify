@@ -323,6 +323,9 @@ export async function handleDeleteCourses(req, res) {
     }
 }
 
+
+// this is for editing user added courses in the user profile page
+
 export async function handleCourseUpdate(req, res) {
     try {
         const id = req.id;
@@ -442,14 +445,183 @@ export async function handlGetAllCourses(req, res) {
             });
         }
 
+        const courses = user.courses.map((course) => ({
+            ...course.toObject(),
+            type: "parsed",
+        }));
+
+        const user_added_courses = user.user_added_courses.map((course) => ({
+            ...course.toObject(),
+            type: "manual",
+        }));
+
         return res.status(200).json({
             message: "Courses Retrieved Successfully",
-            courses: user.courses,
-            user_added_courses: user.user_added_courses,
+            courses: courses,
+            user_added_courses: user_added_courses,
         });
     } catch (e) {
         console.log(`Error while fetching courses ${e}`);
         res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+// controller is for editing courses in the Category page
+//  doing this way cuz in the category page both user added and parsed courses exist
+//  dont be too smart and refactor this
+
+export async function handleEditCourse(req, res) {
+    try {
+        const id = req.id;
+
+        if (!req.body) {
+            return res.status(400).json({
+                message: "Request body is empty or invalid content-type",
+            });
+        }
+
+        const {
+            courseId,
+            type,
+            course_name,
+            code,
+            credits,
+            gradePoint,
+            sem,
+            category,
+        } = req.body;
+
+        if (!courseId || !type) {
+            return res.status(400).json({
+                message: "Course ID and type are required",
+            });
+        }
+
+        const user = await User.findById(id).populate("courses.course");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (type === "manual") {
+            // Check for duplicates if code is being updated
+            if (code) {
+                const existsInUserAdded = user.user_added_courses.some(
+                    (c) => c.code === code && c._id.toString() !== courseId
+                );
+
+                const existsInCourses = user.courses.some((entry) => {
+                    const c = entry.course;
+                    return c.code19 === code || c.code24 === code;
+                });
+
+                if (existsInUserAdded || existsInCourses) {
+                    return res.status(409).json({
+                        message: "Course code already exists",
+                    });
+                }
+            }
+
+            const courseToUpdate = user.user_added_courses.id(courseId);
+            if (!courseToUpdate) {
+                return res.status(404).json({ message: "Course not found" });
+            }
+
+            if (course_name) courseToUpdate.course_name = course_name;
+            if (code) courseToUpdate.code = code;
+            if (credits) courseToUpdate.credits = Number(credits);
+            if (gradePoint) {
+                courseToUpdate.gradePoint = Number(gradePoint);
+                courseToUpdate.grade = gradeMap[Number(gradePoint)] || "NA";
+            }
+            if (sem) courseToUpdate.sem = sem;
+            if (category) courseToUpdate.category = category;
+
+        } else if (type === "parsed") {
+            const courseToUpdate = user.courses.id(courseId);
+            if (!courseToUpdate) {
+                return res.status(404).json({ message: "Course not found" });
+            }
+
+            // For parsed courses, we only update mutable fields
+            if (gradePoint) {
+                courseToUpdate.gradePoint = Number(gradePoint);
+                courseToUpdate.grade = gradeMap[Number(gradePoint)] || "NA";
+            }
+            if (sem) courseToUpdate.sem = sem;
+            if (category) courseToUpdate.category = category;
+        } else {
+            return res.status(400).json({ message: "Invalid course type" });
+        }
+
+        await user.save();
+
+        const courses = user.courses.map((course) => ({
+            ...course.toObject(),
+            type: "parsed",
+        }));
+
+        const user_added_courses = user.user_added_courses.map((course) => ({
+            ...course.toObject(),
+            type: "manual",
+        }));
+
+        return res.status(200).json({
+            message: "Course updated successfully",
+            courses,
+            user_added_courses,
+        });
+
+    } catch (error) {
+        console.error("Error in handleEditCourse:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+export async function handleDeleteCourseByType(req, res) {
+    try {
+        const id = req.id;
+        const { courseId, type } = req.body;
+
+        if (!courseId || !type) {
+            return res.status(400).json({
+                message: "Course ID and type are required",
+            });
+        }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (type === "manual") {
+            const courseToDelete = user.user_added_courses.id(courseId);
+            if (!courseToDelete) {
+                return res.status(404).json({ message: "Course not found" });
+            }
+            // Use $pull to remove
+            await User.findByIdAndUpdate(id, {
+                $pull: { user_added_courses: { _id: courseId } }
+            });
+        } else if (type === "parsed") {
+            const courseToDelete = user.courses.id(courseId);
+            if (!courseToDelete) {
+                return res.status(404).json({ message: "Course not found" });
+            }
+            await User.findByIdAndUpdate(id, {
+                $pull: { courses: { _id: courseId } }
+            });
+        } else {
+            return res.status(400).json({ message: "Invalid course type" });
+        }
+
+        return res.status(200).json({
+            message: "Course deleted successfully",
+        });
+
+    } catch (error) {
+        console.error("Error in handleDeleteCourseByType:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 

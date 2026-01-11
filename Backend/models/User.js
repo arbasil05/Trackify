@@ -95,10 +95,6 @@ const UserSchema = mongoose.Schema({
                     type: Number,
                     required: true,
                 },
-                dept: {
-                    type: Object,
-                    required: true,
-                },
                 gradePoint: {
                     type: Number,
                     required: true,

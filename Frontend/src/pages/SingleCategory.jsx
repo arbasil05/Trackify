@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import Modal from "react-modal";
+import toast from 'react-hot-toast';
 import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
+import EditCategoryCourseModal from "../components/category/EditCategoryCourseModal";
 import "./SingleCategory.css";
+
+Modal.setAppElement("#root");
 
 const categoryNames = {
     HS: "Humanities and science",
@@ -86,19 +91,102 @@ function SingleCategory({ isDark, setIsDark }) {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({});
     const [isOldCode, setIsOldCode] = useState(true);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [courseToDelete, setCourseToDelete] = useState(null);
+
+    const [sortConfig, setSortConfig] = useState(() => {
+        try {
+            const saved = localStorage.getItem("courseSortConfig");
+            return saved ? JSON.parse(saved) : { key: null, direction: null };
+        } catch {
+            return { key: null, direction: null };
+        }
+    });
 
     const toRoman = (num) => {
         const roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
         return roman[num - 1] || num;
     };
 
+    const handleSort = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        const newConfig = { key, direction };
+        setSortConfig(newConfig);
+        localStorage.setItem("courseSortConfig", JSON.stringify(newConfig));
+    };
+
+    const getSortedCourses = () => {
+        if (!sortConfig.key) return courses;
+        
+        return [...courses].sort((a, b) => {
+            let aValue = a[sortConfig.key];
+            let bValue = b[sortConfig.key];
+
+            if (sortConfig.key === 'sem') {
+                aValue = a.sem ? parseInt(a.sem.toString().replace('sem', ''), 10) : 0;
+                bValue = b.sem ? parseInt(b.sem.toString().replace('sem', ''), 10) : 0;
+            } else if (sortConfig.key === 'credits') {
+                aValue = parseFloat(aValue) || 0;
+                bValue = parseFloat(bValue) || 0;
+            } else if (sortConfig.key === 'grade') {
+                aValue = (aValue || '').toString().toLowerCase();
+                bValue = (bValue || '').toString().toLowerCase();
+            }
+
+            if (aValue < bValue) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    };
+
+    const displayCourses = getSortedCourses();
+
+    const handleDeleteClick = (course) => {
+        setCourseToDelete(course);
+        setShowDeleteModal(true);
+    };
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setCourseToDelete(null);
+    };
+
+    const confirmDelete = async () => {
+        if (!courseToDelete) return;
+        try {
+            await axios.delete(`${import.meta.env.VITE_BACKEND_API}/api/semester/deleteCourseById`, {
+                data: { courseId: courseToDelete._id, type: courseToDelete.type },
+                withCredentials: true
+            });
+            toast.success("Course deleted successfully");
+            setRefreshTrigger(prev => prev + 1);
+            closeDeleteModal();
+        } catch (err) {
+            console.error(err);
+            toast.error(err.response?.data?.message || "Failed to delete course");
+        }
+    };
+
     const normalizeCourses = (dbCourses = [], userAdded = []) => {
         const mappedDbCourses = dbCourses.map((entry) => {
             const c = entry.course;
             return {
+                _id: entry._id,
+                type: entry.type,
                 name: c.name,
                 credits: c.credits,
                 grade: entry.grade,
+                gradePoint: entry.gradePoint, // Map gradePoint
                 sem: entry.sem,
                 category: entry.category,
                 code19: entry.code19 || c.code19,
@@ -107,9 +195,12 @@ function SingleCategory({ isDark, setIsDark }) {
         });
 
         const mappedUserAdded = userAdded.map((c) => ({
+            _id: c._id,
+            type: c.type,
             name: c.course_name,
             credits: c.credits,
             grade: c.grade,
+            gradePoint: c.gradePoint, // Map gradePoint
             sem: `sem${c.sem}`,
             category: c.category,
             code19: c.code,
@@ -175,7 +266,7 @@ function SingleCategory({ isDark, setIsDark }) {
         };
 
         fetchCategoryData();
-    }, [category]);
+    }, [category, refreshTrigger]);
 
     if (loading) {
         return (
@@ -303,7 +394,7 @@ function SingleCategory({ isDark, setIsDark }) {
                     </div>
 
                     <div className="table-container">
-                        {courses.length === 0 ? (
+                        {displayCourses.length === 0 ? (
                             <div className="no-courses">
                                 <p>No courses found in this category.</p>
                             </div>
@@ -313,13 +404,54 @@ function SingleCategory({ isDark, setIsDark }) {
                                     <tr>
                                         <th>SUBJECT CODE</th>
                                         <th>SUBJECT NAME</th>
-                                        <th>SUBJECT CREDITS</th>
-                                        <th>GRADE</th>
-                                        <th>SEMESTER</th>
+                                        <th 
+                                            onClick={() => handleSort('credits')} 
+                                            style={{ cursor: 'pointer', userSelect: 'none' }}
+                                            title="Click to sort by credits"
+                                        >
+                                            SUBJECT CREDITS
+                                            {sortConfig.key === 'credits' ? (
+                                                sortConfig.direction === 'asc' ? 
+                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                            ) : (
+                                                <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                            )}
+                                        </th>
+                                        <th 
+                                            onClick={() => handleSort('grade')} 
+                                            style={{ cursor: 'pointer', userSelect: 'none' }}
+                                            title="Click to sort by grade"
+                                        >
+                                            GRADE
+                                            {sortConfig.key === 'grade' ? (
+                                                sortConfig.direction === 'asc' ? 
+                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                            ) : (
+                                                <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                            )}
+                                        </th>
+                                        <th 
+                                            onClick={() => handleSort('sem')} 
+                                            style={{ cursor: 'pointer', userSelect: 'none' }}
+                                            title="Click to sort by semester"
+                                        >
+                                            SEMESTER
+                                            {sortConfig.key === 'sem' ? (
+                                                sortConfig.direction === 'asc' ? 
+                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                            ) : (
+                                                <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                            )}
+                                        </th>
+                                        <th style={{ textAlign: 'center' }}>EDIT</th>
+                                        <th style={{ textAlign: 'center' }}>DELETE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {courses.map((course, index) => (
+                                    {displayCourses.map((course, index) => (
                                         <tr key={index}>
                                             <td>
                                                 {isOldCode
@@ -336,12 +468,79 @@ function SingleCategory({ isDark, setIsDark }) {
                                                     )
                                                 )}
                                             </td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                <FontAwesomeIcon
+                                                    icon={faPencil}
+                                                    className="pencil-icon"
+                                                    onClick={() => {
+                                                        setSelectedCourse(course);
+                                                        setEditModalOpen(true);
+                                                    }}
+                                                />
+                                            </td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                <FontAwesomeIcon
+                                                    icon={faTrash}
+                                                    className="trash-icon"
+                                                    onClick={() => handleDeleteClick(course)}
+                                                />
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         )}
                     </div>
+
+                    <Modal
+                        isOpen={editModalOpen}
+                        onRequestClose={() => setEditModalOpen(false)}
+                        className={`custom-modal ${isDark ? "dark" : ""}`}
+                        overlayClassName="modal-overlay"
+                    >
+                        {selectedCourse && (
+                            <EditCategoryCourseModal
+                                dark={isDark}
+                                courseData={selectedCourse}
+                                onClose={() => setEditModalOpen(false)}
+                                onSuccess={() => {
+                                    setEditModalOpen(false);
+                                    setRefreshTrigger((prev) => prev + 1);
+                                }}
+                            />
+                        )}
+                    </Modal>
+
+            {showDeleteModal && (
+                <div className="modal-overlay" onClick={closeDeleteModal}>
+                    <div
+                        className={`modal-content ${isDark ? 'dark' : ''}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="modal-header">
+                            <h3>Delete Course?</h3>
+                        </div>
+                        <div className="modal-body">
+                            <p>Are you sure you want to delete <b>{courseToDelete?.name}</b>?</p>
+                            <p>This action cannot be undone.</p>
+                        </div>
+                        <div className="modal-actions">
+                            <button
+                                className="modal-btn modal-btn-delete"
+                                onClick={confirmDelete}
+                            >
+                                Delete
+                            </button>
+                            <button
+                                className="modal-btn modal-btn-cancel"
+                                onClick={closeDeleteModal}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
                 </div>
             </div>
         </div>

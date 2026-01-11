@@ -7,6 +7,8 @@ import {
     handleAddCourses,
     handleCourseUpdate,
     handleDeleteCourses,
+    handleEditCourse,
+    handleDeleteCourseByType,
     handleGetUserAddedCourses,
     handlGetAllCourses,
     uploadFile,
@@ -32,6 +34,8 @@ router.get("/getCourses", authMiddleWare, handleGetUserAddedCourses);
 router.get("/getAllCourses", authMiddleWare, handlGetAllCourses);
 router.post("/addCourses", authMiddleWare, handleAddCourses);
 router.put("/updateCourse", authMiddleWare, handleCourseUpdate);
+router.put("/editCourse", authMiddleWare, handleEditCourse);
+router.delete("/deleteCourseById", authMiddleWare, handleDeleteCourseByType);
 router.delete("/:semester", authMiddleWare, deleteSem);
 
 export default router;

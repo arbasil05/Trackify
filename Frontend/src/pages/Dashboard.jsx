@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
 import Spinner from '../components/spinner/Spinner';
 
+
+
+
 const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const nav = useNavigate();
 
@@ -87,6 +90,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         dark={isDark}
         setIsDark={setIsDark}
         name={userDetails.name || ''}
+        id={"Navbar-tour"}
       />
 
       <Information
@@ -96,6 +100,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         totalCredits={totalCredits}
         userSemCredits={userSemCredits}
         Loading={Loading}
+        id={"Information-tour"}
       />
 
       <div className="wrapper">
@@ -103,11 +108,13 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
           dark={isDark}
           userSemCredits={userSemCredits}
           Loading={Loading}
+          id={"Barchart-tour"}
         />
         <Category
           dark={isDark}
           runningTotal={runningTotal}
           Loading={Loading}
+          id={"Category-tour"}
         />
       </div>
 
