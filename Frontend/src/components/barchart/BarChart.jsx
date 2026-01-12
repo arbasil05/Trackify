@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './BarChart.css';
+import '@lottiefiles/lottie-player';
 import {
   ResponsiveContainer,
   BarChart,
@@ -34,9 +35,20 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
 
   return (
     !Loading ? (
-      data.length===0? (
+      data.length === 0 ? (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
-          <p className="no-data-message">Please upload result to view semester wise credits</p>
+          <p className="no-data-message">
+            <lottie-player
+              src="/empty ghost.json"
+              background="transparent"
+              speed="1"
+              style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+              loop
+              autoplay
+            >
+            </lottie-player>
+            Please upload result to view semester wise credits
+          </p>
         </div>
       ) : (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>

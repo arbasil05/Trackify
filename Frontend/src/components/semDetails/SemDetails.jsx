@@ -4,6 +4,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
 import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
+import '@lottiefiles/lottie-player';
+
 
 const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
     const [showModal, setShowModal] = useState(false);
@@ -71,7 +73,17 @@ const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
                 </div>
 
                 {sortedSemesters.length === 0 ? (
-                    <p className="no-sem-message">No Semester details found.</p>
+                    <p className="no-sem-message">
+                        <lottie-player
+                            src="/empty ghost.json"
+                            background="transparent"
+                            speed="1"
+                            style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                            loop
+                            autoplay
+                        >
+                        </lottie-player>
+                    </p>
                 ) : (
                     sortedSemesters.map(([semester, credit]) => (
                         <div

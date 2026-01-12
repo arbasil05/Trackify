@@ -5,6 +5,7 @@ import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash } from "@forta
 import axios from "axios";
 import Modal from "react-modal";
 import toast from 'react-hot-toast';
+import '@lottiefiles/lottie-player';
 import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import EditCategoryCourseModal from "../components/category/EditCategoryCourseModal";
@@ -396,7 +397,16 @@ function SingleCategory({ isDark, setIsDark }) {
                     <div className="table-container">
                         {displayCourses.length === 0 ? (
                             <div className="no-courses">
-                                <p>No courses found in this category.</p>
+                                <lottie-player
+                                    src="/empty ghost.json"
+                                    background="transparent"
+                                    speed="1"
+                                    style={{ width: '300px', height: '300px',marginLeft:'auto',marginRight:'auto' }}
+                                    loop
+                                    autoplay
+                                >
+                                </lottie-player>
+                                <p>Upload semester result to view courses here</p>
                             </div>
                         ) : (
                             <table className="courses-table">

@@ -9,6 +9,9 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
 import Spinner from '../components/spinner/Spinner';
+import Modal from "react-modal";
+import { faKey, faLandmark, faPen, faPencil, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
@@ -26,6 +29,15 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const [cgpa, setCgpa] = useState("");
 
   const [Loading, setLoading] = useState(true);
+
+  const [modalIsOpen, setModalIsOpen] = useState(() => {
+    return !localStorage.getItem('hasSeenNewFeatures');
+  });
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+    localStorage.setItem('hasSeenNewFeatures', 'true');
+  };
 
   /* ================= AUTH CHECK ================= */
   useEffect(() => {
@@ -81,8 +93,96 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   if (!authChecked) return null;
 
   /* ================= RENDER ================= */
+
+  const features = [
+    {
+      id: 1,
+      emoji: faLandmark,
+      color: "#3b82f6",
+      bgColor: "#dbeafe",
+      title: "All Departments Supported",
+      desc: "Trackify now works for both SCOFT and NON-SCOFT departments."
+    },
+    {
+      id: 2,
+      emoji: faWarning,
+      color: "#f59e0b",
+      bgColor: "#fef3c7",
+      title: "Missing Course Alerts",
+      desc: "You’ll be notified if any course is not found after PDF parsing."
+    },
+    {
+      id: 3,
+      emoji: faPlus,
+      color: "#10b981",
+      bgColor: "#d1fae5",
+      title: "Add Courses Manually",
+      desc: "Missing courses can now be added from your User Profile."
+    },
+    {
+      id: 4,
+      emoji: faPen,
+      color: "#8b5cf6",
+      bgColor: "#ede9fe",
+      title: "Edit Course Info",
+      desc: "Course names and credits can be edited from the Categories page."
+    },
+    {
+      id: 5,
+      emoji: faKey,
+      color: "#ec4899",
+      bgColor: "#fce7f3",
+      title: "Forgot Password",
+      desc: "Recover your account easily using the new password reset option."
+    }
+  ];
+
   return (
     <div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        className={`custom-modal ${isDark ? "dark" : ""} medium-modal dashboard-news-modal`}>
+        <div className="important-info-dash">
+          <div className='modal-contents'>
+            <h2 className="important-header">
+              What's new ✨
+            </h2>
+            <div className="important-caption">
+              Here's what we have improved to make Trackify even better!
+            </div>
+          </div>
+          <div>
+            {
+              features.map((c) => {
+                return (
+                  <div id={c.id} key={c.id} className={`features-parent ${isDark ? 'dark' : ''}`}>
+                    <div className='features-emoji' style={{ color: c.color, backgroundColor: c.bgColor }}>
+                      <FontAwesomeIcon icon={c.emoji} />
+                    </div>
+                    <div className='features-content'>
+                      <div className='features-title'>
+                        {c.title}
+                      </div>
+                      <div className='features-desc'>
+                        {c.desc}
+                      </div>
+                    </div>
+
+                  </div>
+                )
+              })
+            }
+          </div>
+          <div className='feature-button'>
+            <button className='btn proceed' onClick={handleCloseModal}>
+              Got it
+            </button>
+          </div>
+        </div>
+
+      </Modal>
+
       <Sidebar dark={isDark} />
 
       <Navbar
@@ -90,7 +190,6 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         dark={isDark}
         setIsDark={setIsDark}
         name={userDetails.name || ''}
-        id={"Navbar-tour"}
       />
 
       <Information
@@ -100,7 +199,6 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         totalCredits={totalCredits}
         userSemCredits={userSemCredits}
         Loading={Loading}
-        id={"Information-tour"}
       />
 
       <div className="wrapper">
@@ -108,13 +206,11 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
           dark={isDark}
           userSemCredits={userSemCredits}
           Loading={Loading}
-          id={"Barchart-tour"}
         />
         <Category
           dark={isDark}
           runningTotal={runningTotal}
           Loading={Loading}
-          id={"Category-tour"}
         />
       </div>
 

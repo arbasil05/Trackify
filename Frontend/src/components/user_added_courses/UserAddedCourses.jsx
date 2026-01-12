@@ -6,6 +6,7 @@ import EditCourseModal from "./EditCoursesModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
+import '@lottiefiles/lottie-player';
 
 Modal.setAppElement("#root");
 
@@ -88,7 +89,17 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
             {loading ? (
                 <p className="empty-message">Loading courses...</p>
             ) : courses.length === 0 ? (
-                <p className="no-course-message">No courses found.</p>
+                <p className="no-course-message">
+                    <lottie-player
+                        src="/empty ghost.json"
+                        background="transparent"
+                        speed="1"
+                        style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                        loop
+                        autoplay
+                    >
+                    </lottie-player>
+                </p>
             ) : (
                 <div className={`useradded-table-wrapper${isDark ? " dark" : ""}`}>
                     <table className={`useradded-table${isDark ? " dark" : ""}`}>
