@@ -13,7 +13,6 @@ const courseSchema = mongoose.Schema({
     code24: {
         type: String,
         required: true,
-
     },
     credits: {
         type: Number,

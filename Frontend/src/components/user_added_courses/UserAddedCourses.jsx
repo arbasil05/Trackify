@@ -120,7 +120,7 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                             {courses.map((course) => (
                                 <tr key={course._id}>
                                     <td className="mono">{course.code}</td>
-                                    <td>{course.course_name}</td>
+                                    <td className="center">{course.course_name}</td>
                                     <td className="center">{course.category}</td>
                                     <td className="center">{course.credits}</td>
                                     <td className={`center grade ${course.grade}`}>

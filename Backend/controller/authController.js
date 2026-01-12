@@ -2,8 +2,6 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import { generateOTP, storeOTP, sendOTP } from "../services/otpService.js";
 
-
-
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
 
 export async function register(req, res) {
@@ -28,7 +26,7 @@ export async function register(req, res) {
         });
 
         // create the token for the session
-        const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY);
+        const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY, { expiresIn: '7d' });
 
         // console.log(`JWT Token generated successfully : ${token}`);
 
@@ -43,11 +41,12 @@ export async function register(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         // console.log("Cookie set successfully!");
-        res.status(201).json({ user: user, message: "Success" });
+        const { password: _password, ...userWithoutPassword } = user.toObject();
+        res.status(201).json({ user: userWithoutPassword, message: "Success" });
     } catch (error) {
         if (error.code === 11000) {
             return res.status(409).json({ message: "User already exist" });
@@ -80,7 +79,7 @@ export async function login(req, res) {
             throw new Error("Password is incorrect");
         }
 
-        const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY);
+        const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY, { expiresIn: '7d' });
 
         // console.log(`JWT token : ${token}`);
 
@@ -94,12 +93,13 @@ export async function login(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         // console.log(`Cookie created Succesfully`);
 
-        res.status(200).json({ user: user, message: "Success" });
+        const { password: _password, ...userWithoutPassword } = user.toObject();
+        res.status(200).json({ user: userWithoutPassword, message: "Success" });
     } catch (error) {
         // console.log(`Error in /login ${error}`);
         res.status(401).json({ message: "Error while logging in" });
@@ -118,7 +118,7 @@ export async function logout(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         res.status(200).json({ message: "Log out successfull" });

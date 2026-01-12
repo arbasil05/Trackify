@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "./SingleCourse.css";
@@ -12,9 +12,54 @@ const AddSingleCourseModal = ({ dark, onClose, onSuccess }) => {
         sem: "",
         category: "",
     });
+    const [missingCoursesMap, setMissingCoursesMap] = useState({});
+    const [autoFilled, setAutoFilled] = useState(false);
+
+    useEffect(() => {
+        const fetchMissingCourses = async () => {
+            try {
+                const res = await axios.get(
+                    `${import.meta.env.VITE_BACKEND_API}/api/semester/missingCourses`,
+                    { withCredentials: true }
+                );
+                const map = {};
+                res.data.missingCourses?.forEach((c) => {
+                    if (c.code) {
+                        map[c.code.toUpperCase().trim()] = {
+                            name: c.name,
+                            credits: c.credits,
+                            category: c.category,
+                        };
+                    }
+                });
+                setMissingCoursesMap(map);
+            } catch (err) {
+                console.log("Could not fetch missing courses for auto-fill");
+            }
+        };
+        fetchMissingCourses();
+    }, []);
 
     const handleChange = (key, value) => {
-        setCourse((prev) => ({ ...prev, [key]: value }));
+        setCourse((prev) => {
+            const updated = { ...prev, [key]: value };
+
+            // Auto-fill when code changes
+            if (key === "code") {
+                const normalizedCode = value.toUpperCase().trim();
+                const match = missingCoursesMap[normalizedCode];
+                if (match) {
+                    updated.course_name = match.name || prev.course_name;
+                    updated.credits = match.credits ?? prev.credits;
+                    updated.category = match.category || prev.category;
+                    setAutoFilled(true);
+                } else {
+                    setAutoFilled(false);
+                }
+            }
+
+            return updated;
+        });
     };
 
     const handleSubmit = async () => {
@@ -74,46 +119,73 @@ const AddSingleCourseModal = ({ dark, onClose, onSuccess }) => {
                 Add only the courses that got missed
             </p>
 
-            <input
-                placeholder="Course Name"
-                onChange={(e) => handleChange("course_name", e.target.value)}
-            />
-            <input
-                placeholder="Course Code"
-                onChange={(e) => handleChange("code", e.target.value)}
-            />
-            <div className="row-flex">
+            <div>
+                <label className="field-label">Course Code</label>
                 <input
-                    type="number"
-                    placeholder="Credits"
-                    onChange={(e) => handleChange("credits", e.target.value)}
-                />
-                <input
-                    type="number"
-                    placeholder="Grade Point"
-                    onChange={(e) => handleChange("gradePoint", e.target.value)}
+                    placeholder="e.g., 19CS401"
+                    value={course.code}
+                    onChange={(e) => handleChange("code", e.target.value)}
                 />
             </div>
-            <select onChange={(e) => handleChange("sem", e.target.value)}>
-                <option value="">Select Semester</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                    <option key={sem} value={sem}>
-                        {sem}
-                    </option>
-                ))}
-            </select>
+            <div>
+                <label className="field-label">Course Name</label>
+                <input
+                    placeholder="e.g., Data Structures"
+                    value={course.course_name}
+                    onChange={(e) => handleChange("course_name", e.target.value)}
+                />
+            </div>
+            {autoFilled && (
+                <p style={{ color: "#4caf50", fontSize: "0.85rem", margin: "4px 0" }}>
+                    Auto-filled from community data, Kindly check the details before submitting
+                </p>
+            )}
+            <div className="row-flex">
+                <div>
+                    <label className="field-label">Credits</label>
+                    <input
+                        type="number"
+                        placeholder="0-5"
+                        value={course.credits}
+                        onChange={(e) => handleChange("credits", e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label className="field-label">Grade Point</label>
+                    <input
+                        type="number"
+                        placeholder="1-10"
+                        value={course.gradePoint}
+                        onChange={(e) => handleChange("gradePoint", e.target.value)}
+                    />
+                </div>
+            </div>
+            <div>
+                <label className="field-label">Semester</label>
+                <select value={course.sem} onChange={(e) => handleChange("sem", e.target.value)}>
+                    <option value="">Select Semester</option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                        <option key={sem} value={sem}>
+                            {sem}
+                        </option>
+                    ))}
+                </select>
+            </div>
 
-            <select onChange={(e) => handleChange("category", e.target.value)}>
-                <option value="">Select Category</option>
-                <option value="HS">HS</option>
-                <option value="BS">BS</option>
-                <option value="ES">ES</option>
-                <option value="PC">PC</option>
-                <option value="PE">PE</option>
-                <option value="OE">OE</option>
-                <option value="EEC">EEC</option>
-                <option value="MC">MC</option>
-            </select>
+            <div>
+                <label className="field-label">Category</label>
+                <select value={course.category} onChange={(e) => handleChange("category", e.target.value)}>
+                    <option value="">Select Category</option>
+                    <option value="HS">HS</option>
+                    <option value="BS">BS</option>
+                    <option value="ES">ES</option>
+                    <option value="PC">PC</option>
+                    <option value="PE">PE</option>
+                    <option value="OE">OE</option>
+                    <option value="EEC">EEC</option>
+                    <option value="MC">MC</option>
+                </select>
+            </div>
 
             <div className="form-actions">
                 <button className="btn proceed" onClick={handleSubmit}>
