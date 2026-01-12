@@ -17,7 +17,7 @@ const SignUpRight = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     // Terms and Conditions modal states
-    const [showTCModal, setShowTCModal] = useState(true);
+    const [showTCModal, setShowTCModal] = useState(false);
     const [tcAgreed, setTcAgreed] = useState(false);
 
     // Email verification states
@@ -351,8 +351,9 @@ const SignUpRight = () => {
                         </div>
 
                         <div className="tc-modal-buttons">
-                            <button className="tc-btn-close" onClick={handleTCClose}>Close</button>
+                            <button type="button" className="tc-btn-close" onClick={handleTCClose}>Close</button>
                             <button
+                                type="button"
                                 className="tc-btn-proceed"
                                 onClick={handleTCProceed}
                                 disabled={!tcAgreed}
