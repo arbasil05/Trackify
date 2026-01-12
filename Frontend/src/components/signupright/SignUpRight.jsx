@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 const SignUpRight = () => {
     const [name, setName] = useState("");
@@ -15,6 +15,10 @@ const SignUpRight = () => {
     const [cpassword, setCpassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    // Terms and Conditions modal states
+    const [showTCModal, setShowTCModal] = useState(true);
+    const [tcAgreed, setTcAgreed] = useState(false);
 
     // Email verification states
     const [otpCode, setOtpCode] = useState("");
@@ -125,8 +129,8 @@ const SignUpRight = () => {
             password: trimmedPass
         }, { withCredentials: true })
             .then((res) => {
-                toast.success("Account creation success", { id: toastId });
-                nav("/");
+                toast.success("Account created successfully!", { id: toastId });
+                setShowTCModal(true);
             })
             .catch((error) => {
                 if (error.response && error.response.status === 409) {
@@ -143,6 +147,19 @@ const SignUpRight = () => {
 
     // Enable submit only when OTP is sent and code is entered
     const canSubmit = isOtpSent && otpCode.trim() !== "";
+
+    const handleTCProceed = () => {
+        if (tcAgreed) {
+            setShowTCModal(false);
+            nav("/");
+        } else {
+            toast.error("Please acknowledge the terms to continue");
+        }
+    };
+
+    const handleTCClose = () => {
+        toast.error("You must accept the terms to use Trackify");
+    };
 
     return (
         <div className='signupright-container'>
@@ -290,6 +307,60 @@ const SignUpRight = () => {
                     </div>
                 </div>
             </form>
+
+            {/* Terms and Conditions Modal */}
+            {showTCModal && (
+                <div className="tc-modal-overlay">
+                    <div className="tc-modal">
+                        <div className="tc-modal-icon">
+                            <FontAwesomeIcon icon={faExclamationTriangle} />
+                        </div>
+                        <h2 className="tc-modal-title">Terms & Conditions</h2>
+                        <p className="tc-modal-subtitle">Please read carefully before proceeding</p>
+
+                        <div className="tc-modal-content">
+                            <h4>DISCLAIMER & LIABILITY</h4>
+                            <ul>
+                                <li>App provided "AS IS" without warranties</li>
+                                <li>No liability for CGPA calculation errors</li>
+                                <li>No liability for missing course opportunities</li>
+                                <li>No liability for graduation delays</li>
+                                <li>No liability for technical failures</li>
+                                <li>User assumes all risks of using the app</li>
+                            </ul>
+
+                            <h4>ACCURACY DISCLAIMERS</h4>
+                            <ul>
+                                <li>CGPA calculations are "for reference only"</li>
+                                <li>App data should NOT be relied upon for official academic decisions</li>
+                                <li>Graduation timeline estimates are NOT guarantees</li>
+                                <li>User responsible for verifying all academic records with college</li>
+                                <li>No warranty regarding prediction accuracy</li>
+                                <li>Limitation of liability for errors in calculations</li>
+                            </ul>
+                        </div>
+
+                        <div className="tc-modal-checkbox">
+                            <input
+                                type="checkbox"
+                                id="tcAgree"
+                                checked={tcAgreed}
+                                onChange={(e) => setTcAgreed(e.target.checked)}
+                            />
+                            <label htmlFor="tcAgree">I have read and agree to the Terms & Conditions</label>
+                        </div>
+
+                        <div className="tc-modal-buttons">
+                            <button className="tc-btn-close" onClick={handleTCClose}>Close</button>
+                            <button
+                                className="tc-btn-proceed"
+                                onClick={handleTCProceed}
+                                disabled={!tcAgreed}
+                            >Proceed</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -1,6 +1,8 @@
 import NonScoftCourse from "../models/NonScoftCourse.js";
 import Course from "../models/Course.js";
 import User from "../models/User.js";
+import MissingCourse from "../models/MissingCourse.js";
+import { waitUntil } from "@vercel/functions";
 
 const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
 const gradeMap = { 10: "O", 9: "A+", 8: "A", 7: "B+", 6: "B", 5: "C" };
@@ -282,7 +284,30 @@ export async function handleAddCourses(req, res) {
                 message: "Error while adding courses",
             });
         }
+        const trackMissingCourses = Promise.all(
+            formattedCourses.map((c) =>
+                MissingCourse.findOneAndUpdate(
+                    { code: c.code },
+                    {
+                        // set only upon insert and not on updates
+                        $setOnInsert: {
+                            name: c.course_name,
+                            category: c.category,
+                            credits: c.credits,
+                        },
+                        // add user id to submittedBy array
+                        $addToSet: { submittedBy: id },
+                    },
+                    { upsert: true }
 
+                ).catch((err) => console.log("MissingCourse tracking failed:", err.message))
+            )
+        );
+        if (typeof waitUntil === "function") {
+            waitUntil(trackMissingCourses);
+        } else {
+            trackMissingCourses.catch(() => { }); // fire and forget 
+        }
         return res.status(200).json({
             message: "Courses added successfully",
             data: updatedUser,
@@ -317,9 +342,9 @@ export async function handleDeleteCourses(req, res) {
             message: `Deleted course with code: ${code}`,
             data: updatedUser,
         });
-    } catch {
+    } catch (e) {
         console.log(`Error while deleting courses ${e}`);
-        res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -429,7 +454,7 @@ export async function handleGetUserAddedCourses(req, res) {
         });
     } catch (e) {
         console.log(`Error while retrieving courses ${e}`);
-        res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -462,6 +487,19 @@ export async function handlGetAllCourses(req, res) {
         });
     } catch (e) {
         console.log(`Error while fetching courses ${e}`);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+export async function getAllMissingCourses(req, res) {
+    try {
+        const missingCourses = await MissingCourse.find().select("-submittedBy -__v");
+        return res.status(200).json({
+            message: "Missing courses retrieved successfully",
+            missingCourses,
+        });
+    } catch (e) {
+        console.log(`Error while fetching missing courses ${e}`);
         res.status(500).json({ message: "Internal server error" });
     }
 }

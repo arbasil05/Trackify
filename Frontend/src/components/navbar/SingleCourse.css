@@ -9,6 +9,18 @@
 .add-course-wrapper.dark .important-caption {
 	color: #bfc6d1;
 }
+
+/* Field labels */
+.add-course-wrapper .field-label {
+	font-size: 12px;
+	font-weight: 500;
+	color: #6b7280;
+	margin-bottom: 4px;
+	display: block;
+}
+.add-course-wrapper.dark .field-label {
+	color: #9ca3af;
+}
 /* Flex row for credits and grade point */
 .row-flex {
 	display: flex;

@@ -3,6 +3,7 @@ import authMiddleWare from "../middleware/authMiddleware.js";
 import pdfMiddleware from "../middleware/pdfMiddleware.js";
 import {
     deleteSem,
+    getAllMissingCourses,
     getExistingSemesters,
     handleAddCourses,
     handleCourseUpdate,
@@ -36,6 +37,7 @@ router.post("/addCourses", authMiddleWare, handleAddCourses);
 router.put("/updateCourse", authMiddleWare, handleCourseUpdate);
 router.put("/editCourse", authMiddleWare, handleEditCourse);
 router.delete("/deleteCourseById", authMiddleWare, handleDeleteCourseByType);
+router.get("/missingCourses", getAllMissingCourses);
 router.delete("/:semester", authMiddleWare, deleteSem);
 
 export default router;

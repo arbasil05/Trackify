@@ -27,8 +27,14 @@ app.use("/api/user", userRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
 connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server started on PORT : ${PORT}`);
-
-    })
+    if (!process.env.VERCEL) {
+        app.listen(PORT, () => {
+            console.log(`Server started on PORT : ${PORT}`);
+        });
+    }
 })
+    .catch((error) => {
+        console.error("Error connecting to MongoDB:", error);
+    });
+
+export default app;
