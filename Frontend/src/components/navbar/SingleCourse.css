@@ -127,8 +127,48 @@
 	background: #e5e7eb;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .add-course-wrapper {
-    /* No max-width or padding for mobile either */
+    padding: 0;
+    gap: 12px;
+  }
+
+  .add-course-wrapper h2 {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+
+  .important-caption {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .add-course-wrapper .field-label {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  .add-course-wrapper input,
+  .add-course-wrapper select {
+    padding: 8px 10px;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
+  .row-flex {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .form-actions {
+    flex-direction: row-reverse;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .form-actions .btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 14px;
   }
 }

@@ -12,6 +12,7 @@
     border-radius: 14px;
     overflow: hidden;
     transition: background 0.3s;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
 }
 .useradded-table-wrapper.dark {
     background: #2b3543;
@@ -302,4 +303,55 @@
 
 .modal-content.dark .modal-btn-cancel:hover {
   background-color: #4b5563;
+}
+
+/* ===== Responsive Design for Mobile/Tablet ===== */
+@media (max-width: 900px) {
+  .useradded-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    display: block;
+  }
+
+  .useradded-table {
+    min-width: 600px;
+    width: max-content;
+    display: table;
+  }
+
+  .useradded-table th,
+  .useradded-table td {
+    padding: 1rem 0.8rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* Specific column adjustments */
+  .useradded-table th:nth-child(2),
+  .useradded-table td:nth-child(2) {
+    white-space: normal;
+    min-width: 180px; /* Replaced max-width with min-width to prevent squashing */
+    max-width: 300px;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  /* Make header sticky */
+  .useradded-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    /* Ensure background matches the theme */
+  }
+  .useradded-table thead th { background: #f3f4f6; }
+  .useradded-table.dark thead th { background: #3a4453; }
+
+  .modal-content {
+    min-width: unset;
+    width: 95%;
+    max-width: 500px;
+    padding: 20px;
+    margin: 10px;
+  }
 }

@@ -8,6 +8,7 @@ import UserDetails from "../components/userdetails/UserDetails";
 import SemDetails from "../components/semDetails/SemDetails";
 import Spinner from "../components/spinner/Spinner";
 import UserAddedCourses from "../components/user_added_courses/UserAddedCourses";
+import AddSingleCourseModal from "../components/navbar/AddSingleCourseModal";
 
 const User = ({ isDark, setIsDark, onDataRefresh }) => {
 
@@ -15,6 +16,7 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
     const [userSem, setUserSem] = useState({});
     const [loading, setLoading] = useState(true);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
 
     const handleRefresh = () => {
         setRefreshTrigger(prev => prev + 1);
@@ -44,11 +46,26 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
         <div>
             <MobileNavbar dark={isDark} setIsDark={setIsDark} />
             <Sidebar dark={isDark} />
-            <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} onDataRefresh={handleRefresh} />
-            <UserHeader isDark={isDark} />
+            <Navbar dark={isDark} setIsDark={setIsDark} name={userDetails.name} onDataRefresh={handleRefresh} onAddCourse={() => setAddCourseModalOpen(true)} />
+            <UserHeader isDark={isDark} onAddCourse={() => setAddCourseModalOpen(true)} />
             <UserDetails isDark={isDark} userDetails={userDetails} onDataRefresh={handleRefresh} />
             <SemDetails isDark={isDark} userSem={userSem} onDataRefresh={handleRefresh} />
             <UserAddedCourses isDark={isDark} refreshTrigger={refreshTrigger} />
+
+            {addCourseModalOpen && (
+                <div className="modal-overlay">
+                    <div className={`custom-modal narrow-modal ${isDark ? "dark" : ""}`}>
+                        <AddSingleCourseModal
+                            dark={isDark}
+                            onClose={() => setAddCourseModalOpen(false)}
+                            onSuccess={() => {
+                                setAddCourseModalOpen(false);
+                                handleRefresh();
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
