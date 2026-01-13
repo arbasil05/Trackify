@@ -92,6 +92,10 @@ const SignUpRight = () => {
             toast.error("Name cannot be empty");
             return;
         }
+        if (trimmedName.length > 20) {
+            toast.error("Name cannot exceed 20 characters");
+            return;
+        }
         if (trimmedEmail === "") {
             toast.error("Email cannot be empty");
             return;
@@ -174,19 +178,32 @@ const SignUpRight = () => {
                 </div>
                 <div className="signup-inputs">
                     <div className="reg-no">
-                        <label>Name</label>
+                        <label htmlFor="name">Name</label>
                         <input
+                            id="name"
+                            name="name"
                             type="text"
+                            autoComplete="name"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (val.length > 20) {
+                                    toast.error("Name cannot exceed 20 characters", { id: "name-limit" });
+                                    return;
+                                }
+                                setName(val);
+                            }}
                             placeholder='Enter your name'
                         />
                     </div>
                     <div className="reg-no">
-                        <label>Email</label>
+                        <label htmlFor="email">Email</label>
                         <div className="email-verify-wrapper">
                             <input
+                                id="email"
+                                name="email"
                                 type="email"
+                                autoComplete="email"
                                 value={email}
                                 onChange={(e) => {
                                     setEmail(e.target.value);
@@ -223,10 +240,13 @@ const SignUpRight = () => {
                     </div>
                     {isOtpSent && (
                         <div className="reg-no otp-field-enter">
-                            <label>Verification Code</label>
+                            <label htmlFor="otp">Verification Code</label>
                             <input
                                 ref={otpInputRef}
+                                id="otp"
+                                name="otp"
                                 type="text"
+                                autoComplete="one-time-code"
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value)}
                                 placeholder='Enter the code sent to your email'
@@ -236,8 +256,8 @@ const SignUpRight = () => {
                     )}
                     <div className="reg-wrapper">
                         <div className="reg-no">
-                            <label>Department</label>
-                            <select value={dept} onChange={(e) => setdept(e.target.value)}>
+                            <label htmlFor="department">Department</label>
+                            <select id="department" name="department" value={dept} onChange={(e) => setdept(e.target.value)}>
                                 <option hidden>Your department</option>
                                 <option value="CSE">CSE</option>
                                 <option value="IT">IT</option>
@@ -256,8 +276,8 @@ const SignUpRight = () => {
                             </select>
                         </div>
                         <div className="reg-no">
-                            <label>Graduation year</label>
-                            <select value={grad_year} onChange={(e) => setGradYear(e.target.value)}>
+                            <label htmlFor="gradYear">Graduation year</label>
+                            <select id="gradYear" name="gradYear" value={grad_year} onChange={(e) => setGradYear(e.target.value)}>
                                 <option hidden>Your graduation year</option>
                                 <option value="2027">2027</option>
                                 <option value="2028">2028</option>
@@ -267,9 +287,12 @@ const SignUpRight = () => {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "15px" }}>
                         <div className="password">
-                            <label>Create password</label>
+                            <label htmlFor="password">Create password</label>
                             <div className="password-wrapper">
                                 <input
+                                    id="password"
+                                    name="password"
+                                    autoComplete="new-password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     type={showPassword ? "text" : "password"}
@@ -284,9 +307,12 @@ const SignUpRight = () => {
                             </div>
                         </div>
                         <div className="password">
-                            <label>Confirm password</label>
+                            <label htmlFor="confirmPassword">Confirm password</label>
                             <div className="password-wrapper">
                                 <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    autoComplete="new-password"
                                     value={cpassword}
                                     onChange={(e) => setCpassword(e.target.value)}
                                     type={showConfirmPassword ? "text" : "password"}

@@ -15,17 +15,26 @@ import { useLocation } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
-const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse }) => {
+const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalModalOpen, setExternalModalOpen }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalStep, setModalStep] = useState("warning");
     const [pdf, setPdf] = useState(null);
     const [semValue, setSemValue] = useState("");
     const [existingSemesters, setExistingSemesters] = useState([]);
     const [missingCourses, setMissingCourses] = useState([]);
+    const [addCourses, setAddCourses] = useState([]);
     const isSubmitting = useRef(false);
 
     const location = useLocation();
     const isUserRoute = location.pathname === "/user";
+
+    // Sync external modal trigger with internal state
+    useEffect(() => {
+        if (externalModalOpen) {
+            setModalIsOpen(true);
+            if (setExternalModalOpen) setExternalModalOpen(false); // Reset external trigger
+        }
+    }, [externalModalOpen, setExternalModalOpen]);
 
     useEffect(() => {
         const skipWarning = localStorage.getItem("skipWarning");
@@ -114,6 +123,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse }) => {
         setPdf(null);
         setSemValue("");
         setMissingCourses([]);
+        setAddCourses([]);
         onDataRefresh();
 
         const skipWarning = localStorage.getItem("skipWarning");
@@ -133,7 +143,36 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse }) => {
         localStorage.setItem("skipWarning", !current);
     };
 
+    const handleAddCoursesSubmit = async () => {
+        // Validate all courses have required fields
+        for (const course of addCourses) {
+            if (!course.credits || !course.gradePoint || !course.category) {
+                toast.error("Please fill all fields for each course");
+                return;
+            }
+        }
 
+        const toastId = toast.loading("Saving courses...");
+
+        try {
+            // Submit each course
+            for (const course of addCourses) {
+                await axios.post(
+                    `${import.meta.env.VITE_BACKEND_API}/api/semester/addCourses`,
+                    course,
+                    { withCredentials: true }
+                );
+            }
+
+            toast.success("Courses added successfully", { id: toastId });
+            closeCompletely();
+        } catch (err) {
+            toast.error(err.response?.data?.error || "Failed to add courses", {
+                id: toastId,
+            });
+            console.error(err);
+        }
+    };
 
     // --- Modal Step Components ---
     const renderModalStep = () => {

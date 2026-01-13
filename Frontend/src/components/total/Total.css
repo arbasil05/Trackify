@@ -93,3 +93,21 @@ progress::-moz-progress-bar {
 .dark-mode progress::-moz-progress-bar {
     background-color: #82b1ff;
 }
+
+@media (max-width: 900px) {
+    .total-container {
+        min-width: unset;
+        min-height: unset;
+        padding: 15px;
+        gap: 10px;
+    }
+    .total-title {
+        font-size: 12px;
+    }
+    .total-value {
+        font-size: 22px;
+    }
+    .progress-container p {
+        font-size: 10px;
+    }
+}

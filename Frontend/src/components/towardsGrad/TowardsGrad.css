@@ -39,3 +39,18 @@
 .dark-mode.tgrad-container .tgrad-value {
     color: #ffffff;
 }
+
+@media (max-width: 900px) {
+    .tgrad-container {
+        width: unset;
+        min-height: unset;
+        padding: 15px;
+        gap: 10px;
+    }
+    .tgrad-title {
+        font-size: 12px;
+    }
+    .tgrad-value {
+        font-size: 22px;
+    }
+}

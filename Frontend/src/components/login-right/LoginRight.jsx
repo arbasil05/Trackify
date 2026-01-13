@@ -68,8 +68,11 @@ const LoginRight = () => {
         </div>
         <div className="login-inputs">
           <div className="reg-no">
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
+              name="email"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
@@ -77,9 +80,12 @@ const LoginRight = () => {
             />
           </div>
           <div className="password">
-            <label>Password</label>
+            <label htmlFor="password">Password</label>
             <div className="password-wrapper">
               <input
+                id="password"
+                name="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}

@@ -98,3 +98,18 @@
 .dark-mode .tooltip-text::after {
     border-color: #374151 transparent transparent transparent;
 }
+
+@media (max-width: 900px) {
+    .cgpa-container {
+        width: unset;
+        min-height: unset;
+        padding: 15px;
+        gap: 10px;
+    }
+    .cgpa-title {
+        font-size: 12px;
+    }
+    .cgpa-value {
+        font-size: 22px;
+    }
+}

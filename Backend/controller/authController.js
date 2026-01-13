@@ -17,6 +17,10 @@ export async function register(req, res) {
             throw new Error("Missing fields!");
         }
 
+        if (name.length > 20) {
+            return res.status(400).json({ message: "Name cannot exceed 20 characters" });
+        }
+
         const user = await User.create({
             name,
             email,

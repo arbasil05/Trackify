@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 const UserSchema = mongoose.Schema({
     name: {
         type: String,
+        maxLength: 20,
         required: true,
     },
 

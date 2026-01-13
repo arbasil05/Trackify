@@ -39,3 +39,18 @@
 .dark-mode.csem-container .csem-value {
     color: #ffffff;
 }
+
+@media (max-width: 900px) {
+    .csem-container {
+        width: unset;
+        min-height: unset;
+        padding: 15px;
+        gap: 10px;
+    }
+    .csem-title {
+        font-size: 12px;
+    }
+    .csem-value {
+        font-size: 22px;
+    }
+}

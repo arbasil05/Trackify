@@ -5,6 +5,7 @@ import Information from '../components/information/Information';
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
 import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
+import DashboardHeader from '../components/dashboardheader/DashboardHeader';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +14,6 @@ import Spinner from '../components/spinner/Spinner';
 import Modal from "react-modal";
 import { faKey, faLandmark, faPen, faPencil, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-
-
 
 const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const nav = useNavigate();
@@ -30,6 +28,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
   const [cgpa, setCgpa] = useState("");
 
   const [Loading, setLoading] = useState(true);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
   const [modalIsOpen, setModalIsOpen] = useState(() => {
     return !localStorage.getItem('hasSeenNewFeatures');
@@ -110,7 +109,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
       color: "#f59e0b",
       bgColor: "#fef3c7",
       title: "Missing Course Alerts",
-      desc: "You’ll be notified if any course is not found after PDF parsing."
+      desc: "You'll be notified if any course is not found after PDF parsing."
     },
     {
       id: 3,
@@ -192,7 +191,11 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         dark={isDark}
         setIsDark={setIsDark}
         name={userDetails.name || ''}
+        externalModalOpen={uploadModalOpen}
+        setExternalModalOpen={setUploadModalOpen}
       />
+
+      <DashboardHeader isDark={isDark} onUpload={() => setUploadModalOpen(true)} />
 
       <Information
         dark={isDark}

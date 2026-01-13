@@ -133,8 +133,13 @@
     width: 95vw !important;
     max-width: 95vw !important;
     padding: 20px;
-    max-height: 90vh;
+    max-height: 75vh;
     overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .custom-modal.dark {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -502,6 +507,97 @@
   background-color: #374151;
 }
 
+/* ===== Missing Courses Mobile List ===== */
+
+.missing-courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.missing-course-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9fafb;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.missing-course-number {
+  width: 28px;
+  height: 28px;
+  background: rgba(72, 128, 255, 0.1);
+  color: #4880FF;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.missing-course-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.missing-course-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.missing-course-code {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== Dark Mode for Missing Courses List ===== */
+
+.custom-modal.dark .missing-course-item {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.custom-modal.dark .missing-course-number {
+  background: rgba(72, 128, 255, 0.2);
+  color: #60a5fa;
+}
+
+.custom-modal.dark .missing-course-name {
+  color: #e5e7eb;
+}
+
+.custom-modal.dark .missing-course-code {
+  color: #9ca3af;
+}
+
+/* ===== Scrollbar for missing list ===== */
+
+.missing-courses-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.missing-courses-list::-webkit-scrollbar-thumb {
+  background: #c7cbd1;
+  border-radius: 10px;
+}
+
+.custom-modal.dark .missing-courses-list::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
 /* ===== Add Course Form ===== */
 
 .add-course-wrapper {
@@ -717,4 +813,195 @@
   .navbar-add-course-btn {
       display: none;
   }
+}
+
+/* ===== Mobile/Desktop View Toggle ===== */
+
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .mobile-only.missing-courses-list {
+    display: flex !important;
+    flex-direction: column;
+  }
+}
+
+/* ===== Mobile Course Cards ===== */
+
+.add-course-cards {
+  flex-direction: column;
+  gap: 16px;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.course-card {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.course-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.course-card-number {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4880FF;
+  background: rgba(72, 128, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.course-card-info {
+  margin-bottom: 14px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.info-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #111827;
+  font-weight: 600;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+.course-card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.course-card-form .form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.course-card-form .form-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card-form .form-field.full-width {
+  flex: none;
+  width: 100%;
+}
+
+.course-card-form label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.course-card-form input,
+.course-card-form select {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+
+.course-card-form input:focus,
+.course-card-form select:focus {
+  border: 1.5px solid #4880FF;
+  outline: none;
+}
+
+.course-card-form input::placeholder {
+  color: #9ca3af;
+}
+
+/* ===== Dark Mode for Course Cards ===== */
+
+.custom-modal.dark .course-card {
+  background: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.custom-modal.dark .course-card-header {
+  border-color: #374151;
+}
+
+.custom-modal.dark .course-card-number {
+  background: rgba(72, 128, 255, 0.2);
+  color: #60a5fa;
+}
+
+.custom-modal.dark .info-label {
+  color: #9ca3af;
+}
+
+.custom-modal.dark .info-value {
+  color: #e5e7eb;
+}
+
+.custom-modal.dark .course-card-form label {
+  color: #9ca3af;
+}
+
+.custom-modal.dark .course-card-form input,
+.custom-modal.dark .course-card-form select {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.custom-modal.dark .course-card-form input::placeholder {
+  color: #6b7280;
+}
+
+/* ===== Scrollbar for cards ===== */
+
+.add-course-cards::-webkit-scrollbar {
+  width: 6px;
+}
+
+.add-course-cards::-webkit-scrollbar-thumb {
+  background: #c7cbd1;
+  border-radius: 10px;
+}
+
+.custom-modal.dark .add-course-cards::-webkit-scrollbar-thumb {
+  background: #4b5563;
 }

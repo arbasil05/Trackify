@@ -56,8 +56,11 @@ const Feedback = () => {
                     </div>
                     <div className="feedback-inputs">
                         <div className="feedback-field">
-                            <label>Name</label>
+                            <label htmlFor="feedbackName">Name</label>
                             <input
+                                id="feedbackName"
+                                name="name"
+                                autoComplete="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 type="text"
@@ -65,8 +68,11 @@ const Feedback = () => {
                             />
                         </div>
                         <div className="feedback-field">
-                            <label>Email</label>
+                            <label htmlFor="feedbackEmail">Email</label>
                             <input
+                                id="feedbackEmail"
+                                name="email"
+                                autoComplete="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 type="email"
@@ -74,8 +80,10 @@ const Feedback = () => {
                             />
                         </div>
                         <div className="feedback-field">
-                            <label>Issue</label>
+                            <label htmlFor="feedbackIssue">Issue</label>
                             <textarea
+                                id="feedbackIssue"
+                                name="issue"
                                 value={issue}
                                 onChange={(e) => setIssue(e.target.value)}
                                 placeholder='Describe your issue'

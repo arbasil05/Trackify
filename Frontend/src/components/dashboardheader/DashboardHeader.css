@@ -1,0 +1,56 @@
+.dashboardheader-container {
+    margin-left: 250px;
+    display: none; /* Hidden on desktop */
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 35px;
+    gap: 30px;
+    margin-bottom: 0;
+    padding: 0 20px;
+}
+
+.dashboardheader-container h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.dashboardheader-title.dark {
+    color: #f3f4f6;
+}
+
+.dashboard-upload-btn {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background-color: #4880FF;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dashboard-upload-btn:hover {
+    background-color: #2563eb;
+}
+
+/* Dark mode */
+.dashboardheader-container.dark h2 {
+    color: #f3f4f6;
+}
+
+@media (max-width: 900px) {
+    .dashboardheader-container {
+        display: flex;
+        margin-left: 0;
+        margin-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
