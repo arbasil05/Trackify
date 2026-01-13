@@ -1,0 +1,11 @@
+.login-page {
+    display: flex;
+    min-height: 100dvh;
+}
+
+/* On mobile/tablet, stack vertically (though LoginLeft is hidden) */
+@media (max-width: 900px) {
+    .login-page {
+        flex-direction: column;
+    }
+}

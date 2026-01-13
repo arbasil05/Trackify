@@ -56,6 +56,11 @@ const LoginRight = () => {
 
   return (
     <div className='loginright-container'>
+      {/* Mobile branding header - shows only on mobile/tablet */}
+      <div className="login-mobile-header">
+        <h1>Trac<span>kify</span></h1>
+        <p>Your Smart Student Dashboard</p>
+      </div>
       <form className="login-card" onSubmit={(e) => { e.preventDefault(); handleloginsubmit(); }}>
         <div className="login-header">
           <h2>Login to Account</h2>

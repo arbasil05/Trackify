@@ -163,6 +163,11 @@ const SignUpRight = () => {
 
     return (
         <div className='signupright-container'>
+            {/* Mobile branding header - shows only on mobile/tablet */}
+            <div className="signup-mobile-header">
+                <h1>Trac<span>kify</span></h1>
+                <p>Your Smart Student Dashboard</p>
+            </div>
             <form className="signup-card" onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
                 <div className="signup-header">
                     <h2>Create an Account</h2>

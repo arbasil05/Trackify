@@ -137,6 +137,11 @@ const ForgotPassword = () => {
 
     return (
         <div className='forgotpassword-container'>
+            {/* Mobile branding header - shows only on mobile/tablet */}
+            <div className="forgotpassword-mobile-header">
+                <h1>Trac<span>kify</span></h1>
+                <p>Your Smart Student Dashboard</p>
+            </div>
             <form className="forgotpassword-card" onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
                 <div className="forgotpassword-header">
                     <h2>Reset Password</h2>
