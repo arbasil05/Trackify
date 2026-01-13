@@ -7,6 +7,14 @@
     margin-bottom: 40px;
 }
 
+@media (max-width: 900px) {
+    .available-courses-container {
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+}
+
 /* title */
 .course-category-title h3 {
     font-weight: 600;

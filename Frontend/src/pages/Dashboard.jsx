@@ -4,6 +4,7 @@ import Category from '../components/category/Category';
 import Information from '../components/information/Information';
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
+import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -183,6 +184,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
       </Modal>
 
+      <MobileNavbar dark={isDark} setIsDark={setIsDark} />
       <Sidebar dark={isDark} />
 
       <Navbar

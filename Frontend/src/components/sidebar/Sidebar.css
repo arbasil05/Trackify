@@ -12,6 +12,12 @@
     padding-right: 20px;
 }
 
+@media (max-width: 900px) {
+    .sidebar-container {
+        display: none;
+    }
+}
+
 /* DARK MODE */
 .dark-mode.sidebar-container {
     background-color: #273142;

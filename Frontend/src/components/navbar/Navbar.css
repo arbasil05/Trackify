@@ -663,3 +663,52 @@
     width: 98vw;
   }
 }
+
+/* Responsive Navbar for Mobile/Tablets */
+@media (max-width: 900px) {
+  .navbar-container {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 10px 20px;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .navbar-message h1 {
+    font-size: 24px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+  
+  .navbar-message span {
+    font-size: 24px;
+  }
+
+  .navbar-message p {
+      margin-bottom: 10px;
+  }
+
+  .navbar-button-group {
+      width: 100%;
+      justify-content: center;
+  }
+
+  .navbar-upload-button button {
+      width: auto;
+      padding: 10px 16px;
+      font-size: 14px;
+  }
+
+  .navbar-toggle-button {
+      display: none;
+  }
+}

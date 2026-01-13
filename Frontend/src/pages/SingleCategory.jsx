@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import '@lottiefiles/lottie-player';
 import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
+import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
 import EditCategoryCourseModal from "../components/category/EditCategoryCourseModal";
 import "./SingleCategory.css";
 
@@ -337,6 +338,7 @@ function SingleCategory({ isDark, setIsDark }) {
 
     return (
         <div className={`single-category-container ${isDark ? "dark" : ""}`}>
+            <MobileNavbar dark={isDark} setIsDark={setIsDark} />
             <Navbar dark={isDark} setIsDark={setIsDark} name={user.name} />
 
             <div className="single-category-main">

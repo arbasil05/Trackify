@@ -8,6 +8,14 @@
     margin-bottom: 30px;
 }
 
+@media (max-width: 900px) {
+    .userheader-container {
+        margin-left: 0;
+        margin-top: 20px;
+        padding-left: 20px;
+    }
+}
+
 .back-icon:hover{
     cursor: pointer;
 }

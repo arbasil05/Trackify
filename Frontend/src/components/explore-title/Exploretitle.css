@@ -4,6 +4,13 @@
 
 }
 
+@media (max-width: 900px) {
+    .explore-title-container {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+}
+
 .explore-title-title {
     text-align: center;
 }

@@ -16,6 +16,13 @@
   scrollbar-color: #888 transparent;
 }
 
+@media (max-width: 900px) {
+  .category-container {
+    margin-right: 0;
+    margin-top: 20px;
+  }
+}
+
 .category-container.dark {
   background-color: #273142;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/sidebar/Sidebar'
+import MobileNavbar from '../components/mobile-navbar/MobileNavbar'
 import Navbar from '../components/navbar/Navbar'
 import Exploretitle from '../components/explore-title/Exploretitle'
 import AvailableCourses from '../components/courses_available/AvailableCourses'
@@ -39,6 +40,7 @@ const Explore = ({ isDark, setIsDark }) => {
 
   return (
     <div>
+      <MobileNavbar dark={isDark} setIsDark={setIsDark} />
       <Sidebar dark={isDark} />
       <Navbar dark={isDark} setIsDark={setIsDark} name={username} />
       <Exploretitle />

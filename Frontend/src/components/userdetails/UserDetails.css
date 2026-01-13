@@ -145,3 +145,26 @@ label {
 .userdetails-container.dark .pencil-icon {
   color: #f3f4f6;
 }
+
+@media (max-width: 900px) {
+  .userdetails-container {
+    width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .first-row,
+  .second-row,
+  .third-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .third-row div {
+      width: 100%;
+  }
+
+  .userdetails-buttons {
+      flex-direction: column-reverse;
+  }
+}
