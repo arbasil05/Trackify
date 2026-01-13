@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash, faArrowsLeftRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Modal from "react-modal";
 import toast from 'react-hot-toast';
@@ -396,22 +396,26 @@ function SingleCategory({ isDark, setIsDark }) {
                         </div>
                     </div>
 
-                    <div className="table-container">
-                        {displayCourses.length === 0 ? (
-                            <div className="no-courses">
-                                <lottie-player
-                                    src="/empty ghost.json"
-                                    background="transparent"
-                                    speed="1"
-                                    style={{ width: '300px', height: '300px',marginLeft:'auto',marginRight:'auto' }}
-                                    loop
-                                    autoplay
-                                >
-                                </lottie-player>
-                                <p>Upload semester result to view courses here</p>
+                            <div className="mobile-scroll-hint">
+                                <FontAwesomeIcon icon={faArrowsLeftRight} fade />
+                                <span>Swipe to view table</span>
                             </div>
-                        ) : (
-                            <table className="courses-table">
+                            <div className="table-container">
+                                {displayCourses.length === 0 ? (
+                                    <div className="no-courses">
+                                        <lottie-player
+                                            src="/empty ghost.json"
+                                            background="transparent"
+                                            speed="1"
+                                            style={{ width: '300px', height: '300px',marginLeft:'auto',marginRight:'auto' }}
+                                            loop
+                                            autoplay
+                                        >
+                                        </lottie-player>
+                                        <p>Upload semester result to view courses here</p>
+                                    </div>
+                                ) : (
+                                    <table className="courses-table">
                                 <thead>
                                     <tr>
                                         <th>SUBJECT CODE</th>

@@ -305,13 +305,41 @@
   background-color: #4b5563;
 }
 
+/* Mobile scroll hint hidden on desktop */
+.mobile-scroll-hint {
+    display: none;
+}
+
 /* ===== Responsive Design for Mobile/Tablet ===== */
 @media (max-width: 900px) {
   .useradded-table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     width: 100%;
+  .useradded-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
     display: block;
+    position: relative;
+  }
+  
+  /* Mobile Scroll Hint (External) */
+  .mobile-scroll-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Centered */
+      gap: 6px;
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      font-weight: 500;
+      width: 100%; /* Ensure it takes full width */
+  }
+  
+  .useradded-table-wrapper.dark + .mobile-scroll-hint, /* Just in case context needs it, but global dark works too */
+  .userdetails-container.dark .mobile-scroll-hint { 
+      color: #9ca3af;
   }
 
   .useradded-table {
@@ -353,5 +381,9 @@
     max-width: 500px;
     padding: 20px;
     margin: 10px;
+  }
+  .userdetails-header h2 {
+      text-align: center;
+      margin-bottom: 20px;
   }
 }

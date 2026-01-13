@@ -319,11 +319,13 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 6px;
+  text-align: center;
 }
 
 .upload-form-wrapper p {
   color: #6b7280;
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .upload-form {
