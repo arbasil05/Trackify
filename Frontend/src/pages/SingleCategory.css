@@ -533,3 +533,39 @@
 .single-category-content.dark .no-courses p {
   color: #9ca3af;
 }
+
+/* Responsive Modal for Mobile */
+@media (max-width: 768px) {
+  .modal-content {
+    min-width: unset;
+    width: calc(100% - 32px);
+    max-width: 500px;
+    padding: 20px;
+    margin: 16px;
+  }
+
+  .modal-header h3 {
+    font-size: 16px;
+  }
+
+  .modal-body p {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .modal-actions {
+    gap: 10px;
+  }
+
+  .modal-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+    flex: 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .stat-card .stat-icon {
+    display: none;
+  }
+}

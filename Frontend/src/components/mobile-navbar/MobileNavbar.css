@@ -84,7 +84,7 @@
 
 .mobile-nav-menu.open {
     max-height: 300px; /* Adjust based on content height */
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
 }
 
 .mobile-nav-item {

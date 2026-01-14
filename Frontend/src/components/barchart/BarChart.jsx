@@ -12,7 +12,14 @@ import {
 } from 'recharts';
 
 const Barchart = ({ dark, userSemCredits, Loading }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!userSemCredits) return;
@@ -53,23 +60,45 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
       ) : (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
           <h3>Semester wise credits</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={data}>
+          <ResponsiveContainer width="100%" height={isMobile ? 400 : 300}>
+            <BarChart 
+              data={data} 
+              layout={isMobile ? "vertical" : "horizontal"}
+              margin={{ top: 10, right: 20, left: isMobile ? 0 : -4, bottom: isMobile ? 20 : 0 }}
+            >
               <CartesianGrid
-                vertical={false}
+                vertical={!isMobile}
+                horizontal={isMobile}
                 strokeDasharray="3 3"
                 stroke={dark ? '#44566e' : '#ccc'}
               />
-              <XAxis dataKey="name" stroke={dark ? '#fff' : '#000'} />
-              <YAxis stroke={dark ? '#fff' : '#000'} />
+              {/* XAxis: Category on Desktop, Number on Mobile */}
+              <XAxis 
+                type={isMobile ? "number" : "category"} 
+                dataKey={isMobile ? undefined : "name"} 
+                stroke={dark ? '#fff' : '#000'}
+              />
+              {/* YAxis: Number on Desktop, Category on Mobile */}
+              <YAxis 
+                type={isMobile ? "category" : "number"} 
+                dataKey={isMobile ? "name" : undefined} 
+                stroke={dark ? '#fff' : '#000'} 
+                width={isMobile ? 60 : 30}
+              />
               <Tooltip
+                cursor={{fill: 'transparent'}}
                 contentStyle={{
                   backgroundColor: dark ? '#38485f' : '#fff',
                   border: 'none',
                   color: dark ? '#fff' : '#000',
                 }}
               />
-              <Bar dataKey="credits" fill="#4880FF" barSize={25} radius={[10, 10, 0, 0]} />
+              <Bar 
+                dataKey="credits" 
+                fill="#4880FF" 
+                barSize={isMobile ? 20 : 25} 
+                radius={isMobile ? [0, 10, 10, 0] : [10, 10, 0, 0]} 
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

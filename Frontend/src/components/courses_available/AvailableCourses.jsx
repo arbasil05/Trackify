@@ -1,11 +1,12 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { faChevronRight, faChevronLeft, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronLeft, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './AvailableCourses.css'
 
 const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
     const [showButtons, setShowButtons] = useState({left:false , right:false});
     const [expandedCategories, setExpandedCategories] = useState({});
+    const [visibleCounts, setVisibleCounts] = useState({});
 
     const categories = Object.keys(recommendedCourses || {})
     const courseDetailsRefs = useRef([]);
@@ -113,7 +114,7 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {recommendedCourses[cat]?.map(course => (
+                                        {(recommendedCourses[cat]?.slice(0, visibleCounts[cat] || 10) || []).map(course => (
                                             <tr key={course._id}>
                                                 <td>{course.name}</td>
                                                 <td>{grad_year === "2027" ? course.code19 : course.code24}</td>
@@ -122,6 +123,35 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
                                         ))}
                                     </tbody>
                                 </table>
+                                {recommendedCourses[cat]?.length > 10 && (
+                                    <div className="mobile-footer-actions">
+                                        {recommendedCourses[cat]?.length > (visibleCounts[cat] || 10) && (
+                                            <button 
+                                                className="action-btn load-more"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setVisibleCounts(prev => ({
+                                                        ...prev,
+                                                        [cat]: (prev[cat] || 10) + 10
+                                                    }));
+                                                }}
+                                            >
+                                                Show More ({recommendedCourses[cat].length - (visibleCounts[cat] || 10)})
+                                            </button>
+                                        )}
+                                        <button 
+                                            className="action-btn close-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleCategory(cat);
+                                                // Optional: Reset count when closing?
+                                                // setVisibleCounts(prev => ({ ...prev, [cat]: 10 }));
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faChevronUp} /> Close
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

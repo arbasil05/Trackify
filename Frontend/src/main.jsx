@@ -9,7 +9,12 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <App />
-      <Toaster toastOptions={{style:{textAlign:"center"}}}/>
+      <Toaster 
+        toastOptions={{style:{textAlign:"center"}}}
+        containerStyle={{
+          padding: '16px',
+        }}
+      />
     </BrowserRouter>
   </StrictMode>,
 )

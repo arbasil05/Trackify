@@ -223,6 +223,8 @@
         min-height: 100dvh;
         padding: 20px;
         flex-direction: column;
+        height: auto;
+        overflow-y: auto;
         gap: 20px;
     }
 

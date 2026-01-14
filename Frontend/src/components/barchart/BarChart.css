@@ -62,3 +62,9 @@
     border: none !important;
     color: white !important;
 }
+
+svg.recharts-surface{
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    left: 0 !important;
+}

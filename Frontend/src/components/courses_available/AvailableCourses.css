@@ -92,7 +92,7 @@
     }
 
     .collapsible-content.expanded {
-        max-height: 2000px;
+        max-height: 50000px;
     }
 
     /* ===== Mobile Course Table ===== */
@@ -209,6 +209,58 @@
 
     .skeleton-card {
         display: none;
+    }
+
+    /* Mobile Footer Actions */
+    .mobile-footer-actions {
+        display: flex;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .action-btn {
+        flex: 1;
+        padding: 12px;
+        background: transparent;
+        border: none;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: background 0.2s;
+    }
+
+    .action-btn:hover {
+        background: #f3f4f6;
+    }
+
+    .action-btn.load-more {
+        color: #4880FF;
+        border-right: 1px solid #e5e7eb;
+    }
+
+    .action-btn.close-btn {
+        color: #6b7280;
+    }
+
+    /* Dark Mode Actions */
+    .dark-mode-courses .mobile-footer-actions {
+        border-color: #374151;
+    }
+
+    .dark-mode-courses .action-btn:hover {
+        background: #2d3a4d;
+    }
+
+    .dark-mode-courses .action-btn.load-more {
+        color: #82b1ff;
+        border-right-color: #374151;
+    }
+
+    .dark-mode-courses .action-btn.close-btn {
+        color: #9ca3af;
     }
 }
 
