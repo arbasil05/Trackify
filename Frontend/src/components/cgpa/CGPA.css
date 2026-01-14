@@ -98,3 +98,42 @@
 .dark-mode .tooltip-text::after {
     border-color: #374151 transparent transparent transparent;
 }
+
+@media (max-width: 900px) {
+    .cgpa-container {
+        width: unset;
+        min-height: unset;
+        padding: 15px;
+        gap: 10px;
+        overflow: visible;
+    }
+    .cgpa-title {
+        font-size: 12px;
+    }
+    .cgpa-value {
+        font-size: 22px;
+    }
+    
+    /* Tooltip repositioned above and to the left on mobile */
+    .tooltip-text {
+        bottom: 125%;
+        top: auto;
+        left: auto;
+        right: 0;
+        margin-left: 0;
+        transform: none;
+    }
+    
+    .tooltip-text::after {
+        top: 100%;
+        bottom: auto;
+        left: auto;
+        right: 10px;
+        margin-left: 0;
+        border-color: #1f2937 transparent transparent transparent;
+    }
+    
+    .dark-mode .tooltip-text::after {
+        border-color: #374151 transparent transparent transparent;
+    }
+}

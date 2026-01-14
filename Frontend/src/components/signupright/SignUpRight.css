@@ -1,7 +1,7 @@
 .signupright-container {
     background-color: #4880FF;
     width: 50%;
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -211,18 +211,108 @@
     }
 }
 
-@media (max-width: 700px) {
+/* Mobile logo header - hidden on desktop, shown on mobile */
+.signup-mobile-header {
+    display: none;
+}
+
+/* Tablet and below - show full width signup */
+@media (max-width: 900px) {
     .signupright-container {
-        width: 100vw;
-        min-width: 100vw;
-        padding: 0;
+        width: 100%;
+        min-height: 100dvh;
+        padding: 20px;
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+        gap: 20px;
     }
 
     .signup-card {
-        width: 98vw;
-        border-radius: 0;
-        height: 100vh;
-        padding: 3vh 6vw;
+        max-width: 520px;
+        width: 100%;
+        padding: 28px 24px;
+        border-radius: 20px;
+    }
+
+    .signup-mobile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .signup-mobile-header h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 4px;
+    }
+
+    .signup-mobile-header h1 span {
+        color: #1a1a1a;
+    }
+
+    .signup-mobile-header p {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .signup-header {
+        margin-bottom: 14px;
+    }
+
+    .signup-inputs {
+        gap: 14px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .signupright-container {
+        padding: 16px;
+    }
+
+    .signup-card {
+        padding: 20px 18px;
+        border-radius: 16px;
+    }
+
+    .signup-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .signup-mobile-header h1 {
+        font-size: 26px;
+    }
+
+    .signup-inputs input,
+    .signup-inputs select {
+        padding: 10px 32px 10px 10px;
+        font-size: 13.5px;
+    }
+
+    .signup-inputs label {
+        font-size: 13px;
+    }
+
+    .reg-wrapper {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .verify-email-btn {
+        padding: 10px 12px;
+        font-size: 12.5px;
+    }
+
+    .signup-button button {
+        padding: 11px 0;
+        font-size: 0.95rem;
+    }
+
+    .footer-signup > div {
+        font-size: 14px;
     }
 }
 

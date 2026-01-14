@@ -4,7 +4,9 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
     <div className="important-caption">
       <p>Fill the details to add these courses.</p>
     </div>
-    <div className="add-course-table-wrapper">
+
+    {/* Desktop Table View */}
+    <div className="add-course-table-wrapper desktop-only">
       <table className="add-course-table">
         <thead>
           <tr>
@@ -76,6 +78,86 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
         </tbody>
       </table>
     </div>
+
+    {/* Mobile/Tablet Card View */}
+    <div className="add-course-cards mobile-only">
+      {addCourses.map((course, i) => (
+        <div className="course-card" key={i}>
+          <div className="course-card-header">
+            <span className="course-card-number">Course {i + 1}</span>
+          </div>
+          
+          <div className="course-card-info">
+            <div className="info-row">
+              <span className="info-label">Name:</span>
+              <span className="info-value">{course.course_name || '—'}</span>
+            </div>
+            <div className="info-row">
+              <span className="info-label">Code:</span>
+              <span className="info-value">{course.code || '—'}</span>
+            </div>
+            <div className="info-row">
+              <span className="info-label">Semester:</span>
+              <span className="info-value">{course.sem}</span>
+            </div>
+          </div>
+
+          <div className="course-card-form">
+            <div className="form-row">
+              <div className="form-field">
+                <label>Credits</label>
+                <input
+                  type="number"
+                  placeholder="0-5"
+                  value={course.credits}
+                  onChange={e => {
+                    const updated = [...addCourses];
+                    updated[i].credits = e.target.value;
+                    setAddCourses(updated);
+                  }}
+                />
+              </div>
+              <div className="form-field">
+                <label>Grade Point</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  placeholder="1-10"
+                  value={course.gradePoint}
+                  onChange={e => {
+                    const updated = [...addCourses];
+                    updated[i].gradePoint = e.target.value;
+                    setAddCourses(updated);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="form-field full-width">
+              <label>Category</label>
+              <select
+                value={course.category}
+                onChange={e => {
+                  const updated = [...addCourses];
+                  updated[i].category = e.target.value;
+                  setAddCourses(updated);
+                }}
+              >
+                <option value="">Select Category</option>
+                <option value="HS">HS</option>
+                <option value="BS">BS</option>
+                <option value="ES">ES</option>
+                <option value="PC">PC</option>
+                <option value="PE">PE</option>
+                <option value="OE">OE</option>
+                <option value="EEC">EEC</option>
+                <option value="MC">MC</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
     <div className="form-actions">
       <button className="btn proceed" onClick={onSave}>
         Save Courses

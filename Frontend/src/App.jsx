@@ -7,7 +7,6 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import SingleCategory from './pages/SingleCategory';
 import NotFound from './components/404/NotFound';
-import UseLaptop from './components/uselaptop/UseLaptop';
 import Feedback from './feedback/Feedback';
 import Explore from './pages/Explore';
 import ForgotPasswordPage from './pages/ForgotPassword';
@@ -15,7 +14,6 @@ import ForgotPasswordPage from './pages/ForgotPassword';
 function App() {
   const [isDark, setIsDark] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1200);
 
   const handleDataRefresh = useCallback(() => {
     setRefreshKey(prev => prev + 1);
@@ -24,15 +22,6 @@ function App() {
   useEffect(() => {
     const darkMode = localStorage.getItem('isDark') === 'true';
     setIsDark(darkMode);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -88,13 +77,6 @@ function App() {
     `;
     }
   }, [isDark]);
-
-  if (isMobile) {
-    return (
-      <UseLaptop />
-
-    );
-  }
 
   return (
     <React.Fragment key={refreshKey}>

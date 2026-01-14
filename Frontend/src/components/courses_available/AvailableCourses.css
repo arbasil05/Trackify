@@ -7,6 +7,263 @@
     margin-bottom: 40px;
 }
 
+/* ===== Desktop/Mobile View Toggle ===== */
+.desktop-view {
+    display: block;
+}
+
+.mobile-view {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .desktop-view {
+        display: none !important;
+    }
+
+    .mobile-view {
+        display: block !important;
+    }
+
+    .available-courses-container {
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 0 16px;
+        gap: 12px;
+    }
+
+    /* Hide carousel on mobile */
+    .carousel {
+        display: none !important;
+    }
+
+    /* ===== Collapsible Header ===== */
+    .collapsible-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        background: #f5f7fa;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .collapsible-header:active {
+        background: #eef1f5;
+    }
+
+    .mobile-category-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .course-count {
+        font-size: 11px;
+        color: #6b7280;
+        background: rgba(0,0,0,0.06);
+        padding: 3px 10px;
+        border-radius: 12px;
+    }
+
+    .collapse-icon {
+        font-size: 12px;
+        color: #6b7280;
+        transition: transform 0.3s ease;
+    }
+
+    .collapse-icon.expanded {
+        transform: rotate(180deg);
+    }
+
+    /* ===== Collapsible Content ===== */
+    .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .collapsible-content.expanded {
+        max-height: 50000px;
+    }
+
+    /* ===== Mobile Course Table ===== */
+    .mobile-course-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 13px;
+        margin-top: 8px;
+        background: #f9fafb;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .mobile-course-table thead {
+        background: #eef1f5;
+    }
+
+    .mobile-course-table th {
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6b7280;
+    }
+
+    .mobile-course-table th:last-child {
+        text-align: center;
+        width: 55px;
+    }
+
+    .mobile-course-table th:nth-child(2) {
+        width: 75px;
+    }
+
+    .mobile-course-table td {
+        padding: 10px 12px;
+        color: #333;
+        border-top: 1px solid #e5e7eb;
+        vertical-align: middle;
+    }
+
+    .mobile-course-table td:first-child {
+        font-weight: 500;
+    }
+
+    .mobile-course-table td:nth-child(2) {
+        color: #6b7280;
+        font-size: 11px;
+    }
+
+    .mobile-course-table td:last-child {
+        text-align: center;
+        color: #4880FF;
+        font-weight: 600;
+    }
+
+    /* ===== Dark Mode ===== */
+    .dark-mode-courses .collapsible-header {
+        background: #273142;
+    }
+
+    .dark-mode-courses .collapsible-header:active {
+        background: #2d3a4d;
+    }
+
+    .dark-mode-courses .mobile-category-title {
+        color: #e5e7eb;
+    }
+
+    .dark-mode-courses .course-count {
+        background: rgba(255,255,255,0.1);
+        color: #9ca3af;
+    }
+
+    .dark-mode-courses .collapse-icon {
+        color: #9ca3af;
+    }
+
+    .dark-mode-courses .mobile-course-table {
+        background: #1f2937;
+    }
+
+    .dark-mode-courses .mobile-course-table thead {
+        background: #273142;
+    }
+
+    .dark-mode-courses .mobile-course-table th {
+        color: #9ca3af;
+    }
+
+    .dark-mode-courses .mobile-course-table td {
+        color: #e5e7eb;
+        border-color: #374151;
+    }
+
+    .dark-mode-courses .mobile-course-table td:nth-child(2) {
+        color: #9ca3af;
+    }
+
+    .dark-mode-courses .mobile-course-table td:last-child {
+        color: #82b1ff;
+    }
+
+    /* ===== Skeleton ===== */
+    .skeleton-title {
+        width: 100%;
+        height: 50px;
+        border-radius: 12px;
+        margin-bottom: 0;
+    }
+
+    .skeleton-card {
+        display: none;
+    }
+
+    /* Mobile Footer Actions */
+    .mobile-footer-actions {
+        display: flex;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .action-btn {
+        flex: 1;
+        padding: 12px;
+        background: transparent;
+        border: none;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: background 0.2s;
+    }
+
+    .action-btn:hover {
+        background: #f3f4f6;
+    }
+
+    .action-btn.load-more {
+        color: #4880FF;
+        border-right: 1px solid #e5e7eb;
+    }
+
+    .action-btn.close-btn {
+        color: #6b7280;
+    }
+
+    /* Dark Mode Actions */
+    .dark-mode-courses .mobile-footer-actions {
+        border-color: #374151;
+    }
+
+    .dark-mode-courses .action-btn:hover {
+        background: #2d3a4d;
+    }
+
+    .dark-mode-courses .action-btn.load-more {
+        color: #82b1ff;
+        border-right-color: #374151;
+    }
+
+    .dark-mode-courses .action-btn.close-btn {
+        color: #9ca3af;
+    }
+}
+
 /* title */
 .course-category-title h3 {
     font-weight: 600;

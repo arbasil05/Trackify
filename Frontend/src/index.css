@@ -11,6 +11,11 @@
   text-decoration: none;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 button:hover {
   cursor: pointer;
 }

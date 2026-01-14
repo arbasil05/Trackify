@@ -18,3 +18,9 @@
     text-decoration: underline;
     text-decoration-color: #4880FF;
 }
+
+@media (max-width: 768px) {
+    .footer-container {
+        margin: 0 auto;
+    }
+}

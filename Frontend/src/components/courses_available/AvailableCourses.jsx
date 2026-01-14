@@ -1,13 +1,16 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { faChevronRight,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronLeft, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './AvailableCourses.css'
 
 const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
     const [showButtons, setShowButtons] = useState({left:false , right:false});
+    const [expandedCategories, setExpandedCategories] = useState({});
+    const [visibleCounts, setVisibleCounts] = useState({});
 
     const categories = Object.keys(recommendedCourses || {})
     const courseDetailsRefs = useRef([]);
+
     const checkOverflow = useCallback((index) => {
         const element = courseDetailsRefs.current[index];
         if (element) {
@@ -46,16 +49,26 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
         }, 300); 
     }
 
+    const toggleCategory = (cat) => {
+        setExpandedCategories(prev => ({
+            ...prev,
+            [cat]: !prev[cat]
+        }));
+    }
+
 
     return (
         <div className={dark ? 'available-courses-container dark-mode-courses' : 'available-courses-container'}>
             {!Loading ? (
                 categories.map((cat, index) => (
                     <div className="course-category" key={cat}>
-                        <div className="course-category-title">
+                        {/* Desktop Title */}
+                        <div className="course-category-title desktop-view">
                             <h3>{getCategoryFullName(cat)} ({cat})</h3>
                         </div>
-                        <div className='course-details-wrapper'>
+
+                        {/* Desktop Carousel View */}
+                        <div className='course-details-wrapper desktop-view'>
                                 {showButtons[index]?.left && (
                                     <button className='carousel left' onClick={() => handleLeft(index)}><FontAwesomeIcon icon={faChevronLeft} /></button>
                                 )}
@@ -73,6 +86,72 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
                                         <p>{course.credits} credits</p>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* Mobile Collapsible Table View */}
+                        <div className="mobile-table-section mobile-view">
+                            <div 
+                                className="collapsible-header"
+                                onClick={() => toggleCategory(cat)}
+                            >
+                                <h3 className="mobile-category-title">{getCategoryFullName(cat)}</h3>
+                                <div className="header-right">
+                                    <span className="course-count">{recommendedCourses[cat]?.length || 0}</span>
+                                    <FontAwesomeIcon 
+                                        icon={faChevronDown} 
+                                        className={`collapse-icon ${expandedCategories[cat] ? 'expanded' : ''}`}
+                                    />
+                                </div>
+                            </div>
+                            <div className={`collapsible-content ${expandedCategories[cat] ? 'expanded' : ''}`}>
+                                <table className="mobile-course-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Course</th>
+                                            <th>Code</th>
+                                            <th>Credits</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {(recommendedCourses[cat]?.slice(0, visibleCounts[cat] || 10) || []).map(course => (
+                                            <tr key={course._id}>
+                                                <td>{course.name}</td>
+                                                <td>{grad_year === "2027" ? course.code19 : course.code24}</td>
+                                                <td>{course.credits}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                {recommendedCourses[cat]?.length > 10 && (
+                                    <div className="mobile-footer-actions">
+                                        {recommendedCourses[cat]?.length > (visibleCounts[cat] || 10) && (
+                                            <button 
+                                                className="action-btn load-more"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setVisibleCounts(prev => ({
+                                                        ...prev,
+                                                        [cat]: (prev[cat] || 10) + 10
+                                                    }));
+                                                }}
+                                            >
+                                                Show More ({recommendedCourses[cat].length - (visibleCounts[cat] || 10)})
+                                            </button>
+                                        )}
+                                        <button 
+                                            className="action-btn close-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleCategory(cat);
+                                                // Optional: Reset count when closing?
+                                                // setVisibleCounts(prev => ({ ...prev, [cat]: 10 }));
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faChevronUp} /> Close
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -137,6 +137,11 @@ const ForgotPassword = () => {
 
     return (
         <div className='forgotpassword-container'>
+            {/* Mobile branding header - shows only on mobile/tablet */}
+            <div className="forgotpassword-mobile-header">
+                <h1>Trac<span>kify</span></h1>
+                <p>Your Smart Student Dashboard</p>
+            </div>
             <form className="forgotpassword-card" onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
                 <div className="forgotpassword-header">
                     <h2>Reset Password</h2>
@@ -144,10 +149,13 @@ const ForgotPassword = () => {
                 </div>
                 <div className="forgotpassword-inputs">
                     <div className="email-field">
-                        <label>Email</label>
+                        <label htmlFor="resetEmail">Email</label>
                         <div className="email-otp-wrapper">
                             <input
+                                id="resetEmail"
+                                name="email"
                                 type="email"
+                                autoComplete="email"
                                 value={email}
                                 onChange={(e) => {
                                     setEmail(e.target.value);
@@ -182,12 +190,15 @@ const ForgotPassword = () => {
                     </div>
                     {isOtpSent && (
                         <div className="otp-field otp-field-enter">
-                            <label>Verification Code</label>
+                            <label htmlFor="resetOtp">Verification Code</label>
                             <input
                                 ref={otpInputRef}
+                                id="resetOtp"
+                                name="otp"
                                 type="text"
                                 inputMode="numeric"
                                 pattern="\d*"
+                                autoComplete="one-time-code"
                                 value={otpCode}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -204,9 +215,12 @@ const ForgotPassword = () => {
                     {isOtpSent && (
                         <>
                             <div className="password-field otp-field-enter">
-                                <label>New Password</label>
+                                <label htmlFor="newPassword">New Password</label>
                                 <div className="password-wrapper">
                                     <input
+                                        id="newPassword"
+                                        name="newPassword"
+                                        autoComplete="new-password"
                                         type={showPassword ? "text" : "password"}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
@@ -220,9 +234,12 @@ const ForgotPassword = () => {
                                 </div>
                             </div>
                             <div className="confirm-password-field otp-field-enter">
-                                <label>Confirm Password</label>
+                                <label htmlFor="confirmNewPassword">Confirm Password</label>
                                 <div className="password-wrapper">
                                     <input
+                                        id="confirmNewPassword"
+                                        name="confirmNewPassword"
+                                        autoComplete="new-password"
                                         type={showConfirmPassword ? "text" : "password"}
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}

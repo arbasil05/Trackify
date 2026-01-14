@@ -1,4 +1,4 @@
-import { faMoon, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faUpload, faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-modal";
@@ -15,19 +15,26 @@ import { useLocation } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
-const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
+const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalModalOpen, setExternalModalOpen }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
     const [modalStep, setModalStep] = useState("warning");
     const [pdf, setPdf] = useState(null);
     const [semValue, setSemValue] = useState("");
     const [existingSemesters, setExistingSemesters] = useState([]);
     const [missingCourses, setMissingCourses] = useState([]);
-    const isSubmitting = useRef(false);
     const [addCourses, setAddCourses] = useState([]);
+    const isSubmitting = useRef(false);
 
     const location = useLocation();
     const isUserRoute = location.pathname === "/user";
+
+    // Sync external modal trigger with internal state
+    useEffect(() => {
+        if (externalModalOpen) {
+            setModalIsOpen(true);
+            if (setExternalModalOpen) setExternalModalOpen(false); // Reset external trigger
+        }
+    }, [externalModalOpen, setExternalModalOpen]);
 
     useEffect(() => {
         const skipWarning = localStorage.getItem("skipWarning");
@@ -116,6 +123,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
         setPdf(null);
         setSemValue("");
         setMissingCourses([]);
+        setAddCourses([]);
         onDataRefresh();
 
         const skipWarning = localStorage.getItem("skipWarning");
@@ -136,78 +144,32 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
     };
 
     const handleAddCoursesSubmit = async () => {
-        if (!addCourses.length) return;
+        // Validate all courses have required fields
+        for (const course of addCourses) {
+            if (!course.credits || !course.gradePoint || !course.category) {
+                toast.error("Please fill all fields for each course");
+                return;
+            }
+        }
 
-        const toastId = toast.loading("Adding courses...");
+        const toastId = toast.loading("Saving courses...");
 
         try {
+            // Submit each course
             for (const course of addCourses) {
-                const {
-                    course_name,
-                    code,
-                    credits,
-                    gradePoint,
-                    sem,
-                    category,
-                } = course;
-
-                if (
-                    !course_name ||
-                    !code ||
-                    !credits ||
-                    !gradePoint ||
-                    !sem ||
-                    !category
-                ) {
-                    toast.error("Please fill all fields", { id: toastId });
-                    return;
-                }
-
-                const creditsNum = Number(credits);
-                const gradeNum = Number(gradePoint);
-
-                if (
-                    !Number.isInteger(creditsNum) ||
-                    creditsNum < 0 ||
-                    creditsNum > 5
-                ) {
-                    toast.error(
-                        "Credits must be a whole number between 0 and 5",
-                        {
-                            id: toastId,
-                        }
-                    );
-                    return;
-                }
-
-                if (
-                    !Number.isInteger(gradeNum) ||
-                    gradeNum < 1 ||
-                    gradeNum > 10
-                ) {
-                    toast.error(
-                        "Grade Point must be a whole number between 1 and 10",
-                        {
-                            id: toastId,
-                        }
-                    );
-                    return;
-                }
+                await axios.post(
+                    `${import.meta.env.VITE_BACKEND_API}/api/semester/addCourses`,
+                    course,
+                    { withCredentials: true }
+                );
             }
-
-            await axios.post(
-                `${import.meta.env.VITE_BACKEND_API}/api/semester/addCourses`,
-                addCourses,
-                { withCredentials: true }
-            );
 
             toast.success("Courses added successfully", { id: toastId });
             closeCompletely();
         } catch (err) {
-            toast.error(
-                err.response?.data?.message || "Failed to add courses",
-                { id: toastId }
-            );
+            toast.error(err.response?.data?.error || "Failed to add courses", {
+                id: toastId,
+            });
             console.error(err);
         }
     };
@@ -274,9 +236,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
     };
 
     // for adding individual courses
-    const handleAddCourseClick = () => {
-        setAddCourseModalOpen(true);
-    };
+
 
     return (
         <div className="navbar-container">
@@ -292,21 +252,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                 {renderModalStep()}
             </Modal>
 
-            {/* Add course Modal */}
-            <Modal
-                isOpen={addCourseModalOpen}
-                onRequestClose={() => setAddCourseModalOpen(false)}
-                className={`custom-modal ${dark ? "dark" : ""} narrow-modal`}
-            >
-                <AddSingleCourseModal
-                    dark={dark}
-                    onClose={() => setAddCourseModalOpen(false)}
-                    onSuccess={() => {
-                        setAddCourseModalOpen(false);
-                        if (onDataRefresh) onDataRefresh();
-                    }}
-                />
-            </Modal>
+
 
             {/* ================= NAVBAR ================= */}
             <div className="navbar-wrapper">
@@ -331,17 +277,17 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh }) => {
                                     className="upload-button-icon"
                                     icon={faUpload}
                                 />
-                                Upload Sem Result
+                                <span className="button-text">Upload Sem Result</span>
                             </button>
                         )}
 
                         {isUserRoute && (
-                            <button onClick={handleAddCourseClick}>
+                            <button onClick={onAddCourse} className="navbar-add-course-btn">
                                 <FontAwesomeIcon
                                     className="upload-button-icon"
-                                    icon={faUpload}
+                                    icon={faPlus}
                                 />
-                                Add Course
+                                <span className="button-text">Add Course</span>
                             </button>
                         )}
                     </div>

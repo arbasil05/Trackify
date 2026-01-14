@@ -105,66 +105,90 @@ const EditCategoryCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
                 {isParsed ? "You can only edit Grade and Semester for this course." : "Update course details."}
             </p>
 
-            <input
-                placeholder="Course Name"
-                value={course.course_name}
-                onChange={(e) => handleChange("course_name", e.target.value)}
-                disabled={isParsed}
-                style={isParsed ? disabledStyle : {}}
-            />
-            <input
-                placeholder="Course Code"
-                value={course.code}
-                onChange={(e) => handleChange("code", e.target.value)}
-                disabled={isParsed}
-                style={isParsed ? disabledStyle : {}}
-            />
-
-            <div className="row-flex">
+            <div>
+                <label className="field-label">Course Code</label>
                 <input
-                    type="number"
-                    placeholder="Credits"
-                    value={course.credits}
-                    onChange={(e) => handleChange("credits", e.target.value)}
+                    id="edit-category-course-code"
+                    placeholder="e.g., 19CS401"
+                    value={course.code}
+                    onChange={(e) => handleChange("code", e.target.value)}
                     disabled={isParsed}
                     style={isParsed ? disabledStyle : {}}
                 />
+            </div>
+            <div>
+                <label className="field-label">Course Name</label>
                 <input
-                    type="number"
-                    placeholder="Grade Point"
-                    value={course.gradePoint}
-                    onChange={(e) => handleChange("gradePoint", e.target.value)}
+                    id="edit-category-course-name"
+                    placeholder="e.g., Data Structures"
+                    value={course.course_name}
+                    onChange={(e) => handleChange("course_name", e.target.value)}
+                    disabled={isParsed}
+                    style={isParsed ? disabledStyle : {}}
                 />
             </div>
 
-            <select
-                value={course.sem}
-                onChange={(e) => handleChange("sem", e.target.value)}
-            >
-                <option value="">Select Semester</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                    <option key={sem} value={sem}>
-                        {sem}
-                    </option>
-                ))}
-            </select>
+            <div className="row-flex">
+                <div>
+                    <label className="field-label">Credits</label>
+                    <input
+                        id="edit-category-course-credits"
+                        type="number"
+                        placeholder="0-5"
+                        value={course.credits}
+                        onChange={(e) => handleChange("credits", e.target.value)}
+                        disabled={isParsed}
+                        style={isParsed ? disabledStyle : {}}
+                    />
+                </div>
+                <div>
+                    <label className="field-label">Grade Point</label>
+                    <input
+                        id="edit-category-course-grade"
+                        type="number"
+                        placeholder="1-10"
+                        value={course.gradePoint}
+                        onChange={(e) => handleChange("gradePoint", e.target.value)}
+                    />
+                </div>
+            </div>
 
-            <select
-                value={course.category}
-                onChange={(e) => handleChange("category", e.target.value)}
-                disabled={isParsed}
-                style={isParsed ? disabledStyle : {}}
-            >
-                <option value="">Select Category</option>
-                <option value="HS">HS</option>
-                <option value="BS">BS</option>
-                <option value="ES">ES</option>
-                <option value="PC">PC</option>
-                <option value="PE">PE</option>
-                <option value="OE">OE</option>
-                <option value="EEC">EEC</option>
-                <option value="MC">MC</option>
-            </select>
+            <div>
+                <label className="field-label">Semester</label>
+                <select
+                    id="edit-category-course-sem"
+                    value={course.sem}
+                    onChange={(e) => handleChange("sem", e.target.value)}
+                >
+                    <option value="">Select Semester</option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                        <option key={sem} value={sem}>
+                            {sem}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div>
+                <label className="field-label">Category</label>
+                <select
+                    id="edit-category-course-category"
+                    value={course.category}
+                    onChange={(e) => handleChange("category", e.target.value)}
+                    disabled={isParsed}
+                    style={isParsed ? disabledStyle : {}}
+                >
+                    <option value="">Select Category</option>
+                    <option value="HS">HS</option>
+                    <option value="BS">BS</option>
+                    <option value="ES">ES</option>
+                    <option value="PC">PC</option>
+                    <option value="PE">PE</option>
+                    <option value="OE">OE</option>
+                    <option value="EEC">EEC</option>
+                    <option value="MC">MC</option>
+                </select>
+            </div>
 
             <div className="form-actions">
                 <button className="btn proceed" onClick={handleSubmit}>

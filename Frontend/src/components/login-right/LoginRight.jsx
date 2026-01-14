@@ -56,6 +56,11 @@ const LoginRight = () => {
 
   return (
     <div className='loginright-container'>
+      {/* Mobile branding header - shows only on mobile/tablet */}
+      <div className="login-mobile-header">
+        <h1>Trac<span>kify</span></h1>
+        <p>Your Smart Student Dashboard</p>
+      </div>
       <form className="login-card" onSubmit={(e) => { e.preventDefault(); handleloginsubmit(); }}>
         <div className="login-header">
           <h2>Login to Account</h2>
@@ -63,8 +68,11 @@ const LoginRight = () => {
         </div>
         <div className="login-inputs">
           <div className="reg-no">
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
+              name="email"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
@@ -72,9 +80,12 @@ const LoginRight = () => {
             />
           </div>
           <div className="password">
-            <label>Password</label>
+            <label htmlFor="password">Password</label>
             <div className="password-wrapper">
               <input
+                id="password"
+                name="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}

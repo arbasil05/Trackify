@@ -57,3 +57,10 @@
 .loginleft-footer h3{
      color: black;
 }
+
+/* Hide left panel on mobile/tablet */
+@media (max-width: 900px) {
+    .loginleft-container {
+        display: none;
+    }
+}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import EditCourseModal from "./EditCoursesModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPencil, faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import '@lottiefiles/lottie-player';
 
@@ -101,8 +101,13 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                     </lottie-player>
                 </p>
             ) : (
-                <div className={`useradded-table-wrapper${isDark ? " dark" : ""}`}>
-                    <table className={`useradded-table${isDark ? " dark" : ""}`}>
+                <>
+                    <div className="mobile-scroll-hint">
+                        <FontAwesomeIcon icon={faArrowsLeftRight} fade />
+                        <span>Swipe to view table</span>
+                    </div>
+                    <div className={`useradded-table-wrapper${isDark ? " dark" : ""}`}>
+                        <table className={`useradded-table${isDark ? " dark" : ""}`}>
                         <thead>
                             <tr>
                                 <th>Code</th>
@@ -153,6 +158,7 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                         </tbody>
                     </table>
                 </div>
+                </>
             )}
 
             <Modal

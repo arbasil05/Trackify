@@ -1,3 +1,200 @@
-.link-back:hover {
+/* Feedback Page Layout */
+.feedback-page {
+    display: flex;
+    min-height: 100dvh;
+}
+
+/* Feedback Container */
+.feedback-container {
+    background-color: #4880FF;
+    width: 50%;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Feedback Card */
+.feedback-card {
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 28px 36px;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Header */
+.feedback-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.feedback-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Inputs */
+.feedback-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.feedback-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(80, 79, 79);
+}
+
+.feedback-field input,
+.feedback-field textarea {
+    width: 100%;
+    border-radius: 10px;
+    padding: 11px 12px;
+    border: 1px solid #cccaca;
+    color: rgb(80, 79, 79);
+    font-size: 15px;
+    background-color: #d8dbdd8a;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.feedback-field input:focus,
+.feedback-field textarea:focus {
+    outline: none;
+}
+
+/* Footer */
+.feedback-footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 24px;
+    gap: 18px;
+    width: 100%;
+}
+
+.feedback-submit-btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1rem;
+    background-color: #4880FF;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s;
+}
+
+.feedback-submit-btn:hover {
+    background-color: #3254a4;
+}
+
+.feedback-back {
+    color: rgb(80, 79, 79);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.18s;
+}
+
+.feedback-back:hover {
     color: #4880FF;
+}
+
+/* Mobile logo header - hidden on desktop, shown on mobile */
+.feedback-mobile-header {
+    display: none;
+}
+
+/* Tablet and below - show full width feedback */
+@media (max-width: 900px) {
+    .feedback-page {
+        flex-direction: column;
+    }
+
+    .feedback-container {
+        width: 100%;
+        min-height: 100dvh;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .feedback-card {
+        max-width: 480px;
+        width: 100%;
+        padding: 32px 28px;
+        border-radius: 20px;
+    }
+
+    .feedback-mobile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .feedback-mobile-header h1 {
+        font-size: 32px;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 4px;
+    }
+
+    .feedback-mobile-header h1 span {
+        color: #1a1a1a;
+    }
+
+    .feedback-mobile-header p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .feedback-container {
+        padding: 16px;
+    }
+
+    .feedback-card {
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    .feedback-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .feedback-field input,
+    .feedback-field textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .feedback-submit-btn {
+        padding: 11px 0;
+        font-size: 0.95rem;
+    }
 }

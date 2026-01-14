@@ -6,6 +6,15 @@
   height: 450px;
 }
 
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column;
+    height: auto;
+    padding: 0 10px;
+    gap: 0px;
+  }
+}
+
 .light-mode {
   background-color: white;
   color: #222;

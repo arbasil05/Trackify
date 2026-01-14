@@ -1,9 +1,10 @@
 import LoginLeft from "../components/login-left/LoginLeft"
 import SignUpRight from "../components/signupright/SignUpRight"
+import "./SignUp.css"
 
 const SignUp = () => {
   return (
-    <div style={{display:"flex"}}>
+    <div className="signup-page">
       <LoginLeft/>
       <SignUpRight/>
     </div>
