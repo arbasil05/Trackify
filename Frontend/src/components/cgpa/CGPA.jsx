@@ -2,6 +2,19 @@ import './CGPA.css';
 
 
 const CGPA = ({ dark, cgpa, Loading }) => {
+  const getMessage = (value) => {
+    const num = parseFloat(value);
+    if (num === 0) return "Fresh start!";
+    if (!value || isNaN(num)) return "Start strong!";
+    if (num >= 9.0) return "Touch grass";
+    if (num >= 8.5) return "Excellent!";
+    if (num >= 8.0) return "Great job!";
+    if (num >= 7.5) return "Doing well!";
+    if (num >= 7.0) return "Good work!";
+    if (num >= 6.0) return "Keep going!";
+    return "You got this!";
+  };
+
   return (
     !Loading ? (
       <div className={dark ? 'cgpa-container dark-mode' : 'cgpa-container'}>
@@ -15,7 +28,7 @@ const CGPA = ({ dark, cgpa, Loading }) => {
           </div>
         </div>
         <h1 className='cgpa-value'>{cgpa}</h1>
-        <p style={{ color: "#3B82F6", fontSize: "15px" }}>Dive right in!</p>
+        <p style={{ color: "#3B82F6", fontSize: "15px" }}>{getMessage(cgpa)}</p>
       </div>
     ) : (
       <div className={dark ? 'cgpa-container dark-mode' : 'cgpa-container'}>

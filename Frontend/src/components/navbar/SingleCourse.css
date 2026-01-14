@@ -26,23 +26,31 @@
 	display: flex;
 	gap: 14px;
 }
-.row-flex input {
-	flex: 1 1 0;
+.row-flex > div {
+	flex: 1;
+}
+.row-flex input,
+.row-flex select {
+	/* Remove flex property from input/select since parent div handles it */
+	/* flex: 1 1 0; */
 	margin-bottom: 2px;
+    width: 100%; /* Ensure they fill the parent div */
 }
 /* Single course add modal styling, consistent with add-course-wrapper */
 .add-course-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
   /* Remove padding, background, border-radius, box-shadow, max-width, margin */
 }
 
 .add-course-wrapper h2 {
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: 700;
 	color: #111827;
 	text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .add-course-wrapper input,
@@ -51,9 +59,9 @@
 	background: #fff;
 	border: 1px solid #d1d5db;
 	color: #111827;
-	padding: 10px 12px;
+	padding: 8px 10px;
 	border-radius: 8px;
-	font-size: 15px;
+	font-size: 14px;
 	margin-bottom: 2px;
 	transition: border 0.2s;
 }
@@ -96,6 +104,58 @@
 	justify-content: space-between;
 	margin-top: 18px;
 	gap: 10px;
+}
+
+/* Custom Tooltip Styles for AddSingleCourseModal */
+.info-tooltip-container {
+    position: relative;
+    display: inline-flex; /* Changed to inline-flex for better vertical alignment */
+    align-items: center;
+}
+
+.info-icon {
+    cursor: pointer;
+    transition: fill 0.3s ease;
+    display: block; /* Ensures no extra baseline space */
+}
+
+.info-icon:hover {
+    fill: #2563eb;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #1f2937;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-weight: 400;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1f2937 transparent transparent transparent;
+}
+
+.info-tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }
 
 .btn.proceed {

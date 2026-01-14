@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash, faArrowsLeftRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash, faArrowsLeftRight, faInfoCircle, faUser, faFilter } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Modal from "react-modal";
 import toast from 'react-hot-toast';
@@ -98,6 +98,7 @@ function SingleCategory({ isDark, setIsDark }) {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [courseToDelete, setCourseToDelete] = useState(null);
+    const [showUserAddedOnly, setShowUserAddedOnly] = useState(false);
 
     const [sortConfig, setSortConfig] = useState(() => {
         try {
@@ -124,9 +125,14 @@ function SingleCategory({ isDark, setIsDark }) {
     };
 
     const getSortedCourses = () => {
-        if (!sortConfig.key) return courses;
-        
-        return [...courses].sort((a, b) => {
+        let filteredCourses = courses;
+        if (showUserAddedOnly) {
+            filteredCourses = courses.filter(c => c.type === 'manual');
+        }
+
+        if (!sortConfig.key) return filteredCourses;
+
+        return [...filteredCourses].sort((a, b) => {
             let aValue = a[sortConfig.key];
             let bValue = b[sortConfig.key];
 
@@ -207,6 +213,7 @@ function SingleCategory({ isDark, setIsDark }) {
             category: c.category,
             code19: c.code,
             code24: c.code,
+            isNonCgpa: c.isNonCgpa,
         }));
 
         return [...mappedDbCourses, ...mappedUserAdded];
@@ -396,68 +403,83 @@ function SingleCategory({ isDark, setIsDark }) {
                         </div>
                     </div>
 
-                            <div className="mobile-scroll-hint">
-                                <FontAwesomeIcon icon={faArrowsLeftRight} fade />
-                                <span>Swipe to view table</span>
+                    <div className="mobile-scroll-hint">
+                        <FontAwesomeIcon icon={faArrowsLeftRight} fade />
+                        <span>Swipe to view table</span>
+                    </div>
+                    <div className="table-container">
+                        {displayCourses.length === 0 ? (
+                            <div className="no-courses">
+                                <lottie-player
+                                    src="/empty ghost.json"
+                                    background="transparent"
+                                    speed="1"
+                                    style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                                    loop
+                                    autoplay
+                                >
+                                </lottie-player>
+                                <p>Upload semester result to view courses here</p>
                             </div>
-                            <div className="table-container">
-                                {displayCourses.length === 0 ? (
-                                    <div className="no-courses">
-                                        <lottie-player
-                                            src="/empty ghost.json"
-                                            background="transparent"
-                                            speed="1"
-                                            style={{ width: '300px', height: '300px',marginLeft:'auto',marginRight:'auto' }}
-                                            loop
-                                            autoplay
-                                        >
-                                        </lottie-player>
-                                        <p>Upload semester result to view courses here</p>
-                                    </div>
-                                ) : (
-                                    <table className="courses-table">
+                        ) : (
+                            <table className="courses-table">
                                 <thead>
                                     <tr>
-                                        <th>SUBJECT CODE</th>
+                                        <th style={{ minWidth: '140px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                                SUBJECT CODE
+                                                <FontAwesomeIcon
+                                                    icon={faFilter}
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        color: showUserAddedOnly ? '#4880ff' : 'inherit',
+                                                        opacity: showUserAddedOnly ? 1 : 0.3,
+                                                        fontSize: '12px'
+                                                    }}
+                                                    onClick={() => setShowUserAddedOnly(prev => !prev)}
+                                                    title={showUserAddedOnly ? "Show All Courses" : "Show User Added Courses Only"}
+                                                />
+                                            </div>
+                                        </th>
                                         <th>SUBJECT NAME</th>
-                                        <th 
-                                            onClick={() => handleSort('credits')} 
+                                        <th
+                                            onClick={() => handleSort('credits')}
                                             style={{ cursor: 'pointer', userSelect: 'none' }}
                                             title="Click to sort by credits"
                                         >
                                             SUBJECT CREDITS
                                             {sortConfig.key === 'credits' ? (
-                                                sortConfig.direction === 'asc' ? 
-                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
-                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                                sortConfig.direction === 'asc' ?
+                                                    <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                    <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
                                             ) : (
                                                 <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
                                             )}
                                         </th>
-                                        <th 
-                                            onClick={() => handleSort('grade')} 
+                                        <th
+                                            onClick={() => handleSort('grade')}
                                             style={{ cursor: 'pointer', userSelect: 'none' }}
                                             title="Click to sort by grade"
                                         >
                                             GRADE
                                             {sortConfig.key === 'grade' ? (
-                                                sortConfig.direction === 'asc' ? 
-                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
-                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                                sortConfig.direction === 'asc' ?
+                                                    <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                    <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
                                             ) : (
                                                 <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
                                             )}
                                         </th>
-                                        <th 
-                                            onClick={() => handleSort('sem')} 
+                                        <th
+                                            onClick={() => handleSort('sem')}
                                             style={{ cursor: 'pointer', userSelect: 'none' }}
                                             title="Click to sort by semester"
                                         >
                                             SEMESTER
                                             {sortConfig.key === 'sem' ? (
-                                                sortConfig.direction === 'asc' ? 
-                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
-                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                                sortConfig.direction === 'asc' ?
+                                                    <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                    <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
                                             ) : (
                                                 <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
                                             )}
@@ -469,10 +491,30 @@ function SingleCategory({ isDark, setIsDark }) {
                                 <tbody>
                                     {displayCourses.map((course, index) => (
                                         <tr key={index}>
-                                            <td>
-                                                {isOldCode
-                                                    ? course.code19
-                                                    : course.code24}
+                                            <td style={{ position: 'relative' }}>
+                                                <div style={{ display: 'inline-block', position: 'relative' }}>
+                                                    <div style={{
+                                                        position: 'absolute',
+                                                        right: '100%',
+                                                        top: '50%',
+                                                        transform: 'translateY(-50%)',
+                                                        display: 'flex',
+                                                        gap: '8px',
+                                                        marginRight: '12px',
+                                                        justifyContent: 'flex-end',
+                                                        alignItems: 'center'
+                                                    }}>
+                                                        {course.type === 'manual' && (
+                                                            <div className="info-tooltip-container">
+                                                                <FontAwesomeIcon icon={faUser}  style={{ color: '#4880ff', fontSize: '14px' }} />
+                                                        
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    {isOldCode
+                                                        ? course.code19
+                                                        : course.code24}
+                                                </div>
                                             </td>
                                             <td>{course.name}</td>
                                             <td>{course.credits}</td>
@@ -527,36 +569,36 @@ function SingleCategory({ isDark, setIsDark }) {
                         )}
                     </Modal>
 
-            {showDeleteModal && (
-                <div className="modal-overlay" onClick={closeDeleteModal}>
-                    <div
-                        className={`modal-content ${isDark ? 'dark' : ''}`}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="modal-header">
-                            <h3>Delete Course?</h3>
-                        </div>
-                        <div className="modal-body">
-                            <p>Are you sure you want to delete <b>{courseToDelete?.name}</b>?</p>
-                            <p>This action cannot be undone.</p>
-                        </div>
-                        <div className="modal-actions">
-                            <button
-                                className="modal-btn modal-btn-delete"
-                                onClick={confirmDelete}
+                    {showDeleteModal && (
+                        <div className="modal-overlay" onClick={closeDeleteModal}>
+                            <div
+                                className={`modal-content ${isDark ? 'dark' : ''}`}
+                                onClick={(e) => e.stopPropagation()}
                             >
-                                Delete
-                            </button>
-                            <button
-                                className="modal-btn modal-btn-cancel"
-                                onClick={closeDeleteModal}
-                            >
-                                Cancel
-                            </button>
+                                <div className="modal-header">
+                                    <h3>Delete Course?</h3>
+                                </div>
+                                <div className="modal-body">
+                                    <p>Are you sure you want to delete <b>{courseToDelete?.name}</b>?</p>
+                                    <p>This action cannot be undone.</p>
+                                </div>
+                                <div className="modal-actions">
+                                    <button
+                                        className="modal-btn modal-btn-delete"
+                                        onClick={confirmDelete}
+                                    >
+                                        Delete
+                                    </button>
+                                    <button
+                                        className="modal-btn modal-btn-cancel"
+                                        onClick={closeDeleteModal}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            )}
+                    )}
                 </div>
             </div>
         </div>

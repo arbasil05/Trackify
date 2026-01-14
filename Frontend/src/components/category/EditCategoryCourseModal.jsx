@@ -26,6 +26,7 @@ const EditCategoryCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
         gradePoint: courseData.gradePoint,
         sem: getSemNumber(courseData.sem),
         category: courseData.category,
+        isNonCgpa: courseData.isNonCgpa || false,
     });
 
     const isParsed = courseData.type === 'parsed';
@@ -41,7 +42,7 @@ const EditCategoryCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
     };
 
     const handleSubmit = async () => {
-        const { course_name, code, credits, gradePoint, sem, category } = course;
+        const { course_name, code, credits, gradePoint, sem, category, isNonCgpa } = course;
 
         if (!gradePoint || !sem || !category) {
             toast.error("Please fill all required fields");
@@ -83,6 +84,7 @@ const EditCategoryCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
                     gradePoint,
                     sem: semPayload,
                     category,
+                    isNonCgpa,
                 },
                 { withCredentials: true }
             );
@@ -153,42 +155,65 @@ const EditCategoryCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
                 </div>
             </div>
 
-            <div>
-                <label className="field-label">Semester</label>
-                <select
-                    id="edit-category-course-sem"
-                    value={course.sem}
-                    onChange={(e) => handleChange("sem", e.target.value)}
-                >
-                    <option value="">Select Semester</option>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                        <option key={sem} value={sem}>
-                            {sem}
-                        </option>
-                    ))}
-                </select>
+            <div className="row-flex">
+                <div>
+                    <label className="field-label">Semester</label>
+                    <select
+                        id="edit-category-course-sem"
+                        value={course.sem}
+                        onChange={(e) => handleChange("sem", e.target.value)}
+                    >
+                        <option value="">Select Semester</option>
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                            <option key={sem} value={sem}>
+                                {sem}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label className="field-label">Category</label>
+                    <select
+                        id="edit-category-course-category"
+                        value={course.category}
+                        onChange={(e) => handleChange("category", e.target.value)}
+                        disabled={isParsed}
+                        style={isParsed ? disabledStyle : {}}
+                    >
+                        <option value="">Select Category</option>
+                        <option value="HS">HS</option>
+                        <option value="BS">BS</option>
+                        <option value="ES">ES</option>
+                        <option value="PC">PC</option>
+                        <option value="PE">PE</option>
+                        <option value="OE">OE</option>
+                        <option value="EEC">EEC</option>
+                        <option value="MC">MC</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
-                <label className="field-label">Category</label>
-                <select
-                    id="edit-category-course-category"
-                    value={course.category}
-                    onChange={(e) => handleChange("category", e.target.value)}
-                    disabled={isParsed}
-                    style={isParsed ? disabledStyle : {}}
-                >
-                    <option value="">Select Category</option>
-                    <option value="HS">HS</option>
-                    <option value="BS">BS</option>
-                    <option value="ES">ES</option>
-                    <option value="PC">PC</option>
-                    <option value="PE">PE</option>
-                    <option value="OE">OE</option>
-                    <option value="EEC">EEC</option>
-                    <option value="MC">MC</option>
-                </select>
-            </div>
+            {!isParsed && (
+                <div style={{ display: "flex", alignItems: "center", margin: "4px 0", gap: "8px" }}>
+                    <input
+                        type="checkbox"
+                        id="edit-category-isNonCgpa"
+                        style={{ width: "auto", margin: 0, cursor: "pointer" }}
+                        checked={course.isNonCgpa}
+                        onChange={(e) => handleChange("isNonCgpa", e.target.checked)}
+                    />
+                    <label htmlFor="edit-category-isNonCgpa" className="field-label" style={{ marginBottom: 0, cursor: "pointer", display: "inline-block" }}>
+                        Non CGPA Course
+                    </label>
+                    <div className="info-tooltip-container" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 32 32" fill="#4880ff" className="info-icon">
+                            <path d="M 16 3 C 8.832031 3 3 8.832031 3 16 C 3 23.167969 8.832031 29 16 29 C 23.167969 29 29 23.167969 29 16 C 29 8.832031 23.167969 3 16 3 Z M 16 5 C 22.085938 5 27 9.914063 27 16 C 27 22.085938 22.085938 27 16 27 C 9.914063 27 5 22.085938 5 16 C 5 9.914063 9.914063 5 16 5 Z M 15 10 L 15 12 L 17 12 L 17 10 Z M 15 14 L 15 22 L 17 22 L 17 14 Z"></path>
+                        </svg>
+                        <div className="tooltip-text">Excluded from CGPA calculation</div>
+                    </div>
+                </div>
+            )}
 
             <div className="form-actions">
                 <button className="btn proceed" onClick={handleSubmit}>

@@ -264,6 +264,7 @@ export async function handleAddCourses(req, res) {
                 sem: semNumber,
                 category: c.category,
                 grade: gradeMap[Number(c.gradePoint)] || "NA",
+                isNonCgpa: c.isNonCgpa || false,
             };
         });
 
@@ -362,6 +363,7 @@ export async function handleCourseUpdate(req, res) {
             gradePoint,
             sem,
             category,
+            isNonCgpa,
         } = req.body;
 
         if (!courseId) {
@@ -413,6 +415,7 @@ export async function handleCourseUpdate(req, res) {
                     "user_added_courses.$.grade": gradeMap[Number(gradePoint)] || "NA",
                     "user_added_courses.$.sem": Number(sem),
                     "user_added_courses.$.category": category,
+                    "user_added_courses.$.isNonCgpa": isNonCgpa !== undefined ? isNonCgpa : false,
                 },
             },
             { new: true, runValidators: true }
@@ -528,6 +531,7 @@ export async function handleEditCourse(req, res) {
             gradePoint,
             sem,
             category,
+            isNonCgpa,
         } = req.body;
 
         if (!courseId || !type) {
@@ -574,6 +578,7 @@ export async function handleEditCourse(req, res) {
             }
             if (sem) courseToUpdate.sem = sem;
             if (category) courseToUpdate.category = category;
+            if (isNonCgpa !== undefined) courseToUpdate.isNonCgpa = isNonCgpa;
 
         } else if (type === "parsed") {
             const courseToUpdate = user.courses.id(courseId);

@@ -164,6 +164,14 @@ export async function courseByUserWithUserAdded(req, res) {
             "19MC809",
         ];
 
+        if (user.user_added_courses) {
+            user.user_added_courses.forEach((c) => {
+                if (c.isNonCgpa) {
+                    nonCGPACourses.push(c.code);
+                }
+            });
+        }
+
         /* ================= NORMAL COURSES ================= */
         const courseDetails = user.courses
             .map(({ course, grade, gradePoint, sem, category }) => {

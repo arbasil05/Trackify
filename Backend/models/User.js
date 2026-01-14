@@ -113,6 +113,10 @@ const UserSchema = mongoose.Schema({
                     enum: ["HS", "BS", "ES", "PC", "PE", "OE", "EEC", "MC"],
                     required: true,
                 },
+                isNonCgpa: {
+                    type: Boolean,
+                    default: false
+                }
             },
         ],
     },
