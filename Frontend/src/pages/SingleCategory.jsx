@@ -12,6 +12,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
 import EditCategoryCourseModal from "../components/category/EditCategoryCourseModal";
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import "./SingleCategory.css";
 
 Modal.setAppElement("#root");
@@ -119,9 +120,10 @@ const normalizeCourses = (dbCourses = [], userAdded = []) => {
     return [...mappedDbCourses, ...mappedUserAdded];
 };
 
-function SingleCategory({ isDark, setIsDark }) {
+function SingleCategory() {
     const { category } = useParams();
     const { user, dashboardData, refreshUser, loading: authLoading, fetchUser } = useAuth();
+    const { isDark } = useTheme();
 
     const isOldCode = user?.grad_year === "2027";
     const requiredCredits = creditRequirements?.[user?.dept]?.[user?.grad_year]?.[category] || 0;
@@ -243,9 +245,9 @@ function SingleCategory({ isDark, setIsDark }) {
     if (authLoading || !dashboardData) {
         return (
             <div className={`single-category-container ${isDark ? "dark" : ""}`}>
-                <Navbar dark={isDark} setIsDark={setIsDark} name={user?.name || "User"} />
+                <Navbar name={user?.name || "User"} />
                 <div className="single-category-main">
-                    <Sidebar dark={isDark} />
+                    <Sidebar />
                     <div className={`single-category-content ${isDark ? 'dark' : ''}`}>
                         {/* Skeleton for Header */}
                         <div className="category-header">
@@ -308,11 +310,11 @@ function SingleCategory({ isDark, setIsDark }) {
 
     return (
         <div className={`single-category-container ${isDark ? "dark" : ""}`}>
-            <MobileNavbar dark={isDark} setIsDark={setIsDark} />
-            <Navbar dark={isDark} setIsDark={setIsDark} name={user.name} />
+            <MobileNavbar />
+            <Navbar name={user.name} />
 
             <div className="single-category-main">
-                <Sidebar dark={isDark} />
+                <Sidebar />
 
                 <div
                     className={`single-category-content ${isDark ? "dark" : ""
@@ -525,7 +527,6 @@ function SingleCategory({ isDark, setIsDark }) {
                     >
                         {selectedCourse && (
                             <EditCategoryCourseModal
-                                dark={isDark}
                                 courseData={selectedCourse}
                                 onClose={() => setEditModalOpen(false)}
                                 onSuccess={() => {

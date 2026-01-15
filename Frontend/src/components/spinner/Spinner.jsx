@@ -1,5 +1,6 @@
 import './Spinner.css';
 import { useState, useEffect } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 const loadingMessages = [
     "Waking up the server... ☕",
@@ -14,7 +15,8 @@ const loadingMessages = [
     "Hold tight, good things coming... 🎓"
 ];
 
-const Spinner = ({ isDark = false, message = '' }) => {
+const Spinner = ({ message = '' }) => {
+    const { isDark } = useTheme();
     const [currentMessage, setCurrentMessage] = useState(message || loadingMessages[0]);
 
     useEffect(() => {

@@ -2,8 +2,10 @@ import { faChevronLeft, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './UserHeader.css'
 import { Link } from 'react-router-dom'
+import { useTheme } from '../../context/ThemeContext'
 
-const UserHeader = ({ isDark, onAddCourse }) => {
+const UserHeader = ({ onAddCourse }) => {
+  const { isDark } = useTheme()
   return (
     <div className='userheader-container'>
       <Link to="/" className={isDark?"back-link":"back-link-light"}>

@@ -1,7 +1,9 @@
 import './CGPA.css';
+import { useTheme } from '../../context/ThemeContext';
 
 
-const CGPA = ({ dark, cgpa, Loading }) => {
+const CGPA = ({ cgpa, Loading }) => {
+  const { isDark: dark } = useTheme();
   const getMessage = (value) => {
     const num = parseFloat(value);
     if (num === 0) return "Fresh start!";

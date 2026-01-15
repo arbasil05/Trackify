@@ -12,6 +12,7 @@ import Modal from "react-modal";
 import { faKey, faLandmark, faMobileScreen, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 const features = [
   {
@@ -56,8 +57,9 @@ const features = [
   }
 ];
 
-const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
+const Dashboard = () => {
   const { user, dashboardData, loading: authLoading, isAuthenticated, fetchUser } = useAuth();
+  const { isDark } = useTheme();
 
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
@@ -79,7 +81,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
   /* ================= LOADING STATES ================= */
   if (authLoading || !dashboardData) {
-    return <Spinner isDark={isDark} message="Waking up server..." />;
+    return <Spinner message="Waking up server..." />;
   }
 
   if (!isAuthenticated || !user) return null;
@@ -135,22 +137,18 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
       </Modal>
 
-      <MobileNavbar dark={isDark} setIsDark={setIsDark} />
-      <Sidebar dark={isDark} />
+      <MobileNavbar />
+      <Sidebar />
 
       <Navbar
-        onDataRefresh={onDataRefresh}
-        dark={isDark}
-        setIsDark={setIsDark}
         name={user.name || ''}
         externalModalOpen={uploadModalOpen}
         setExternalModalOpen={setUploadModalOpen}
       />
 
-      <DashboardHeader isDark={isDark} onUpload={() => setUploadModalOpen(true)} />
+      <DashboardHeader onUpload={() => setUploadModalOpen(true)} />
 
       <Information
-        dark={isDark}
         user={user}
         cgpa={dashboardData.cgpa}
         totalCredits={dashboardData.totalCredits}
@@ -160,12 +158,10 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
       <div className="wrapper">
         <Barchart
-          dark={isDark}
           userSemCredits={dashboardData.userSemCredits}
           Loading={false}
         />
         <Category
-          dark={isDark}
           runningTotal={dashboardData.runningTotal}
           Loading={false}
         />

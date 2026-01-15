@@ -1,7 +1,7 @@
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const UploadModalStep = ({ dark, semValue, setSemValue, existingSemesters, pdf, setPdf, onSubmit, onClose }) => (
+const UploadModalStep = ({ semValue, setSemValue, existingSemesters, pdf, setPdf, onSubmit, onClose }) => (
   <div className="upload-form-wrapper">
     <h2>Upload Semester Results</h2>
     <p>Drop your semester results and we’ll do the math</p>

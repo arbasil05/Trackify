@@ -6,11 +6,13 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import './MobileNavbar.css';
 
-const MobileNavbar = ({ dark, setIsDark }) => {
+const MobileNavbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { clearAuth } = useAuth();
+    const { isDark: dark, toggleTheme } = useTheme();
     const nav = useNavigate();
     const location = useLocation();
 
@@ -28,8 +30,7 @@ const MobileNavbar = ({ dark, setIsDark }) => {
     }
 
     const handleDarkModeToggle = () => {
-        setIsDark(!dark);
-        localStorage.setItem("isDark", !dark);
+        toggleTheme();
     };
 
     return (

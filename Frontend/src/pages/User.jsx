@@ -9,9 +9,11 @@ import Spinner from "../components/spinner/Spinner";
 import UserAddedCourses from "../components/user_added_courses/UserAddedCourses";
 import AddSingleCourseModal from "../components/navbar/AddSingleCourseModal";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
-const User = ({ isDark, setIsDark, onDataRefresh }) => {
+const User = () => {
     const { user, dashboardData, loading: authLoading, refreshUser, fetchUser } = useAuth();
+    const { isDark } = useTheme();
 
     const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
 
@@ -24,28 +26,26 @@ const User = ({ isDark, setIsDark, onDataRefresh }) => {
 
     const handleRefresh = () => {
         refreshUser(); // Refresh context data
-        if (onDataRefresh) onDataRefresh();
     };
 
     if (authLoading || !dashboardData) {
-        return <Spinner isDark={isDark} message="Loading profile..." />;
+        return <Spinner message="Loading profile..." />;
     }
 
     return (
         <div>
-            <MobileNavbar dark={isDark} setIsDark={setIsDark} />
-            <Sidebar dark={isDark} />
-            <Navbar dark={isDark} setIsDark={setIsDark} name={user?.name} onDataRefresh={handleRefresh} onAddCourse={() => setAddCourseModalOpen(true)} />
-            <UserHeader isDark={isDark} onAddCourse={() => setAddCourseModalOpen(true)} />
-            <UserDetails isDark={isDark} userDetails={user || {}} onDataRefresh={handleRefresh} />
-            <SemDetails isDark={isDark} userSem={dashboardData.userSemCredits} onDataRefresh={handleRefresh} />
-            <UserAddedCourses isDark={isDark} userAddedCourses={dashboardData.userAddedCourses} onRefresh={handleRefresh} />
+            <MobileNavbar />
+            <Sidebar />
+            <Navbar name={user?.name} onDataRefresh={handleRefresh} onAddCourse={() => setAddCourseModalOpen(true)} />
+            <UserHeader onAddCourse={() => setAddCourseModalOpen(true)} />
+            <UserDetails userDetails={user || {}} onDataRefresh={handleRefresh} />
+            <SemDetails userSem={dashboardData.userSemCredits} onDataRefresh={handleRefresh} />
+            <UserAddedCourses userAddedCourses={dashboardData.userAddedCourses} onRefresh={handleRefresh} />
 
             {addCourseModalOpen && (
                 <div className="modal-overlay">
                     <div className={`custom-modal narrow-modal ${isDark ? "dark" : ""}`}>
                         <AddSingleCourseModal
-                            dark={isDark}
                             onClose={() => setAddCourseModalOpen(false)}
                             onSuccess={() => {
                                 setAddCourseModalOpen(false);

@@ -1,7 +1,7 @@
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const WarningModalStep = ({ dark, onClose, onProceed, onCheckbox }) => (
+const WarningModalStep = ({ onClose, onProceed, onCheckbox }) => (
   <div className="important-info">
     <div>
       <FontAwesomeIcon className="font-warning" size="2x" icon={faWarning} />

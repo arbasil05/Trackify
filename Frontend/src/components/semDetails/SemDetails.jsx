@@ -6,9 +6,11 @@ import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
 import emptyGhostAnimation from '../../assets/lottie/empty-ghost.json';
+import { useTheme } from '../../context/ThemeContext';
 
 
-const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
+const SemDetails = ({ userSem, onDataRefresh }) => {
+    const { isDark } = useTheme();
     const [showModal, setShowModal] = useState(false);
     const [semesterToDelete, setSemesterToDelete] = useState(null);
 
@@ -74,14 +76,14 @@ const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
                 </div>
 
                 {sortedSemesters.length === 0 ? (
-                    <p className="no-sem-message">
+                    <div className="no-sem-message">
                         <Lottie
                             animationData={emptyGhostAnimation}
                             loop
                             autoplay
                             style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
                         />
-                    </p>
+                    </div>
                 ) : (
                     sortedSemesters.map(([semester, credit]) => (
                         <div

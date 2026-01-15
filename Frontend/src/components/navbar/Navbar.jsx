@@ -13,11 +13,13 @@ import MissingModalStep from "./MissingModalStep";
 import AddCourseFormModalStep from "./AddCourseFormModalStep";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 
 Modal.setAppElement("#root");
 
-const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalModalOpen, setExternalModalOpen }) => {
+const Navbar = ({ name, onAddCourse, externalModalOpen, setExternalModalOpen }) => {
     const { dashboardData, refreshUser } = useAuth();
+    const { isDark: dark, toggleTheme } = useTheme();
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalStep, setModalStep] = useState("warning");
@@ -47,8 +49,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
     }, []);
 
     const handleDarkModeToggle = () => {
-        setIsDark(!dark);
-        localStorage.setItem("isDark", !dark);
+        toggleTheme();
     };
 
     const getGreeting = () => {
@@ -152,7 +153,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
         setMissingCourses([]);
         setAddCourses([]);
         refreshUser(); // Refresh context data
-        if (onDataRefresh) onDataRefresh();
 
         const skipWarning = localStorage.getItem("skipWarning");
         setModalStep(skipWarning === "true" ? "upload" : "warning");
@@ -208,7 +208,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
             case "warning":
                 return (
                     <WarningModalStep
-                        dark={dark}
                         onClose={handleModalClose}
                         onProceed={() => setModalStep("upload")}
                         onCheckbox={handleWarningCheckbox}
@@ -217,7 +216,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
             case "upload":
                 return (
                     <UploadModalStep
-                        dark={dark}
                         semValue={semValue}
                         setSemValue={setSemValue}
                         existingSemesters={existingSemesters}
@@ -230,7 +228,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
             case "missing":
                 return (
                     <MissingModalStep
-                        dark={dark}
                         missingCourses={missingCourses}
                         onContinue={() => {
                             setAddCourses(
@@ -251,7 +248,6 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
             case "AddCourseForm":
                 return (
                     <AddCourseFormModalStep
-                        dark={dark}
                         addCourses={addCourses}
                         setAddCourses={setAddCourses}
                         onCourseChange={handleCourseChange}

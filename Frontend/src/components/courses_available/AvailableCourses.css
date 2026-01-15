@@ -147,6 +147,10 @@
 
     .mobile-course-table td:first-child {
         font-weight: 500;
+        max-width: 140px;
+        white-space: normal;
+        word-wrap: break-word;
+        line-height: 1.4;
     }
 
     .mobile-course-table td:nth-child(2) {

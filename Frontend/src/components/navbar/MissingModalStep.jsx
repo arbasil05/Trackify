@@ -1,7 +1,7 @@
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const MissingModalStep = ({ dark, missingCourses, onContinue, onLater }) => (
+const MissingModalStep = ({ missingCourses, onContinue, onLater }) => (
   <div className="missing-courses-wrapper">
     <FontAwesomeIcon className="font-warning" size="2x" icon={faWarning} />
     <h2 className="important-header">Missing Courses</h2>

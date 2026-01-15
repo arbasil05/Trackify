@@ -1,4 +1,4 @@
-const AddCourseFormModalStep = ({ dark, addCourses, onCourseChange, onSave, onCancel }) => (
+const AddCourseFormModalStep = ({ addCourses, onCourseChange, onSave, onCancel }) => (
   <div className="add-course-wrapper">
     <h2 className="important-header">Add Missing Courses</h2>
     <div className="important-caption">

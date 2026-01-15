@@ -8,12 +8,14 @@ import { faTrash, faPencil, faArrowsLeftRight } from '@fortawesome/free-solid-sv
 import toast from 'react-hot-toast';
 import Lottie from 'lottie-react';
 import emptyGhostAnimation from '../../assets/lottie/empty-ghost.json';
+import { useTheme } from '../../context/ThemeContext';
 
 Modal.setAppElement("#root");
 
 const roman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
-const UserAddedCourses = ({ isDark, userAddedCourses = [], onRefresh }) => {
+const UserAddedCourses = ({ userAddedCourses = [], onRefresh }) => {
+    const { isDark } = useTheme();
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -70,14 +72,14 @@ const UserAddedCourses = ({ isDark, userAddedCourses = [], onRefresh }) => {
             </div>
 
             {userAddedCourses.length === 0 ? (
-                <p className="no-course-message">
+                <div className="no-course-message">
                     <Lottie
                         animationData={emptyGhostAnimation}
                         loop
                         autoplay
                         style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
                     />
-                </p>
+                </div>
             ) : (
                 <>
                     <div className="mobile-scroll-hint">
@@ -147,7 +149,6 @@ const UserAddedCourses = ({ isDark, userAddedCourses = [], onRefresh }) => {
             >
                 {selectedCourse && (
                     <EditCourseModal
-                        dark={isDark}
                         courseData={selectedCourse}
                         onClose={() => setEditModalOpen(false)}
                         onSuccess={() => {

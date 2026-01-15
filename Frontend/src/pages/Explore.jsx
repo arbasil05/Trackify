@@ -8,7 +8,7 @@ import axios from 'axios'
 import Spinner from '../components/spinner/Spinner'
 import { useAuth } from '../context/AuthContext'
 
-const Explore = ({ isDark, setIsDark }) => {
+const Explore = () => {
   const { user, loading: authLoading, fetchUser } = useAuth();
   const [recCourses, setRecCourses] = useState({})
   const [loading, setLoading] = useState(true)
@@ -42,17 +42,16 @@ const Explore = ({ isDark, setIsDark }) => {
   }, [user])
 
   if (loading || authLoading || !user) {
-    return <Spinner isDark={isDark} message="Loading recommendations..." />;
+    return <Spinner message="Loading recommendations..." />;
   }
 
   return (
     <div>
-      <MobileNavbar dark={isDark} setIsDark={setIsDark} />
-      <Sidebar dark={isDark} />
-      <Navbar dark={isDark} setIsDark={setIsDark} name={user?.name || ''} />
+      <MobileNavbar />
+      <Sidebar />
+      <Navbar name={user?.name || ''} />
       <Exploretitle />
       <AvailableCourses
-        dark={isDark}
         recommendedCourses={recCourses}
         username={user?.name || ''}
         grad_year={user?.grad_year || ''}

@@ -22,7 +22,7 @@ const CREDIT_MAP = {
   "CHEM": { 2027: 166, default: 163 },
 };
 
-const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }) => {
+const Information = ({ user, totalCredits, userSemCredits, cgpa, Loading }) => {
   const gradYear = Number(user?.grad_year);
   const dept = user?.dept;
   let denominator = 0;
@@ -35,10 +35,9 @@ const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }
 
   return (
     <div className='information-container'>
-      <Total dark={dark} total_num={totalCredits} total_denom={denominator} Loading={Loading} />
-      <CGPA dark={dark} cgpa={cgpa || 0} Loading={Loading} />
+      <Total total_num={totalCredits} total_denom={denominator} Loading={Loading} />
+      <CGPA cgpa={cgpa || 0} Loading={Loading} />
       <CurrentSemester
-        dark={dark}
         sem_num={
           userSemCredits
             ? Math.max(
@@ -51,7 +50,7 @@ const Information = ({ dark, user, totalCredits, userSemCredits, cgpa, Loading }
         }
         Loading={Loading}
       />
-      <TowardsGrad dark={dark} percent={gradPercent} Loading={Loading} />
+      <TowardsGrad percent={gradPercent} Loading={Loading} />
     </div>
   );
 };

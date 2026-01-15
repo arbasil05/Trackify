@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useTheme } from "../../context/ThemeContext";
 
-const EditCategoryCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
+const EditCategoryCourseModal = ({ courseData, onClose, onSuccess }) => {
+    const { isDark: dark } = useTheme();
 
     // Helper to extract nice code to display
     const getCode = () => {

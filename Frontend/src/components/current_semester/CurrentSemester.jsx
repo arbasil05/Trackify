@@ -1,6 +1,8 @@
 import './CurrentSemester.css';
+import { useTheme } from '../../context/ThemeContext';
 
-const CurrentSemester = ({ dark, sem_num, Loading }) => {
+const CurrentSemester = ({ sem_num, Loading }) => {
+  const { isDark: dark } = useTheme();
   const remaining = 8 - sem_num;
 
   return (

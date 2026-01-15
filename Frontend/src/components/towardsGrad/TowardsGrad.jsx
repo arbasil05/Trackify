@@ -1,6 +1,8 @@
 import './TowardsGrad.css';
+import { useTheme } from '../../context/ThemeContext';
 
-const TowardsGrad = ({ dark, percent, Loading }) => {
+const TowardsGrad = ({ percent, Loading }) => {
+  const { isDark: dark } = useTheme();
   let message = "";
 
   if (percent >= 85) message = "You're nearly done!";

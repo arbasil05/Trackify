@@ -11,8 +11,10 @@ import {
   Tooltip,
   CartesianGrid,
 } from 'recharts';
+import { useTheme } from '../../context/ThemeContext';
 
-const Barchart = ({ dark, userSemCredits, Loading }) => {
+const Barchart = ({ userSemCredits, Loading }) => {
+  const { isDark: dark } = useTheme();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
     !Loading ? (
       data.length === 0 ? (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
-          <p className="no-data-message">
+          <div className="no-data-message">
             <Lottie
               animationData={emptyGhostAnimation}
               loop
@@ -49,7 +51,7 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
               style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
             />
             Please upload result to view semester wise credits
-          </p>
+          </div>
         </div>
       ) : (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>

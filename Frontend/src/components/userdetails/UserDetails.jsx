@@ -4,8 +4,10 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useTheme } from '../../context/ThemeContext';
 
-const UserDetails = ({ isDark, userDetails, onDataRefresh }) => {
+const UserDetails = ({ userDetails, onDataRefresh }) => {
+  const { isDark } = useTheme();
   const [isEditable, setIsEditable] = useState(false);
   const [editedDetails, setEditedDetails] = useState({ ...userDetails });
 

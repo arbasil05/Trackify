@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Category.css';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 const CATEGORIES = [
   { name: 'HS', full: 'Humanities and Sciences' },
@@ -16,7 +16,8 @@ const CATEGORIES = [
   { name: 'MC', full: 'Mandatory Courses' },
 ];
 
-const Category = ({ dark, runningTotal, Loading }) => {
+const Category = ({ runningTotal, Loading }) => {
+  const { isDark: dark } = useTheme();
   const courses = CATEGORIES.map(course => ({
     ...course,
     credits: runningTotal ? runningTotal[course.name] : undefined,
@@ -24,19 +25,8 @@ const Category = ({ dark, runningTotal, Loading }) => {
 
   return (
     !Loading ? (
-      <div
-        className="category-container"
-        style={{
-          backgroundColor: dark ? '#273142' : '#ffffff',
-          color: dark ? 'white' : 'black',
-        }}
-      >
-        <h2
-          className="category-title"
-          style={{
-            color: dark ? 'white' : '#1f2937',
-          }}
-        >
+      <div className={`trackify-category-container ${dark ? 'dark' : ''}`}>
+        <h2 className="category-title">
           Explore Categories
         </h2>
 
@@ -44,20 +34,14 @@ const Category = ({ dark, runningTotal, Loading }) => {
           {courses.map((course, index) => (
             <React.Fragment key={index}>
             <Link to={`/category/${course.name}`}>
-            <div
-              className="individual-category"
-              style={{
-                backgroundColor: dark ? '#323f4b' : '#f9fafb',
-                color: dark ? '#e2e8f0' : 'black',
-              }}
-            >
+            <div className={`individual-category ${dark ? 'dark' : ''}`}>
               <div className="individual-title">
-                <h1 style={{ color: dark ? 'white' : '#111827' }}>{course.name}</h1>
-                <p style={{ color: dark ? '#cbd5e1' : '#6b7280' }}>{course.full}</p>
+                <h1>{course.name}</h1>
+                <p>{course.full}</p>
               </div>
               <div className="individual-right">
-                <FontAwesomeIcon className='individual-right-icon' icon={faChevronRight} color={dark ? 'white' : '#4b5563'} />
-                <h3 style={{ color: dark ? 'white' : '#1f2937' }}>
+                <FontAwesomeIcon className='individual-right-icon' icon={faChevronRight} />
+                <h3>
                   {course.credits !== undefined ? `${course.credits} credits` : '...'}
                 </h3>
               </div>
@@ -68,41 +52,25 @@ const Category = ({ dark, runningTotal, Loading }) => {
         </div>
       </div>
     ) : (
-      <div
-        className={
-          dark
-            ? 'category-container dark-mode skeleton-dark'
-            : 'category-container skeleton-light'
-        }
-      >
-        <h2
-          className="category-title"
-          style={{
-            color: dark ? 'white' : '#1f2937',
-            visibility: 'hidden',
-          }}
-        >
+      <div className={`trackify-category-container ${dark ? 'dark skeleton-dark' : 'skeleton-light'}`}>
+        <h2 className="category-title" style={{ visibility: 'hidden' }}>
           Explore Categories
         </h2>
 
         <div className="category-grid">
           {courses.map((course, index) => (
             <div
-              className="individual-category"
+              className={`individual-category ${dark ? 'dark' : ''}`}
               key={index}
-              style={{
-                backgroundColor: dark ? '#323f4b' : '#f9fafb',
-                color: dark ? '#e2e8f0' : 'black',
-                visibility: 'hidden',
-              }}
+              style={{ visibility: 'hidden' }}
             >
               <div className="individual-title">
-                <h1 style={{ color: dark ? 'white' : '#111827' }}>{course.name}</h1>
-                <p style={{ color: dark ? '#cbd5e1' : '#6b7280' }}>{course.full}</p>
+                <h1>{course.name}</h1>
+                <p>{course.full}</p>
               </div>
               <div className="individual-right">
-                <FontAwesomeIcon icon={faChevronRight} color={dark ? 'white' : '#4b5563'} />
-                <h3 style={{ color: dark ? 'white' : '#1f2937' }}>
+                <FontAwesomeIcon icon={faChevronRight} />
+                <h3>
                   {course.credits !== undefined ? `${course.credits} credits` : '...'}
                 </h3>
               </div>

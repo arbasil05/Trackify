@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import './Total.css'
 import axios from 'axios';
+import { useTheme } from '../../context/ThemeContext';
 
-const Total = ({ dark, total_num, total_denom, Loading }) => {
+const Total = ({ total_num, total_denom, Loading }) => {
+  const { isDark: dark } = useTheme();
   const percent = Math.round((total_num / total_denom) * 100);
 
   return (

@@ -6,9 +6,11 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { memo } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
-const Sidebar = ({ dark }) => {
+const Sidebar = () => {
     const { clearAuth } = useAuth();
+    const { isDark: dark } = useTheme();
 
     const nav = useNavigate();
     const location = useLocation();

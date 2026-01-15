@@ -2,8 +2,10 @@ import { useRef, useEffect, useState, useCallback } from 'react'
 import { faChevronRight, faChevronLeft, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './AvailableCourses.css'
+import { useTheme } from '../../context/ThemeContext';
 
-const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
+const AvailableCourses = ({ recommendedCourses, grad_year, Loading }) => {
+    const { isDark: dark } = useTheme();
     const [showButtons, setShowButtons] = useState({left:false , right:false});
     const [expandedCategories, setExpandedCategories] = useState({});
     const [visibleCounts, setVisibleCounts] = useState({});

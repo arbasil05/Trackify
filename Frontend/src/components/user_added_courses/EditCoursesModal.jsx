@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useTheme } from "../../context/ThemeContext";
 
-const EditCourseModal = ({ dark, courseData, onClose, onSuccess }) => {
+const EditCourseModal = ({ courseData, onClose, onSuccess }) => {
+    const { isDark: dark } = useTheme();
     const [course, setCourse] = useState({
         course_name: courseData.course_name,
         code: courseData.code,

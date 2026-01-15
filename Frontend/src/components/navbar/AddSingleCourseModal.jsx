@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useTheme } from "../../context/ThemeContext";
 import "./SingleCourse.css";
 
-const AddSingleCourseModal = ({ dark, onClose, onSuccess }) => {
+const AddSingleCourseModal = ({ onClose, onSuccess }) => {
+    const { isDark: dark } = useTheme();
     const [course, setCourse] = useState({
         course_name: "",
         code: "",
