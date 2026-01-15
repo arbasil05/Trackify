@@ -9,13 +9,21 @@ import DashboardHeader from '../components/dashboardheader/DashboardHeader';
 import Footer from '../components/footer/Footer';
 import Spinner from '../components/spinner/Spinner';
 import Modal from "react-modal";
-import { faKey, faLandmark, faPen, faPencil, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faLandmark, faMobileScreen, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../context/AuthContext';
 
 const features = [
   {
     id: 1,
+    emoji: faMobileScreen,
+    color: "#06b6d4",
+    bgColor: "#cffafe",
+    title: "Mobile Friendly",
+    desc: "Trackify is now fully responsive and optimized for mobile screens."
+  },
+  {
+    id: 2,
     emoji: faLandmark,
     color: "#3b82f6",
     bgColor: "#dbeafe",
@@ -23,7 +31,7 @@ const features = [
     desc: "Trackify now works for both SCOFT and NON-SCOFT departments."
   },
   {
-    id: 2,
+    id: 3,
     emoji: faWarning,
     color: "#f59e0b",
     bgColor: "#fef3c7",
@@ -31,20 +39,12 @@ const features = [
     desc: "You'll be notified if any course is not found after PDF parsing."
   },
   {
-    id: 3,
+    id: 4,
     emoji: faPlus,
     color: "#10b981",
     bgColor: "#d1fae5",
-    title: "Add Courses Manually",
-    desc: "Missing courses can now be added from your User Profile."
-  },
-  {
-    id: 4,
-    emoji: faPen,
-    color: "#8b5cf6",
-    bgColor: "#ede9fe",
-    title: "Edit Course Info",
-    desc: "Course names and credits can be edited from the Categories page."
+    title: "Add & Edit Courses",
+    desc: "Missing courses can be added and existing course details can be edited from your User Profile."
   },
   {
     id: 5,
@@ -93,6 +93,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
       <Modal
         isOpen={modalIsOpen}
+        // isOpen={true}
         className={`custom-modal ${isDark ? "dark" : ""} medium-modal dashboard-news-modal`}>
         <div className="important-info-dash">
           <div className='modal-contents'>

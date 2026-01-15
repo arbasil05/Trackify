@@ -281,7 +281,7 @@ function SingleCategory({ isDark, setIsDark }) {
                                         <tr>
                                             <th>SUBJECT CODE</th>
                                             <th>SUBJECT NAME</th>
-                                            <th>SUBJECT CREDITS</th>
+                                            <th>CREDITS</th>
                                             <th>GRADE</th>
                                             <th>SEMESTER</th>
                                         </tr>
@@ -396,7 +396,7 @@ function SingleCategory({ isDark, setIsDark }) {
                                         style={{ cursor: 'pointer', userSelect: 'none' }}
                                         title="Click to sort by credits"
                                     >
-                                        SUBJECT CREDITS
+                                        CREDITS
                                         {sortConfig.key === 'credits' ? (
                                             sortConfig.direction === 'asc' ?
                                                 <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
