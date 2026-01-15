@@ -161,11 +161,15 @@ export async function deleteSem(req, res) {
     try {
         const id = req.id;
         const { semester } = req.params;
+        const semNumber = semester.replace("sem", "");
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
             {
-                $pull: { courses: { sem: semester } },
+                $pull: {
+                    courses: { sem: semester },
+                    user_added_courses: { sem: semNumber },
+                },
                 $unset: { [`sem_total.${semester}`]: "" },
             },
             { new: true }

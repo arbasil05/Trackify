@@ -1,8 +1,9 @@
-const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCancel }) => (
+const AddCourseFormModalStep = ({ dark, addCourses, onCourseChange, onSave, onCancel }) => (
   <div className="add-course-wrapper">
     <h2 className="important-header">Add Missing Courses</h2>
     <div className="important-caption">
       <p>Fill the details to add these courses.</p>
+      <p>You can always edit these details.</p>
     </div>
 
     {/* Desktop Table View */}
@@ -31,11 +32,7 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
                 <input
                   type="number"
                   value={course.credits}
-                  onChange={e => {
-                    const updated = [...addCourses];
-                    updated[i].credits = e.target.value;
-                    setAddCourses(updated);
-                  }}
+                  onChange={e => onCourseChange(i, "credits", e.target.value)}
                 />
               </td>
               <td>
@@ -43,11 +40,7 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
                   type="number"
                   step="0.1"
                   value={course.gradePoint}
-                  onChange={e => {
-                    const updated = [...addCourses];
-                    updated[i].gradePoint = e.target.value;
-                    setAddCourses(updated);
-                  }}
+                  onChange={e => onCourseChange(i, "gradePoint", e.target.value)}
                 />
               </td>
               <td>
@@ -56,11 +49,7 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
               <td>
                 <select
                   value={course.category}
-                  onChange={e => {
-                    const updated = [...addCourses];
-                    updated[i].category = e.target.value;
-                    setAddCourses(updated);
-                  }}
+                  onChange={e => onCourseChange(i, "category", e.target.value)}
                 >
                   <option value="">Select</option>
                   <option value="HS">HS</option>
@@ -110,11 +99,7 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
                   type="number"
                   placeholder="0-5"
                   value={course.credits}
-                  onChange={e => {
-                    const updated = [...addCourses];
-                    updated[i].credits = e.target.value;
-                    setAddCourses(updated);
-                  }}
+                  onChange={e => onCourseChange(i, "credits", e.target.value)}
                 />
               </div>
               <div className="form-field">
@@ -124,11 +109,7 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
                   step="0.1"
                   placeholder="1-10"
                   value={course.gradePoint}
-                  onChange={e => {
-                    const updated = [...addCourses];
-                    updated[i].gradePoint = e.target.value;
-                    setAddCourses(updated);
-                  }}
+                  onChange={e => onCourseChange(i, "gradePoint", e.target.value)}
                 />
               </div>
             </div>
@@ -136,11 +117,7 @@ const AddCourseFormModalStep = ({ dark, addCourses, setAddCourses, onSave, onCan
               <label>Category</label>
               <select
                 value={course.category}
-                onChange={e => {
-                  const updated = [...addCourses];
-                  updated[i].category = e.target.value;
-                  setAddCourses(updated);
-                }}
+                onChange={e => onCourseChange(i, "category", e.target.value)}
               >
                 <option value="">Select Category</option>
                 <option value="HS">HS</option>

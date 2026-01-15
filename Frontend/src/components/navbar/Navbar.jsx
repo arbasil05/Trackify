@@ -63,7 +63,46 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
         return "Hope your day went well";
     };
 
-    // --- Modal Step Handlers ---
+    const handleCourseChange = (index, field, value) => {
+        const updated = [...addCourses];
+
+        if (value === "") {
+            updated[index][field] = value;
+            setAddCourses(updated);
+            return;
+        }
+
+        const num = parseFloat(value);
+        // If it's the category or not a number field, we might not want parseFloat logic, 
+        // but 'credits' and 'gradePoint' are inputs of type number.
+        // 'category' is a string from select.
+        
+        if (field === "credits") {
+            if (isNaN(num)) return;
+            if (num < 0) {
+                updated[index][field] = 0;
+            } else if (num > 5) {
+                updated[index][field] = 5;
+            } else {
+                updated[index][field] = value;
+            }
+        } else if (field === "gradePoint") {
+            if (isNaN(num)) return;
+            if (num < 1) {
+                updated[index][field] = 1;
+            } else if (num > 10) {
+                updated[index][field] = 10;
+            } else {
+                updated[index][field] = value;
+            }
+        } else {
+            // For category or other fields
+            updated[index][field] = value;
+        }
+        setAddCourses(updated);
+    };
+
+
     const handlePdfSubmit = async (e) => {
         e.preventDefault();
         if (isSubmitting.current) return;
@@ -215,6 +254,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
                         dark={dark}
                         addCourses={addCourses}
                         setAddCourses={setAddCourses}
+                        onCourseChange={handleCourseChange}
                         onSave={handleAddCoursesSubmit}
                         onCancel={closeCompletely}
                     />
