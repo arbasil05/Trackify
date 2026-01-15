@@ -90,7 +90,6 @@ const UserSchema = mongoose.Schema({
                 code: {
                     type: String,
                     required: true,
-                    unique: true,
                 },
                 credits: {
                     type: Number,
