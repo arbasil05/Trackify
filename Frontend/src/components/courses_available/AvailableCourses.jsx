@@ -105,53 +105,53 @@ const AvailableCourses = ({ recommendedCourses, grad_year, dark, Loading }) => {
                                 </div>
                             </div>
                             <div className={`collapsible-content ${expandedCategories[cat] ? 'expanded' : ''}`}>
-                                <table className="mobile-course-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Course</th>
-                                            <th>Code</th>
-                                            <th>Credits</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {(recommendedCourses[cat]?.slice(0, visibleCounts[cat] || 10) || []).map(course => (
-                                            <tr key={course._id}>
-                                                <td>{course.name}</td>
-                                                <td>{grad_year === "2027" ? course.code19 : course.code24}</td>
-                                                <td>{course.credits}</td>
+                                <div className="collapsible-inner">
+                                    <table className="mobile-course-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Course</th>
+                                                <th>Code</th>
+                                                <th>Credits</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                {recommendedCourses[cat]?.length > 10 && (
-                                    <div className="mobile-footer-actions">
-                                        {recommendedCourses[cat]?.length > (visibleCounts[cat] || 10) && (
+                                        </thead>
+                                        <tbody>
+                                            {(recommendedCourses[cat]?.slice(0, visibleCounts[cat] || 10) || []).map(course => (
+                                                <tr key={course._id}>
+                                                    <td>{course.name}</td>
+                                                    <td>{grad_year === "2027" ? course.code19 : course.code24}</td>
+                                                    <td>{course.credits}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    {recommendedCourses[cat]?.length > 10 && (
+                                        <div className="mobile-footer-actions">
+                                            {recommendedCourses[cat]?.length > (visibleCounts[cat] || 10) && (
+                                                <button 
+                                                    className="action-btn load-more"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setVisibleCounts(prev => ({
+                                                            ...prev,
+                                                            [cat]: (prev[cat] || 10) + 10
+                                                        }));
+                                                    }}
+                                                >
+                                                    Show More ({recommendedCourses[cat].length - (visibleCounts[cat] || 10)})
+                                                </button>
+                                            )}
                                             <button 
-                                                className="action-btn load-more"
+                                                className="action-btn close-btn"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setVisibleCounts(prev => ({
-                                                        ...prev,
-                                                        [cat]: (prev[cat] || 10) + 10
-                                                    }));
+                                                    toggleCategory(cat);
                                                 }}
                                             >
-                                                Show More ({recommendedCourses[cat].length - (visibleCounts[cat] || 10)})
+                                                <FontAwesomeIcon icon={faChevronUp} /> Close
                                             </button>
-                                        )}
-                                        <button 
-                                            className="action-btn close-btn"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                toggleCategory(cat);
-                                                // Optional: Reset count when closing?
-                                                // setVisibleCounts(prev => ({ ...prev, [cat]: 10 }));
-                                            }}
-                                        >
-                                            <FontAwesomeIcon icon={faChevronUp} /> Close
-                                        </button>
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>

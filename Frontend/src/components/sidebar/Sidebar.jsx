@@ -5,9 +5,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { memo } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = ({ dark }) => {
-
+    const { clearAuth } = useAuth();
 
     const nav = useNavigate();
     const location = useLocation();
@@ -16,15 +17,13 @@ const Sidebar = ({ dark }) => {
         const url = `${import.meta.env.VITE_BACKEND_API}/api/auth/logout`;
         axios.post(url, {}, { withCredentials: true })
             .then(() => {
+                clearAuth(); // Clear context state
                 toast.success("Logged out successfully");
                 nav("/login");
             })
             .catch((error) => {
                 toast.error("Error while logging out");
-                // console.log(`${error}`);
-
             })
-
     }
 
     return (

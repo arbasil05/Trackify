@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash, faArrowsLeftRight, faInfoCircle, faUser, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faArrowUp, faArrowDown, faPencil, faTrash, faArrowsLeftRight, faUser, faFilter } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Modal from "react-modal";
 import toast from 'react-hot-toast';
-import '@lottiefiles/lottie-player';
+import Lottie from 'lottie-react';
+import emptyGhostAnimation from '../assets/lottie/empty-ghost.json';
 import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
 import EditCategoryCourseModal from "../components/category/EditCategoryCourseModal";
+import { useAuth } from '../context/AuthContext';
 import "./SingleCategory.css";
 
 Modal.setAppElement("#root");
@@ -84,21 +86,71 @@ const creditRequirements = {
     },
 };
 
+const normalizeCourses = (dbCourses = [], userAdded = []) => {
+    const mappedDbCourses = dbCourses.map((entry) => {
+        const c = entry.course;
+        return {
+            _id: entry._id,
+            type: entry.type,
+            name: c.name,
+            credits: c.credits,
+            grade: entry.grade,
+            gradePoint: entry.gradePoint, // Map gradePoint
+            sem: entry.sem,
+            category: entry.category,
+            code19: entry.code19 || c.code19,
+            code24: entry.code24 || c.code24,
+        };
+    });
+
+    const mappedUserAdded = userAdded.map((c) => ({
+        _id: c._id,
+        type: c.type,
+        name: c.course_name,
+        credits: c.credits,
+        grade: c.grade,
+        gradePoint: c.gradePoint, // Map gradePoint
+        sem: `sem${c.sem}`,
+        category: c.category,
+        code19: c.code,
+        code24: c.code,
+    }));
+
+    return [...mappedDbCourses, ...mappedUserAdded];
+};
+
 function SingleCategory({ isDark, setIsDark }) {
     const { category } = useParams();
+    const { user, dashboardData, refreshUser, loading: authLoading, fetchUser } = useAuth();
 
-    const [courses, setCourses] = useState([]);
-    const [totalCredits, setTotalCredits] = useState(0);
-    const [requiredCredits, setRequiredCredits] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState({});
-    const [isOldCode, setIsOldCode] = useState(true);
+    const isOldCode = user?.grad_year === "2027";
+    const requiredCredits = creditRequirements?.[user?.dept]?.[user?.grad_year]?.[category] || 0;
+
+    const allCourses = useMemo(() => {
+        if (!dashboardData) return [];
+        return normalizeCourses(dashboardData.courses, dashboardData.userAddedCourses);
+    }, [dashboardData]);
+
+    const courses = useMemo(() => {
+        return allCourses.filter(c => c.category === category);
+    }, [allCourses, category]);
+
+    const totalCredits = useMemo(() => {
+        return courses.reduce((sum, c) => sum + Number(c.credits), 0);
+    }, [courses]);
+
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
-    const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [courseToDelete, setCourseToDelete] = useState(null);
     const [showUserAddedOnly, setShowUserAddedOnly] = useState(false);
+
+    // Fetch data if missing (e.g. direct access)
+    useEffect(() => {
+        if (!dashboardData) {
+            fetchUser();
+        }
+    }, [dashboardData, fetchUser]);
 
     const [sortConfig, setSortConfig] = useState(() => {
         try {
@@ -177,7 +229,7 @@ function SingleCategory({ isDark, setIsDark }) {
                 withCredentials: true
             });
             toast.success("Course deleted successfully");
-            setRefreshTrigger(prev => prev + 1);
+            refreshUser(); // Sync context data
             closeDeleteModal();
         } catch (err) {
             console.error(err);
@@ -185,102 +237,13 @@ function SingleCategory({ isDark, setIsDark }) {
         }
     };
 
-    const normalizeCourses = (dbCourses = [], userAdded = []) => {
-        const mappedDbCourses = dbCourses.map((entry) => {
-            const c = entry.course;
-            return {
-                _id: entry._id,
-                type: entry.type,
-                name: c.name,
-                credits: c.credits,
-                grade: entry.grade,
-                gradePoint: entry.gradePoint, // Map gradePoint
-                sem: entry.sem,
-                category: entry.category,
-                code19: entry.code19 || c.code19,
-                code24: entry.code24 || c.code24,
-            };
-        });
 
-        const mappedUserAdded = userAdded.map((c) => ({
-            _id: c._id,
-            type: c.type,
-            name: c.course_name,
-            credits: c.credits,
-            grade: c.grade,
-            gradePoint: c.gradePoint, // Map gradePoint
-            sem: `sem${c.sem}`,
-            category: c.category,
-            code19: c.code,
-            code24: c.code,
-            isNonCgpa: c.isNonCgpa,
-        }));
 
-        return [...mappedDbCourses, ...mappedUserAdded];
-    };
-
-    const fetchRequiredCredits = (dept, year) => {
-        setRequiredCredits(
-            creditRequirements?.[dept]?.[year]?.[category] || 0
-        );
-    };
-
-    useEffect(() => {
-        const fetchCategoryData = async () => {
-            try {
-                setLoading(true);
-
-                // fetch all courses
-                const courseRes = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_API}/api/semester/getAllCourses`,
-                    { withCredentials: true }
-                );
-
-                const { courses, user_added_courses } = courseRes.data;
-
-                // fetch user
-                const userRes = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_API}/api/user/userDetails`,
-                    { withCredentials: true }
-                );
-
-                const userData = userRes.data.user;
-                setUser(userData);
-                setIsOldCode(userData.grad_year === "2027");
-
-                const allCourses = normalizeCourses(
-                    courses,
-                    user_added_courses
-                );
-
-                const filtered = allCourses.filter(
-                    (c) => c.category === category
-                );
-
-                setCourses(filtered);
-
-                setTotalCredits(
-                    filtered.reduce(
-                        (sum, c) => sum + Number(c.credits),
-                        0
-                    )
-                );
-
-                fetchRequiredCredits(userData.dept, userData.grad_year);
-            } catch (err) {
-                console.error("Error fetching category data:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCategoryData();
-    }, [category, refreshTrigger]);
-
-    if (loading) {
+    // Show skeleton if loading or missing data
+    if (authLoading || !dashboardData) {
         return (
             <div className={`single-category-container ${isDark ? "dark" : ""}`}>
-                <Navbar dark={isDark} setIsDark={setIsDark} name={user.name || "User"} />
+                <Navbar dark={isDark} setIsDark={setIsDark} name={user?.name || "User"} />
                 <div className="single-category-main">
                     <Sidebar dark={isDark} />
                     <div className={`single-category-content ${isDark ? 'dark' : ''}`}>
@@ -408,88 +371,93 @@ function SingleCategory({ isDark, setIsDark }) {
                         <span>Swipe to view table</span>
                     </div>
                     <div className="table-container">
-                        {displayCourses.length === 0 ? (
-                            <div className="no-courses">
-                                <lottie-player
-                                    src="/empty ghost.json"
-                                    background="transparent"
-                                    speed="1"
-                                    style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
-                                    loop
-                                    autoplay
-                                >
-                                </lottie-player>
-                                <p>Upload semester result to view courses here</p>
-                            </div>
-                        ) : (
-                            <table className="courses-table">
-                                <thead>
+                        <table className="courses-table">
+                            <thead>
+                                <tr>
+                                    <th style={{ minWidth: '140px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                            SUBJECT CODE
+                                            <FontAwesomeIcon
+                                                icon={faFilter}
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    color: showUserAddedOnly ? '#4880ff' : 'inherit',
+                                                    opacity: showUserAddedOnly ? 1 : 0.3,
+                                                    fontSize: '12px'
+                                                }}
+                                                onClick={() => setShowUserAddedOnly(prev => !prev)}
+                                                title={showUserAddedOnly ? "Show All Courses" : "Show User Added Courses Only"}
+                                            />
+                                        </div>
+                                    </th>
+                                    <th>SUBJECT NAME</th>
+                                    <th
+                                        onClick={() => handleSort('credits')}
+                                        style={{ cursor: 'pointer', userSelect: 'none' }}
+                                        title="Click to sort by credits"
+                                    >
+                                        SUBJECT CREDITS
+                                        {sortConfig.key === 'credits' ? (
+                                            sortConfig.direction === 'asc' ?
+                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                        ) : (
+                                            <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                        )}
+                                    </th>
+                                    <th
+                                        onClick={() => handleSort('grade')}
+                                        style={{ cursor: 'pointer', userSelect: 'none' }}
+                                        title="Click to sort by grade"
+                                    >
+                                        GRADE
+                                        {sortConfig.key === 'grade' ? (
+                                            sortConfig.direction === 'asc' ?
+                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                        ) : (
+                                            <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                        )}
+                                    </th>
+                                    <th
+                                        onClick={() => handleSort('sem')}
+                                        style={{ cursor: 'pointer', userSelect: 'none' }}
+                                        title="Click to sort by semester"
+                                    >
+                                        SEMESTER
+                                        {sortConfig.key === 'sem' ? (
+                                            sortConfig.direction === 'asc' ?
+                                                <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
+                                                <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                        ) : (
+                                            <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                        )}
+                                    </th>
+                                    <th style={{ textAlign: 'center' }}>EDIT</th>
+                                    <th style={{ textAlign: 'center' }}>DELETE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {displayCourses.length === 0 ? (
                                     <tr>
-                                        <th style={{ minWidth: '140px' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                                                SUBJECT CODE
-                                                <FontAwesomeIcon
-                                                    icon={faFilter}
-                                                    style={{
-                                                        cursor: 'pointer',
-                                                        color: showUserAddedOnly ? '#4880ff' : 'inherit',
-                                                        opacity: showUserAddedOnly ? 1 : 0.3,
-                                                        fontSize: '12px'
-                                                    }}
-                                                    onClick={() => setShowUserAddedOnly(prev => !prev)}
-                                                    title={showUserAddedOnly ? "Show All Courses" : "Show User Added Courses Only"}
-                                                />
-                                            </div>
-                                        </th>
-                                        <th>SUBJECT NAME</th>
-                                        <th
-                                            onClick={() => handleSort('credits')}
-                                            style={{ cursor: 'pointer', userSelect: 'none' }}
-                                            title="Click to sort by credits"
-                                        >
-                                            SUBJECT CREDITS
-                                            {sortConfig.key === 'credits' ? (
-                                                sortConfig.direction === 'asc' ?
-                                                    <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
-                                                    <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
+                                        <td colSpan="7" style={{ textAlign: 'center', padding: '40px' }}>
+                                            {showUserAddedOnly ? (
+                                                <p style={{ color: '#6b7280', margin: 0 }}>No user-added courses in this category</p>
                                             ) : (
-                                                <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
+                                                <div className="no-courses">
+                                                    <Lottie
+                                                        animationData={emptyGhostAnimation}
+                                                        loop
+                                                        autoplay
+                                                        style={{ width: '200px', height: '200px', marginLeft: 'auto', marginRight: 'auto' }}
+                                                    />
+                                                    <p>Upload semester result to view courses here</p>
+                                                </div>
                                             )}
-                                        </th>
-                                        <th
-                                            onClick={() => handleSort('grade')}
-                                            style={{ cursor: 'pointer', userSelect: 'none' }}
-                                            title="Click to sort by grade"
-                                        >
-                                            GRADE
-                                            {sortConfig.key === 'grade' ? (
-                                                sortConfig.direction === 'asc' ?
-                                                    <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
-                                                    <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
-                                            ) : (
-                                                <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
-                                            )}
-                                        </th>
-                                        <th
-                                            onClick={() => handleSort('sem')}
-                                            style={{ cursor: 'pointer', userSelect: 'none' }}
-                                            title="Click to sort by semester"
-                                        >
-                                            SEMESTER
-                                            {sortConfig.key === 'sem' ? (
-                                                sortConfig.direction === 'asc' ?
-                                                    <FontAwesomeIcon icon={faArrowUp} style={{ marginLeft: '8px' }} /> :
-                                                    <FontAwesomeIcon icon={faArrowDown} style={{ marginLeft: '8px' }} />
-                                            ) : (
-                                                <span style={{ marginLeft: '8px', opacity: 0.3 }}>⇅</span>
-                                            )}
-                                        </th>
-                                        <th style={{ textAlign: 'center' }}>EDIT</th>
-                                        <th style={{ textAlign: 'center' }}>DELETE</th>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {displayCourses.map((course, index) => (
+                                ) : (
+                                    displayCourses.map((course, index) => (
                                         <tr key={index}>
                                             <td style={{ position: 'relative' }}>
                                                 <div style={{ display: 'inline-block', position: 'relative' }}>
@@ -506,8 +474,7 @@ function SingleCategory({ isDark, setIsDark }) {
                                                     }}>
                                                         {course.type === 'manual' && (
                                                             <div className="info-tooltip-container">
-                                                                <FontAwesomeIcon icon={faUser}  style={{ color: '#4880ff', fontSize: '14px' }} />
-                                                        
+                                                                <FontAwesomeIcon icon={faUser} style={{ color: '#4880ff', fontSize: '14px' }} />
                                                             </div>
                                                         )}
                                                     </div>
@@ -544,10 +511,10 @@ function SingleCategory({ isDark, setIsDark }) {
                                                 />
                                             </td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        )}
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
                     </div>
 
                     <Modal
@@ -563,7 +530,7 @@ function SingleCategory({ isDark, setIsDark }) {
                                 onClose={() => setEditModalOpen(false)}
                                 onSuccess={() => {
                                     setEditModalOpen(false);
-                                    setRefreshTrigger((prev) => prev + 1);
+                                    refreshUser(); // Sync context data
                                 }}
                             />
                         )}

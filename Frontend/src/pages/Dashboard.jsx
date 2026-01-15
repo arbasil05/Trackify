@@ -6,28 +6,59 @@ import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
 import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
 import DashboardHeader from '../components/dashboardheader/DashboardHeader';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
 import Spinner from '../components/spinner/Spinner';
 import Modal from "react-modal";
 import { faKey, faLandmark, faPen, faPencil, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '../context/AuthContext';
+
+const features = [
+  {
+    id: 1,
+    emoji: faLandmark,
+    color: "#3b82f6",
+    bgColor: "#dbeafe",
+    title: "All Departments Supported",
+    desc: "Trackify now works for both SCOFT and NON-SCOFT departments."
+  },
+  {
+    id: 2,
+    emoji: faWarning,
+    color: "#f59e0b",
+    bgColor: "#fef3c7",
+    title: "Missing Course Alerts",
+    desc: "You'll be notified if any course is not found after PDF parsing."
+  },
+  {
+    id: 3,
+    emoji: faPlus,
+    color: "#10b981",
+    bgColor: "#d1fae5",
+    title: "Add Courses Manually",
+    desc: "Missing courses can now be added from your User Profile."
+  },
+  {
+    id: 4,
+    emoji: faPen,
+    color: "#8b5cf6",
+    bgColor: "#ede9fe",
+    title: "Edit Course Info",
+    desc: "Course names and credits can be edited from the Categories page."
+  },
+  {
+    id: 5,
+    emoji: faKey,
+    color: "#ec4899",
+    bgColor: "#fce7f3",
+    title: "Forgot Password",
+    desc: "Recover your account easily using the new password reset option."
+  }
+];
 
 const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
-  const nav = useNavigate();
+  const { user, dashboardData, loading: authLoading, isAuthenticated, fetchUser } = useAuth();
 
-  const [authChecked, setAuthChecked] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
-
-  const [userDetails, setUserDetails] = useState({});
-  const [userSemCredits, setUserSemCredits] = useState({});
-  const [totalCredits, setTotalCredits] = useState(0);
-  const [runningTotal, setRunningTotal] = useState({});
-  const [cgpa, setCgpa] = useState("");
-
-  const [Loading, setLoading] = useState(true);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
   const [modalIsOpen, setModalIsOpen] = useState(() => {
@@ -39,103 +70,23 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
     localStorage.setItem('hasSeenNewFeatures', 'true');
   };
 
-  /* ================= AUTH CHECK ================= */
+  /* ================= FETCH DATA ON MOUNT ================= */
   useEffect(() => {
-    setAuthLoading(true);
-
-    axios
-      .get(
-        `${import.meta.env.VITE_BACKEND_API}/api/user/userDetails`,
-        { withCredentials: true }
-      )
-      .then(() => setAuthChecked(true))
-      .catch(() => {
-        toast.error("Please login or signup to continue");
-        nav("/login");
-      })
-      .finally(() => setAuthLoading(false));
-  }, []);
-
-  /* ================= FETCH DASHBOARD DATA ================= */
-  useEffect(() => {
-    if (!authChecked) return;
-
-    setLoading(true);
-
-    axios
-      .get(
-        `${import.meta.env.VITE_BACKEND_API}/api/user/courseByUser`,
-        { withCredentials: true }
-      )
-      .then((res) => {
-        const {
-          user,
-          user_sem_credits,
-          totalCredits,
-          runningTotal,
-          CGPA,
-        } = res.data;
-
-        setUserDetails(user);
-        setUserSemCredits(user_sem_credits || {});
-        setTotalCredits(Number(totalCredits) || 0);
-        setRunningTotal(runningTotal || {});
-        setCgpa(CGPA || "");
-      })
-      .finally(() => setLoading(false));
-  }, [authChecked]);
+    if (!dashboardData) {
+      fetchUser();
+    }
+  }, [dashboardData, fetchUser]);
 
   /* ================= LOADING STATES ================= */
-  if (authLoading) {
+  if (authLoading || !dashboardData) {
     return <Spinner isDark={isDark} message="Waking up server..." />;
   }
 
-  if (!authChecked) return null;
+  if (!isAuthenticated || !user) return null;
 
   /* ================= RENDER ================= */
 
-  const features = [
-    {
-      id: 1,
-      emoji: faLandmark,
-      color: "#3b82f6",
-      bgColor: "#dbeafe",
-      title: "All Departments Supported",
-      desc: "Trackify now works for both SCOFT and NON-SCOFT departments."
-    },
-    {
-      id: 2,
-      emoji: faWarning,
-      color: "#f59e0b",
-      bgColor: "#fef3c7",
-      title: "Missing Course Alerts",
-      desc: "You'll be notified if any course is not found after PDF parsing."
-    },
-    {
-      id: 3,
-      emoji: faPlus,
-      color: "#10b981",
-      bgColor: "#d1fae5",
-      title: "Add Courses Manually",
-      desc: "Missing courses can now be added from your User Profile."
-    },
-    {
-      id: 4,
-      emoji: faPen,
-      color: "#8b5cf6",
-      bgColor: "#ede9fe",
-      title: "Edit Course Info",
-      desc: "Course names and credits can be edited from the Categories page."
-    },
-    {
-      id: 5,
-      emoji: faKey,
-      color: "#ec4899",
-      bgColor: "#fce7f3",
-      title: "Forgot Password",
-      desc: "Recover your account easily using the new password reset option."
-    }
-  ];
+
 
   return (
     <div>
@@ -190,7 +141,7 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
         onDataRefresh={onDataRefresh}
         dark={isDark}
         setIsDark={setIsDark}
-        name={userDetails.name || ''}
+        name={user.name || ''}
         externalModalOpen={uploadModalOpen}
         setExternalModalOpen={setUploadModalOpen}
       />
@@ -199,23 +150,23 @@ const Dashboard = ({ isDark, setIsDark, onDataRefresh }) => {
 
       <Information
         dark={isDark}
-        user={userDetails}
-        cgpa={cgpa}
-        totalCredits={totalCredits}
-        userSemCredits={userSemCredits}
-        Loading={Loading}
+        user={user}
+        cgpa={dashboardData.cgpa}
+        totalCredits={dashboardData.totalCredits}
+        userSemCredits={dashboardData.userSemCredits}
+        Loading={false}
       />
 
       <div className="wrapper">
         <Barchart
           dark={isDark}
-          userSemCredits={userSemCredits}
-          Loading={Loading}
+          userSemCredits={dashboardData.userSemCredits}
+          Loading={false}
         />
         <Category
           dark={isDark}
-          runningTotal={runningTotal}
-          Loading={Loading}
+          runningTotal={dashboardData.runningTotal}
+          Loading={false}
         />
       </div>
 

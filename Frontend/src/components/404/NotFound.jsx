@@ -1,6 +1,7 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '@lottiefiles/lottie-player';
+import Lottie from 'lottie-react';
+import notfoundAnimation from '../../assets/lottie/notfound.json';
 import { useEffect, useState } from 'react';
 import './NotFound.css'
 import { Link } from 'react-router-dom';
@@ -36,12 +37,12 @@ const NotFound = () => {
       }}
     >
       <h1 align="center" style={{ fontSize: "24px" }}>{chosenMessage}</h1>
-      <lottie-player
-        src="/notfound.json"
+      <Lottie
+        animationData={notfoundAnimation}
         loop
         autoplay
         style={{ width: "350px", height: "300px" }}
-      ></lottie-player>
+      />
       <Link to="/">
         <div className="back-button">
           <FontAwesomeIcon icon={faChevronLeft} />

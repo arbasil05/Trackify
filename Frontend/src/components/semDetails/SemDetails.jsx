@@ -4,7 +4,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
 import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
-import '@lottiefiles/lottie-player';
+import Lottie from 'lottie-react';
+import emptyGhostAnimation from '../../assets/lottie/empty-ghost.json';
 
 
 const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
@@ -74,15 +75,12 @@ const SemDetails = ({ isDark, userSem, onDataRefresh }) => {
 
                 {sortedSemesters.length === 0 ? (
                     <p className="no-sem-message">
-                        <lottie-player
-                            src="/empty ghost.json"
-                            background="transparent"
-                            speed="1"
-                            style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                        <Lottie
+                            animationData={emptyGhostAnimation}
                             loop
                             autoplay
-                        >
-                        </lottie-player>
+                            style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                        />
                     </p>
                 ) : (
                     sortedSemesters.map(([semester, credit]) => (

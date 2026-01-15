@@ -1,14 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faCompass, faUserCircle, faPowerOff, faBars, faTimes, faMoon } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './MobileNavbar.css';
 
 const MobileNavbar = ({ dark, setIsDark }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const { clearAuth } = useAuth();
     const nav = useNavigate();
     const location = useLocation();
 
@@ -16,6 +18,7 @@ const MobileNavbar = ({ dark, setIsDark }) => {
         const url = `${import.meta.env.VITE_BACKEND_API}/api/auth/logout`;
         axios.post(url, {}, { withCredentials: true })
             .then(() => {
+                clearAuth(); // Clear context state
                 toast.success("Logged out successfully");
                 nav("/login");
             })
@@ -93,4 +96,4 @@ const MobileNavbar = ({ dark, setIsDark }) => {
         </div>
     )
 }
-export default MobileNavbar;
+export default memo(MobileNavbar);

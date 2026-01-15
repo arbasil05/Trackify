@@ -121,32 +121,9 @@ const SignUpRight = () => {
             return;
         }
 
-        const url = `${import.meta.env.VITE_BACKEND_API}/api/auth/register`;
-        const toastId = toast.loading("Creating your account...");
 
-        axios.post(url, {
-            name: trimmedName,
-            email: trimmedEmail,
-            code: trimmedCode,
-            grad_year: trimmedGrad,
-            dept: trimmedDept,
-            password: trimmedPass
-        }, { withCredentials: true })
-            .then((res) => {
-                toast.success("Account created successfully!", { id: toastId });
-                setShowTCModal(true);
-            })
-            .catch((error) => {
-                if (error.response && error.response.status === 409) {
-                    toast.error("User already exists", { id: toastId });
-                    return;
-                }
-                if (error.response && error.response.status === 401) {
-                    toast.error("Invalid or expired verification code", { id: toastId });
-                    return;
-                }
-                toast.error("Error while creating account", { id: toastId });
-            });
+
+        setShowTCModal(true);
     };
 
     // Enable submit only when OTP is sent and code is entered
@@ -154,15 +131,49 @@ const SignUpRight = () => {
 
     const handleTCProceed = () => {
         if (tcAgreed) {
-            setShowTCModal(false);
-            nav("/");
+            const trimmedName = name.trim();
+            const trimmedEmail = email.trim();
+            const trimmedDept = dept.trim();
+            const trimmedGrad = grad_year.trim();
+            const trimmedPass = password.trim();
+            const trimmedCode = otpCode.trim();
+
+            const url = `${import.meta.env.VITE_BACKEND_API}/api/auth/register`;
+            const toastId = toast.loading("Creating your account...");
+
+            axios.post(url, {
+                name: trimmedName,
+                email: trimmedEmail,
+                code: trimmedCode,
+                grad_year: trimmedGrad,
+                dept: trimmedDept,
+                password: trimmedPass
+            }, { withCredentials: true })
+                .then((res) => {
+                    toast.success("Account created successfully!", { id: toastId });
+                    setShowTCModal(false);
+                    nav("/");
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status === 409) {
+                        toast.error("User already exists", { id: toastId });
+                        return;
+                    }
+                    if (error.response && error.response.status === 401) {
+                        toast.error("Invalid or expired verification code", { id: toastId });
+                        return;
+                    }
+                    toast.error("Error while creating account", { id: toastId });
+                });
         } else {
             toast.error("Please acknowledge the terms to continue");
+
         }
     };
 
     const handleTCClose = () => {
         toast.error("You must accept the terms to use Trackify");
+        setShowTCModal(false);
     };
 
     return (

@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import './BarChart.css';
-import '@lottiefiles/lottie-player';
+import Lottie from 'lottie-react';
+import emptyGhostAnimation from '../../assets/lottie/empty-ghost.json';
 import {
   ResponsiveContainer,
   BarChart,
@@ -13,7 +14,6 @@ import {
 
 const Barchart = ({ dark, userSemCredits, Loading }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -21,11 +21,10 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    if (!userSemCredits) return;
+  const data = useMemo(() => {
+    if (!userSemCredits) return [];
 
-    // Sort the semesters based on the number in "semX"
-    const sortedBarData = Object.entries(userSemCredits)
+    return Object.entries(userSemCredits)
       .filter(([_, value]) => value > 0)
       .sort(([a], [b]) => {
         const numA = parseInt(a.replace('sem', ''), 10);
@@ -36,8 +35,6 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
         name: key.replace('sem', 'Sem '),
         credits: value,
       }));
-
-    setData(sortedBarData);
   }, [userSemCredits]);
 
   return (
@@ -45,15 +42,12 @@ const Barchart = ({ dark, userSemCredits, Loading }) => {
       data.length === 0 ? (
         <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
           <p className="no-data-message">
-            <lottie-player
-              src="/empty ghost.json"
-              background="transparent"
-              speed="1"
-              style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+            <Lottie
+              animationData={emptyGhostAnimation}
               loop
               autoplay
-            >
-            </lottie-player>
+              style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+            />
             Please upload result to view semester wise credits
           </p>
         </div>

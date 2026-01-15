@@ -10,6 +10,7 @@ import NotFound from './components/404/NotFound';
 import Feedback from './feedback/Feedback';
 import Explore from './pages/Explore';
 import ForgotPasswordPage from './pages/ForgotPassword';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -79,19 +80,21 @@ function App() {
   }, [isDark]);
 
   return (
-    <React.Fragment key={refreshKey}>
-      <Routes >
-        <Route path='/' element={<Dashboard isDark={isDark} setIsDark={setIsDark} onDataRefresh={handleDataRefresh} />} />
-        <Route path='/user' element={<User isDark={isDark} setIsDark={setIsDark} onDataRefresh={handleDataRefresh} />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
-        <Route path='/explore' element={<Explore isDark={isDark} setIsDark={setIsDark} />} />
-        <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-        <Route path='/feedback' element={<Feedback />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </React.Fragment>
+    <AuthProvider>
+      <React.Fragment key={refreshKey}>
+        <Routes >
+          <Route path='/' element={<Dashboard isDark={isDark} setIsDark={setIsDark} onDataRefresh={handleDataRefresh} />} />
+          <Route path='/user' element={<User isDark={isDark} setIsDark={setIsDark} onDataRefresh={handleDataRefresh} />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/category/:category' element={<SingleCategory isDark={isDark} setIsDark={setIsDark} />} />
+          <Route path='/explore' element={<Explore isDark={isDark} setIsDark={setIsDark} />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='/feedback' element={<Feedback />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </React.Fragment>
+    </AuthProvider>
   )
 }
 

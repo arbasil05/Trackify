@@ -2,7 +2,7 @@ import { faMoon, faUpload, faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-modal";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -12,18 +12,23 @@ import UploadModalStep from "./UploadModalStep";
 import MissingModalStep from "./MissingModalStep";
 import AddCourseFormModalStep from "./AddCourseFormModalStep";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 Modal.setAppElement("#root");
 
 const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalModalOpen, setExternalModalOpen }) => {
+    const { dashboardData, refreshUser } = useAuth();
+    
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalStep, setModalStep] = useState("warning");
     const [pdf, setPdf] = useState(null);
     const [semValue, setSemValue] = useState("");
-    const [existingSemesters, setExistingSemesters] = useState([]);
     const [missingCourses, setMissingCourses] = useState([]);
     const [addCourses, setAddCourses] = useState([]);
     const isSubmitting = useRef(false);
+
+    // Get existingSemesters from context
+    const existingSemesters = dashboardData?.existingSemesters || [];
 
     const location = useLocation();
     const isUserRoute = location.pathname === "/user";
@@ -39,24 +44,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
     useEffect(() => {
         const skipWarning = localStorage.getItem("skipWarning");
         setModalStep(skipWarning === "true" ? "upload" : "warning");
-        getExistingSemesters();
     }, []);
-
-    const getExistingSemesters = async () => {
-        try {
-            const res = await axios.get(
-                `${
-                    import.meta.env.VITE_BACKEND_API
-                }/api/semester/existingSemesters`,
-                { withCredentials: true }
-            );
-            if (res.data?.semesters) {
-                setExistingSemesters(res.data.semesters);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    };
 
     const handleDarkModeToggle = () => {
         setIsDark(!dark);
@@ -124,7 +112,8 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
         setSemValue("");
         setMissingCourses([]);
         setAddCourses([]);
-        onDataRefresh();
+        refreshUser(); // Refresh context data
+        if (onDataRefresh) onDataRefresh();
 
         const skipWarning = localStorage.getItem("skipWarning");
         setModalStep(skipWarning === "true" ? "upload" : "warning");
@@ -248,6 +237,7 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
                         ? "wide-modal"
                         : "narrow-modal"
                 }`}
+                overlayClassName="modal-overlay"
             >
                 {renderModalStep()}
             </Modal>
@@ -321,4 +311,4 @@ const Navbar = ({ dark, setIsDark, name, onDataRefresh, onAddCourse, externalMod
     );
 };
 
-export default Navbar;
+export default memo(Navbar);

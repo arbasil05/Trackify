@@ -86,13 +86,21 @@
 
     /* ===== Collapsible Content ===== */
     .collapsible-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.35s ease-out;
     }
 
     .collapsible-content.expanded {
-        max-height: 50000px;
+        grid-template-rows: 1fr;
+    }
+
+    .collapsible-content > * {
+        overflow: hidden;
+    }
+
+    .collapsible-inner {
+        min-height: 0;
     }
 
     /* ===== Mobile Course Table ===== */

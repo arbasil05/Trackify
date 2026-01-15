@@ -6,21 +6,18 @@ import EditCourseModal from "./EditCoursesModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencil, faArrowsLeftRight } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
-import '@lottiefiles/lottie-player';
+import Lottie from 'lottie-react';
+import emptyGhostAnimation from '../../assets/lottie/empty-ghost.json';
 
 Modal.setAppElement("#root");
 
-const UserAddedCourses = ({ isDark, refreshTrigger }) => {
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(true);
+const roman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+
+const UserAddedCourses = ({ isDark, userAddedCourses = [], onRefresh }) => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [courseToDelete, setCourseToDelete] = useState(null);
-
-    useEffect(() => {
-        fetchUserAddedCourses();
-    }, [refreshTrigger]);
 
     // Handle keyboard events for modal
     useEffect(() => {
@@ -32,25 +29,11 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
             } else if (e.key === 'Escape') {
                 closeDeleteModal();
             }
-        };
+        }
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [showDeleteModal, courseToDelete]);
-
-    const fetchUserAddedCourses = async () => {
-        try {
-            const res = await axios.get(
-                `${import.meta.env.VITE_BACKEND_API}/api/semester/getCourses`,
-                { withCredentials: true }
-            );
-            setCourses(res.data.user_added_courses || []);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleDeleteClick = (course) => {
         setCourseToDelete(course);
@@ -70,15 +53,15 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                 withCredentials: true
             });
             toast.success("Course deleted successfully");
-            fetchUserAddedCourses();
             closeDeleteModal();
+            if (onRefresh) onRefresh();
         } catch (err) {
             console.error(err);
             toast.error("Failed to delete course");
         }
     };
 
-    const roman = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+
 
     return (
         <div className={`userdetails-container ${isDark ? "dark" : ""}`}>
@@ -86,19 +69,14 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                 <h2>Courses Added by You</h2>
             </div>
 
-            {loading ? (
-                <p className="empty-message">Loading courses...</p>
-            ) : courses.length === 0 ? (
+            {userAddedCourses.length === 0 ? (
                 <p className="no-course-message">
-                    <lottie-player
-                        src="/empty ghost.json"
-                        background="transparent"
-                        speed="1"
-                        style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                    <Lottie
+                        animationData={emptyGhostAnimation}
                         loop
                         autoplay
-                    >
-                    </lottie-player>
+                        style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+                    />
                 </p>
             ) : (
                 <>
@@ -122,7 +100,7 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                         </thead>
 
                         <tbody>
-                            {courses.map((course) => (
+                            {userAddedCourses.map((course) => (
                                 <tr key={course._id}>
                                     <td className="mono">{course.code}</td>
                                     <td className="center">{course.course_name}</td>
@@ -174,7 +152,7 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
                         onClose={() => setEditModalOpen(false)}
                         onSuccess={() => {
                             setEditModalOpen(false);
-                            fetchUserAddedCourses();
+                            if (onRefresh) onRefresh();
                         }}
                     />
                 )}
@@ -214,3 +192,4 @@ const UserAddedCourses = ({ isDark, refreshTrigger }) => {
 };
 
 export default UserAddedCourses;
+

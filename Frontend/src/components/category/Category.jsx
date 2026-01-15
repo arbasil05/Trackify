@@ -5,28 +5,22 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const CATEGORIES = [
+  { name: 'HS', full: 'Humanities and Sciences' },
+  { name: 'BS', full: 'Basic Sciences' },
+  { name: 'ES', full: 'Engineering Sciences' },
+  { name: 'PC', full: 'Professional Core' },
+  { name: 'PE', full: 'Professional Electives' },
+  { name: 'OE', full: 'Open Electives' },
+  { name: 'EEC', full: 'Employment Enhancement Courses' },
+  { name: 'MC', full: 'Mandatory Courses' },
+];
+
 const Category = ({ dark, runningTotal, Loading }) => {
-  const [courses, setCourses] = useState([
-    { name: 'HS', full: 'Humanities and Sciences' },
-    { name: 'BS', full: 'Basic Sciences' },
-    { name: 'ES', full: 'Engineering Sciences' },
-    { name: 'PC', full: 'Professional Core' },
-    { name: 'PE', full: 'Professional Electives' },
-    { name: 'OE', full: 'Open Electives' },
-    { name: 'EEC', full: 'Employment Enhancement Courses' },
-    { name: 'MC', full: 'Mandatory Courses' },
-  ]);
-
-  useEffect(() => {
-    if (!runningTotal) return;
-
-    const updatedCourses = courses.map(course => ({
-      ...course,
-      credits: runningTotal[course.name],
-    }));
-    // console.log(updatedCourses,"updated courses")
-    setCourses(updatedCourses);
-  }, [runningTotal]);
+  const courses = CATEGORIES.map(course => ({
+    ...course,
+    credits: runningTotal ? runningTotal[course.name] : undefined,
+  }));
 
   return (
     !Loading ? (

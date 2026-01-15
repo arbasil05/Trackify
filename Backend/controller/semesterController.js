@@ -461,7 +461,7 @@ export async function handleGetUserAddedCourses(req, res) {
     }
 }
 
-export async function handlGetAllCourses(req, res) {
+export async function handleGetAllCourses(req, res) {
     try {
         const id = req.id;
         const user = await User.findById(id)
