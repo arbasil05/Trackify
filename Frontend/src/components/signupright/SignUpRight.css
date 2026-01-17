@@ -323,8 +323,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(10, 15, 30, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(10, 15, 30, 0.45);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,14 +343,14 @@
 }
 
 .tc-modal {
-    background: linear-gradient(145deg, #1a2235, #1e2840);
+    background: #ffffff;
     border-radius: 20px;
     padding: 32px 36px;
     max-width: 480px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
     animation: slideUp 0.35s ease-out;
 }
 
@@ -373,34 +373,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
-    color: #ff4444;
-    background: rgba(255, 68, 68, 0.15);
+    font-size: 28px;
+    color: #4880FF;
+    background: rgba(72, 128, 255, 0.1);
     border-radius: 50%;
 }
 
 .tc-modal-title {
-    color: #ffffff;
+    color: #1a1a1a;
     font-size: 1.6rem;
     font-weight: 700;
     margin: 0 0 8px;
 }
 
 .tc-modal-subtitle {
-    color: #8b95a5;
+    color: #6b7280;
     font-size: 0.95rem;
     margin: 0 0 20px;
 }
 
 .tc-modal-content {
-    background: linear-gradient(135deg, #3d1f1f, #2d1515);
-    border: 1px solid rgba(255, 100, 100, 0.3);
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 20px 24px;
     text-align: left;
     max-height: 280px;
     overflow-y: auto;
     margin-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
 }
 
 .tc-modal-content::-webkit-scrollbar {
@@ -408,17 +410,17 @@
 }
 
 .tc-modal-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: transparent;
     border-radius: 3px;
 }
 
 .tc-modal-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 100, 100, 0.4);
+    background-color: #d1d5db;
     border-radius: 3px;
 }
 
 .tc-modal-content h4 {
-    color: #ff8888;
+    color: #374151;
     font-size: 0.85rem;
     font-weight: 700;
     margin: 0 0 12px;
@@ -437,7 +439,7 @@
 }
 
 .tc-modal-content li {
-    color: #e8e8e8;
+    color: #4b5563;
     font-size: 0.9rem;
     padding: 6px 0;
     padding-left: 18px;
@@ -449,7 +451,7 @@
     content: "•";
     position: absolute;
     left: 0;
-    color: #ff6666;
+    color: #9ca3af;
     font-weight: bold;
 }
 
@@ -469,7 +471,7 @@
 }
 
 .tc-modal-checkbox label {
-    color: #b8c0cc;
+    color: #4b5563;
     font-size: 0.9rem;
     cursor: pointer;
 }
@@ -492,12 +494,12 @@
 }
 
 .tc-btn-close {
-    background: #2d3548;
-    color: #ffffff;
+    background: #f3f4f6;
+    color: #4b5563;
 }
 
 .tc-btn-close:hover {
-    background: #3a4560;
+    background: #e5e7eb;
 }
 
 .tc-btn-proceed {
@@ -506,14 +508,15 @@
 }
 
 .tc-btn-proceed:hover:not(:disabled) {
-    background: #3a6ee8;
+    background: #3254a4;
     transform: translateY(-1px);
 }
 
 .tc-btn-proceed:disabled {
-    background: #4a5568;
-    color: #8b95a5;
+    background: #d1d5db;
+    color: #9ca3af;
     cursor: not-allowed;
+    transform: none;
 }
 
 @media (max-width: 500px) {
