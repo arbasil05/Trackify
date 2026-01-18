@@ -106,13 +106,18 @@ const AddSingleCourseModal = ({ onClose, onSuccess }) => {
         const payload = { ...course, code: formattedCode, course_name: formattedName };
 
         try {
-            await axios.post(
+            const res = await axios.post(
                 `${import.meta.env.VITE_BACKEND_API}/api/semester/addCourses`,
                 payload,
                 { withCredentials: true }
             );
 
             toast.success("Course added");
+             if (res.data?.newAchievements?.length > 0) {
+                 toast.success("🏆 Achievement Unlocked!", {
+                     duration: 5000,
+                 });
+             }
             onSuccess();
         } catch (err) {
             toast.error("Failed to add course");

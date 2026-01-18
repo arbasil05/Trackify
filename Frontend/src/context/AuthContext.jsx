@@ -84,10 +84,26 @@ export const AuthProvider = ({ children }) => {
                 runningTotal,
                 CGPA,
                 courses,
-                user_added_courses
+                user_added_courses,
+                newAchievements
             } = res.data;
             
             setUser(userData);
+
+            if (newAchievements && newAchievements.length > 0) {
+                toast.success("🏆 Achievement Unlocked! Visit Profile.", {
+                    duration: 5000,
+                    style: {
+                        border: '1px solid #FFD700',
+                        padding: '16px',
+                        color: '#713200',
+                    },
+                    iconTheme: {
+                        primary: '#FFD700',
+                        secondary: '#FFFAEE',
+                    },
+                });
+            }
             
             // Format courses with type field for SingleCategory
             const formattedCourses = (courses || []).map(c => ({ ...c, type: 'parsed' }));

@@ -1,0 +1,57 @@
+.badge {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    background: linear-gradient(135deg,
+            #fff1a8 0%,
+            #f9d976 20%,
+            #e6b65c 45%,
+            #c9973b 60%,
+            #f9d976 80%,
+            #fff1a8 100%);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.badge::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    animation: shine-sweep 5s infinite;
+    animation-delay: var(--shine-delay);
+    pointer-events: none;
+}
+
+@keyframes shine-sweep {
+    0% {
+        left: -150%;
+    }
+
+    20%,
+    100% {
+        left: 150%;
+    }
+}
+
+.badge-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 40px;
+    padding-top: 30px;
+    flex-wrap: wrap;
+}

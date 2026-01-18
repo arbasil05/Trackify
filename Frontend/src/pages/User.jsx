@@ -10,6 +10,7 @@ import UserAddedCourses from "../components/user_added_courses/UserAddedCourses"
 import AddSingleCourseModal from "../components/navbar/AddSingleCourseModal";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
+import Badge from "../components/badge_display/Badge";
 
 const User = () => {
     const { user, dashboardData, loading: authLoading, refreshUser, fetchUser } = useAuth();
@@ -39,6 +40,7 @@ const User = () => {
             <Navbar name={user?.name} onDataRefresh={handleRefresh} onAddCourse={() => setAddCourseModalOpen(true)} />
             <UserHeader onAddCourse={() => setAddCourseModalOpen(true)} />
             <UserDetails userDetails={user || {}} onDataRefresh={handleRefresh} />
+            <Badge/>
             <SemDetails userSem={dashboardData.userSemCredits} onDataRefresh={handleRefresh} />
             <UserAddedCourses userAddedCourses={dashboardData.userAddedCourses} onRefresh={handleRefresh} />
 
