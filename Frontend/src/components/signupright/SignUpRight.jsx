@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 
 const SignUpRight = () => {
     const [name, setName] = useState("");
@@ -355,31 +355,37 @@ const SignUpRight = () => {
                 <div className="tc-modal-overlay">
                     <div className="tc-modal">
                         <div className="tc-modal-icon">
-                            <FontAwesomeIcon icon={faExclamationTriangle} />
+                            <FontAwesomeIcon icon={faShieldAlt} />
                         </div>
                         <h2 className="tc-modal-title">Terms & Conditions</h2>
                         <p className="tc-modal-subtitle">Please read carefully before proceeding</p>
 
                         <div className="tc-modal-content">
-                            <h4>DISCLAIMER & LIABILITY</h4>
+                            <p style={{ marginBottom: "12px", color: "#374151", fontSize: "0.95rem", lineHeight: "1.5",textAlign:"center" }}>
+                                Trackify is a personal academic tracking tool to help you understand your progress.
+                            </p>
+
                             <ul>
-                                <li>App provided "AS IS" without warranties</li>
-                                <li>No liability for CGPA calculation errors</li>
-                                <li>No liability for missing course opportunities</li>
-                                <li>No liability for graduation delays</li>
-                                <li>No liability for technical failures</li>
-                                <li>User assumes all risks of using the app</li>
+                                <li>
+                                    Trackify is <strong>not an official academic record or certificate</strong>
+                                </li>
+                                <li>
+                                    It does <strong>not</strong> prove course completion or CGPA
+                                </li>
+                                <li>
+                                    All calculations are for <strong>reference purposes only</strong>
+                                </li>
+                                <li>
+                                    Your college’s records and decisions are final
+                                </li>
+                                <li>
+                                    Do not use Trackify data as official proof anywhere
+                                </li>
                             </ul>
 
-                            <h4>ACCURACY DISCLAIMERS</h4>
-                            <ul>
-                                <li>CGPA calculations are "for reference only"</li>
-                                <li>App data should NOT be relied upon for official academic decisions</li>
-                                <li>Graduation timeline estimates are NOT guarantees</li>
-                                <li>User responsible for verifying all academic records with college</li>
-                                <li>No warranty regarding prediction accuracy</li>
-                                <li>Limitation of liability for errors in calculations</li>
-                            </ul>
+                            <p style={{ marginTop: "16px", color: "#6b7280", fontSize: "0.9rem", fontStyle: "italic" }}>
+                                Always verify important academic details with your institution.
+                            </p>
                         </div>
 
                         <div className="tc-modal-checkbox">
