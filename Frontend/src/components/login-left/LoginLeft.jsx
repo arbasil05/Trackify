@@ -8,7 +8,7 @@ const LoginLeft = () => {
             <p>Your Smart Student Dashboard</p>
         </div>
         <div className="loginleft-image">
-            <img src="/login-image.png" alt="" />
+            <img src="/login-image.png" alt="trackify-image" fetchPriority="high" />
         </div>
         <div className="loginleft-footer">
             <h3>One place to view your academic journey</h3>

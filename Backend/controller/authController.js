@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import { generateOTP, storeOTP, sendOTP } from "../services/otpService.js";
+import { JWT_COOKIE_OPTIONS, clearCookieOptions } from "../utils/cookieConfig.js";
 
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
 
@@ -21,6 +22,10 @@ export async function register(req, res) {
             return res.status(400).json({ message: "Name cannot exceed 20 characters" });
         }
 
+        if (password.length < 6) {
+            return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        }
+
         const user = await User.create({
             name,
             email,
@@ -34,19 +39,7 @@ export async function register(req, res) {
 
         // console.log(`JWT Token generated successfully : ${token}`);
 
-        // create cookie
-        // res.cookie("jwt", token, {
-        //     httpOnly: true,
-        //     secure: false,
-        //     sameSite: "lax",
-        //     maxAge: 24 * 60 * 60 * 1000,
-        // });
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        res.cookie('jwt', token, JWT_COOKIE_OPTIONS);
 
         // console.log("Cookie set successfully!");
         const { password: _password, ...userWithoutPassword } = user.toObject();
@@ -85,20 +78,7 @@ export async function login(req, res) {
 
         const token = jwt.sign({ id: user._id }, SECRET_JWT_KEY, { expiresIn: '7d' });
 
-        // console.log(`JWT token : ${token}`);
-
-        // res.cookie("jwt", token, {
-        //     httpOnly: true,
-        //     secure: false,
-        //     sameSite: "lax",
-        //     maxAge: 24 * 60 * 60 * 1000,
-        // });
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        res.cookie('jwt', token, JWT_COOKIE_OPTIONS);
 
         // console.log(`Cookie created Succesfully`);
 
@@ -112,19 +92,7 @@ export async function login(req, res) {
 
 export async function logout(req, res) {
     try {
-        // res.clearCookie("jwt", {
-        //     httpOnly: true,
-        //     secure: false,
-        //     sameSite: "lax",
-        //     maxAge: 24 * 60 * 60 * 1000,
-        // });
-        res.clearCookie('jwt', {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-
+        res.clearCookie('jwt', clearCookieOptions);
         res.status(200).json({ message: "Log out successfull" });
     } catch (error) {
         // console.log(`Error in logout ${error}`);
@@ -175,13 +143,17 @@ export async function forgotPassword(req, res) {
             return res.status(400).json({ error: 'Passwords do not match' });
         }
 
+        if (password.length < 6) {
+            return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        }
+
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
 
         user.password = password;
-        await user.save();
+        await user.save(); // this will hash the password because of pre save trigger
 
         res.status(200).json({ message: "Password reset successful" });
 

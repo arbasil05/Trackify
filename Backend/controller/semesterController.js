@@ -3,9 +3,7 @@ import Course from "../models/Course.js";
 import User from "../models/User.js";
 import MissingCourse from "../models/MissingCourse.js";
 import { waitUntil } from "@vercel/functions";
-
-const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
-const gradeMap = { 10: "O", 9: "A+", 8: "A", 7: "B+", 6: "B", 5: "C" };
+import { SCOFT_DEPARTMENTS, GRADE_MAP } from "../utils/constants.js";
 
 export async function uploadFile(req, res) {
     const courseEntries = [];
@@ -267,7 +265,7 @@ export async function handleAddCourses(req, res) {
                 gradePoint: Number(c.gradePoint),
                 sem: semNumber,
                 category: c.category,
-                grade: gradeMap[Number(c.gradePoint)] || "NA",
+                grade: GRADE_MAP[Number(c.gradePoint)] || "NA",
                 isNonCgpa: c.isNonCgpa || false,
             };
         });
@@ -416,7 +414,7 @@ export async function handleCourseUpdate(req, res) {
                     "user_added_courses.$.code": code,
                     "user_added_courses.$.credits": Number(credits),
                     "user_added_courses.$.gradePoint": Number(gradePoint),
-                    "user_added_courses.$.grade": gradeMap[Number(gradePoint)] || "NA",
+                    "user_added_courses.$.grade": GRADE_MAP[Number(gradePoint)] || "NA",
                     "user_added_courses.$.sem": Number(sem),
                     "user_added_courses.$.category": category,
                     "user_added_courses.$.isNonCgpa": isNonCgpa !== undefined ? isNonCgpa : false,
@@ -578,7 +576,7 @@ export async function handleEditCourse(req, res) {
             if (credits) courseToUpdate.credits = Number(credits);
             if (gradePoint) {
                 courseToUpdate.gradePoint = Number(gradePoint);
-                courseToUpdate.grade = gradeMap[Number(gradePoint)] || "NA";
+                courseToUpdate.grade = GRADE_MAP[Number(gradePoint)] || "NA";
             }
             if (sem) courseToUpdate.sem = sem;
             if (category) courseToUpdate.category = category;
@@ -593,7 +591,7 @@ export async function handleEditCourse(req, res) {
             // For parsed courses, we only update mutable fields
             if (gradePoint) {
                 courseToUpdate.gradePoint = Number(gradePoint);
-                courseToUpdate.grade = gradeMap[Number(gradePoint)] || "NA";
+                courseToUpdate.grade = GRADE_MAP[Number(gradePoint)] || "NA";
             }
             if (sem) courseToUpdate.sem = sem;
             if (category) courseToUpdate.category = category;

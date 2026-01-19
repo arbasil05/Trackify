@@ -2,8 +2,7 @@ import NonScoftCourse from "../models/NonScoftCourse.js";
 import Course from "../models/Course.js";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
 import User from "../models/User.js";
-
-const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
+import { SCOFT_DEPARTMENTS } from "../utils/constants.js";
 
 // Helper function to safely escape any regex special characters and remove null bytes
 function sanitizeForRegex(str) {

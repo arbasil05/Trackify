@@ -1,8 +1,7 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import NonScoftCourse from "../models/NonScoftCourse.js";
-
-const SCOFT_DEPARTMENTS = ["CSE", "AIML", "AIDS", "IOT", "IT", "CYBER"];
+import { SCOFT_DEPARTMENTS } from "../utils/constants.js";
 
 
 export async function userDetails(req, res) {
