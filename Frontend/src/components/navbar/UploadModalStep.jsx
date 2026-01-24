@@ -14,7 +14,7 @@ const UploadModalStep = ({ semValue, setSemValue, existingSemesters, pdf, setPdf
     
     if (file.size > MAX_FILE_SIZE) {
       toast.error('File size exceeds 1MB limit. Please select a smaller file.');
-      e.target.value = ''; // Reset the input
+      e.target.value = '';  // Reset the input
       setPdf(null);
       return;
     }

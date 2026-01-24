@@ -1,17 +1,26 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import LoginLeft from "../components/login-left/LoginLeft";
 import "./Feedback.css"
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../context/AuthContext";
 
 const Feedback = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const { user } = useAuth();
+    const [name, setName] = useState(user?.name || "");
+    const [email, setEmail] = useState(user?.email || "");
     const [issue, setIssue] = useState("");
     const nav = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            setName(user.name || "");
+            setEmail(user.email || "");
+        }
+    }, [user]);
 
     const handleFeedbackSubmit = (e) => {
         e.preventDefault();
