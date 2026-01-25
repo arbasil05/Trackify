@@ -4,6 +4,65 @@
     margin-bottom: 20px;
     margin-top: 20px;
     margin-right: 8%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-bee {
+    position: absolute;
+    right: 0;
+    bottom: -15px; 
+    margin-left: auto;
+    width: 45px;
+    transform: rotateY(180deg);
+    cursor: pointer;
+}
+
+.bee-tooltip {
+    visibility: hidden;
+    width: 140px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) rotateY(180deg); /* Center horizontally and unflip */
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.bee-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.footer-bee:hover .bee-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.bee-tooltip a {
+    color: #4cdbf1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.bee-tooltip a:hover {
+    text-decoration: underline;
 }
 
 .contact-us {
@@ -21,6 +80,16 @@
 
 @media (max-width: 768px) {
     .footer-container {
-        margin: 0 auto;
+        margin: 20px auto;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-bee {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        margin-top: 10px;
+        margin-left: 0;
     }
 }

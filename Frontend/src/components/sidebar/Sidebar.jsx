@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 import { memo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-
 const Sidebar = () => {
     const { clearAuth } = useAuth();
     const { isDark: dark } = useTheme();

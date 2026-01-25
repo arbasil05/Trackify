@@ -79,7 +79,25 @@
   justify-content: center;
   width: 100%;
   gap: 16px;
+  overflow: hidden;
+
+  /* Default Hidden State */
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+
+  /* Smooth Transition */
+  transition: all 0.4s ease-out;
+}
+
+.userdetails-buttons.active {
+  max-height: 200px;
+  opacity: 1;
   margin-top: 35px;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .userdetails-buttons button {

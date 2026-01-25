@@ -40,6 +40,11 @@ const UserDetails = ({ userDetails, onDataRefresh }) => {
       return;
     }
 
+    if (editedDetails.name.trim().length > 20) {
+      toast.error("Name cannot exceed 20 characters");
+      return;
+    }
+
 
     const url = `${import.meta.env.VITE_BACKEND_API}/api/user/updateProfile`;
     axios
@@ -166,16 +171,14 @@ const UserDetails = ({ userDetails, onDataRefresh }) => {
         </div>
       </div>
 
-      {isEditable && (
-        <div className="userdetails-buttons">
-          <button className="user-cancel" onClick={handleCancel}>
-            Cancel
-          </button>
-          <button className="user-save" onClick={handleSave}>
-            Save Changes
-          </button>
-        </div>
-      )}
+      <div className={`userdetails-buttons ${isEditable ? 'active' : ''}`}>
+        <button className="user-cancel" onClick={handleCancel}>
+          Cancel
+        </button>
+        <button className="user-save" onClick={handleSave}>
+          Save Changes
+        </button>
+      </div>
     </div>
   );
 };
