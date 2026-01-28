@@ -167,7 +167,7 @@
 	font-size: 15px;
 	font-weight: 600;
 	cursor: pointer;
-	transition: background 0.2s;
+	/* transition: background 0.2s; */
 }
 .btn.proceed:hover {
 	background: #2563eb;
@@ -181,7 +181,7 @@
 	font-size: 15px;
 	font-weight: 600;
 	cursor: pointer;
-	transition: background 0.2s;
+	/* transition: background 0.2s; */
 }
 .btn.cancel:hover {
 	background: #e5e7eb;

@@ -268,6 +268,7 @@ const Navbar = ({ name, onAddCourse, externalModalOpen, setExternalModalOpen }) 
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={handleModalClose}
+                shouldCloseOnOverlayClick={false}
                 className={`custom-modal ${dark ? "dark" : ""} ${
                     modalStep === "warning" || modalStep === "AddCourseForm"
                         ? "wide-modal"

@@ -4,7 +4,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   user-select: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* transition: background-color 0.3s ease, color 0.3s ease; */
   text-decoration: none;
 }
 
@@ -85,9 +85,9 @@ button:hover {
 
 @keyframes skeleton-loading {
     0% {
-        background-position: 100% 0; /* Gradient starts from right */
+        background-position: 100% 0; 
     }
     100% {
-        background-position: -100% 0; /* Gradient moves to left */
+        background-position: -100% 0; 
     }
 }

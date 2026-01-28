@@ -71,7 +71,7 @@
     font-weight: 500;
     font-size: 15px;
     cursor: pointer;
-    transition: 0.5s all ease;
+    /* transition: 0.5s all ease; */
 }
 
 .sidebarDash {
@@ -107,17 +107,17 @@
     gap: 10px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    /* transition: background-color 0.3s ease, color 0.3s ease; */
     background-color: #ffffff;
     color: #000000;
     margin-left: 18px;
-    transition: 0.5s all ease-in-out;
+    /* transition: 0.5s all ease-in-out; */
 }
 
 .logout-button-light:hover {
     background-color: #000000;
     color: white;
-    gap: 20px;
+    /* gap: 20px; */
 }
 
 
@@ -132,17 +132,17 @@
     gap: 10px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    /* transition: background-color 0.3s ease, color 0.3s ease; */
     background-color: #273142;
     color: #ffffff;
     margin-left: 18px;
-    transition: 0.5s all ease-in-out;
+    /* transition: 0.5s all ease-in-out; */
 }
 
 .logout-button-dark:hover {
     background-color: #ffffff;
     color: black;
-    gap: 20px;
+    /* gap: 20px; */
 }
 
 /* Highlight the active menu item */
@@ -152,7 +152,7 @@
 }
 
 /* Optional: smoother transition */
-.sidebar-menu div {
+/* .sidebar-menu div {
     transition: background-color 0.3s ease, transform 0.3s ease;
-}
+} */
 

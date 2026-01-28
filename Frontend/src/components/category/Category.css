@@ -10,7 +10,7 @@
   margin-top: 50px;
   margin-bottom: 20px;
   overflow-y: auto;
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.3s ease; */
   margin-right: 80px;
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
@@ -31,7 +31,7 @@
   font-weight: 500;
   font-size: 22px;
   color: black;
-  transition: color 0.3s ease;
+  /* transition: color 0.3s ease; */
 }
 
 .trackify-category-container.dark .category-title {
@@ -47,7 +47,7 @@
   border-radius: 10px;
   padding: 5px;
   padding-right: 10px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* transition: background-color 0.3s ease, color 0.3s ease; */
 }
 
 .individual-category.dark {
@@ -62,7 +62,7 @@
   font-size: 23px;
   font-weight: 500;
   color: black;
-  transition: color 0.3s ease;
+  /* transition: color 0.3s ease; */
 }
 
 .trackify-category-container.dark .individual-title h1 {
@@ -72,7 +72,7 @@
 .individual-title p {
   font-size: 10px;
   color: rgb(143, 143, 143);
-  transition: color 0.3s ease;
+  /* transition: color 0.3s ease; */
 }
 
 .trackify-category-container.dark .individual-title p {
@@ -98,7 +98,7 @@
   font-size: 16px;
   font-weight: 500;
   color: black;
-  transition: color 0.3s ease;
+  /* transition: color 0.3s ease; */
 }
 
 .trackify-category-container.dark .individual-right h3 {
