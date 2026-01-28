@@ -114,7 +114,7 @@ const AddSingleCourseModal = ({ onClose, onSuccess }) => {
 
             toast.success("Course added");
              if (res.data?.newAchievements?.length > 0) {
-                 toast.success("🏆 Achievement Unlocked!", {
+                 toast.success("🏆 Achievement Unlocked! Check Profile", {
                      duration: 5000,
                  });
              }

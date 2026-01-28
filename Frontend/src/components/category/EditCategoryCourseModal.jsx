@@ -93,7 +93,7 @@ const EditCategoryCourseModal = ({ courseData, onClose, onSuccess }) => {
 
             toast.success("Course updated successfully");
             if (res.data?.newAchievements?.length > 0) {
-                 toast.success("🏆 Achievement Unlocked!", {
+                 toast.success("🏆 Achievement Unlocked! Check Profile", {
                      duration: 5000,
                  });
             }

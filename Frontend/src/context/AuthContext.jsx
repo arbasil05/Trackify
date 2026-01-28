@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }) => {
             setUser(userData);
 
             if (newAchievements && newAchievements.length > 0) {
-                toast.success("🏆 Achievement Unlocked! Visit Profile.", {
+                toast.success("🏆 Achievement Unlocked! CHecks Profile.", {
                     duration: 5000,
                     style: {
                         border: '1px solid #FFD700',
