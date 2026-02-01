@@ -1,10 +1,10 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { randomUUID } from 'crypto';
 
-// Middleware to ensure every user has a guest_id
+// Middleware to ensure every user has a guest_id (signed cookie)
 export const guestIdentifier = (req, res, next) => {
 
-    if (!req.cookies.guest_id) {
+    if (!req.signedCookies.guest_id) {
         const guestId = randomUUID();
         const isProduction = process.env.NODE_ENV === 'production';
         
@@ -12,25 +12,27 @@ export const guestIdentifier = (req, res, next) => {
             httpOnly: true,
             secure: isProduction,
             sameSite: isProduction ? 'none' : 'lax',
-            maxAge: 365 * 24 * 60 * 60 * 1000 // 1 year
+            maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+            signed: true
         });
 
-        req.cookies.guest_id = guestId;
+        req.signedCookies.guest_id = guestId;
     }
     next();
 };
 
-const keyGenerator = (req) => {
+const keyGenerator = (req, res) => {
     // 1. Authenticated User 
     if (req.id) return req.id;
 
-    // 2. Guest ID for unauthenticated users
-    if (req.cookies && req.cookies.guest_id) {
-        return req.cookies.guest_id;
+    // 2. Guest ID for unauthenticated users (signed cookie)
+    if (req.signedCookies && req.signedCookies.guest_id) {
+        return req.signedCookies.guest_id;
     }
-    // 3. IP Fallback
-    console.log(req.ip);
-    return req.ip;
+
+    // 3. IP Fallback (using helper for IPv6 compatibility)
+    // this is how express-rate-limit deals with IP addresses
+    return ipKeyGenerator(req, res);
 };
 
 export const otpLimiter = rateLimit({

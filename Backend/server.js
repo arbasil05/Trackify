@@ -14,7 +14,7 @@ const app = express();
 
 app.set('trust proxy', 1); // rate limit setup behind proxy (vercel)
 
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(guestIdentifier);
 app.use(cors({
     origin: process.env.FRONTEND_URL,
