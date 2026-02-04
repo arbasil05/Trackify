@@ -60,6 +60,30 @@ const SignUpRight = () => {
             const url = `${import.meta.env.VITE_BACKEND_API}/api/auth/send-otp`;
             await axios.post(url, { email: trimmedEmail, purpose: 'registration' }, { withCredentials: true });
             toast.success("Verification code sent to your email", { id: toastId });
+
+            // Show spam folder warning toast
+            setTimeout(() => {
+                toast.custom(
+                    (t) => (
+                        <div
+                            className={`spam-warning-toast ${t.visible ? 'toast-enter' : 'toast-exit'}`}
+                        >
+                            <div className="spam-toast-icon">📧</div>
+                            <div className="spam-toast-content">
+                                <span className="spam-toast-title">Can't find the email?</span>
+                                <span className="spam-toast-message">
+                                    Check your spam or junk folder — our emails might end up there!
+                                </span>
+                            </div>
+                        </div>
+                    ),
+                    {
+                        duration: 8000,
+                        position: 'top-center',
+                    }
+                );
+            }, 1500);
+
             setIsOtpSent(true);
             setResendTimer(60); // Start 60 second countdown
             // Auto-focus OTP input after short delay for animation
@@ -361,7 +385,7 @@ const SignUpRight = () => {
                         <p className="tc-modal-subtitle">Please read carefully before proceeding</p>
 
                         <div className="tc-modal-content">
-                            <p style={{ marginBottom: "12px", color: "#374151", fontSize: "0.95rem", lineHeight: "1.5",textAlign:"center" }}>
+                            <p style={{ marginBottom: "12px", color: "#374151", fontSize: "0.95rem", lineHeight: "1.5", textAlign: "center" }}>
                                 Trackify is a personal academic tracking tool to help you understand your progress.
                             </p>
 

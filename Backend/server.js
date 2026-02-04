@@ -4,6 +4,7 @@ import { connectDB } from "./config/db.js";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js"
 import cookieParser from "cookie-parser";
+import { guestIdentifier, apiLimiter } from "./middleware/rateLimiter.js";
 import authRoutes from "./routes/authRoutes.js"
 import semesterRoutes from "./routes/semesterRoutes.js"
 import feedbackRoutes from "./routes/feedbackRoutes.js";
@@ -13,7 +14,8 @@ const app = express();
 
 app.set('trust proxy', 1); // rate limit setup behind proxy (vercel)
 
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(guestIdentifier);
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true
@@ -22,8 +24,8 @@ app.use(cors({
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/semester", semesterRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/semester", apiLimiter, semesterRoutes);
+app.use("/api/user", apiLimiter, userRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
 connectDB().then(() => {
