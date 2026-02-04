@@ -15,7 +15,7 @@
     right: 0;
     bottom: -15px;
     display: flex;
-    gap: 8px;
+    gap: 16px;
     transform: rotateY(180deg); /* Icons face left */
 }
 
@@ -83,6 +83,7 @@
 /* Invert GitRid icon to match dark theme */
 .gitrid-icon {
     filter: invert(1);
+    scale: 0.65;
 }
 
 /* Contact us link */
