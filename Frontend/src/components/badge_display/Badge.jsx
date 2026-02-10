@@ -27,10 +27,10 @@ const ICON_MAP = {
 };
 
 const SVG_MAP = {
-    "CREDIT_50": "/Badges/Half century.svg",
+    "CREDIT_50": "/Badges/half century.svg",
     "CREDIT_100": "/Badges/Century.svg",
-    "DEGREE_COMPLETE": "/Badges/Mission accomplished.svg",
-    "SEM_30_CREDITS": "/Badges/Heavy Lifter.svg",
+    "DEGREE_COMPLETE": "/Badges/mission accomplished.svg",
+    "SEM_30_CREDITS": "/Badges/heavy lifter.svg",
     "STRAIGHT_A_SEM": "/Badges/Straight A's.svg",
     "CATEGORY_COMPLETE_HS": "/Badges/HS.svg",
     "CATEGORY_COMPLETE_BS": "/Badges/BS.svg",
