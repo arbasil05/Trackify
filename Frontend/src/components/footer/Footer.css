@@ -1,116 +1,164 @@
-.footer-container {
+.site-footer {
     margin-left: 250px;
     margin-right: 8%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    position: relative;
+    margin-top: 40px;
+    padding: 28px 0 16px;
+    border-top: 1px solid rgba(128, 128, 128, 0.12);
+}
+
+/* ── Top row ── */
+.site-footer-top {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
-/* Icons wrapper on the right side */
-.footer-bee {
-    position: absolute;
-    right: 0;
-    bottom: -15px;
+/* Brand + quip */
+.site-footer-brand {
+    flex: 1 1 180px;
+    min-width: 160px;
+}
+
+.site-footer-logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.site-footer-logo-accent {
+    color: #4880FF;
+}
+
+.site-footer-quip {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    opacity: 0.4;
+    font-style: italic;
+    line-height: 1.4;
+    max-width: 220px;
+}
+
+/* Columns */
+.site-footer-col {
     display: flex;
-    gap: 16px;
-    transform: rotateY(180deg); /* Icons face left */
+    flex-direction: column;
+    gap: 6px;
 }
 
-/* Individual icon container */
-.icon-wrapper {
-    position: relative;
-    width: 42px;
-    cursor: pointer;
-}
-
-/* Tooltip styling */
-.bee-tooltip {
-    visibility: hidden;
-    opacity: 0;
-    width: 110px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px;
-    font-size: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    
-    /* Positioning */
-    position: absolute;
-    z-index: 10;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%) rotateY(180deg); /* Unflip text */
-    
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    pointer-events: none;
-}
-
-/* Tooltip arrow */
-.bee-tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-}
-
-/* Show tooltip on hover */
-.icon-wrapper:hover .bee-tooltip {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Tooltip link */
-.bee-tooltip a {
-    color: #4cdbf1;
-    text-decoration: none;
+.site-footer-col h4 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.35;
+    margin: 0 0 2px;
     font-weight: 600;
 }
 
-.bee-tooltip a:hover {
+.site-footer-col a {
+    font-size: 0.82rem;
+    color: #4880FF;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+.site-footer-col a:hover {
+    opacity: 0.65;
     text-decoration: underline;
 }
 
-/* Invert GitRid icon to match dark theme */
+/* Lottie project rows */
+.site-footer-project {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.site-footer-lottie {
+    width: 28px;
+    height: 28px;
+}
+
 .gitrid-icon {
     filter: invert(1);
-    scale: 0.65;
 }
 
-/* Contact us link */
-.contact-us {
+/* ── Bottom row ── */
+.site-footer-bottom {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(128, 128, 128, 0.08);
+    text-align: center;
+}
+
+.site-footer-bottom p {
+    font-size: 0.78rem;
+    opacity: 0.8;
+}
+
+.site-footer-bottom a {
     color: #4880FF;
-    cursor: pointer;
     text-decoration: none;
-    transition: text-decoration-color 0.2s ease;
 }
 
-.contact-us:hover {
+.site-footer-bottom a:hover {
     text-decoration: underline;
-    text-decoration-color: #4880FF;
 }
 
-/* Mobile responsiveness */
+/* ── Dark mode ── */
+.site-footer-dark .site-footer-logo {
+    color: #fff;
+}
+
+/* ── Mobile ── */
 @media (max-width: 768px) {
-    .footer-container {
-        margin: 20px auto;
-        flex-direction: column;
-        gap: 12px;
+    .site-footer {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 24px 20px 16px;
     }
 
-    .footer-bee {
-        position: relative;
-        right: auto;
-        bottom: auto;
-        margin-top: 10px;
+    .site-footer-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px 20px;
+        text-align: center;
+    }
+
+    .site-footer-brand {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+
+    .site-footer-quip {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .site-footer-col {
+        align-items: center;
+    }
+
+    .site-footer-col:last-child {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 32px;
+    }
+
+    .site-footer-col:last-child h4 {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    .site-footer-project {
+        justify-content: center;
+    }
+
+    .site-footer-lottie {
+        width: 24px;
+        height: 24px;
     }
 }

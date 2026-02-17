@@ -7,11 +7,11 @@ export const guestIdentifier = (req, res, next) => {
     if (!req.signedCookies.guest_id) {
         const guestId = randomUUID();
         const isProduction = process.env.NODE_ENV === 'production';
-        
+
         res.cookie('guest_id', guestId, {
             httpOnly: true,
             secure: isProduction,
-            sameSite: isProduction ? 'none' : 'lax',
+            sameSite: process.env.COOKIE_SAME_SITE || 'none',
             maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
             signed: true
         });
@@ -66,7 +66,7 @@ export const loginLimiter = rateLimit({
 
 export const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 300, 
+    max: 300,
     message: { error: "Too many requests, please try again later" },
     standardHeaders: true,
     legacyHeaders: false,
