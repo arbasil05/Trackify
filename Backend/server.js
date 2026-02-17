@@ -30,8 +30,8 @@ app.use("/api/user", apiLimiter, userRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
 connectDB().then(async () => {
+    await seedAchievements(); // Ensure achievements are seeded on startup
     if (!process.env.VERCEL) {
-        await seedAchievements(); // Ensure achievements are seeded on startup
         app.listen(PORT, () => {
             console.log(`Server started on PORT : ${PORT}`);
         });
