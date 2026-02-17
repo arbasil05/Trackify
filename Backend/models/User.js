@@ -119,6 +119,21 @@ const UserSchema = mongoose.Schema({
             },
         ],
     },
+    achievements: {
+        type: [
+            {
+                key: {
+                    type: String,
+                    required: true,
+                },
+                unlockedAt: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
+        default: [],
+    },
 });
 
 UserSchema.pre("save", async function (next) {

@@ -8,6 +8,7 @@ import { guestIdentifier, apiLimiter } from "./middleware/rateLimiter.js";
 import authRoutes from "./routes/authRoutes.js"
 import semesterRoutes from "./routes/semesterRoutes.js"
 import feedbackRoutes from "./routes/feedbackRoutes.js";
+import { seedAchievements } from "./services/achievementService.js";
 const PORT = process.env.PORT || 5001;
 
 const app = express();
@@ -28,8 +29,9 @@ app.use("/api/semester", apiLimiter, semesterRoutes);
 app.use("/api/user", apiLimiter, userRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
-connectDB().then(() => {
+connectDB().then(async () => {
     if (!process.env.VERCEL) {
+        await seedAchievements(); // Ensure achievements are seeded on startup
         app.listen(PORT, () => {
             console.log(`Server started on PORT : ${PORT}`);
         });

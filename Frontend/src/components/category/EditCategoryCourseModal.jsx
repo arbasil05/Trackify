@@ -75,7 +75,7 @@ const EditCategoryCourseModal = ({ courseData, onClose, onSuccess }) => {
         const semPayload = isParsed ? `sem${sem}` : sem.toString();
 
         try {
-            await axios.put(
+            const res = await axios.put(
                 `${import.meta.env.VITE_BACKEND_API}/api/semester/editCourse`,
                 {
                     courseId: courseData._id,
@@ -92,6 +92,11 @@ const EditCategoryCourseModal = ({ courseData, onClose, onSuccess }) => {
             );
 
             toast.success("Course updated successfully");
+            if (res.data?.newAchievements?.length > 0) {
+                 toast.success("🏆 Achievement Unlocked! Check Profile", {
+                     duration: 5000,
+                 });
+            }
             onSuccess();
         } catch (err) {
             const msg =

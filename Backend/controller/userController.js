@@ -1,8 +1,20 @@
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import NonScoftCourse from "../models/NonScoftCourse.js";
+import Achievement from "../models/Achievement.js";
+import { evaluateAchievements } from "../services/achievementService.js";
 import { SCOFT_DEPARTMENTS } from "../utils/constants.js";
 
+
+export async function getAchievements(req, res) {
+    try {
+        const achievements = await Achievement.find({ isActive: true }).select("key title description icon type category");
+        res.status(200).json({ achievements });
+    } catch (error) {
+        console.error("Error fetching achievements:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
 
 export async function userDetails(req, res) {
     try {
@@ -116,10 +128,14 @@ export async function courseByUserWithUserAdded(req, res) {
     try {
         const id = req.id;
 
+        // Auto-evaluate achievements if none exist or just to ensure consistency
+        // This acts as a catch-all trigger for existing users
+        const newAchievements = await evaluateAchievements(id);
+
         const user = await User.findById(id)
             .populate("courses.course")
             .select(
-                "name email reg_no dept grad_year courses user_added_courses"
+                "name email reg_no dept grad_year courses user_added_courses achievements"
             );
 
         if (!user) {
@@ -325,6 +341,7 @@ export async function courseByUserWithUserAdded(req, res) {
                 reg_no: user.reg_no,
                 dept: user.dept,
                 grad_year: user.grad_year,
+                achievements: user.achievements || [],
             },
             runningTotal: {
                 HS,
@@ -343,6 +360,7 @@ export async function courseByUserWithUserAdded(req, res) {
             courses: user.courses,
             user_added_courses: user.user_added_courses,
             CGPA,
+            newAchievements
         });
     } catch (error) {
         console.log(`Error in combined credits ${error}`);

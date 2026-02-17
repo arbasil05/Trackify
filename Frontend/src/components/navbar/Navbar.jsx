@@ -130,6 +130,12 @@ const Navbar = ({ name, onAddCourse, externalModalOpen, setExternalModalOpen }) 
 
             toast.success("Upload successful", { id: toastId });
 
+            if (res.data?.newAchievements?.length > 0) {
+                 toast.success("🏆 Achievement Unlocked!", {
+                     duration: 5000,
+                 });
+            }
+
             if (res.data?.missing_subs?.length) {
                 setMissingCourses(res.data.missing_subs);
                 setModalStep("missing");

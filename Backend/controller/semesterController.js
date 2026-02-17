@@ -3,6 +3,7 @@ import Course from "../models/Course.js";
 import User from "../models/User.js";
 import MissingCourse from "../models/MissingCourse.js";
 import { waitUntil } from "@vercel/functions";
+import { evaluateAchievements } from "../services/achievementService.js";
 import { SCOFT_DEPARTMENTS, GRADE_MAP } from "../utils/constants.js";
 
 export async function uploadFile(req, res) {
@@ -129,11 +130,14 @@ export async function uploadFile(req, res) {
             return res.status(404).json({ error: "User not found" });
         }
 
+        const newAchievements = await evaluateAchievements(id);
+
         return res.status(200).json({
             message: "Courses appended successfully",
             courseEntries,
             missing_subs,
             userCourses: updatedUser.courses,
+            newAchievements
         });
     } catch (error) {
         console.error("Error in uploadFile:", error);
@@ -311,9 +315,13 @@ export async function handleAddCourses(req, res) {
         } else {
             trackMissingCourses.catch(() => { }); // fire and forget 
         }
+
+        const newAchievements = await evaluateAchievements(id);
+
         return res.status(200).json({
             message: "Courses added successfully",
             data: updatedUser,
+            newAchievements
         });
     } catch (e) {
         console.error(`Error while adding courses ${e}`);
@@ -428,10 +436,13 @@ export async function handleCourseUpdate(req, res) {
                 .status(404)
                 .json({ message: "User or Course not found" });
         }
+const newAchievements = await evaluateAchievements(id);
 
         return res.status(200).json({
             message: "Course updated successfully",
             user_added_courses: updatedUser.user_added_courses,
+            newAchievements
+
         });
     } catch (e) {
         console.log(`Error while updating course ${e}`);
@@ -611,10 +622,16 @@ export async function handleEditCourse(req, res) {
             type: "manual",
         }));
 
+        // Note: handleEditCourse didn't have evaluateAchievements call in the provided snippet range in previous turns, 
+        // but it modifies courses so it should trigger evaluation. 
+        // I will add it here.
+        const newAchievements = await evaluateAchievements(id);
+
         return res.status(200).json({
             message: "Course updated successfully",
             courses,
             user_added_courses,
+            newAchievements
         });
 
     } catch (error) {
@@ -647,7 +664,11 @@ export async function handleDeleteCourseByType(req, res) {
             // Use $pull to remove
             await User.findByIdAndUpdate(id, {
                 $pull: { user_added_courses: { _id: courseId } }
-            });
+         
+        
+        // No achievement evaluation on deletion, per requirements
+        
+          });
         } else if (type === "parsed") {
             const courseToDelete = user.courses.id(courseId);
             if (!courseToDelete) {

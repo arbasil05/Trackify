@@ -1,0 +1,30 @@
+.badge {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    background: linear-gradient(135deg,
+            #fff1a8 0%,
+            #f9d976 20%,
+            #e6b65c 45%,
+            #c9973b 60%,
+            #f9d976 80%,
+            #fff1a8 100%);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    /* border: 1px solid black; */
+}
+
+.badge-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 40px;
+    padding-top: 30px;
+    flex-wrap: wrap;
+}
