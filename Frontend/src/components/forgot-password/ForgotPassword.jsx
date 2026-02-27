@@ -62,7 +62,9 @@ const ForgotPassword = () => {
                 }
             }, 100);
         } catch (error) {
-            if (error.response && error.response.status === 404) {
+            if (error.response && error.response.status === 429) {
+                toast.error(error.response.data.error || "Too many requests, please try again later", { id: toastId });
+            } else if (error.response && error.response.status === 404) {
                 toast.error("User not found with this email", { id: toastId });
             } else {
                 toast.error("Failed to send verification code", { id: toastId });
@@ -114,6 +116,10 @@ const ForgotPassword = () => {
                 nav("/login");
             })
             .catch((error) => {
+                if (error.response && error.response.status === 429) {
+                    toast.error(error.response.data.error || "Too many requests, please try again later", { id: toastId });
+                    return;
+                }
                 if (error.response && error.response.status === 401) {
                     toast.error("Invalid or expired verification code", { id: toastId });
                     return;
