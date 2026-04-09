@@ -6,7 +6,7 @@ import TowardsGrad from '../towardsGrad/TowardsGrad';
 import './Information.css';
 
 const CREDIT_MAP = {
-  "AIDS": { 2027: 164, default: 169 },
+  "AIDS": { 2027: 166, default: 169 },
   "AIML": { 2027: 168, default: 168 },
   "CSE": { 2027: 164, default: 167 },
   "CYBER": { 2027: 169, default: 171 },
