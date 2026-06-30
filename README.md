@@ -1,13 +1,13 @@
 <div align="center">
 
-# 📊 Trackify
+# Trackify
 
 ### The smarter way to track academic credits — built for students, by students.
 
 [![Stack](https://img.shields.io/badge/stack-MERN-339933?logo=node.js&logoColor=white)](#tech-stack)
 [![Status](https://img.shields.io/badge/status-production-success)](#)
 [![Users](https://img.shields.io/badge/users-1000%2B-blue)](#results--impact)
-[![Deployment](https://img.shields.io/badge/deployment-Docker%20%2B%20Nginx-2496ED?logo=docker&logoColor=white)](#)
+[![Deployment](https://img.shields.io/badge/deployment-Nginx-009639?logo=nginx&logoColor=white)](#)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](#)
 
 [Live Demo](#) · [Report a Bug](#) · [Request a Feature](#)
@@ -24,20 +24,19 @@ It's currently live in production, serving **1,000+ active users** with consiste
 
 ---
 
-## ✨ Features
+## Features
 
 | | |
 |---|---|
-| 🔐 **Secure Auth** | JWT-based authentication with protected routes and session handling |
-| ⚡ **Real-Time Calculation** | Credits and CGPA recompute instantly as data is added or updated |
-| 📈 **Analytics Dashboard** | Visual breakdown of credit completion, progress, and category-wise distribution |
-| 🗂️ **Smart Data Upload** | Structured upload flow for semester-wise course and credit data |
-| 🧱 **Scalable REST API** | Clean, optimized Express endpoints designed for growth, not just demo data |
-| 🐳 **Production-Grade Deployment** | Containerized with Docker Compose, served behind Nginx |
+| **Secure Auth** | JWT-based authentication with protected routes and session handling |
+| **Real-Time Calculation** | Credits and CGPA recompute instantly as data is added or updated |
+| **Analytics Dashboard** | Visual breakdown of credit completion, progress, and category-wise distribution |
+| **Smart Data Upload** | Structured upload flow for semester-wise course and credit data |
+| **Scalable REST API** | Clean, optimized Express endpoints designed for growth, not just demo data |
 
 ---
 
-## 🧠 Tech Stack
+## Tech Stack
 
 **Frontend**
 React.js · Tailwind CSS · Axios
@@ -48,44 +47,16 @@ Node.js · Express.js · MongoDB · Mongoose
 **Auth & Security**
 JWT · bcrypt · CORS · dotenv
 
-**Infrastructure**
-Docker · Docker Compose · Nginx
 
 ---
 
-## 🏗️ System Architecture
-
-```
-┌────────────┐       HTTPS       ┌────────────┐
-│   React    │ ───────────────▶  │   Nginx    │
-│  Frontend  │ ◀───────────────  │  (Reverse  │
-└────────────┘                   │   Proxy)   │
-                                  └─────┬──────┘
-                                        │
-                                  ┌─────▼──────┐
-                                  │  Express   │
-                                  │  REST API  │
-                                  │  + JWT     │
-                                  └─────┬──────┘
-                                        │
-                                  ┌─────▼──────┐
-                                  │  MongoDB   │
-                                  │ (Mongoose) │
-                                  └────────────┘
-
-         All services run in isolated Docker
-              containers via Docker Compose
-```
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js v16+
 - npm
 - MongoDB (local or Atlas)
-- Docker & Docker Compose *(recommended for production-style setup)*
+
 
 ### Local Setup
 
@@ -109,15 +80,9 @@ cd server && npm run dev
 cd client && npm start
 ```
 
-### Dockerized Setup
-
-```bash
-docker-compose up --build
-```
-
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Student Dashboard
 <img width="1905" height="864" alt="Dashboard View" src="https://github.com/user-attachments/assets/0e291bee-0017-403e-b2e9-e6aafea1b1aa" />
@@ -128,7 +93,7 @@ docker-compose up --build
 
 ---
 
-## 📊 Results & Impact
+## Results & Impact
 
 - **1,000+ users** onboarded since launch, with sustained real-world API traffic
 - Eliminated manual credit-tracking errors across diverse elective and course structures
@@ -139,12 +104,12 @@ docker-compose up --build
 
 ---
 
-## 👥 Team
+## Team
 
 Built and maintained by **[Basil](https://arbasil.me)** ([@arbasil05](https://github.com/arbasil05)) alongside **Visalan H**, **Aaron H**, **Mohammed Surjun**, and **Renusri Naraharashetty**.
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
