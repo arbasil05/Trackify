@@ -1,192 +1,185 @@
-/* Description/important-caption style for modal description */
-.important-caption {
-	text-align: center;
-	color: #6b7280;
-	font-size: 16px;
-	margin-bottom: 12px;
-	/* line-height: 1.5; */
-}
-.add-course-wrapper.dark .important-caption {
-	color: #bfc6d1;
-}
+/* ============================================
+   SINGLE COURSE / ADD COURSE MODAL
+   ============================================ */
 
-/* Field labels */
-.add-course-wrapper .field-label {
-	font-size: 12px;
-	font-weight: 500;
-	color: #6b7280;
-	margin-bottom: 4px;
-	display: block;
-}
-.add-course-wrapper.dark .field-label {
-	color: #9ca3af;
-}
-/* Flex row for credits and grade point */
-.row-flex {
-	display: flex;
-	gap: 14px;
-}
-.row-flex > div {
-	flex: 1;
-}
-.row-flex input,
-.row-flex select {
-	/* Remove flex property from input/select since parent div handles it */
-	/* flex: 1 1 0; */
-	margin-bottom: 2px;
-    width: 100%; /* Ensure they fill the parent div */
-}
-/* Single course add modal styling, consistent with add-course-wrapper */
 .add-course-wrapper {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  /* Remove padding, background, border-radius, box-shadow, max-width, margin */
 }
 
 .add-course-wrapper h2 {
-	font-size: 20px;
-	font-weight: 700;
-	color: #111827;
-	text-align: center;
-    margin-top: 0;
-    margin-bottom: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
 }
 
+.important-caption {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* Field labels */
+.add-course-wrapper .field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Inputs */
 .add-course-wrapper input,
 .add-course-wrapper select {
-	width: 100%;
-	background: #fff;
-	border: 1px solid #d1d5db;
-	color: #111827;
-	padding: 8px 10px;
-	border-radius: 8px;
-	font-size: 14px;
-	margin-bottom: 2px;
-	transition: border 0.2s;
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  margin-bottom: 2px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .add-course-wrapper input:focus,
 .add-course-wrapper select:focus {
-	border: 1.5px solid #4880FF;
-	outline: none;
-}
-
-/* DARK MODE SUPPORT */
-.add-course-wrapper.dark {
-	/* Remove background, keep color for text */
-	color: #e5e7eb;
-}
-.add-course-wrapper.dark h2 {
-	color: #e5e7eb;
-}
-.add-course-wrapper.dark input,
-.add-course-wrapper.dark select {
-	background: #323f4b;
-	border-color: #374151;
-	color: #e5e7eb;
-}
-.add-course-wrapper.dark input::placeholder {
-	color: #9ca3af;
-}
-.add-course-wrapper.dark input:disabled {
-	background: #0f172a;
-	color: #9ca3af;
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
 .add-course-wrapper input::placeholder {
-	color: #9ca3af;
+  color: var(--text-muted);
 }
 
+.add-course-wrapper input:disabled {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Flex row */
+.row-flex {
+  display: flex;
+  gap: 12px;
+}
+
+.row-flex > div {
+  flex: 1;
+}
+
+.row-flex input,
+.row-flex select {
+  margin-bottom: 2px;
+  width: 100%;
+}
+
+/* Form Actions */
 .form-actions {
-	display: flex;
-	flex-direction: row-reverse;
-	justify-content: space-between;
-	margin-top: 18px;
-	gap: 10px;
-}
-
-/* Custom Tooltip Styles for AddSingleCourseModal */
-.info-tooltip-container {
-    position: relative;
-    display: inline-flex; /* Changed to inline-flex for better vertical alignment */
-    align-items: center;
-}
-
-.info-icon {
-    cursor: pointer;
-    transition: fill 0.3s ease;
-    display: block; /* Ensures no extra baseline space */
-}
-
-.info-icon:hover {
-    fill: #2563eb;
-}
-
-.tooltip-text {
-    visibility: hidden;
-    width: 200px;
-    background-color: #1f2937;
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 12px;
-    position: absolute;
-    z-index: 1000;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -100px;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s;
-    font-weight: 400;
-}
-
-.tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #1f2937 transparent transparent transparent;
-}
-
-.info-tooltip-container:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 10px;
 }
 
 .btn.proceed {
-	background: #4880FF;
-	color: #fff;
-	border: none;
-	border-radius: 8px;
-	padding: 10px 22px;
-	font-size: 15px;
-	font-weight: 600;
-	cursor: pointer;
-	/* transition: background 0.2s; */
-}
-.btn.proceed:hover {
-	background: #2563eb;
-}
-.btn.cancel {
-	background: #f3f4f6;
-	color: #374151;
-	border: none;
-	border-radius: 8px;
-	padding: 10px 22px;
-	font-size: 15px;
-	font-weight: 600;
-	cursor: pointer;
-	/* transition: background 0.2s; */
-}
-.btn.cancel:hover {
-	background: #e5e7eb;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  flex: 1;
 }
 
+.btn.proceed:hover {
+  background: var(--accent-hover);
+}
+
+.btn.cancel {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  flex: 1;
+}
+
+.btn.cancel:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Tooltip (shared pattern) */
+.info-tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.info-icon {
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+  display: block;
+}
+
+.info-icon:hover {
+  color: var(--text-secondary);
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  text-align: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.2s;
+  box-shadow: var(--shadow-md);
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--border-primary) transparent transparent transparent;
+}
+
+.info-tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Mobile responsive */
 @media (max-width: 900px) {
   .add-course-wrapper {
     padding: 0;
@@ -204,15 +197,13 @@
   }
 
   .add-course-wrapper .field-label {
-    font-size: 11px;
-    margin-bottom: 2px;
+    font-size: 12px;
   }
 
   .add-course-wrapper input,
   .add-course-wrapper select {
-    padding: 8px 10px;
+    padding: 10px 12px;
     font-size: 14px;
-    margin-bottom: 0;
   }
 
   .row-flex {
@@ -227,7 +218,6 @@
   }
 
   .form-actions .btn {
-    flex: 1;
     padding: 10px 16px;
     font-size: 14px;
   }

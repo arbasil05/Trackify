@@ -1,38 +1,48 @@
+/* ============================================
+   NAVBAR — Clean top header
+   ============================================ */
+
 .navbar-container {
-  margin-left: 250px;
-  padding-top: 20px;
-  display: flex;
-  align-items: center;
-  height: 60px;
-  margin-right: 80px;
+  margin-left: var(--content-margin-left);
+  margin-right: var(--content-padding);
+  padding-top: 48px;
+  margin-bottom: 32px;
+  display: block;
 }
 
 .navbar-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
 }
 
 .navbar-message {
-  margin-top: 10px;
-  font-weight: 400;
-  color: black;
+  margin-top: 0;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .navbar-message h1 {
-  font-size: 33px;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.03em;
 }
 
 .navbar-message span {
-  font-weight: 400px;
-  color: #4880FF;
-  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 28px;
 }
 
 .navbar-message p {
-  color: rgb(143, 143, 143);
-  font-size: 12px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 .title {
@@ -46,9 +56,17 @@
 .navbar-button-group {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
+  margin-top: 4px;
 }
 
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Upload button */
 .navbar-upload-button {
   padding-bottom: 4px;
 }
@@ -58,103 +76,220 @@
 }
 
 .navbar-upload-button button {
-  background-color: #4880FF;
-  color: white;
-  width: 200px;
-  padding: 12px 4px 12px 4px;
-  border-radius: 10px;
-  font-size: 16px;
+  background-color: var(--accent);
+  color: #ffffff;
+  width: auto;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  border: none;
+  cursor: pointer;
 }
 
 .navbar-upload-button button:hover {
-  background-color: rgb(59, 47, 199);
+  background-color: var(--accent-hover);
 }
 
+.navbar-upload-button button:active {
+  transform: scale(0.97);
+}
+
+/* Dark mode toggle */
 .navbar-toggle-button {
-  width: 100%;
-  height: 100%;
-  background-color: #4880FF;
-  color: white;
-  margin-bottom: 5px;
-  border-radius: 50%;
-  padding: 10px;
+  width: 36px;
+  height: 36px;
+  background-color: var(--bg-hover);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  border: 1px solid var(--border-primary);
 }
 
 .navbar-toggle-button:hover {
   cursor: pointer;
+  background-color: var(--bg-active);
+  color: var(--text-primary);
 }
 
 .navbar-toggle-button svg {
-  color: white;
+  color: inherit;
+  width: 16px;
+  height: 16px;
 }
 
 .toggle-icon {
-  width: 24px;
-  height: 24px;
-  color: white;
+  width: 16px;
+  height: 16px;
+  color: inherit;
 }
 
-/* Modal Sizing: Separate classes for warning and upload */
+/* Add course button on user route */
+.navbar-add-course-btn {
+  padding-bottom: 4px;
+}
+
+.navbar-add-course-btn button {
+  background-color: transparent;
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.navbar-add-course-btn button:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Action Buttons (Search & Add, Add Course, Upload PDF) */
+.dashboard-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-upload-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.dashboard-upload-btn:active {
+  transform: translateY(0);
+}
+
+.upload-icon {
+  font-size: 16px;
+}
+
+.dashboard-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-action-btn:active {
+  transform: translateY(0);
+}
+
+.search-btn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.search-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-subtle);
+  transform: translateY(-1px);
+}
+
+.add-btn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.add-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-subtle);
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   MODAL — Global styles (positioned modal)
+   ============================================ */
 .custom-modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: 28px;
   outline: none;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-modal);
+  animation: modalSlideUp 0.2s ease;
 }
 
-
-/* Wide modal for warning */
 .custom-modal.wide-modal {
-  width: 900px;
+  width: 700px;
   max-width: 98vw;
 }
 
-/* Narrow modal for upload form */
 .custom-modal.narrow-modal {
-  width: 500px;
+  width: 480px;
   max-width: 98vw;
 }
 
-/* Responsive fallback */
-@media (max-width: 900px) {
+.custom-modal.dark {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-modal);
+}
 
+.custom-modal.dark h2 {
+  color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
   .custom-modal.wide-modal,
   .custom-modal.narrow-modal,
   .custom-modal {
     width: 95vw !important;
     max-width: 95vw !important;
     padding: 20px;
-    max-height: 75vh;
+    max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  }
-
-  .custom-modal.dark {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 }
 
-/* WARNING Layout: only stretch .important-info when in wide mode */
+@keyframes modalSlideUp {
+  from { transform: translate(-50%, -46%); opacity: 0; }
+  to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+/* ============================================
+   WARNING MODAL CONTENT
+   ============================================ */
 .important-info {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   justify-content: space-between;
   gap: 20px;
-  border-radius: 16px;
   width: 100%;
 }
 
-.important-info>div:first-child {
+.important-info > div:first-child {
   flex: 1;
 }
 
@@ -169,7 +304,7 @@
   width: 100%;
   height: auto;
   max-width: 100%;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   object-fit: contain;
 }
 
@@ -177,37 +312,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
-  color: #dc2626;
+  margin: 0 auto 16px;
+  color: var(--danger);
 }
 
 .important-header {
-  font-size: 24px;
-  font-weight: 700;
-  color: #111827;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
   text-align: center;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.025em;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
 }
 
 .important-caption {
   text-align: center;
-  color: #6b7280;
-  font-size: 16px;
-  margin-bottom: 24px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
   line-height: 1.5;
 }
 
 .important-message {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 1px solid #fecaca;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 24px;
+  background: var(--danger-bg);
+  border: 1px solid rgba(225, 29, 72, 0.15);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 20px;
   position: relative;
   overflow: hidden;
   width: 100%;
-  /* border: 4px solid rgb(222, 15, 15); */
 }
 
 .important-message::before {
@@ -215,100 +349,101 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
+  width: 3px;
   height: 100%;
-  background: linear-gradient(to bottom, #dc2626, #ef4444);
+  background: var(--danger);
 }
 
 .important-message p {
-  color: black;
-  font-size: 15px;
+  color: var(--text-primary);
+  font-size: 14px;
   line-height: 1.6;
   margin: 0;
-  font-weight: 500;
-  text-align: justify;
-  text-align-last: center;
+  font-weight: 400;
+  text-align: left;
+  padding-left: 4px;
 }
 
+/* Checkbox */
 .checkbox-input {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 32px;
-  padding: 16px;
-  background: #f9fafb;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s ease;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
   width: 100%;
 }
 
 .checkbox-input:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
+  background: var(--bg-hover);
 }
 
 .checkbox-input input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #16a34a;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--success);
   cursor: pointer;
 }
 
 .checkbox-input label {
-  color: #4b5563;
-  font-size: 14px;
+  color: var(--text-secondary);
+  font-size: 13px;
   cursor: pointer;
   user-select: none;
   font-weight: 500;
 }
 
+/* Action buttons */
 .proceed-buttons {
   display: flex;
-  gap: 12px;
-  justify-content: space-between;
+  gap: 10px;
+  justify-content: flex-end;
   width: 100%;
 }
 
-.btn {
-  padding: 12px 24px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 100px;
-  text-align: center;
-}
-
 .btn.cancel {
-  background: white;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .btn.cancel:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .btn.proceed {
-  background-color: #16a34a;
-  color: white;
+  background-color: var(--accent);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .btn.proceed:hover {
-  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+  background-color: var(--accent-hover);
 }
 
 .btn:active {
-  transform: translateY(0);
+  transform: scale(0.97);
 }
 
-/* UPLOAD FORM Layout (centered and narrow) */
+/* ============================================
+   UPLOAD FORM
+   ============================================ */
 .upload-form-wrapper {
-  /* narrow modal already handles width; center content */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -316,16 +451,18 @@
 }
 
 .upload-form-wrapper h2 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   text-align: center;
+  letter-spacing: -0.02em;
 }
 
 .upload-form-wrapper p {
-  color: #6b7280;
-  margin-bottom: 24px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
   text-align: center;
+  font-size: 14px;
 }
 
 .upload-form {
@@ -335,14 +472,15 @@
 .upload-form .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   position: relative;
 }
 
 .upload-form label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   margin-bottom: 6px;
+  color: var(--text-secondary);
 }
 
 .upload-input {
@@ -355,106 +493,95 @@
 
 .upload-form select {
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
   font-size: 14px;
-  color: #374151;
-  background-color: #f9fafb;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
   outline: none;
   cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.upload-form select:focus {
+  border-color: var(--accent);
 }
 
 .upload-label {
   display: block;
   text-align: center;
-  padding: 12px;
-  background-color: #3b82f6;
-  color: white;
-  border-radius: 8px;
+  padding: 10px;
+  background-color: var(--accent);
+  color: #ffffff;
+  border-radius: var(--radius-md);
   font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-fast);
 }
 
 .upload-label:hover {
-  background-color: #2563eb;
+  background-color: var(--accent-hover);
 }
 
 .upload-label.has-pdf {
-  background-color: #16a34a;
+  background-color: var(--success);
 }
 
 .form-actions {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .btn.submit {
-  background: #3b82f6;
-  color: white;
+  background: var(--accent);
+  color: #ffffff;
 }
 
 .btn.submit:hover {
-  background: #2563eb;
+  background: var(--accent-hover);
 }
 
-/* Dark mode modal */
-.custom-modal.dark {
-  background-color: #1e1e2f;
-  color: #f3f4f6;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-}
-
-.custom-modal.dark h2 {
-  color: #ffffff;
-}
-
+/* Dark mode modal forms */
 .custom-modal.dark .upload-form label {
-  color: #ffffff;
+  color: var(--text-secondary);
 }
 
 .custom-modal.dark select,
 .custom-modal.dark textarea {
-  background-color: #2c2c3e;
-  border: 1px solid #4b5563;
-  color: #f9fafb;
+  background-color: var(--bg-elevated);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
 }
 
 .custom-modal.dark .upload-label {
-  background-color: #2563eb;
-  color: #f9fafb;
+  background-color: var(--accent);
 }
 
 .custom-modal.dark .upload-label:hover {
-  background-color: #1e40af;
+  background-color: var(--accent-hover);
 }
 
 .custom-modal.dark .upload-label.has-pdf {
-  background-color: #16a34a;
+  background-color: var(--success);
 }
 
 .custom-modal.dark .btn.cancel {
   background: transparent;
-  color: #cbd5e1;
-  border: 1px solid #4b5563;
+  color: var(--text-secondary);
+  border-color: var(--border-primary);
 }
 
 .custom-modal.dark .btn.cancel:hover {
-  background-color: #dc3545;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
-.custom-modal.dark .btn.submit {
-  background-color: #3b82f6;
-}
-
-.custom-modal.dark .btn.submit:hover {
-  background-color: #1e40af;
-}
-
-/* ===== Missing Courses Table ===== */
-
+/* ============================================
+   MISSING COURSES TABLE
+   ============================================ */
 .missing-courses-table {
   width: 100%;
   border-collapse: collapse;
@@ -462,7 +589,7 @@
 }
 
 .missing-courses-table thead {
-  background-color: #f5f7fa;
+  background-color: var(--bg-secondary);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -472,49 +599,47 @@
 .missing-courses-table td {
   padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .missing-courses-table th {
   font-weight: 600;
-  color: #374151;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
 }
 
 .missing-courses-table tbody tr:hover {
-  background-color: #f9fafb;
+  background-color: var(--bg-hover);
 }
 
-/* index column */
 .missing-courses-table th:first-child,
 .missing-courses-table td:first-child {
   width: 40px;
   text-align: center;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
-/* ===== Dark mode support ===== */
-
-
 .custom-modal.dark .missing-courses-table thead {
-  background-color: #374151;
+  background-color: var(--bg-elevated);
 }
 
 .custom-modal.dark .missing-courses-table th,
 .custom-modal.dark .missing-courses-table td {
-  border-color: #2d2d2d;
-  color: #e5e7eb;
+  border-color: var(--border-primary);
+  color: var(--text-primary);
 }
 
 .custom-modal.dark .missing-courses-table tbody tr:hover {
-  background-color: #374151;
+  background-color: var(--bg-hover);
 }
 
-/* ===== Missing Courses Mobile List ===== */
-
+/* Missing Courses Mobile List */
 .missing-courses-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   max-height: 40vh;
   overflow-y: auto;
   padding-right: 4px;
@@ -524,19 +649,19 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #f9fafb;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-secondary);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
 }
 
 .missing-course-number {
-  width: 28px;
-  height: 28px;
-  background: rgba(72, 128, 255, 0.1);
-  color: #4880FF;
+  width: 26px;
+  height: 26px;
+  background: var(--accent-subtle);
+  color: var(--accent-text);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -554,7 +679,7 @@
 .missing-course-name {
   font-size: 14px;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -562,215 +687,158 @@
 
 .missing-course-code {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
-
-/* ===== Dark Mode for Missing Courses List ===== */
 
 .custom-modal.dark .missing-course-item {
-  background: #1f2937;
-  border-color: #374151;
-}
-
-.custom-modal.dark .missing-course-number {
-  background: rgba(72, 128, 255, 0.2);
-  color: #60a5fa;
+  background: var(--bg-elevated);
+  border-color: var(--border-primary);
 }
 
 .custom-modal.dark .missing-course-name {
-  color: #e5e7eb;
+  color: var(--text-primary);
 }
 
 .custom-modal.dark .missing-course-code {
-  color: #9ca3af;
+  color: var(--text-secondary);
 }
 
-/* ===== Scrollbar for missing list ===== */
-
-.missing-courses-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.missing-courses-list::-webkit-scrollbar-thumb {
-  background: #c7cbd1;
-  border-radius: 10px;
-}
-
-.custom-modal.dark .missing-courses-list::-webkit-scrollbar-thumb {
-  background: #4b5563;
-}
-
-/* ===== Add Course Form ===== */
-
+/* ============================================
+   ADD COURSE TABLE
+   ============================================ */
 .add-course-wrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* ===== Table Card Wrapper ===== */
-
 .add-course-table-wrapper {
   max-height: 320px;
   overflow-y: auto;
-  border-radius: 14px;
-  background: #f9fafb;
-  /* light mode card */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
 }
-
-/* ===== Table Base ===== */
 
 .add-course-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  color: #111827;
+  color: var(--text-primary);
 }
 
-/* ===== Table Header ===== */
-
 .add-course-table thead {
-  background: #e5e7eb;
+  background: var(--bg-secondary);
   position: sticky;
   top: 0;
   z-index: 2;
 }
 
 .add-course-table th {
-  padding: 16px 18px;
+  padding: 12px 14px;
   text-align: left;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #374151;
+  color: var(--text-secondary);
 }
 
-/* ===== Table Cells ===== */
-
 .add-course-table td {
-  padding: 16px 18px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 12px 14px;
+  border-top: 1px solid var(--border-primary);
   vertical-align: middle;
   white-space: nowrap;
 }
 
-/* ===== Hover ===== */
-
 .add-course-table tbody tr:hover {
-  background: rgba(0, 0, 0, 0.03);
+  background: var(--bg-hover);
 }
-
-/* ===== Inputs inside table ===== */
 
 .add-course-table input,
 .add-course-table select {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  color: #111827;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
+  transition: border-color var(--transition-fast);
+}
+
+.add-course-table input:focus,
+.add-course-table select:focus {
+  border-color: var(--accent);
+  outline: none;
 }
 
 .add-course-table input::placeholder {
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
 .add-course-table input:disabled {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
-/* ===== Scrollbar (Light) ===== */
-
-.add-course-table-wrapper::-webkit-scrollbar {
-  width: 6px;
-}
-
-.add-course-table-wrapper::-webkit-scrollbar-thumb {
-  background: #c7cbd1;
-  border-radius: 10px;
-}
-
-/* ===================================================== */
-/* ===================== DARK MODE ===================== */
-/* ===================================================== */
-
+/* Dark add course table */
 .custom-modal.dark .add-course-table-wrapper {
-  background: #1f2937;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  background: var(--bg-elevated);
+  border-color: var(--border-primary);
 }
 
 .custom-modal.dark .add-course-table {
-  color: #e5e7eb;
+  color: var(--text-primary);
 }
 
 .custom-modal.dark .add-course-table thead {
-  background: #374151;
+  background: var(--bg-elevated);
 }
 
 .custom-modal.dark .add-course-table th {
-  color: #d1d5db;
+  color: var(--text-secondary);
 }
 
 .custom-modal.dark .add-course-table td {
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-primary);
 }
 
 .custom-modal.dark .add-course-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-hover);
 }
-
-/* ===== Dark Inputs ===== */
 
 .custom-modal.dark .add-course-table input,
 .custom-modal.dark .add-course-table select {
-  background: #111827;
-  border-color: #374151;
-  color: #e5e7eb;
+  background: var(--bg-secondary);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
 }
 
 .custom-modal.dark .add-course-table input::placeholder {
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
 .custom-modal.dark .add-course-table input:disabled {
-  background: #0f172a;
-  color: #9ca3af;
+  background: var(--bg-primary);
+  color: var(--text-muted);
 }
 
-/* ===== Scrollbar (Dark) ===== */
-
-.custom-modal.dark .add-course-table-wrapper::-webkit-scrollbar-thumb {
-  background: #4b5563;
-}
-
-
-
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 @media (max-width: 768px) {
   .important-info {
     flex-direction: column;
   }
-
-  .custom-modal.wide-modal {
-    width: 98vw;
-  }
-
-  .custom-modal.narrow-modal {
-    width: 98vw;
-  }
 }
 
-/* Responsive Navbar for Mobile/Tablets */
 @media (max-width: 900px) {
   .navbar-container {
     margin-left: 0;
     margin-right: 0;
-    padding: 10px 20px;
+    padding: 10px 16px;
     height: auto;
     flex-direction: column;
     align-items: center;
@@ -780,45 +848,44 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     text-align: center;
     width: 100%;
   }
 
   .navbar-message h1 {
-    font-size: 22px;
+    font-size: 20px;
     word-break: break-word;
     overflow-wrap: break-word;
   }
-  
+
   .navbar-message span {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .navbar-message p.description {
-      display: none;
+    display: none;
   }
 
   .navbar-button-group {
-      width: auto;
-      justify-content: flex-end;
+    width: auto;
+    justify-content: flex-end;
   }
 
   .navbar-upload-button {
-      display: none;
+    display: none;
   }
 
   .navbar-toggle-button {
-      display: none;
+    display: none;
   }
 
   .navbar-add-course-btn {
-      display: none;
+    display: none;
   }
 }
 
-/* ===== Mobile/Desktop View Toggle ===== */
-
+/* Desktop / Mobile toggles */
 .desktop-only {
   display: block;
 }
@@ -842,60 +909,60 @@
   }
 }
 
-/* ===== Mobile Course Cards ===== */
-
+/* ============================================
+   MOBILE COURSE CARDS
+   ============================================ */
 .add-course-cards {
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   max-height: 50vh;
   overflow-y: auto;
   padding-right: 4px;
 }
 
 .course-card {
-  background: #f9fafb;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  border: 1px solid var(--border-primary);
 }
 
 .course-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .course-card-number {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  color: #4880FF;
-  background: rgba(72, 128, 255, 0.1);
-  padding: 4px 10px;
-  border-radius: 20px;
+  color: var(--accent-text);
+  background: var(--accent-subtle);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
 }
 
 .course-card-info {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  padding: 5px 0;
   font-size: 14px;
 }
 
 .info-label {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .info-value {
-  color: #111827;
+  color: var(--text-primary);
   font-weight: 600;
   text-align: right;
   max-width: 60%;
@@ -905,12 +972,12 @@
 .course-card-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .course-card-form .form-row {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .course-card-form .form-field {
@@ -927,113 +994,73 @@
 .course-card-form label {
   font-size: 12px;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 4px;
 }
 
 .course-card-form input,
 .course-card-form select {
   width: 100%;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  color: #111827;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 14px;
-  transition: border 0.2s;
+  transition: border-color var(--transition-fast);
 }
 
 .course-card-form input:focus,
 .course-card-form select:focus {
-  border: 1.5px solid #4880FF;
+  border-color: var(--accent);
   outline: none;
 }
 
 .course-card-form input::placeholder {
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
-/* ===== Dark Mode for Course Cards ===== */
-
+/* Dark mobile cards */
 .custom-modal.dark .course-card {
-  background: #1f2937;
-  border-color: #374151;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: var(--bg-elevated);
+  border-color: var(--border-primary);
 }
 
 .custom-modal.dark .course-card-header {
-  border-color: #374151;
-}
-
-.custom-modal.dark .course-card-number {
-  background: rgba(72, 128, 255, 0.2);
-  color: #60a5fa;
+  border-color: var(--border-primary);
 }
 
 .custom-modal.dark .info-label {
-  color: #9ca3af;
+  color: var(--text-secondary);
 }
 
 .custom-modal.dark .info-value {
-  color: #e5e7eb;
+  color: var(--text-primary);
 }
 
 .custom-modal.dark .course-card-form label {
-  color: #9ca3af;
+  color: var(--text-secondary);
 }
 
 .custom-modal.dark .course-card-form input,
 .custom-modal.dark .course-card-form select {
-  background: #111827;
-  border-color: #374151;
-  color: #e5e7eb;
+  background: var(--bg-secondary);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
 }
 
-.custom-modal.dark .course-card-form input::placeholder {
-  color: #6b7280;
-}
-
-/* ===== Scrollbar for cards ===== */
-
-.add-course-cards::-webkit-scrollbar {
-  width: 6px;
-}
-
-.add-course-cards::-webkit-scrollbar-thumb {
-  background: #c7cbd1;
-  border-radius: 10px;
-}
-
-.custom-modal.dark .add-course-cards::-webkit-scrollbar-thumb {
-  background: #4b5563;
-}
-
-/* Modal Overlay - Copied from UserAddedCourses.css */
+/* Modal overlay (duplicate kept for specificity) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: navbarFadeIn 0.2s ease;
-}
-
-@keyframes navbarFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Ensure modal content animates nicely */
-.custom-modal {
-    animation: navbarSlideUp 0.3s ease;
-}
-
-@keyframes navbarSlideUp {
-  from { transform: translate(-50%, -40%); opacity: 0; }
-  to { transform: translate(-50%, -50%); opacity: 1; }
+  animation: fadeIn 0.15s ease;
 }

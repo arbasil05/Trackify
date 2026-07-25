@@ -1,66 +1,79 @@
+/* ============================================
+   LOGIN LEFT PANEL — Clean branded panel
+   ============================================ */
+
 .loginleft-container {
-    width: 50%;
-    /* border: 1px solid black; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px 40px 20px;
-    flex-direction: column;
-    background-color: white;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  flex-direction: column;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-primary);
+  gap: 32px;
 }
 
 .loginleft-title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .loginleft-title h1 {
-    font-size: 34px;
-    font-weight: 600;
-    color: #4880FF;
-    margin-bottom: 10px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  letter-spacing: -0.04em;
 }
 
 .loginleft-title-span {
-    color: black;
-
+  color: var(--accent-text);
 }
 
 .loginleft-title h3 {
-    font-size: 24px;
-    color: black;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .loginleft-title p {
-    font-size: 14px;
-    color: rgb(80, 79, 79);
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .loginleft-image img {
-    width: 100%;      /* roughly equals 650px of your parent width */
-    height: auto;    /* keeps the aspect ratio intact */
-    max-width: 650px; /* prevents it from exceeding original look on larger screens */
-    max-height: 350px;
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  max-height: 300px;
+  border-radius: var(--radius-lg);
 }
 
 .loginleft-footer {
-    text-align: center;
+  text-align: center;
 }
 
 .loginleft-footer p {
-    font-size: 16px;
-    color: rgb(80, 79, 79);
-    color: black;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
-.loginleft-footer h3{
-     color: black;
+.loginleft-footer h3 {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
 }
 
-/* Hide left panel on mobile/tablet */
+/* Hide on mobile */
 @media (max-width: 900px) {
-    .loginleft-container {
-        display: none;
-    }
+  .loginleft-container {
+    display: none;
+  }
 }

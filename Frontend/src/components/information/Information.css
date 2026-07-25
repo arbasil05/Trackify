@@ -1,26 +1,23 @@
+/* ============================================
+   INFORMATION GRID — Dashboard stat cards
+   ============================================ */
+
 .information-container {
-    display: flex;
-    /* flex-wrap: wrap; */
-    justify-content: space-between;
-    gap: 20px;
-    /* padding: 20px; */
-    margin-top: 40px;
-    margin-left: 250px;
-    margin-right: 80px;
-    /* border: 1px solid black; */
-    & >*{
-        flex: 1;
-    }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+  margin-left: var(--content-margin-left);
+  margin-right: var(--content-padding);
 }
 
 @media (max-width: 900px) {
-    .information-container {
-        margin-left: 0;
-        margin-right: 0;
-        margin-top: 20px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        padding: 0 15px;
-        gap: 12px;
-    }
+  .information-container {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 16px;
+    gap: 12px;
+  }
 }

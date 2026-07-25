@@ -1,0 +1,50 @@
+/* ============================================
+   FEEDBACK HEADER
+   ============================================ */
+
+.feedbackheader-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: var(--content-margin-left);
+  margin-right: var(--content-padding);
+  margin-top: 48px;
+  margin-bottom: 24px;
+  background: transparent;
+}
+
+.feedbackheader-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 600px;
+}
+
+.feedbackheader-left h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.feedbackheader-left h1 span {
+  color: var(--accent);
+}
+
+.feedbackheader-left p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 900px) {
+  .feedbackheader-container {
+    margin-left: 0;
+    padding: 24px 20px 20px;
+    flex-direction: column;
+    gap: 20px;
+  }
+}

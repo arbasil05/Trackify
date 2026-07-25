@@ -1,0 +1,316 @@
+.guide-modal-overlay {
+  z-index: 10000;
+}
+
+.guide-modal {
+  max-width: 600px;
+  width: 90%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.guide-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.guide-modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.guide-content {
+  padding: 24px;
+}
+
+.guide-description {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ANIMATION CONTAINER */
+.guide-animation-container {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* FAKE SEARCH BOX */
+.guide-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 300px;
+  position: relative;
+}
+
+.guide-search-box .search-icon {
+  color: var(--text-secondary);
+  margin-right: 12px;
+}
+
+.guide-typing-text {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+.guide-typing-text::after {
+  content: '|';
+  animation: cursorBlink 1s infinite;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.guide-typing-text::before {
+  content: '';
+  animation: typing 10s infinite;
+}
+@keyframes typing {
+  0%, 12% { content: ''; }
+  13% { content: 'M'; }
+  14% { content: 'Ma'; }
+  15% { content: 'Mac'; }
+  16% { content: 'Mach'; }
+  17% { content: 'Machi'; }
+  18% { content: 'Machin'; }
+  19%, 100% { content: 'Machine L'; }
+}
+
+/* FAKE GRID */
+.guide-grid {
+  display: flex;
+  gap: 16px;
+}
+
+.guide-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  flex: 1;
+  transition: all 0.2s ease;
+}
+
+.guide-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.guide-card .course-code {
+  font-size: 0.75rem;
+  background: var(--primary-color-10);
+  color: var(--primary-color);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.guide-card .course-credits {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.guide-card .course-title {
+  font-size: 0.95rem;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.target-card {
+  animation: cardHover 10s infinite;
+}
+@keyframes cardHover {
+  0%, 20% { transform: translateY(0); box-shadow: none; border-color: var(--border-color); }
+  22%, 28% { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-color: var(--primary-color); }
+  30%, 100% { transform: translateY(0); box-shadow: none; border-color: var(--border-color); }
+}
+
+/* FAKE MODAL */
+.guide-add-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.75);
+  opacity: 0;
+  pointer-events: none;
+  animation: modalPop 10s infinite;
+  z-index: 10;
+  width: 90%;
+  max-width: 320px;
+}
+.guide-add-btn {
+  animation: btnHover 10s infinite;
+}
+@keyframes btnHover {
+  0%, 54% { transform: scale(1); filter: brightness(1); }
+  56%, 58% { transform: scale(1.02); filter: brightness(1.1); }
+  60%, 100% { transform: scale(1); filter: brightness(1); }
+}
+@keyframes modalPop {
+  0%, 25% { opacity: 0; transform: translate(-50%, -50%) scale(0.65); }
+  28%, 65% { opacity: 1; transform: translate(-50%, -50%) scale(0.75); }
+  70%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.65); }
+}
+
+/* FAKE SELECTS */
+.fake-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.guide-sem-select {
+  animation: selectSem 10s infinite;
+}
+@keyframes selectSem {
+  0%, 36% { color: var(--text-secondary); }
+  37%, 100% { color: var(--text-primary); }
+}
+.guide-sem-select::after {
+  content: "Select";
+  animation: selectSemContent 10s infinite;
+}
+@keyframes selectSemContent {
+  0%, 36% { content: "Select"; }
+  37%, 100% { content: "5"; }
+}
+
+.guide-grade-select {
+  animation: selectGrade 10s infinite;
+}
+@keyframes selectGrade {
+  0%, 46% { color: var(--text-secondary); }
+  47%, 100% { color: var(--text-primary); }
+}
+.guide-grade-select::after {
+  content: "Select";
+  animation: selectGradeContent 10s infinite;
+}
+@keyframes selectGradeContent {
+  0%, 46% { content: "Select"; }
+  47%, 100% { content: "O (10)"; }
+}
+
+/* FAKE TOAST */
+.guide-toast {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #10b981;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  opacity: 0;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  animation: toastPop 10s infinite;
+}
+@keyframes toastPop {
+  0%, 65% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  70%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  90%, 100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+}
+
+/* CURSOR ANIMATION */
+.guide-cursor {
+  position: absolute;
+  top: 90%;
+  left: 80%;
+  font-size: 1.5rem;
+  color: #3b82f6;
+  z-index: 20;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  animation: cursorMove 10s infinite;
+}
+@keyframes cursorMove {
+  0%, 5% { top: 90%; left: 80%; }
+  
+  /* Move to search box */
+  10%, 18% { top: 40px; left: 160px; transform: scale(1); }
+  /* Click search box */
+  11%, 13% { transform: scale(0.8); }
+  
+  /* Move to card */
+  22%, 26% { top: 120px; left: 120px; transform: scale(1); }
+  /* Click card */
+  23%, 25% { transform: scale(0.8); }
+  
+  /* Modal popped up. Move to Semester select */
+  32%, 38% { top: 190px; left: 150px; transform: scale(1); }
+  /* Click Semester */
+  34%, 36% { transform: scale(0.8); }
+  
+  /* Move to Grade select */
+  42%, 48% { top: 190px; left: 250px; transform: scale(1); }
+  /* Click Grade */
+  44%, 46% { transform: scale(0.8); }
+
+  /* Move to Add button */
+  52%, 60% { top: 250px; left: 200px; transform: scale(1); }
+  /* Click Add button */
+  55%, 57% { transform: scale(0.8); }
+  
+  /* Move away */
+  75%, 100% { top: 90%; left: 80%; transform: scale(1); }
+}
+
+/* STEPS TEXT */
+.guide-steps ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.guide-steps li {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  background: var(--bg-secondary);
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+.guide-steps b {
+  color: var(--primary-color);
+  margin-right: 8px;
+}
+
+/* Dark mode overrides if needed */
+.dark .guide-modal-header, 
+.dark .guide-search-box, 
+.dark .guide-card, 
+.dark .guide-add-modal,
+.dark .guide-steps li {
+  background: var(--bg-tertiary);
+}

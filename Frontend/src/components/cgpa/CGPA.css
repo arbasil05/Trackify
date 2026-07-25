@@ -1,139 +1,44 @@
+/* ============================================
+   CGPA BENTO CARD
+   ============================================ */
+
 .cgpa-container {
-    width: 280px;
-    min-height: 140px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff7c;
-    color: #3629b7;
-    gap: 14px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
-    font-size: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  height: 100%;
+}
+
+.cgpa-container:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-subtle);
 }
 
 .cgpa-title {
-    color: rgb(143, 143, 143);
-    font-weight: 500;
-    font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px 0;
 }
 
 .cgpa-value {
-    font-weight: 600;
-    font-size: 30px;
-    color: black;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
 }
 
-/* 🌙 Dark Mode Overrides */
-.dark-mode.cgpa-container {
-    background-color: #273142;
-    color: #ffffff;
-}
-
-.dark-mode.cgpa-container .cgpa-title {
-    color: #cccccc;
-}
-
-.dark-mode.cgpa-container .cgpa-value {
-    color: #ffffff;
-}
-
-/* Custom Tooltip Styles */
-.info-tooltip-container {
-    position: relative;
-    display: inline-block;
-}
-
-.info-icon {
-    cursor: pointer;
-    transition: fill 0.3s ease;
-}
-
-.info-icon:hover {
-    fill: #2563eb;
-}
-
-.tooltip-text {
-    visibility: hidden;
-    width: 200px;
-    background-color: #1f2937;
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 12px;
-    position: absolute;
-    z-index: 1000;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -100px;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s;
-    font-weight: 400;
-}
-
-.tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #1f2937 transparent transparent transparent;
-}
-
-.info-tooltip-container:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Dark mode tooltip */
-.dark-mode .tooltip-text {
-    background-color: #374151;
-}
-
-.dark-mode .tooltip-text::after {
-    border-color: #374151 transparent transparent transparent;
-}
-
-@media (max-width: 900px) {
-    .cgpa-container {
-        width: unset;
-        min-height: unset;
-        padding: 15px;
-        gap: 10px;
-        overflow: visible;
-    }
-    .cgpa-title {
-        font-size: 12px;
-    }
-    .cgpa-value {
-        font-size: 22px;
-    }
-    
-    /* Tooltip repositioned above and to the left on mobile */
-    .tooltip-text {
-        bottom: 125%;
-        top: auto;
-        left: auto;
-        right: 0;
-        margin-left: 0;
-        transform: none;
-    }
-    
-    .tooltip-text::after {
-        top: 100%;
-        bottom: auto;
-        left: auto;
-        right: 10px;
-        margin-left: 0;
-        border-color: #1f2937 transparent transparent transparent;
-    }
-    
-    .dark-mode .tooltip-text::after {
-        border-color: #374151 transparent transparent transparent;
-    }
+.cgpa-value span {
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 500;
 }

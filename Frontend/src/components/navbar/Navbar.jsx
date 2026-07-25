@@ -1,4 +1,4 @@
-import { faMoon, faUpload, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faUpload, faPlus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-modal";
@@ -17,7 +17,7 @@ import { useTheme } from "../../context/ThemeContext";
 
 Modal.setAppElement("#root");
 
-const Navbar = ({ name, onAddCourse, externalModalOpen, setExternalModalOpen }) => {
+const Navbar = ({ title, subtitle, children, externalModalOpen, setExternalModalOpen }) => {
     const { dashboardData, refreshUser } = useAuth();
     const { isDark: dark, toggleTheme } = useTheme();
     
@@ -50,18 +50,6 @@ const Navbar = ({ name, onAddCourse, externalModalOpen, setExternalModalOpen }) 
 
     const handleDarkModeToggle = () => {
         toggleTheme();
-    };
-
-    const getGreeting = () => {
-        const now = new Date();
-        const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-        const ist = new Date(utc + 5.5 * 60 * 60 * 1000);
-        const hour = ist.getHours();
-
-        if (hour < 12) return "Good Morning";
-        if (hour < 17) return "Good Afternoon";
-        if (hour < 21) return "Good Evening";
-        return "Hope your day went well";
     };
 
     const handleCourseChange = (index, field, value) => {
@@ -294,36 +282,21 @@ const Navbar = ({ name, onAddCourse, externalModalOpen, setExternalModalOpen }) 
                         className="title"
                         style={{ color: dark ? "white" : "black" }}
                     >
-                        <span>{getGreeting()},</span> {name}
+                        {title}
                     </h1>
-                    <p className="description">
-                        Track your academic progress and know what else to
-                        enroll in
-                    </p>
+                    {subtitle && (
+                        <p className="description">
+                            {subtitle}
+                        </p>
+                    )}
                 </div>
 
                 <div className="navbar-button-group">
-                    <div className="navbar-upload-button">
-                        {!isUserRoute && location.pathname !== "/explore" && (
-                            <button onClick={() => setModalIsOpen(true)}>
-                                <FontAwesomeIcon
-                                    className="upload-button-icon"
-                                    icon={faUpload}
-                                />
-                                <span className="button-text">Upload Sem Result</span>
-                            </button>
-                        )}
-
-                        {isUserRoute && (
-                            <button onClick={onAddCourse} className="navbar-add-course-btn">
-                                <FontAwesomeIcon
-                                    className="upload-button-icon"
-                                    icon={faPlus}
-                                />
-                                <span className="button-text">Add Course</span>
-                            </button>
-                        )}
-                    </div>
+                    {children && (
+                        <div className="navbar-actions">
+                            {children}
+                        </div>
+                    )}
                     <div
                         className="navbar-toggle-button"
                         onClick={handleDarkModeToggle}

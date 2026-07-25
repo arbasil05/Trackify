@@ -1,182 +1,156 @@
-.semdetails-list {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #F9FAFB;
-  border: 1px solid rgb(189, 188, 188);
-  padding: 10px 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
-}
+/* ============================================
+   SEMESTER DETAILS BENTO CARD
+   ============================================ */
 
-.semester-list-title {
-  font-weight: 500;
-}
-
-.semdetails-list-right {
+.userdetails-container { /* Reused class for consistency */
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  height: 100%;
+}
+
+.userdetails-container:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-subtle);
+}
+
+.userdetails-header {
+  margin-bottom: 24px;
+}
+
+.userdetails-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.semdetails-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.semdetails-list:hover {
+  transform: translateX(2px);
+  border-color: var(--border-subtle);
+}
+
+.semdetails-list:last-child {
+  margin-bottom: 0;
+}
+
+.semdetails-list-right h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
 }
 
 .semdetails-list-right p {
-  font-size: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-
 .trash-icon {
-  color: rgb(247, 20, 20);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
 }
 
 .trash-icon:hover {
-  cursor: pointer;
+  color: var(--danger);
+  background: var(--danger-light);
 }
 
-/* dark mode */
-.semdetails-list.dark {
-  background-color: #2f3b49;
-  border: 1px solid #4b5563;
-  color: #f3f4f6;
-}
-
-.semdetails-list.dark .semester-list-title {
-  color: #f3f4f6;
-}
-
-.semdetails-list.dark .semdetails-list-right p {
-  color: #d1d5db;
-}
-
-.semdetails-list.dark .trash-icon {
-  color: #ff4444;
-}
-
-.semdetails-list.dark .trash-icon:hover {
-  color: #ef4444;
-  cursor: pointer;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.no-sem-message {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  animation: fadeIn 0.2s ease;
+  flex: 1;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
 }
 
 .modal-content {
-  background: white;
-  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
   padding: 24px;
-  min-width: 400px;
-  max-width: 500px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-xl);
 }
 
 .modal-header h3 {
+  margin: 0 0 12px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 12px 0;
+  color: var(--text-primary);
 }
 
 .modal-body p {
-  font-size: 14px;
-  color: #6b7280;
   margin: 0 0 24px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
   line-height: 1.5;
 }
 
 .modal-actions {
   display: flex;
-  gap: 12px;
   justify-content: flex-end;
+  gap: 12px;
 }
 
 .modal-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 80px;
+  border: none;
+  transition: all var(--transition-fast);
+}
+
+.modal-btn-cancel {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.modal-btn-cancel:hover {
+  background: var(--bg-secondary);
 }
 
 .modal-btn-delete {
-  background-color: #ef4444;
+  background: var(--danger);
   color: white;
 }
 
 .modal-btn-delete:hover {
-  background-color: #dc2626;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
-}
-
-.modal-btn-cancel {
-  background-color: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-.modal-btn-cancel:hover {
-  background-color: #e5e7eb;
-  transform: translateY(-1px);
-}
-
-/* Dark mode for modal */
-.modal-content.dark {
-  background-color: #1f2937;
-}
-
-.modal-content.dark .modal-header h3 {
-  color: #f9fafb;
-}
-
-.modal-content.dark .modal-body p {
-  color: #d1d5db;
-}
-
-.modal-content.dark .modal-btn-cancel {
-  background-color: #374151;
-  color: #f9fafb;
-  border-color: #4b5563;
-}
-
-.modal-content.dark .modal-btn-cancel:hover {
-  background-color: #4b5563;
+  background: #c92a2a;
 }

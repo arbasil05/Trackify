@@ -1,63 +1,142 @@
+/* ============================================
+   DASHBOARD HEADER
+   ============================================ */
+
 .dashboardheader-container {
-    margin-left: 250px;
-    display: none; /* Hidden on desktop */
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 35px;
-    gap: 30px;
-    margin-bottom: 0;
-    padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: var(--content-margin-left);
+  margin-top: 48px;
+  margin-right: var(--content-padding);
+  margin-bottom: 32px;
 }
 
-.dashboardheader-container h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #111827;
-    margin: 0;
+.dashboardheader-content {
+  text-align: left;
+  max-width: 600px;
 }
 
-.dashboardheader-title.dark {
-    color: #f3f4f6;
+.dashboardheader-content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.03em;
 }
 
+.dashboardheader-content p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Upload Button */
 .dashboard-upload-btn {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px; /* Space between icon and text */
-    padding: 8px 16px; /* Horizontal padding */
-    width: auto; /* Flexible width */
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    background-color: #4880FF;
-    color: white;
-    font-size: 14px; /* Adjusted font size for text */
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.dashboard-upload-btn span {
-    white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
 .dashboard-upload-btn:hover {
-    background-color: #2563eb;
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
-/* Dark mode */
-.dashboardheader-container.dark h2 {
-    color: #f3f4f6;
+.dashboard-upload-btn:active {
+  transform: translateY(0);
+}
+
+.upload-icon {
+  font-size: 16px;
+}
+
+/* Actions Container */
+.dashboardheader-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.dashboard-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-action-btn:active {
+  transform: translateY(0);
+}
+
+.search-btn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.search-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-subtle);
+  transform: translateY(-1px);
+}
+
+.add-btn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.add-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-subtle);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 900px) {
-    .dashboardheader-container {
-        display: flex;
-        margin-left: 0;
-        margin-top: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+  .dashboardheader-container {
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 24px;
+    padding: 0 20px;
+  }
+
+  .dashboardheader-content h1 {
+    font-size: 28px;
+  }
+
+  .dashboardheader-content p {
+    font-size: 14px;
+  }
+
+  .dashboardheader-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .dashboard-upload-btn, .dashboard-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

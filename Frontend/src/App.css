@@ -1,51 +1,61 @@
+/* ============================================
+   APP-LEVEL LAYOUT & MODAL STYLES
+   ============================================ */
+
+/* Dashboard chart + category wrapper */
 .wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 25px;
-  height: 450px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  margin-left: var(--content-margin-left);
+  margin-right: var(--content-padding);
+  margin-top: 24px;
 }
 
 @media (max-width: 900px) {
   .wrapper {
-    flex-direction: column;
-    height: auto;
-    padding: 0 10px;
-    gap: 0px;
+    grid-template-columns: 1fr;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 16px;
+    gap: 16px;
   }
 }
 
+/* Light / dark mode body */
 .light-mode {
-  background-color: white;
-  color: #222;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .dark-mode {
-  background-color: #1B2431;
-  color: #fff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-/* Modal Overlay - Global */
+/* ============================================
+   MODAL OVERLAY
+   ============================================ */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn 0.15s ease;
 }
 
 .medium-modal {
-  width: 700px;
-  max-width: 98vw;
+  width: 520px;
+  max-width: 95vw;
   display: flex;
   flex-direction: column;
-  /* border: 1px solid black; */
 }
 
 .modal-contents {
@@ -54,137 +64,123 @@
   align-items: flex-start;
 }
 
+/* ============================================
+   "WHAT'S NEW" FEATURE MODAL
+   ============================================ */
 .important-info-dash {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 10px;
-  border-radius: 16px;
+  gap: 8px;
   width: 100%;
 }
 
 .important-info-dash .important-header {
-  font-size: 24px;
-  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
   text-align: left;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 .important-info-dash .important-caption {
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  margin-bottom: 8px;
   text-align: left;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
+/* Feature list items */
 .features-parent {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   gap: 12px;
-  background-color: #F9FAFB;
-  border: 1px solid rgb(229, 231, 235);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   padding: 10px 14px;
-  border-radius: 10px;
-  margin-bottom: 8px;
+  border-radius: var(--radius-md);
+  margin-bottom: 6px;
+  transition: background-color var(--transition-fast);
+}
+
+.features-parent:hover {
+  background-color: var(--bg-hover);
+}
+
+.features-parent.dark {
+  background-color: var(--bg-card);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
 }
 
 .features-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* border: 1px solid black; */
-}
-
-.features-parent.dark {
-  background-color: #2f3b49;
-  border: 1px solid #4b5563;
-  color: #f3f4f6;
 }
 
 .features-emoji {
-  font-size: 18px;
-  min-width: 36px;
-  height: 36px;
+  font-size: 16px;
+  min-width: 32px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
 }
 
 .feature-button {
   margin-left: auto;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .features-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   text-align: left;
   margin: 0;
   letter-spacing: -0.01em;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .features-desc {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.4;
-  color: #6b7280;
+  color: var(--text-secondary);
   text-align: left;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 .features-parent.dark .features-title {
-  color: #f9fafb;
+  color: var(--text-primary);
 }
 
 .features-parent.dark .features-desc {
-  color: #d1d5db;
+  color: var(--text-secondary);
 }
 
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
+/* ============================================
+   NARROW MODAL OVERRIDE
+   ============================================ */
 .custom-modal.narrow-modal {
   max-width: 95vw;
 }
 
-/* Ensure focus outline is removed for react-modal */
 .ReactModal__Content:focus {
   outline: none;
 }
 
-/* Dashboard News Modal Improvements */
-.custom-modal.dashboard-news-modal:not(.dark) {
-  background-color: #f8fafc;
-}
-
-.custom-modal.dashboard-news-modal:not(.dark) .features-parent {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.custom-modal.dashboard-news-modal:not(.dark) .important-header {
-  color: #1e293b;
-}
-
-.custom-modal.dashboard-news-modal:not(.dark) .important-caption {
-  color: #64748b;
-}
-
-.custom-modal.dashboard-news-modal:not(.dark) .btn.proceed {
-  background-color: #3b82f6;
-  color: white;
-}
-
-.custom-modal.dashboard-news-modal:not(.dark) .btn.proceed:hover {
-  background-color: #2563eb;
-}
+/* Dashboard news modal — uses same tokens, no special overrides needed */
