@@ -25,8 +25,8 @@ const Category = ({ runningTotal, Loading }) => {
 
   return (
     !Loading ? (
-      <div className={`trackify-category-container ${dark ? 'dark' : ''}`}>
-        <h2 className="category-title">
+      <div className={`category-container ${dark ? 'dark' : ''}`}>
+        <h2 className="category-header">
           Explore Categories
         </h2>
 
@@ -52,8 +52,8 @@ const Category = ({ runningTotal, Loading }) => {
         </div>
       </div>
     ) : (
-      <div className={`trackify-category-container ${dark ? 'dark skeleton-dark' : 'skeleton-light'}`}>
-        <h2 className="category-title" style={{ visibility: 'hidden' }}>
+      <div className={`category-container ${dark ? 'dark skeleton-dark' : 'skeleton-light'}`}>
+        <h2 className="category-header" style={{ visibility: 'hidden' }}>
           Explore Categories
         </h2>
 

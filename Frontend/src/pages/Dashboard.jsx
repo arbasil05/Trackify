@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Barchart from '../components/barchart/BarChart';
 import Category from '../components/category/Category';
 import Information from '../components/information/Information';
 import Navbar from '../components/navbar/Navbar';
 import Sidebar from '../components/sidebar/Sidebar';
 import MobileNavbar from '../components/mobile-navbar/MobileNavbar';
-import DashboardHeader from '../components/dashboardheader/DashboardHeader';
 import Footer from '../components/footer/Footer';
 import Spinner from '../components/spinner/Spinner';
 import Modal from "react-modal";
-import { faKey, faLandmark, faMobileScreen, faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
+import AddSingleCourseModal from '../components/navbar/AddSingleCourseModal';
+import { faKey, faLandmark, faMobileScreen, faPlus, faWarning, faMagnifyingGlass, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import './Dashboard.css';
 
 const features = [
   {
@@ -62,6 +64,8 @@ const Dashboard = () => {
   const { isDark } = useTheme();
 
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [addCourseModalOpen, setAddCourseModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [modalIsOpen, setModalIsOpen] = useState(() => {
     return !localStorage.getItem('hasSeenNewFeatures');
@@ -78,6 +82,10 @@ const Dashboard = () => {
       fetchUser();
     }
   }, [dashboardData, fetchUser]);
+
+  const handleRefresh = () => {
+    fetchUser();
+  };
 
   /* ================= LOADING STATES ================= */
   if (authLoading || !dashboardData) {
@@ -141,22 +149,34 @@ const Dashboard = () => {
       <Sidebar />
 
       <Navbar
-        name={user.name || ''}
+        title="Overview"
+        subtitle="Track your academic progress, credits, and course categories in one place."
         externalModalOpen={uploadModalOpen}
         setExternalModalOpen={setUploadModalOpen}
-      />
+      >
+        <button className="dashboard-action-btn search-btn" onClick={() => navigate('/explore')}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <span>Search & Add</span>
+        </button>
+        <button className="dashboard-action-btn add-btn" onClick={() => setAddCourseModalOpen(true)}>
+          <FontAwesomeIcon icon={faPlus} />
+          <span>Add Course</span>
+        </button>
+        <button className="dashboard-upload-btn" onClick={() => setUploadModalOpen(true)}>
+          <FontAwesomeIcon icon={faUpload} className="upload-icon" />
+          <span>Upload PDF</span>
+        </button>
+      </Navbar>
 
-      <DashboardHeader onUpload={() => setUploadModalOpen(true)} />
-
-      <Information
-        user={user}
-        cgpa={dashboardData.cgpa}
-        totalCredits={dashboardData.totalCredits}
-        userSemCredits={dashboardData.userSemCredits}
-        Loading={false}
-      />
-
-      <div className="wrapper">
+      <div className="dashboard-bento-grid">
+        <Information
+          user={user}
+          cgpa={dashboardData.cgpa}
+          totalCredits={dashboardData.totalCredits}
+          userSemCredits={dashboardData.userSemCredits}
+          Loading={false}
+        />
+        
         <Barchart
           userSemCredits={dashboardData.userSemCredits}
           Loading={false}
@@ -169,6 +189,21 @@ const Dashboard = () => {
 
       <hr />
       <Footer />
+
+      {addCourseModalOpen && (
+          <div className="modal-overlay">
+              <div className={`custom-modal narrow-modal ${isDark ? "dark" : ""}`}>
+                  <AddSingleCourseModal
+                      onClose={() => setAddCourseModalOpen(false)}
+                      onSuccess={() => {
+                          setAddCourseModalOpen(false);
+                          handleRefresh();
+                      }}
+                  />
+              </div>
+          </div>
+      )}
+
     </div>
   );
 };

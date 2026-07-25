@@ -1,11 +1,127 @@
-* {
-  border: 0;
+/* ============================================
+   TRACKIFY DESIGN SYSTEM
+   Inspired by Notion (warm neutrals, whisper borders)
+   and Apple (restrained color, clean typography)
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+
+:root {
+  /* Layout */
+  --sidebar-width: 220px;
+  --content-padding: clamp(1.25rem, 4vw, 5rem);
+  --content-margin-left: calc(var(--sidebar-width) + 30px);
+
+  /* Colors — Light Mode (Notion-warm) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f5;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.03);
+  --bg-active: rgba(0, 0, 0, 0.05);
+
+  --text-primary: rgba(0, 0, 0, 0.88);
+  --text-secondary: rgba(0, 0, 0, 0.55);
+  --text-muted: rgba(0, 0, 0, 0.35);
+
+  --accent: #2383e2;
+  --accent-hover: #1a73d1;
+  --accent-subtle: rgba(35, 131, 226, 0.06);
+  --accent-ring: rgba(35, 131, 226, 0.3);
+  --accent-text: #2383e2;
+
+  --border-primary: rgba(0, 0, 0, 0.08);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-strong: rgba(0, 0, 0, 0.14);
+
+  --success: #0f7b0f;
+  --success-bg: rgba(15, 123, 15, 0.08);
+  --warning: #d97706;
+  --warning-bg: rgba(217, 119, 6, 0.08);
+  --danger: #e11d48;
+  --danger-bg: rgba(225, 29, 72, 0.06);
+
+  /* Shadows — Notion-style whisper shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: rgba(0, 0, 0, 0.04) 0px 2px 8px, rgba(0, 0, 0, 0.02) 0px 1px 2px;
+  --shadow-md: rgba(0, 0, 0, 0.04) 0px 4px 18px, rgba(0, 0, 0, 0.027) 0px 2px 8px, rgba(0, 0, 0, 0.02) 0px 1px 3px;
+  --shadow-lg: rgba(0, 0, 0, 0.04) 0px 8px 32px, rgba(0, 0, 0, 0.03) 0px 4px 16px, rgba(0, 0, 0, 0.02) 0px 2px 6px;
+  --shadow-modal: rgba(0, 0, 0, 0.08) 0px 12px 48px, rgba(0, 0, 0, 0.04) 0px 6px 20px;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition-normal: 200ms ease;
+  --transition-smooth: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+.dark-mode {
+  --bg-primary: #191919;
+  --bg-secondary: #202020;
+  --bg-card: #202020;
+  --bg-elevated: #262626;
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --bg-active: rgba(255, 255, 255, 0.06);
+
+  --text-primary: rgba(255, 255, 255, 0.88);
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted: rgba(255, 255, 255, 0.3);
+
+  --accent: #529cca;
+  --accent-hover: #6db3de;
+  --accent-subtle: rgba(82, 156, 202, 0.1);
+  --accent-ring: rgba(82, 156, 202, 0.35);
+  --accent-text: #6db3de;
+
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.1);
+  --warning: #eab308;
+  --warning-bg: rgba(234, 179, 8, 0.1);
+  --danger: #f43f5e;
+  --danger-bg: rgba(244, 63, 94, 0.1);
+
+  --shadow-xs: none;
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+/* ============================================
+   GLOBAL RESET & TYPOGRAPHY
+   ============================================ */
+*,
+*::before,
+*::after {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  user-select: none;
-  /* transition: background-color 0.3s ease, color 0.3s ease; */
-  text-decoration: none;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 html, body {
@@ -13,81 +129,225 @@ html, body {
   width: 100%;
 }
 
-button:hover {
-  cursor: pointer;
+body {
+  font-family: "Geist", "Inter", -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-feature-settings: "cv01", "ss01";
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
 }
 
-/* body {
-  padding-right: 80px;
-  
-} */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
 
-/* Global custom scrollbar */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================
+   SCROLLBAR — Clean, minimal
+   ============================================ */
 * {
   scrollbar-width: thin;
-  /* Firefox */
-  scrollbar-color: #b1b1b1 #f1f1f1;
-  /* Firefox */
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 }
 
-/* WebKit-based browsers */
+.dark-mode * {
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
 *::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #b1b1b1;
-  border-radius: 10px;
-  border: 2px solid #f1f1f1;
-  /* creates padding effect */
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.dark-mode *::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #b1b1b1;
-  /* darker shade on hover */
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.dark-mode *::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.mono {
+  font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ============================================
+   SKELETON LOADERS
+   ============================================ */
+.skeleton-light,
+.skeleton-dark {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
 }
 
 .skeleton-light {
-    width: 100%;
-    border-radius: 8px; /* Slightly softer corners for a modern look */
-    background: linear-gradient(
-        90deg,
-        hsl(210, 15%, 85%) 0%,
-        hsl(210, 15%, 95%) 50%,
-        hsl(210, 15%, 85%) 100%
-    ); /* Subtle gradient for shimmer effect */
-    background-size: 200% 100%; /* Allows gradient to move for shimmer */
-    animation: skeleton-loading 1.2s ease-in-out infinite; /* Smoother, slower animation */
-    overflow: hidden;
+  background: var(--bg-secondary);
 }
-
 
 .skeleton-dark {
-    width: 100%;
-    border-radius: 8px; /* Soft corners for modern look */
-    background: linear-gradient(
-        90deg,
-        hsl(210, 10%, 20%) 0%,
-        hsl(210, 10%, 30%) 50%,
-        hsl(210, 10%, 20%) 100%
-    ); /* Shimmer gradient for dark mode */
-    background-size: 200% 100%; /* Enables gradient movement */
-    animation: skeleton-loading 1.2s ease-in-out infinite; /* Smooth animation */
-    overflow: hidden;
+  background: var(--bg-elevated);
 }
 
+.skeleton-light::after,
+.skeleton-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
 
+.dark-mode .skeleton-light::after,
+.skeleton-dark::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 100%
+  );
+}
 
-@keyframes skeleton-loading {
-    0% {
-        background-position: 100% 0; 
-    }
-    100% {
-        background-position: -100% 0; 
-    }
+@keyframes skeleton-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ============================================
+   GLOBAL BUTTON STYLES
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-primary,
+.btn.proceed {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn.proceed:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-primary:active,
+.btn.proceed:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-active);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background-color: var(--danger-bg);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--danger);
+  color: #ffffff;
+}
+
+/* ============================================
+   GLOBAL MODAL STYLES
+   ============================================ */
+.custom-modal {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-modal);
+  max-height: 90vh;
+  overflow-y: auto;
+  outline: none;
+}
+
+.custom-modal.dark {
+  background-color: var(--bg-card);
+  border-color: var(--border-primary);
+}
+
+/* ============================================
+   RESPONSIVE LAYOUT
+   ============================================ */
+@media (max-width: 900px) {
+  :root {
+    --sidebar-width: 0px;
+    --content-margin-left: 0px;
+    --content-padding: 16px;
+  }
 }

@@ -7,9 +7,9 @@ const CurrentSemester = ({ sem_num, Loading }) => {
 
   return (
     !Loading ? (
-      <div className={dark ? 'csem-container dark-mode' : 'csem-container'}>
-        <h1 className='csem-title'>Semesters Completed</h1>
-        <h1 className='csem-value'>{sem_num} / 8</h1>
+      <div className={dark ? 'current-semester-container dark-mode' : 'current-semester-container'}>
+        <h1 className='current-semester-title'>Semesters Completed</h1>
+        <h1 className='current-semester-value'>{sem_num} <span>/ 8</span></h1>
         <p style={{ color: "#F59E0B", fontSize: "15px" }}>
           {remaining === 0
             ? "Completed"
@@ -19,12 +19,12 @@ const CurrentSemester = ({ sem_num, Loading }) => {
         </p>
       </div>
     ) : (
-      <div className={dark ? 'csem-container dark-mode' : 'csem-container'}>
+      <div className={dark ? 'current-semester-container dark-mode' : 'current-semester-container'}>
         <div className={dark ? 'skeleton-dark' : 'skeleton-light'}>
-          <h1 style={{ visibility: "hidden" }} className='csem-title'>Current Semester</h1>
+          <h1 style={{ visibility: "hidden" }} className='current-semester-title'>Current Semester</h1>
         </div>
         <div className={dark ? 'skeleton-dark' : 'skeleton-light'}>
-          <h1 style={{ visibility: "hidden" }} className='csem-value'>{sem_num} / 8</h1>
+          <h1 style={{ visibility: "hidden" }} className='current-semester-value'>{sem_num} / 8</h1>
         </div>
         <div className={dark ? 'skeleton-dark' : 'skeleton-light'}>
           <p style={{ visibility: "hidden", color: "#F59E0B", fontSize: "15px" }}>

@@ -1,158 +1,121 @@
-.sidebar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 220px;
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #ffffff;
-    padding-right: 20px;
-}
+/* ============================================
+   SIDEBAR — Notion-style navigation
+   Clean, minimal, whisper borders
+   ============================================ */
 
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-primary);
+  z-index: 100;
+}
 
 @media (max-width: 900px) {
-    .sidebar-container {
-        display: none;
-    }
+  .sidebar-container {
+    display: none;
+  }
 }
 
-/* DARK MODE */
-.dark-mode.sidebar-container {
-    background-color: #273142;
-}
+/* Dark mode inherits from tokens — no overrides needed */
 
-/* Title */
+/* Logo */
 .sidebar-title {
-    padding-left: 25px;
+  padding: 4px 16px 0;
 }
 
 .sidebar-title h1 {
-    font-size: 36px;
-    color: black;
-    font-weight: 700;
-    letter-spacing: -1px;
-    margin: 0;
-}
-
-.dark-mode .sidebar-title h1 {
-    color: white;
+  font-size: 22px;
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin: 0;
 }
 
 .siebar-title-span {
-    color: #4880FF;
+  color: var(--accent);
 }
 
-/* Menu Wrapper */
+/* Menu */
 .sidebar-menu-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-/* Menu Items */
 .sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
 }
 
-/* Each item */
+/* Menu items */
 .sidebar-menu div {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    color: black;
-    font-weight: 500;
-    font-size: 15px;
-    cursor: pointer;
-    /* transition: 0.5s all ease; */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.sidebarDash {
-    text-decoration: none;
+.sidebarDash,
+.sidebarprofile {
+  text-decoration: none;
 }
 
-.sidebarDash:hover {
-    background-color: #374151;
-    color: white;
-}
-
-
-
+.sidebarDash:hover,
 .sidebarprofile:hover {
-    background-color: #374151;
-    color: white;
-
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
-.dark-mode .sidebar-menu div {
-    color: white;
-}
-
-/* Logout Section */
-.logout-button-light {
-    width: 85%;
-    font-size: 16px;
-    padding: 8px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: none;
-    cursor: pointer;
-    /* transition: background-color 0.3s ease, color 0.3s ease; */
-    background-color: #ffffff;
-    color: #000000;
-    margin-left: 18px;
-    /* transition: 0.5s all ease-in-out; */
-}
-
-.logout-button-light:hover {
-    background-color: #000000;
-    color: white;
-    /* gap: 20px; */
-}
-
-
-.logout-button-dark {
-    width: 85%;
-    font-size: 16px;
-    padding: 8px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: none;
-    cursor: pointer;
-    /* transition: background-color 0.3s ease, color 0.3s ease; */
-    background-color: #273142;
-    color: #ffffff;
-    margin-left: 18px;
-    /* transition: 0.5s all ease-in-out; */
-}
-
-.logout-button-dark:hover {
-    background-color: #ffffff;
-    color: black;
-    /* gap: 20px; */
-}
-
-/* Highlight the active menu item */
+/* Active state — Notion style: subtle tint, not solid block */
 .sidebar-menu div.active {
-    background-color: #4880FF;
-    color: white;
+  background-color: var(--accent-subtle);
+  color: var(--accent-text);
+  font-weight: 600;
 }
 
-/* Optional: smoother transition */
-/* .sidebar-menu div {
-    transition: background-color 0.3s ease, transform 0.3s ease;
-} */
+/* Logout button */
+.logout-button-light,
+.logout-button-dark {
+  width: calc(100% - 16px);
+  font-size: 14px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--text-secondary);
+  margin: 0 8px;
+  font-weight: 500;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
 
+.logout-button-light:hover,
+.logout-button-dark:hover {
+  background-color: var(--danger-bg);
+  color: var(--danger);
+}
+
+.logout-button-light:active,
+.logout-button-dark:active {
+  transform: scale(0.98);
+}

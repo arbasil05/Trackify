@@ -1,190 +1,263 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
-import { faChevronRight, faChevronLeft, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './AvailableCourses.css'
+import { useState, useEffect, useMemo } from 'react';
+import './AvailableCourses.css';
 import { useTheme } from '../../context/ThemeContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import SearchGuideModal from './SearchGuideModal';
+
+const GRADE_OPTIONS = [
+    { value: 10, label: "O (10)" },
+    { value: 9, label: "A+ (9)" },
+    { value: 8, label: "A (8)" },
+    { value: 7, label: "B+ (7)" },
+    { value: 6, label: "B (6)" },
+    { value: 5, label: "C (5)" },
+];
 
 const AvailableCourses = ({ recommendedCourses, grad_year, Loading }) => {
     const { isDark: dark } = useTheme();
-    const [showButtons, setShowButtons] = useState({left:false , right:false});
-    const [expandedCategories, setExpandedCategories] = useState({});
-    const [visibleCounts, setVisibleCounts] = useState({});
+    const categories = Object.keys(recommendedCourses || {});
 
-    const categories = Object.keys(recommendedCourses || {})
-    const courseDetailsRefs = useRef([]);
+    // State for Master (Categories)
+    const [activeCategory, setActiveCategory] = useState('');
+    
+    // State for Detail (Search)
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showGuide, setShowGuide] = useState(false);
 
-    const checkOverflow = useCallback((index) => {
-        const element = courseDetailsRefs.current[index];
-        if (element) {
-            setShowButtons(prev => ({ ...prev, [index]: { left: element.scrollLeft > 0, right: element.scrollWidth > element.clientWidth && element.scrollLeft + element.clientWidth + 10 < element.scrollWidth } }));
-        }
-    }, []);
+    // State for Adding Course
+    const [selectedCourseToAdd, setSelectedCourseToAdd] = useState(null);
+    const [sem, setSem] = useState("");
+    const [gradePoint, setGradePoint] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        Object.keys(recommendedCourses).forEach((_, index) => {
-            checkOverflow(index);
-        });
-    }, [recommendedCourses,checkOverflow]);
-
-    const handleLeft = (index) => {
-        if (courseDetailsRefs.current[index]) {
-            courseDetailsRefs.current[index].scrollBy({
-                left: -350,
-                behavior: 'smooth'
-                
-            })
+        if (categories.length > 0 && !activeCategory) {
+            setActiveCategory(categories[0]);
         }
-        setTimeout(() => {
-            checkOverflow(index);
-        }, 300); 
-    }
+    }, [categories, activeCategory]);
 
-    const handleRight = (index) => {
-        if (courseDetailsRefs.current[index]) {
-            courseDetailsRefs.current[index].scrollBy({
-                left: 350,
-                behavior: 'smooth'
-            })
+    const handleAddCourse = async () => {
+        if (!selectedCourseToAdd || !sem || !gradePoint) {
+            toast.error("Select semester and grade");
+            return;
         }
-        setTimeout(() => {
-            checkOverflow(index);
-        }, 300); 
-    }
 
-    const toggleCategory = (cat) => {
-        setExpandedCategories(prev => ({
-            ...prev,
-            [cat]: !prev[cat]
-        }));
-    }
+        setSubmitting(true);
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BACKEND_API}/api/semester/addFromDB`,
+                {
+                    courseId: selectedCourseToAdd._id,
+                    sem,
+                    gradePoint: Number(gradePoint),
+                },
+                { withCredentials: true }
+            );
 
+            toast.success("Course added successfully!");
+            if (res.data?.newAchievements?.length > 0) {
+                toast.success("🏆 Achievement Unlocked!", { duration: 5000 });
+            }
+            // Close modal
+            setSelectedCourseToAdd(null);
+            setSem("");
+            setGradePoint("");
+            
+            // Trigger a page refresh to update recommended list
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
+        } catch (err) {
+            const msg = err?.response?.data?.message || "Failed to add course";
+            toast.error(msg);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    // Derived state: filtered courses
+    const currentCourses = recommendedCourses[activeCategory] || [];
+    const filteredCourses = useMemo(() => {
+        if (!searchQuery.trim()) return currentCourses;
+        const lowerQuery = searchQuery.toLowerCase();
+        return currentCourses.filter(course => 
+            course.name.toLowerCase().includes(lowerQuery) || 
+            (course.code19 && course.code19.toLowerCase().includes(lowerQuery)) ||
+            (course.code24 && course.code24.toLowerCase().includes(lowerQuery))
+        );
+    }, [currentCourses, searchQuery]);
+
+    if (Loading || categories.length === 0) {
+        return (
+            <div className={`explore-app-layout ${dark ? 'dark' : ''}`}>
+                <div className="explore-sidebar skeleton-sidebar">
+                    <div className="skeleton-sidebar-item"></div>
+                    <div className="skeleton-sidebar-item"></div>
+                    <div className="skeleton-sidebar-item"></div>
+                </div>
+                <div className="explore-main">
+                    <div className="explore-main-header">
+                        <div className="skeleton-search"></div>
+                    </div>
+                    <div className="explore-app-grid">
+                        {[1, 2, 3, 4, 5, 6].map((f) => (
+                            <div className="explore-app-card skeleton-card" key={f}></div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className={dark ? 'available-courses-container dark-mode-courses' : 'available-courses-container'}>
-            {!Loading ? (
-                categories.map((cat, index) => (
-                    <div className="course-category" key={cat}>
-                        {/* Desktop Title */}
-                        <div className="course-category-title desktop-view">
-                            <h3>{getCategoryFullName(cat)} ({cat})</h3>
+        <div className={`explore-app-layout ${dark ? 'dark' : ''}`}>
+            
+            {/* MASTER: Category Sidebar */}
+            <div className="explore-sidebar">
+                <h3 className="sidebar-title">Categories</h3>
+                <div className="sidebar-menu">
+                    {categories.map(cat => (
+                        <button 
+                            key={`cat-${cat}`}
+                            className={`sidebar-menu-item ${activeCategory === cat ? 'active' : ''}`}
+                            onClick={() => {
+                                setActiveCategory(cat);
+                                setSearchQuery(''); // Reset search on category change
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                        >
+                            <span className="cat-name">{cat}</span>
+                            <span className="cat-count">{recommendedCourses[cat]?.length || 0}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* DETAIL: Course Grid & Search */}
+            <div className="explore-main">
+                
+                <div className="explore-main-header">
+                    <div className="explore-main-title">
+                        <h2>{getCategoryFullName(activeCategory)}</h2>
+                        <span className="category-total-badge">{currentCourses.length} Courses</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div className="explore-search-box" style={{ margin: 0 }}>
+                            <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                            <input 
+                                type="text" 
+                                placeholder={`Search ${activeCategory} courses...`}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                         </div>
+                        <button 
+                            className="btn outline" 
+                            onClick={() => setShowGuide(true)}
+                            title="How to search and add courses"
+                            style={{ padding: '0 16px', height: '100%', minHeight: '44px', display: 'flex', alignItems: 'center', gap: '8px' }}
+                        >
+                            <FontAwesomeIcon icon={faQuestionCircle} />
+                            Guide
+                        </button>
+                    </div>
+                </div>
 
-                        {/* Desktop Carousel View */}
-                        <div className='course-details-wrapper desktop-view'>
-                                {showButtons[index]?.left && (
-                                    <button className='carousel left' onClick={() => handleLeft(index)}><FontAwesomeIcon icon={faChevronLeft} /></button>
-                                )}
-                                {showButtons[index]?.right && (
-                                    <button className='carousel right' onClick={() => handleRight(index)}><FontAwesomeIcon icon={faChevronRight} /></button>
-                                )}
-
-                            <div className="course-details" ref={(el) => courseDetailsRefs.current[index] = el}>
-                                {recommendedCourses[cat]?.map(course => (
-                                    <div className="one-course" key={course._id}>
-                                        <p>{course.name}</p>
-                                        <p>
-                                            {grad_year === "2027" ? course.code19 : course.code24}
-                                        </p>
-                                        <p>{course.credits} credits</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Mobile Collapsible Table View */}
-                        <div className="mobile-table-section mobile-view">
+                {filteredCourses.length > 0 ? (
+                    <div className="explore-app-grid">
+                        {filteredCourses.map(course => (
                             <div 
-                                className="collapsible-header"
-                                onClick={() => toggleCategory(cat)}
+                                className="explore-app-card interactive" 
+                                key={course._id}
+                                onClick={() => setSelectedCourseToAdd(course)}
+                                title="Click to add this course"
                             >
-                                <h3 className="mobile-category-title">{getCategoryFullName(cat)}</h3>
-                                <div className="header-right">
-                                    <span className="course-count">{recommendedCourses[cat]?.length || 0}</span>
-                                    <FontAwesomeIcon 
-                                        icon={faChevronDown} 
-                                        className={`collapse-icon ${expandedCategories[cat] ? 'expanded' : ''}`}
-                                    />
+                                <div className="card-top">
+                                    <span className="course-code">
+                                        {grad_year === "2027" ? course.code19 : course.code24}
+                                    </span>
+                                    <span className="course-credits">{course.credits} Cr</span>
+                                </div>
+                                <h3 className="course-title">{course.name}</h3>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="explore-empty-state">
+                        <p>No courses found matching "{searchQuery}"</p>
+                        <button className="clear-search-btn" onClick={() => setSearchQuery('')}>
+                            Clear Search
+                        </button>
+                    </div>
+                )}
+                
+            </div>
+            
+            {selectedCourseToAdd && (
+                <div className="modal-overlay">
+                    <div className={`custom-modal narrow-modal add-course-modal ${dark ? 'dark' : ''}`}>
+                        <div className="add-course-modal-header">
+                            <h2>Add Course</h2>
+                            <button className="close-btn" onClick={() => setSelectedCourseToAdd(null)}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </button>
+                        </div>
+                        
+                        <div className="selected-course-card">
+                            <div className="selected-course-info">
+                                <h3>{selectedCourseToAdd.name}</h3>
+                                <div className="course-card-tags">
+                                    <span className="course-tag category-tag">{selectedCourseToAdd.category}</span>
+                                    <span className="course-tag credit-tag">{selectedCourseToAdd.credits} Cr</span>
                                 </div>
                             </div>
-                            <div className={`collapsible-content ${expandedCategories[cat] ? 'expanded' : ''}`}>
-                                <div className="collapsible-inner">
-                                    <table className="mobile-course-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Course</th>
-                                                <th>Code</th>
-                                                <th>Credits</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {(recommendedCourses[cat]?.slice(0, visibleCounts[cat] || 10) || []).map(course => (
-                                                <tr key={course._id}>
-                                                    <td>{course.name}</td>
-                                                    <td>{grad_year === "2027" ? course.code19 : course.code24}</td>
-                                                    <td>{course.credits}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    {recommendedCourses[cat]?.length > 10 && (
-                                        <div className="mobile-footer-actions">
-                                            {recommendedCourses[cat]?.length > (visibleCounts[cat] || 10) && (
-                                                <button 
-                                                    className="action-btn load-more"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setVisibleCounts(prev => ({
-                                                            ...prev,
-                                                            [cat]: (prev[cat] || 10) + 10
-                                                        }));
-                                                    }}
-                                                >
-                                                    Show More ({recommendedCourses[cat].length - (visibleCounts[cat] || 10)})
-                                                </button>
-                                            )}
-                                            <button 
-                                                className="action-btn close-btn"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleCategory(cat);
-                                                }}
-                                            >
-                                                <FontAwesomeIcon icon={faChevronUp} /> Close
-                                            </button>
-                                        </div>
-                                    )}
+
+                            <div className="selected-course-fields">
+                                <div className="field-group">
+                                    <label>Semester</label>
+                                    <select value={sem} onChange={(e) => setSem(e.target.value)}>
+                                        <option value="">Select</option>
+                                        {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
+                                            <option key={s} value={s}>{s}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="field-group">
+                                    <label>Grade</label>
+                                    <select value={gradePoint} onChange={(e) => setGradePoint(e.target.value)}>
+                                        <option value="">Select</option>
+                                        {GRADE_OPTIONS.map((g) => (
+                                            <option key={g.value} value={g.value}>{g.label}</option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="form-actions" style={{ marginTop: '24px' }}>
+                            <button
+                                className="btn proceed"
+                                onClick={handleAddCourse}
+                                disabled={submitting}
+                                style={{ width: '100%' }}
+                            >
+                                {submitting ? "Adding..." : "Add to Profile"}
+                            </button>
                         </div>
                     </div>
-                ))
-            ) : (
-                // Skeleton Loading State
-                <>
-                    {[1, 2].map((fake) => (
-                        <div className="course-category" key={fake}>
-                            <div className={dark ? 'skeleton-dark skeleton-title' : 'skeleton-light skeleton-title'}>
-                                <h3 style={{ visibility: "hidden" }}>Loading...</h3>
-                            </div>
-                            <div className="course-details">
-                                {[1, 2, 3].map((f) => (
-                                    <div
-                                        className={dark ? 'skeleton-dark skeleton-card' : 'skeleton-light skeleton-card'}
-                                        key={f}
-                                    >
-                                        <p style={{ visibility: "hidden" }}>Name</p>
-                                        <p style={{ visibility: "hidden" }}>Code</p>
-                                        <p style={{ visibility: "hidden" }}>Credits</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </>
+                </div>
+            )}
+            
+            {showGuide && (
+                <SearchGuideModal onClose={() => setShowGuide(false)} />
             )}
         </div>
-    )
-}
+    );
+};
 
 const getCategoryFullName = (code) => {
     switch (code) {
@@ -199,4 +272,4 @@ const getCategoryFullName = (code) => {
     }
 }
 
-export default AvailableCourses
+export default AvailableCourses;

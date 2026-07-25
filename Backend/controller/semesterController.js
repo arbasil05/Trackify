@@ -691,6 +691,152 @@ export async function handleDeleteCourseByType(req, res) {
     }
 }
 
+export async function handleSearchCourses(req, res) {
+    try {
+        const id = req.id;
+        const { q } = req.query;
+
+        if (!q || q.trim().length < 2) {
+            return res.status(400).json({ message: "Query must be at least 2 characters" });
+        }
+
+        const user = await User.findById(id).select("dept courses user_added_courses");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isUserScoft = SCOFT_DEPARTMENTS.includes(user.dept);
+        const targetModel = isUserScoft ? Course : NonScoftCourse;
+
+        const searchRegex = new RegExp(q.trim(), "i");
+        const matchingCourses = await targetModel.find({
+            [`department.${user.dept}`]: { $exists: true },
+            $or: [
+                { name: searchRegex },
+                { code19: searchRegex },
+                { code24: searchRegex },
+            ],
+        }).limit(15);
+
+        // Build sets of already-added course IDs and codes
+        const existingCourseIds = new Set(user.courses.map((c) => c.course.toString()));
+        const existingUserAddedCodes = new Set(user.user_added_courses.map((c) => c.code));
+
+        const filtered = matchingCourses.filter((course) => {
+            if (existingCourseIds.has(course._id.toString())) return false;
+            if (existingUserAddedCodes.has(course.code19) || existingUserAddedCodes.has(course.code24)) return false;
+            return true;
+        });
+
+        const results = filtered.slice(0, 10).map((course) => ({
+            _id: course._id,
+            name: course.name,
+            code19: course.code19,
+            code24: course.code24,
+            credits: course.credits,
+            category: course.department[user.dept],
+        }));
+
+        return res.status(200).json({ results });
+    } catch (error) {
+        console.error("Error in handleSearchCourses:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+export async function handleAddFromDB(req, res) {
+    try {
+        const id = req.id;
+        const { courseId, sem, gradePoint } = req.body;
+
+        if (!courseId || !sem || gradePoint === undefined || gradePoint === null) {
+            return res.status(400).json({ message: "courseId, sem, and gradePoint are required" });
+        }
+
+        const gpNum = Number(gradePoint);
+        if (!Number.isInteger(gpNum) || gpNum < 1 || gpNum > 10) {
+            return res.status(400).json({ message: "Grade Point must be 1–10" });
+        }
+
+        const user = await User.findById(id).populate("courses.course");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isUserScoft = SCOFT_DEPARTMENTS.includes(user.dept);
+        const targetModel = isUserScoft ? Course : NonScoftCourse;
+        const courseDoc = await targetModel.findById(courseId);
+
+        if (!courseDoc) {
+            return res.status(404).json({ message: "Course not found in database" });
+        }
+
+        // Duplicate check across User.courses
+        const alreadyInCourses = user.courses.some(
+            (c) => c.course._id.toString() === courseDoc._id.toString()
+        );
+        if (alreadyInCourses) {
+            return res.status(409).json({ message: "Course already exists in your profile" });
+        }
+
+        // Duplicate check across user_added_courses
+        const alreadyInUserAdded = user.user_added_courses.some(
+            (c) => c.code === courseDoc.code19 || c.code === courseDoc.code24
+        );
+        if (alreadyInUserAdded) {
+            return res.status(409).json({ message: "Course already exists in your manually added courses" });
+        }
+
+        const category = courseDoc.department[user.dept]
+            || courseDoc.department[Object.keys(courseDoc.department)[0]];
+
+        const grade = GRADE_MAP[gpNum] || "NA";
+        const semName = sem.startsWith("Sem") ? sem : `Sem${sem}`;
+
+        const courseEntry = {
+            course: courseDoc._id,
+            modelType: isUserScoft ? "Course" : "NonScoftCourse",
+            gradePoint: gpNum,
+            grade,
+            sem: semName,
+            category,
+        };
+
+        // Calculate updated sem_total
+        const existingSemCredits = user.courses
+            .filter((c) => c.sem === semName)
+            .reduce((acc, c) => acc + (c.course.credits || 0), 0);
+        const newSemTotal = existingSemCredits + courseDoc.credits;
+
+        const semTotalUpdate = {};
+        semTotalUpdate[`sem_total.${semName}`] = newSemTotal;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            {
+                $push: { courses: courseEntry },
+                $set: semTotalUpdate,
+            },
+            { new: true, runValidators: true }
+        ).populate("courses.course");
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const newAchievements = await evaluateAchievements(id);
+
+        return res.status(200).json({
+            message: "Course added successfully",
+            courseEntry,
+            newAchievements,
+        });
+    } catch (error) {
+        console.error("Error in handleAddFromDB:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 
 
 

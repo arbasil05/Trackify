@@ -5,11 +5,13 @@ import {
     deleteSem,
     getAllMissingCourses,
     handleAddCourses,
+    handleAddFromDB,
     handleCourseUpdate,
     handleDeleteCourses,
     handleEditCourse,
     handleDeleteCourseByType,
     handleGetAllCourses,
+    handleSearchCourses,
     uploadFile,
 } from "../controller/semesterController.js";
 import multer from "multer";
@@ -65,6 +67,8 @@ router.put("/updateCourse", authMiddleWare, handleCourseUpdate);
 router.put("/editCourse", authMiddleWare, handleEditCourse);
 router.delete("/deleteCourseById", authMiddleWare, handleDeleteCourseByType);
 router.get("/missingCourses", getAllMissingCourses);
+router.get("/searchCourses", authMiddleWare, handleSearchCourses);
+router.post("/addFromDB", authMiddleWare, handleAddFromDB);
 router.delete("/:semester", authMiddleWare, deleteSem);
 
 export default router;

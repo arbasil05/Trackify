@@ -1,0 +1,68 @@
+/* ============================================
+   DASHBOARD BENTO GRID
+   ============================================ */
+
+.dashboard-bento-grid {
+  display: grid;
+  /* 4 columns for desktop */
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(140px, auto);
+  gap: 16px;
+  margin-left: var(--content-margin-left);
+  margin-right: var(--content-padding);
+  margin-bottom: 60px;
+}
+
+/* Because Information is a component returning 4 elements, 
+   we use display: contents so its children participate in the grid directly */
+.dashboard-bento-grid .information-container {
+  display: contents;
+}
+
+/* Barchart takes up 2 columns (50%) */
+.dashboard-bento-grid .barchart-container {
+  grid-column: span 2;
+  grid-row: span 2;
+  margin: 0; /* Override any existing margins */
+  height: 100%;
+}
+
+/* Category takes up 2 columns (50%) */
+.dashboard-bento-grid .category-container {
+  grid-column: span 2;
+  grid-row: span 2;
+  margin: 0;
+  height: 100%;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-bento-grid .barchart-container {
+    grid-column: span 2;
+  }
+  
+  .dashboard-bento-grid .category-container {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-bento-grid {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .dashboard-bento-grid .barchart-container {
+    grid-column: span 2;
+  }
+  
+  .dashboard-bento-grid .category-container {
+    grid-column: span 2;
+  }
+}

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Sidebar from '../components/sidebar/Sidebar'
 import MobileNavbar from '../components/mobile-navbar/MobileNavbar'
 import Navbar from '../components/navbar/Navbar'
-import Exploretitle from '../components/explore-title/Exploretitle'
 import AvailableCourses from '../components/courses_available/AvailableCourses'
 import axios from 'axios'
 import Spinner from '../components/spinner/Spinner'
@@ -49,8 +48,10 @@ const Explore = () => {
     <div>
       <MobileNavbar />
       <Sidebar />
-      <Navbar name={user?.name || ''} />
-      <Exploretitle />
+      <Navbar 
+        title="Explore Courses" 
+        subtitle="Discover subjects across all categories to plan your next semester." 
+      />
       <AvailableCourses
         recommendedCourses={recCourses}
         username={user?.name || ''}

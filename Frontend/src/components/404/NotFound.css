@@ -1,14 +1,20 @@
-.back-button{
-    display: flex;
-    align-items: center;
-    color: white;
+/* ============================================
+   NOT FOUND — 404 page
+   ============================================ */
+
+.back-button {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+  cursor: pointer;
 }
 
-.back-button:hover{
-    color: rgb(122, 121, 121);
+.back-button:hover {
+  color: var(--accent-text);
 }
 
-.back-button p{
-    font-size: 18px;
-    margin-left: 8px;
+.back-button p {
+  font-size: 14px;
+  margin-left: 6px;
 }

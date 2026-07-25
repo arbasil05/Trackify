@@ -1,110 +1,130 @@
-.trackify-category-container {
-  flex: 1;
+/* ============================================
+   CATEGORY BENTO CARD
+   ============================================ */
+
+.category-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  background-color: white;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 50px;
-  margin-bottom: 20px;
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  height: 100%;
+}
+
+.category-container:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-subtle);
+}
+
+.category-header {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 20px 0;
+  letter-spacing: -0.02em;
+}
+
+/* ── Scrollable Grid of Categories ── */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
   overflow-y: auto;
-  /* transition: background-color 0.3s ease; */
-  margin-right: 80px;
+  padding-right: 4px;
+  /* Custom Scrollbar for sleekness */
   scrollbar-width: thin;
-  scrollbar-color: #888 transparent;
+  scrollbar-color: var(--border-primary) transparent;
 }
 
-@media (max-width: 900px) {
-  .trackify-category-container {
-    margin-right: 0;
-    margin-top: 20px;
-  }
+.category-grid::-webkit-scrollbar {
+  width: 4px;
+}
+.category-grid::-webkit-scrollbar-thumb {
+  background-color: var(--border-primary);
+  border-radius: var(--radius-pill);
 }
 
-.trackify-category-container.dark {
-  background-color: #273142;
-}
-
-.category-title {
-  font-weight: 500;
-  font-size: 22px;
-  color: black;
-  /* transition: color 0.3s ease; */
-}
-
-.trackify-category-container.dark .category-title {
-  color: white;
+/* ── Individual Category Link ── */
+.category-grid a {
+  text-decoration: none;
+  display: block;
 }
 
 .individual-category {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
-  background-color: #F9FAFB;
-  border-radius: 10px;
-  padding: 5px;
-  padding-right: 10px;
-  /* transition: background-color 0.3s ease, color 0.3s ease; */
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
 
-.individual-category.dark {
-  background-color: #3a4552;
+.individual-category:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  transform: translateX(4px);
 }
 
-.individual-title{
-  padding-left: 10px;
+/* Title Section */
+.individual-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .individual-title h1 {
-  font-size: 23px;
-  font-weight: 500;
-  color: black;
-  /* transition: color 0.3s ease; */
-}
-
-.trackify-category-container.dark .individual-title h1 {
-  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
 }
 
 .individual-title p {
-  font-size: 10px;
-  color: rgb(143, 143, 143);
-  /* transition: color 0.3s ease; */
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-.trackify-category-container.dark .individual-title p {
-  color: #c9d1da;
-}
-
+/* Right Section */
 .individual-right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 15px;
-}
-
-.individual-right-icon{
-  margin-top: 8px;
-}
-
-.individual-right-icon:hover{
-  cursor: pointer;
+  align-items: center;
+  gap: 12px;
 }
 
 .individual-right h3 {
-  font-size: 16px;
-  font-weight: 500;
-  color: black;
-  /* transition: color 0.3s ease; */
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 0;
+  background: var(--bg-hover);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
 }
 
-.trackify-category-container.dark .individual-right h3 {
-  color: white;
+.individual-right-icon {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
-.trackify-category-container.dark .individual-right-icon {
-  color: white;
+.individual-category:hover .individual-right-icon {
+  transform: translateX(2px);
+  color: var(--accent);
+}
+.individual-category:hover .individual-right h3 {
+  color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+  .category-container {
+    padding: 16px;
+  }
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
 }

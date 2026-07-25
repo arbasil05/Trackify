@@ -1,56 +1,64 @@
-.tgrad-container {
-    width: 280px;
-    min-height: 140px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff7c;
-    color: #3629b7;
-    gap: 14px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
-    font-size: 10px;
+/* ============================================
+   TOWARDS GRADUATION BENTO CARD
+   ============================================ */
+
+.towards-grad-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  height: 100%;
 }
 
-.tgrad-title {
-    color: rgb(143, 143, 143);
-    font-weight: 500;
-    font-size: 15px;
+.towards-grad-container:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-subtle);
 }
 
-.tgrad-value {
-    font-weight: 600;
-    font-size: 30px;
-    color: black;
+.towards-grad-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px 0;
 }
 
-/* 🌙 Dark Mode Support */
-.dark-mode.tgrad-container {
-    background-color: #273142;
-    color: #ffffff;
+.towards-grad-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.02em;
 }
 
-.dark-mode.tgrad-container .tgrad-title {
-    color: #cccccc;
+/* Progress bar styling */
+.grad-progress-container {
+  margin-top: auto;
 }
 
-.dark-mode.tgrad-container .tgrad-value {
-    color: #ffffff;
+.grad-progress-container progress {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  -webkit-appearance: none;
+  appearance: none;
+  overflow: hidden;
+  background-color: var(--bg-hover);
 }
 
-@media (max-width: 900px) {
-    .tgrad-container {
-        width: unset;
-        min-height: unset;
-        padding: 15px;
-        gap: 10px;
-    }
-    .tgrad-title {
-        font-size: 12px;
-    }
-    .tgrad-value {
-        font-size: 22px;
-    }
+.grad-progress-container progress::-webkit-progress-bar {
+  background-color: var(--bg-hover);
+  border-radius: var(--radius-pill);
+}
+
+.grad-progress-container progress::-webkit-progress-value {
+  background-color: #10b981; /* Green for graduation progress */
+  border-radius: var(--radius-pill);
+  transition: width 0.5s ease;
 }

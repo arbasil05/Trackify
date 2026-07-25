@@ -4,8 +4,8 @@ import Lottie from 'lottie-react';
 import emptyGhostAnimation from '../../assets/lottie/empty-ghost.json';
 import {
   ResponsiveContainer,
-  BarChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
@@ -34,93 +34,114 @@ const Barchart = ({ userSemCredits, Loading }) => {
         return numA - numB;
       })
       .map(([key, value]) => ({
-        name: key.replace('sem', 'Sem '),
+        name: isMobile ? key.replace('sem', 'S') : key.replace('sem', 'Sem '),
         credits: value,
       }));
-  }, [userSemCredits]);
+  }, [userSemCredits, isMobile]);
+
+  // Premium colors
+  const accentColor = '#4880FF';
+  const gridColor = dark ? '#334155' : '#e2e8f0';
+  const textColor = dark ? '#94a3b8' : '#64748b';
+  const tooltipBg = dark ? '#1e293b' : '#ffffff';
+  const tooltipText = dark ? '#f8fafc' : '#0f172a';
 
   return (
     !Loading ? (
       data.length === 0 ? (
-        <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
+        <div className={`barchart-container ${dark ? 'dark-mode' : ''}`}>
           <div className="no-data-message">
             <Lottie
               animationData={emptyGhostAnimation}
               loop
               autoplay
-              style={{ width: '300px', height: '300px', marginLeft: 'auto', marginRight: 'auto' }}
+              style={{ width: '220px', height: '220px', margin: '0 auto' }}
             />
-            Please upload result to view semester wise credits
+            <p>Upload a result to view your semester progress</p>
           </div>
         </div>
       ) : (
-        <div className={dark ? 'barchart-container dark-mode' : 'barchart-container'}>
-          <h3>Semester wise credits</h3>
-          <ResponsiveContainer width="100%" height={isMobile ? 400 : 300}>
-            <BarChart 
-              data={data} 
-              layout={isMobile ? "vertical" : "horizontal"}
-              margin={{ top: 10, right: 20, left: isMobile ? 0 : -4, bottom: isMobile ? 20 : 0 }}
-            >
-              <CartesianGrid
-                vertical={!isMobile}
-                horizontal={isMobile}
-                strokeDasharray="3 3"
-                stroke={dark ? '#44566e' : '#ccc'}
-              />
-              {/* XAxis: Category on Desktop, Number on Mobile */}
-              <XAxis 
-                type={isMobile ? "number" : "category"} 
-                dataKey={isMobile ? undefined : "name"} 
-                stroke={dark ? '#fff' : '#000'}
-              />
-              {/* YAxis: Number on Desktop, Category on Mobile */}
-              <YAxis 
-                type={isMobile ? "category" : "number"} 
-                dataKey={isMobile ? "name" : undefined} 
-                stroke={dark ? '#fff' : '#000'} 
-                width={isMobile ? 60 : 30}
-              />
-              <Tooltip
-                cursor={{fill: 'transparent'}}
-                contentStyle={{
-                  backgroundColor: dark ? '#38485f' : '#fff',
-                  border: 'none',
-                  color: dark ? '#fff' : '#000',
-                }}
-              />
-              <Bar 
-                dataKey="credits" 
-                fill="#4880FF" 
-                barSize={isMobile ? 20 : 25} 
-                radius={isMobile ? [0, 10, 10, 0] : [10, 10, 0, 0]} 
-              />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className={`barchart-container ${dark ? 'dark-mode' : ''}`}>
+          <div className="chart-header">
+            <h3>Semester Progress</h3>
+            <span className="chart-subtitle">Credits earned over time</span>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart 
+                data={data} 
+                margin={{ top: 10, right: 10, left: -25, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="colorCredits" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={accentColor} stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor={accentColor} stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  vertical={false}
+                  strokeDasharray="4 4"
+                  stroke={gridColor}
+                />
+                <XAxis 
+                  dataKey="name" 
+                  stroke={textColor}
+                  tick={{ fontSize: 12, fontWeight: 500 }}
+                  tickLine={false}
+                  axisLine={false}
+                  dy={15}
+                />
+                <YAxis 
+                  domain={['dataMin - 2', 'auto']}
+                  stroke={textColor} 
+                  tick={{ fontSize: 12, fontWeight: 500 }}
+                  tickLine={false}
+                  axisLine={false}
+                  dx={-10}
+                />
+                <Tooltip
+                  cursor={{ stroke: gridColor, strokeWidth: 1, strokeDasharray: '4 4' }}
+                  contentStyle={{
+                    backgroundColor: tooltipBg,
+                    border: `1px solid ${gridColor}`,
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                    color: tooltipText,
+                    padding: '12px 16px',
+                  }}
+                  itemStyle={{ color: accentColor, fontWeight: 700, fontSize: '15px' }}
+                  labelStyle={{ color: textColor, marginBottom: '4px', fontSize: '13px', fontWeight: 600 }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="credits" 
+                  stroke={accentColor} 
+                  strokeWidth={3}
+                  fillOpacity={1} 
+                  fill="url(#colorCredits)" 
+                  activeDot={{ r: 6, strokeWidth: 2, stroke: tooltipBg, fill: accentColor }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )
     ) : (
-      <div className={dark ? 'barchart-container dark-mode skeleton-dark' : 'barchart-container skeleton-light'}>
-        <h3 style={{ visibility: "hidden" }}>Semester wise credits</h3>
-        <ResponsiveContainer style={{ visibility: "hidden" }} width="100%" height={300}>
-          <BarChart data={data}>
-            <CartesianGrid
-              vertical={false}
-              strokeDasharray="3 3"
-              stroke={dark ? '#44566e' : '#ccc'}
-            />
-            <XAxis dataKey="name" stroke={dark ? '#fff' : '#000'} />
-            <YAxis stroke={dark ? '#fff' : '#000'} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: dark ? '#38485f' : '#fff',
-                border: 'none',
-                color: dark ? '#fff' : '#000',
-              }}
-            />
-            <Bar dataKey="credits" fill="#4880FF" barSize={25} radius={[10, 10, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className={`barchart-container skeleton-light ${dark ? 'dark-mode skeleton-dark' : ''}`}>
+        <div className="chart-header" style={{ visibility: "hidden" }}>
+          <h3>Semester Progress</h3>
+          <span className="chart-subtitle">Credits earned over time</span>
+        </div>
+        <div className="chart-wrapper">
+          <ResponsiveContainer style={{ visibility: "hidden" }} width="100%" height="100%">
+            <AreaChart data={data}>
+              <CartesianGrid vertical={false} strokeDasharray="4 4" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Area type="monotone" dataKey="credits" fill="#4880FF" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     )
   );

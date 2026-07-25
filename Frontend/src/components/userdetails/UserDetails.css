@@ -1,199 +1,145 @@
+/* ============================================
+   USER DETAILS BENTO CARD
+   ============================================ */
+
 .userdetails-container {
-  margin: 40px 25%;
-  width: 800px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
-  border-radius: 14px;
-  padding: 32px;
-  background: #fff;
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  height: 100%;
+}
+
+.userdetails-container:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-subtle);
 }
 
 .userdetails-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
-  margin-bottom: 18px;
-  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
 .userdetails-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
   margin: 0;
-  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-.userdetails-header .pencil-icon {
-  font-size: 16px;
-  flex-shrink: 0;
+.pencil-icon {
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.pencil-icon:hover {
+  color: var(--accent);
+  transform: scale(1.1);
 }
 
 .userdetails-body {
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 20px;
 }
 
-.first-row,
-.second-row,
-.third-row {
-  display: flex;
-  flex-direction: row;
-  gap: 80px;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.first-row>div,
-.second-row>div{
-  flex: 1;
+.first-row, .second-row {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 20px;
 }
 
-.third-row div{
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
+.userdetails-body label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  display: block;
 }
 
 .userdetails-input {
   width: 100%;
-  height: 40px;
-  border-radius: 8px;
-  background-color: #E9EAEE;
-  color: black;
-  padding: 0 13px;
-  font-size: 15px;
-  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 14px;
+  background-color: var(--bg-primary);
+  box-sizing: border-box;
+  transition: all var(--transition-fast);
 }
 
+.userdetails-input:disabled {
+  background-color: var(--bg-card);
+  border-color: transparent;
+  padding: 0;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.userdetails-input:not(:disabled):focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+  background-color: var(--bg-card);
+}
+
+/* Save / Cancel Buttons */
 .userdetails-buttons {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 16px;
-  overflow: hidden;
-
-  /* Default Hidden State */
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
-  transform: translateY(-10px);
-  visibility: hidden;
-
-  /* Smooth Transition */
-  transition: all 0.4s ease-out;
+  margin-top: 24px;
+  display: none;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
 .userdetails-buttons.active {
-  max-height: 200px;
-  opacity: 1;
-  margin-top: 35px;
-  transform: translateY(0);
-  visibility: visible;
-}
-
-.userdetails-buttons button {
-  padding: 10px 34px;
-  border-radius: 7px;
-  font-size: 15px;
-  cursor: pointer;
-  font-weight: 500;
+  display: flex;
 }
 
 .user-cancel {
-  background-color: #fff;
-  color: #4880FF;
-  border: 1px solid #4880FF;
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.user-cancel:hover {
+  background: var(--bg-secondary);
 }
 
 .user-save {
-  background-color: #4880FF;
-  color: #fff;
+  background: var(--accent);
+  color: #ffffff;
   border: none;
-}
-
-label {
-  color: #616161;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.pencil-icon:hover {
-  color: #4880FF;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
-/* dark mode */
-.userdetails-container.dark {
-  background: #273142;
-  color: #f3f4f6;
-  /* box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5); */
-}
-
-.userdetails-container.dark label {
-  color: #d1d5db;
-}
-
-.userdetails-container.dark .userdetails-header {
-  color: #f9fafb;
-}
-
-.userdetails-container.dark .userdetails-input {
-  background-color: #323f4b;
-  color: #f9fafb;
-  border: none;
-}
-
-.userdetails-container.dark .userdetails-buttons button.user-cancel {
-  background-color: transparent;
-  color: #93c5fd;
-  border: 1px solid #3b82f6;
-}
-
-.userdetails-container.dark .userdetails-buttons button.user-cancel:hover {
-  background-color: #1e293b;
-}
-
-.userdetails-container.dark .userdetails-buttons button.user-save {
-  background-color: #3b82f6;
-  color: white;
-}
-
-.userdetails-container.dark .userdetails-buttons button.user-save:hover {
-  background-color: #2563eb;
-}
-
-.userdetails-container.dark .pencil-icon {
-  color: #f3f4f6;
+.user-save:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-md);
 }
 
 @media (max-width: 900px) {
   .userdetails-container {
-    width: 95%;
-    margin: 20px auto;
-    padding: 20px 20px 32px 20px;
-  }
-
-  .first-row,
-  .second-row,
-  .third-row {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .third-row div {
-      width: 100%;
-  }
-
-  .userdetails-buttons {
-      flex-direction: column-reverse;
+    padding: 16px;
   }
 }
