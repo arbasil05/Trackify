@@ -87,7 +87,8 @@
 }
 
 /* ===== Grade colors ===== */
-.grade.O {
+.grade.O,
+.grade.S {
     color: #2dd4bf;
     font-weight: 600;
 }

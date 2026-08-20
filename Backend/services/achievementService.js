@@ -110,7 +110,7 @@ const INITIAL_ACHIEVEMENTS = [
         description: "All grades A, A+ or O in a single semester",
         icon: "graduation-cap",
         type: "SEMESTER_GRADES",
-        condition: { allowedGrades: ["A", "A+", "O"] }
+        condition: { allowedGrades: ["A", "A+", "O", "S"] }
     },
     {
         key: "SEM_30_CREDITS",

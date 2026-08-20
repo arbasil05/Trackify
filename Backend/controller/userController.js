@@ -3,7 +3,7 @@ import Course from "../models/Course.js";
 import NonScoftCourse from "../models/NonScoftCourse.js";
 import Achievement from "../models/Achievement.js";
 import { evaluateAchievements } from "../services/achievementService.js";
-import { SCOFT_DEPARTMENTS } from "../utils/constants.js";
+import { SCOFT_DEPARTMENTS, getGrade } from "../utils/constants.js";
 
 
 export async function getAchievements(req, res) {
@@ -252,7 +252,7 @@ export async function courseByUserWithUserAdded(req, res) {
                     code24: course.code24,
                     credits: course.credits,
                     category,
-                    grade,
+                    grade: getGrade(gradePoint, user.grad_year),
                     gradePoint,
                     sem,
                 };
@@ -322,7 +322,7 @@ export async function courseByUserWithUserAdded(req, res) {
                     code,
                     credits,
                     category,
-                    grade,
+                    grade: getGrade(gradePoint, user.grad_year),
                     gradePoint,
                     sem: normalizedSem,
                 };
@@ -357,8 +357,14 @@ export async function courseByUserWithUserAdded(req, res) {
             totalCredits: HS + BS + ES + PC + PE + OE + EEC + MC,
             courseDetails,
             userAddedCourseDetails,
-            courses: user.courses,
-            user_added_courses: user.user_added_courses,
+            courses: user.courses.map((c) => ({
+                ...c.toObject(),
+                grade: getGrade(c.gradePoint, user.grad_year),
+            })),
+            user_added_courses: user.user_added_courses.map((c) => ({
+                ...c.toObject(),
+                grade: getGrade(c.gradePoint, user.grad_year),
+            })),
             CGPA,
             newAchievements
         });

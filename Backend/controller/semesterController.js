@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import MissingCourse from "../models/MissingCourse.js";
 import { waitUntil } from "@vercel/functions";
 import { evaluateAchievements } from "../services/achievementService.js";
-import { SCOFT_DEPARTMENTS, GRADE_MAP } from "../utils/constants.js";
+import { SCOFT_DEPARTMENTS, GRADE_MAP, getGrade } from "../utils/constants.js";
 
 export async function uploadFile(req, res) {
     const courseEntries = [];
@@ -136,7 +136,10 @@ export async function uploadFile(req, res) {
             message: "Courses appended successfully",
             courseEntries,
             missing_subs,
-            userCourses: updatedUser.courses,
+            userCourses: updatedUser.courses.map((c) => ({
+                ...c.toObject(),
+                grade: getGrade(c.gradePoint, user.grad_year),
+            })),
             newAchievements
         });
     } catch (error) {
@@ -269,7 +272,7 @@ export async function handleAddCourses(req, res) {
                 gradePoint: Number(c.gradePoint),
                 sem: semNumber,
                 category: c.category,
-                grade: GRADE_MAP[Number(c.gradePoint)] || "NA",
+                grade: getGrade(c.gradePoint, user.grad_year),
                 isNonCgpa: c.isNonCgpa || false,
             };
         });
@@ -422,7 +425,7 @@ export async function handleCourseUpdate(req, res) {
                     "user_added_courses.$.code": code,
                     "user_added_courses.$.credits": Number(credits),
                     "user_added_courses.$.gradePoint": Number(gradePoint),
-                    "user_added_courses.$.grade": GRADE_MAP[Number(gradePoint)] || "NA",
+                    "user_added_courses.$.grade": getGrade(gradePoint, user.grad_year),
                     "user_added_courses.$.sem": Number(sem),
                     "user_added_courses.$.category": category,
                     "user_added_courses.$.isNonCgpa": isNonCgpa !== undefined ? isNonCgpa : false,
@@ -440,7 +443,10 @@ const newAchievements = await evaluateAchievements(id);
 
         return res.status(200).json({
             message: "Course updated successfully",
-            user_added_courses: updatedUser.user_added_courses,
+            user_added_courses: updatedUser.user_added_courses.map((c) => ({
+                ...c.toObject(),
+                grade: getGrade(c.gradePoint, updatedUser.grad_year),
+            })),
             newAchievements
 
         });
@@ -456,14 +462,18 @@ const newAchievements = await evaluateAchievements(id);
 export async function handleGetUserAddedCourses(req, res) {
     try {
         const id = req.id;
-        const { user_added_courses } = await User.findById(id).select(
-            "user_added_courses"
+        const user = await User.findById(id).select(
+            "user_added_courses grad_year"
         );
-        if (!user_added_courses) {
+        if (!user || !user.user_added_courses) {
             return res.status(404).json({
                 message: "No courses found",
             });
         }
+        const user_added_courses = user.user_added_courses.map((c) => ({
+            ...c.toObject(),
+            grade: getGrade(c.gradePoint, user.grad_year),
+        }));
         return res.status(200).json({
             message: "Courses retrieved successfully",
             user_added_courses,
@@ -479,7 +489,7 @@ export async function handleGetAllCourses(req, res) {
         const id = req.id;
         const user = await User.findById(id)
             .populate("courses.course")
-            .select("courses user_added_courses");
+            .select("courses user_added_courses grad_year");
         if (!user) {
             return res.status(404).json({
                 message: "User Not Found",
@@ -488,11 +498,13 @@ export async function handleGetAllCourses(req, res) {
 
         const courses = user.courses.map((course) => ({
             ...course.toObject(),
+            grade: getGrade(course.gradePoint, user.grad_year),
             type: "parsed",
         }));
 
         const user_added_courses = user.user_added_courses.map((course) => ({
             ...course.toObject(),
+            grade: getGrade(course.gradePoint, user.grad_year),
             type: "manual",
         }));
 
@@ -587,7 +599,7 @@ export async function handleEditCourse(req, res) {
             if (credits) courseToUpdate.credits = Number(credits);
             if (gradePoint) {
                 courseToUpdate.gradePoint = Number(gradePoint);
-                courseToUpdate.grade = GRADE_MAP[Number(gradePoint)] || "NA";
+                courseToUpdate.grade = getGrade(gradePoint, user.grad_year);
             }
             if (sem) courseToUpdate.sem = sem;
             if (category) courseToUpdate.category = category;
@@ -602,7 +614,7 @@ export async function handleEditCourse(req, res) {
             // For parsed courses, we only update mutable fields
             if (gradePoint) {
                 courseToUpdate.gradePoint = Number(gradePoint);
-                courseToUpdate.grade = GRADE_MAP[Number(gradePoint)] || "NA";
+                courseToUpdate.grade = getGrade(gradePoint, user.grad_year);
             }
             if (sem) courseToUpdate.sem = sem;
             if (category) courseToUpdate.category = category;
@@ -614,11 +626,13 @@ export async function handleEditCourse(req, res) {
 
         const courses = user.courses.map((course) => ({
             ...course.toObject(),
+            grade: getGrade(course.gradePoint, user.grad_year),
             type: "parsed",
         }));
 
         const user_added_courses = user.user_added_courses.map((course) => ({
             ...course.toObject(),
+            grade: getGrade(course.gradePoint, user.grad_year),
             type: "manual",
         }));
 
