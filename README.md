@@ -66,18 +66,18 @@ git clone https://github.com/arbasil05/trackify.git
 cd trackify
 
 # Install dependencies
-cd server && npm install
-cd ../client && npm install
+cd Backend && npm install
+cd ../Frontend && npm install
 
 # Configure environment variables
 cp .env.example .env
 # Add your MONGO_URI, JWT_SECRET, etc.
 
 # Run backend
-cd server && npm run dev
+cd Backend && npm run dev
 
 # Run frontend
-cd client && npm start
+cd Frontend && npm start
 ```
 
 ---
