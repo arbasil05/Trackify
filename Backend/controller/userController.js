@@ -3,7 +3,11 @@ import Course from "../models/Course.js";
 import NonScoftCourse from "../models/NonScoftCourse.js";
 import Achievement from "../models/Achievement.js";
 import { evaluateAchievements } from "../services/achievementService.js";
-import { SCOFT_DEPARTMENTS, getGrade } from "../utils/constants.js";
+import {
+    CATEGORY_CREDIT_REQUIREMENTS,
+    SCOFT_DEPARTMENTS,
+    getGrade,
+} from "../utils/constants.js";
 
 
 export async function getAchievements(req, res) {
@@ -53,7 +57,7 @@ export async function updateProfile(req, res) {
 export async function recommendation(req, res) {
     try {
         const id = req.id;
-        const user = await User.findById(id);
+        const user = await User.findById(id).populate("courses.course");
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -63,7 +67,21 @@ export async function recommendation(req, res) {
         const grad_year = user.grad_year;
         const userDept = user.dept;
         const user_courses = user.courses;
-        const userCourseIds = user_courses.map(c => c.course.toString());
+        const userCourseIds = user_courses.map(c => c.course?._id?.toString());
+
+        const categoryCredits = {};
+        user_courses.forEach(({ course, category }) => {
+            if (course?.credits && category) {
+                categoryCredits[category] =
+                    (categoryCredits[category] || 0) + course.credits;
+            }
+        });
+        user.user_added_courses.forEach(({ category, credits }) => {
+            if (category) {
+                categoryCredits[category] =
+                    (categoryCredits[category] || 0) + Number(credits || 0);
+            }
+        });
 
         const isUserScoft = SCOFT_DEPARTMENTS.includes(userDept);
         const targetModel = isUserScoft ? Course : NonScoftCourse;
@@ -76,6 +94,14 @@ export async function recommendation(req, res) {
 
 
         recommendedCourses = recommendedCourses.filter(course => {
+            const category = course.department[userDept];
+            const requiredCredits =
+                CATEGORY_CREDIT_REQUIREMENTS[userDept]?.[grad_year]?.[category];
+
+            if (Number.isFinite(requiredCredits) &&
+                (categoryCredits[category] || 0) >= requiredCredits) {
+                return false;
+            }
             if (userAddedCodes.includes(course.code19) || userAddedCodes.includes(course.code24)) {
                 return false;
             }
